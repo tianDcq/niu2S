@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.micro.game.server.frame.GameMain;
 import com.micro.game.server.handler.NettyWebSocketChannelInitializer;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -27,6 +28,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+
 
 /**
  * @author sam
@@ -113,6 +116,9 @@ public class HundredCattleNewGameServerApplication {
 		ConfigurableApplicationContext context = SpringApplication.run(HundredCattleNewGameServerApplication.class, args);
 		TCPServer tcpServer = context.getBean(TCPServer.class);
 		tcpServer.start();
+
+		//游戏主循环
+		GameMain.on();				
 	}
 
 
