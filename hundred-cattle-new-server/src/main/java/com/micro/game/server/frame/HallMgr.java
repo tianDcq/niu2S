@@ -17,7 +17,7 @@ public final class HallMgr{
         return halls.get(id);
     }
 
-    public void update(float delta)
+    public void update()
     {
 
     }
