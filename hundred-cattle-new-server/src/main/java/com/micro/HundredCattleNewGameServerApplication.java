@@ -19,6 +19,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.micro.game.server.frame.GameMain;
+import com.micro.game.server.game.HCGameMain;
 import com.micro.game.server.handler.NettyWebSocketChannelInitializer;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -118,7 +119,7 @@ public class HundredCattleNewGameServerApplication {
 		tcpServer.start();
 
 		//游戏主循环
-		GameMain.on();				
+		(new HCGameMain()).run();
 	}
 
 

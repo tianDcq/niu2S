@@ -1,5 +1,13 @@
 package com.micro.game.server.frame;
 
-class Table{
-    
+public abstract class Table{
+
+    protected float pairTime;
+
+    public Table(float pairTime)
+    {
+        this.pairTime = pairTime;
+    }
+
+    public abstract void start();
 }
