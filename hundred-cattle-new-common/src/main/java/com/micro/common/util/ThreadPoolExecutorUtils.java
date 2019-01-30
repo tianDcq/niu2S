@@ -2,6 +2,7 @@ package com.micro.common.util;
 
 import cn.hutool.core.thread.ThreadUtil;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -25,11 +26,13 @@ public class ThreadPoolExecutorUtils {
 	 */
 	private int keepAliveTime = 10;
 	
-	
-	//private ThreadPoolExecutor executor = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveTime, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
-	private ThreadPoolExecutor executor = ThreadUtil.newExecutor(corePoolSize, maxPoolSize);
-
+	private ThreadPoolExecutor executor = null;
 	private static ThreadPoolExecutorUtils instance = new ThreadPoolExecutorUtils();
+	    static{
+	    	instance.executor = new ThreadPoolExecutor(1000, 1000, 5, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(10, false), new ThreadPoolExecutor.CallerRunsPolicy());
+	        instance.executor.allowCoreThreadTimeOut(true);
+	   }
+	
 	/**
 	 * 创建线程池
 	 * @param corePoolSize 核心线程数
@@ -39,7 +42,6 @@ public class ThreadPoolExecutorUtils {
 	 * @return
 	 */
 	public static ThreadPoolExecutorUtils getInstance(int corePoolSize,int maxPoolSize,int keepAliveTime,TimeUnit unit) {
-		//getInstance().executor = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveTime, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
 		getInstance().executor = ThreadUtil.newExecutor(corePoolSize, maxPoolSize);
 		return getInstance();
 	}
