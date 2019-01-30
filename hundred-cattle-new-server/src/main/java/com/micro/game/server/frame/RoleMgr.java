@@ -3,7 +3,7 @@ package com.micro.game.server.frame;
 import java.util.HashMap;
 import java.util.Map;
 
-class RoleMgr{
+public final class RoleMgr{
     private Map<String, Player> players;
     private Map<Long, Map<String, Robot>> robots;
    
