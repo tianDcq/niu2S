@@ -3,7 +3,12 @@ package com.micro.game.server.frame;
 import lombok.Getter;
 import lombok.Setter;
 
-public final class GameMain{
+public abstract class GameMain{
+
+    public GameMain()
+    {
+        instance = this;
+    }
     public enum Status{
         END,
         START,
@@ -12,26 +17,26 @@ public final class GameMain{
         TERMINATE,
     }
 
-    public @Getter Status status = Status.END;
-    public static GameMain instance;
-    public static void on(){
-        instance = new GameMain();
-        instance.run();
-    }
+    private @Getter Status status = Status.END;
+    private @Getter GameMain instance;
 
-    public final static long RATE = 1000*1000/60;
+    private final static long RATE = 1000*1000/60;
     private long lastUpdate;
     
     private @Getter RoleMgr roleMgr;
     private @Getter HallMgr hallMgr;
     private @Getter GameTimerMgr timerMgr;
+    protected @Getter GameMgrInterface gameMgr;
 
     private void start(){
         status = Status.START;
         roleMgr = new RoleMgr();
         hallMgr = new HallMgr();
 
+        onStart();
     }
+
+    protected abstract void onStart();
 
     private void step(float delta){
         hallMgr.update(delta);
@@ -66,7 +71,7 @@ public final class GameMain{
 
     }
 
-    private void run(){
+    public void run(){
         start();
         while(status != Status.END){
             long current = System.currentTimeMillis();
