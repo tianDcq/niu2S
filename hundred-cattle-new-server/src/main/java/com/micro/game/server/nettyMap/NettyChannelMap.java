@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringUtils;
 
 import com.micro.game.server.nettyMap.nettyData.WebSocketData;
 
+import io.netty.channel.ChannelId;
+
 /**
  * @author sam
  * @ClassName: NettyChannelMap
@@ -21,14 +23,14 @@ public class NettyChannelMap {
 	/**
 	 * key : channelId
 	 */
-	public static Map<String, WebSocketData> map = new ConcurrentHashMap<String, WebSocketData>();
+	public static Map<ChannelId, WebSocketData> map = new ConcurrentHashMap<>();
 	/**
 	 * key : uniqueId
 	 */
 	public static Map<String, WebSocketData> map1 = new ConcurrentHashMap<String, WebSocketData>();
 
 	// 添加 channel
-	public static void add(String channelId, WebSocketData webSocketData) {
+	public static void add(ChannelId channelId, WebSocketData webSocketData) {
 		map.put(channelId, webSocketData);
 	}
 	public static void putInMap(String uniqueId, WebSocketData webSocketData) {

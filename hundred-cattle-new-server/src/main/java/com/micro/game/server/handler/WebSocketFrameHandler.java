@@ -11,12 +11,14 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import com.micro.common.bean.GlobeResponse;
 import com.micro.common.util.JsonUtil;
+import com.micro.common.vo.GameRequestVO;
 import com.micro.game.server.client.AccountFeignClient;
 import com.micro.game.server.common.WebSocketResponse;
 import com.micro.game.server.handler.business.AbstractGameHandler;
 import com.micro.game.server.handler.business.BullfightGameHandler;
 import com.micro.game.server.nettyMap.NettyChannelMap;
 import com.micro.game.server.nettyMap.nettyData.WebSocketData;
+import com.micro.game.server.queue.RequestQueue;
 import com.micro.game.server.service.BullfightGameService;
 import com.micro.game.server.util.CodeUtils;
 
@@ -78,7 +80,9 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) {
 		Channel incoming = ctx.channel();
-		 execute(msg.text(), ctx);
+		execute(msg.text(), ctx);
+		
+		
 	}
 
 	private void execute(String request, ChannelHandlerContext ctx) {
@@ -86,12 +90,14 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 		if (isEncrypt == 1) {
 			request = CodeUtils.decode(request);
 		}
-		String msg = JsonUtil.parseJsonString(processRequest(request, ctx));
-		// 加密
+		String msg = JsonUtil.parseJsonString(bullfightGameHandler.processRequest(request, ctx));
+		GameRequestVO gameRequestVO = JsonUtil.parseObject(msg, GameRequestVO.class);
+		RequestQueue.add(gameRequestVO);
+		/*// 加密
 		if (isEncrypt == 1) {
 			msg = CodeUtils.encode(msg);
 		}
-		ctx.writeAndFlush(new TextWebSocketFrame(msg));
+		ctx.writeAndFlush(new TextWebSocketFrame(msg));*/
 	}
 	
 	/**
@@ -105,7 +111,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 		Channel channel = ctx.channel();
 		WebSocketData webSocketData = new WebSocketData();
 		webSocketData.setChannel(channel);
-		NettyChannelMap.add(channel.id() + "", webSocketData);
+		NettyChannelMap.add(channel.id(), webSocketData);
 	}
 
 	/**
@@ -181,57 +187,6 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 		}
 	}
 
-	/**
-	 * 处理请求
-	 *
-	 * @param request
-	 *            请求消息
-	 */
-	private WebSocketResponse processRequest(String request, ChannelHandlerContext ctx) {
-		AbstractGameHandler handler = null;
-		WebSocketResponse webSocketResponse = new WebSocketResponse();
-		Map maps = null;
-		try {
-			maps = (Map) JSON.parse(request);
-			String token = String.valueOf(maps.get("token"));
-			String msgTypeStr = String.valueOf(maps.get("msgType"));
-			if(msgTypeStr.equals("6007")) {
-				log.info("==================收到下注消息====================");
-			}
-			System.err.println();
-			GlobeResponse<Object> globeResponse = accountFeignClient.checkToken(token);
-			if (!globeResponse.getCode().equals("200")){
-				webSocketResponse.setStatus("-99");
-				webSocketResponse.setMsgType(msgTypeStr);
-				webSocketResponse.setMsg("token校验失败");
-				return webSocketResponse;
-			}
-			String userMsg = String.valueOf(globeResponse.getData());
-			int msgType = Integer.valueOf(msgTypeStr);
-			if (msgType >= 6001 && msgType < 7000){//牛牛游戏handler
-			
-				bullfightGameHandler.setUserMsg(userMsg);
-				handler = bullfightGameHandler;
-			
-			} else {
-				log.error("没匹配到对应msgType:" + msgType);
-				throw new Exception("没匹配到对应msgType");
-			}
-			handler.execute(request, webSocketResponse, ctx);
-		} catch (Exception ex) {
-			webSocketResponse.setStatus("0");
-			if (maps != null) {
-				webSocketResponse.setMsgType(String.valueOf(maps.get("msgType")));
-			}
-			if (ex.getMessage() == null) {
-				webSocketResponse.setMsg("消息处理异常");
-			} else {
-				webSocketResponse.setMsg(ex.getMessage());
-			}
-		}
-		return webSocketResponse;
-	}
- 
 	/**
 	 * websocket 断开操作
 	 * @param ctx
