@@ -1,7 +1,6 @@
 package com.micro.game.server.frame;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public abstract class GameMain{
 

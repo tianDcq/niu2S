@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.micro.common.util.ThreadPoolExecutorUtils;
 import com.micro.game.server.frame.GameMain;
 import com.micro.game.server.game.HCGameMain;
 import com.micro.game.server.handler.NettyWebSocketChannelInitializer;
@@ -115,9 +116,15 @@ public class HundredCattleNewGameServerApplication {
 
 	public static void main(String[] args) throws Exception {
 		ConfigurableApplicationContext context = SpringApplication.run(HundredCattleNewGameServerApplication.class, args);
-		TCPServer tcpServer = context.getBean(TCPServer.class);
-		tcpServer.start();
-
+		
+		ThreadPoolExecutorUtils.getInstance().execute(()->{
+			TCPServer tcpServer = context.getBean(TCPServer.class);
+			try {
+				tcpServer.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 		//游戏主循环
 		(new HCGameMain()).run();
 	}
