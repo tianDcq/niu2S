@@ -5,10 +5,9 @@ import lombok.Getter;
 import java.util.HashSet;
 
 public class Room {
-    private @Getter
-    HashSet<Player> players;
+    private @Getter HashSet<Role> roles;
 
-    public void enter() {
+    public void enter(Role role) {
 
     }
 }
