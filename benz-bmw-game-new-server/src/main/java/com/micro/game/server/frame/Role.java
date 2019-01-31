@@ -33,7 +33,7 @@ public abstract class Role {
 
 	private @Getter @Setter String uniqueId;
 
-	public void onMsg(Request req, Player player) {
+	public void onMsg(Request req, Role role) {
 
 	}
 }
