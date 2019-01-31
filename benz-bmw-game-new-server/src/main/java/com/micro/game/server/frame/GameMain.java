@@ -20,9 +20,9 @@ public abstract class GameMain {
 
     private final static long RATE = 1000 * 1000 / 60;
 
-    private @Getter RoleMgr roleMgr; 
+    private @Getter RoleMgr roleMgr;
     private @Getter HallMgr hallMgr;
-    private @Getter GameTimerMgr timerMgr;
+    private @Getter TaskMgr TaskMgr;
     protected @Getter GameMgrInterface gameMgr;
     protected @Getter MsgQueue msgQueue;
 
@@ -34,7 +34,7 @@ public abstract class GameMain {
         status = Status.START;
         roleMgr = new RoleMgr();
         hallMgr = new HallMgr();
-        timerMgr = new GameTimerMgr();
+        TaskMgr = new TaskMgr();
         msgQueue = new MsgQueue();
 
         onStart();
@@ -44,7 +44,7 @@ public abstract class GameMain {
 
     private void step() {
         dealRequests();
-        timerMgr.update();
+        TaskMgr.update();
         hallMgr.update();
     }
 
@@ -84,8 +84,14 @@ public abstract class GameMain {
     private void dealRequests() {
         Iterable<Request> it = msgQueue.getAll();
 
-        for (Request req : it) {
-            
+        if (it != null) {
+            for (Request req : it) {
+                Player p = roleMgr.getPlayer(req.uniqueId);
+
+                if (p == null) {
+
+                }
+            }
         }
     }
 

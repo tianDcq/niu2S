@@ -1,5 +1,9 @@
 package com.micro.game.server.frame;
 
-public interface Callback {
-    public void func();
+import lombok.Setter;
+
+public abstract class Callback {
+    private @Setter Object data;
+
+    public abstract void func();
 }

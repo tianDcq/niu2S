@@ -38,6 +38,10 @@ public abstract class Role {
 
 	private @Getter @Setter String uniqueId;
 
+	public Role(String uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+
 	public void sendMsg(Response res) {
 
 	}

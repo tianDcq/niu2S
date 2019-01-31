@@ -9,8 +9,8 @@ import com.micro.game.server.frame.Room;
 import com.micro.game.server.vo.common.Request;
 
 class HCPlayer extends Player implements HCRoleInterface {
-    public HCPlayer() {
-        super();
+    public HCPlayer(String uniqueId) {
+        super(uniqueId);
     }
 
     public void onMsg(Request req) {
@@ -19,7 +19,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             // 进入房间
             if (hall != null && table == null) {
                 Object roomId = map.get("roomId");
-                hall.playerToRoom(this,(String)roomId);
+                hall.playerToRoom(this, (String) roomId);
             }
         }
     }
