@@ -18,21 +18,21 @@ import java.net.InetSocketAddress;
 @Component
 public class TCPServer {
 
-    //服务启动对象
+    // 服务启动对象
     @Autowired
     @Qualifier("serverBootstrap")
     private ServerBootstrap serverBootstrap;
 
-    //服务监听端口
+    // 服务监听端口
     @Autowired
     @Qualifier("tcpSocketAddress")
     private InetSocketAddress tcpPort;
 
     private Channel serverChannel;
 
-    //服务启动方法
+    // 服务启动方法
     public void start() throws Exception {
-        serverChannel =  serverBootstrap.bind(tcpPort).sync().channel().closeFuture().sync().channel();
+        serverChannel = serverBootstrap.bind(tcpPort).sync().channel().closeFuture().sync().channel();
     }
 
     @PreDestroy

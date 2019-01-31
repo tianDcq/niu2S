@@ -2,25 +2,21 @@ package com.micro.game.server.frame;
 
 import lombok.Getter;
 
-public abstract class GameMain{
+public abstract class GameMain {
 
-    public GameMain()
-    {
+    public GameMain() {
         instance = this;
     }
-    public enum Status{
-        END,
-        START,
-        RUN,
-        STOP,
-        TERMINATE,
+
+    public enum Status {
+        END, START, RUN, STOP, TERMINATE,
     }
 
     private @Getter Status status = Status.END;
     private static @Getter GameMain instance;
 
-    private final static long RATE = 1000*1000/60;
-    
+    private final static long RATE = 1000 * 1000 / 60;
+
     private @Getter RoleMgr roleMgr;
     private @Getter HallMgr hallMgr;
     private @Getter GameTimerMgr timerMgr;
@@ -30,7 +26,7 @@ public abstract class GameMain{
     private long lastUpdate;
     private @Getter float delta;
 
-    private void start(){
+    private void start() {
         status = Status.START;
         roleMgr = new RoleMgr();
         hallMgr = new HallMgr();
@@ -41,47 +37,48 @@ public abstract class GameMain{
 
     protected abstract void onStart();
 
-    private void step(){
+    private void step() {
         timerMgr.update();
         hallMgr.update();
     }
 
     // 停机步骤1：挂维护，不再创建新房间
-    public void stop()
-    {
-        if(status == Status.STOP || status == Status.TERMINATE || status == Status.END) { return; }
+    public void stop() {
+        if (status == Status.STOP || status == Status.TERMINATE || status == Status.END) {
+            return;
+        }
 
         status = Status.STOP;
         doStop();
     }
 
     // 停机步骤2：发送终止消息，做最后挣扎
-    public void terminate()
-    {
-        if(status == Status.TERMINATE || status == Status.END) { return; }
+    public void terminate() {
+        if (status == Status.TERMINATE || status == Status.END) {
+            return;
+        }
         status = Status.TERMINATE;
         doTerminate();
     }
 
-    private void doStop(){
+    private void doStop() {
 
     }
 
-    private void doTerminate(){
+    private void doTerminate() {
 
     }
 
     // 停机步骤3：心跳骤停，死亡横线---------------
-    private void doDestory(){
+    private void doDestory() {
 
     }
 
-    public void run(){
+    public void run() {
         start();
-        while(status != Status.END){
+        while (status != Status.END) {
             millisecond = System.currentTimeMillis();
-            if(millisecond - lastUpdate >= RATE)
-            {
+            if (millisecond - lastUpdate >= RATE) {
                 delta = millisecond - lastUpdate;
                 step();
                 lastUpdate = millisecond;
