@@ -17,7 +17,7 @@ public abstract class GameMain {
 
     private final static long RATE = 1000 * 1000 / 60;
 
-    private @Getter RoleMgr roleMgr;
+    private @Getter RoleMgr roleMgr; 
     private @Getter HallMgr hallMgr;
     private @Getter GameTimerMgr timerMgr;
     protected @Getter GameMgrInterface gameMgr;
