@@ -19,9 +19,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.micro.common.util.ThreadPoolExecutorUtils;
-import com.micro.game.server.frame.GameMain;
-import com.micro.game.server.game.HCGameMain;
-import com.micro.game.server.handler.NettyWebSocketChannelInitializer;
+import com.micro.frame.GameMain;
+import com.micro.game.HCGameMain;
+import com.micro.old.server.handler.NettyWebSocketChannelInitializer;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
