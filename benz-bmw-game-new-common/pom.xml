@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>hundred-cattle-new-game</artifactId>
+        <artifactId>benz-bmw-game-new-game</artifactId>
         <groupId>com.simplemall.micro.serv</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>com.micro.common</groupId>
-    <artifactId>hundred-cattle-new-common</artifactId>
+    <artifactId>benz-bmw-game-new-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 

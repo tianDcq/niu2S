@@ -1,18 +1,20 @@
 package com.micro.game.server.frame;
 
+import com.micro.game.server.vo.common.Request;
+
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class Role{
+public abstract class Role {
 	/**
 	 * 厅主id
 	 */
 	protected Long siteId;
 
-    /**
-     * 性别
-     */
-    protected String gender;
+	/**
+	 * 性别
+	 */
+	protected String gender;
 
 	/**
 	 * 昵称
@@ -27,7 +29,11 @@ public abstract class Role{
 	/**
 	 * 用户余额
 	 */
-    protected int money;
+	protected int money;
 
-    private @Getter @Setter String uniqueId;
+	private @Getter @Setter String uniqueId;
+
+	public void onMsg(Request req, Player player) {
+
+	}
 }

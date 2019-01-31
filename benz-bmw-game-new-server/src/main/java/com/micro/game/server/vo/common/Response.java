@@ -1,5 +1,7 @@
 package com.micro.game.server.vo.common;
 
+import java.util.Map;
+
 import lombok.Data;
 
 /**
@@ -9,12 +11,11 @@ import lombok.Data;
  * @date 2018-07-25
  */
 @Data
-public class Response<T> {
+public class Response {
 
-  private String msgType;
+  public String msgType;
 
-  private String status;
+  public String status;
 
-  private T msg;
-
+  public Map<String, Object> msg;
 }
