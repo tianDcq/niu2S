@@ -7,7 +7,6 @@ import lombok.Setter;
  * Task
  */
 public abstract class Task {
-    protected @Setter TaskMgr TaskMgr;
     protected @Getter boolean expired;
     protected @Getter Callback callback;
 

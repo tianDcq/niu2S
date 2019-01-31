@@ -11,26 +11,51 @@ public class TaskMgr {
         tasks = new HashSet<Task>();
     }
 
-    public Task createTask(int time, Callback callback) {
-        Task task = new Timer(time, callback);
+    public Timer createTimer(int time, Callback callback) {
+        Timer task = new Timer(time, callback);
         tasks.add(task);
-        task.setTaskMgr(this);
         return task;
     }
 
-    public void removeTask(Task task) {
+    public Trigger createTrigger(Callback callback) {
+        Trigger task = new Trigger(callback);
+        tasks.add(task);
+        return task;
+    }
+
+    public Schedule createSchedule(Callback callback) {
+        return createSchedule(callback, 0, -1, 0);
+
+    }
+
+    public Schedule createSchedule(Callback callback, float interval) {
+        return createSchedule(callback, interval, -1, 0);
+
+    }
+
+    public Schedule createSchedule(Callback callback, float interval, int repeat) {
+        return createSchedule(callback, interval, repeat, 0);
+    }
+
+    public Schedule createSchedule(Callback callback, float interval, int repeat, float delay) {
+        Schedule task = new Schedule(callback, interval, repeat, delay);
+        tasks.add(task);
+        return task;
+    }
+
+    public void remove(Task task) {
         tasks.remove(task);
     }
 
-    public void removeAllTimers() {
+    public void removeAll() {
         tasks.clear();
     }
 
-    public void stopTimer(Task task) {
+    public void stop(Task task) {
         task.stop();
     }
 
-    public void stopAllTimers() {
+    public void stopAll() {
         for (Task task : tasks) {
             task.stop();
         }
