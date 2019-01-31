@@ -34,6 +34,7 @@ public abstract class GameMain{
         status = Status.START;
         roleMgr = new RoleMgr();
         hallMgr = new HallMgr();
+        timerMgr = new GameTimerMgr();
 
         onStart();
     }
@@ -41,6 +42,7 @@ public abstract class GameMain{
     protected abstract void onStart();
 
     private void step(){
+        timerMgr.update();
         hallMgr.update();
     }
 
