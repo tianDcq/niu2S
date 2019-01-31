@@ -8,7 +8,7 @@ public final class RoleMgr {
     private Map<Long, Map<String, Robot>> robots;
 
     public void addPlayer(Player player) {
-        players.put(player.getUniqueId(), player);
+        players.put(player.uniqueId, player);
     }
 
     public Player getPlayer(String uniqueId) {
@@ -20,7 +20,7 @@ public final class RoleMgr {
             robots.put(robot.getHallId(), new HashMap<>());
         }
 
-        robots.get(robot.getHallId()).put(robot.getUniqueId(), robot);
+        robots.get(robot.getHallId()).put(robot.uniqueId, robot);
     }
 
     public void removeRobot(Robot robot) {

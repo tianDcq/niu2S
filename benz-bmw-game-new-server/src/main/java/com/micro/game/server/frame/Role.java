@@ -36,7 +36,7 @@ public abstract class Role {
 	 */
 	public String token;
 
-	private @Getter @Setter String uniqueId;
+	public String uniqueId;
 
 	public void sendMsg(Response res) {
 
