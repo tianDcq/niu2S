@@ -9,7 +9,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         super();
     }
 
-    public void onMsg(Request req, Role Role) {
-        
+    public void onMsg(Request req) {
+
     }
 }

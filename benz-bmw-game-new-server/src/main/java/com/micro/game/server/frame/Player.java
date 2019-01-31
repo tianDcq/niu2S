@@ -45,11 +45,11 @@ public abstract class Player extends Role {
 
 	protected String playId;
 
+	protected @Getter Hall hall;
+	protected @Getter Room room;
 	protected @Getter Table table;
 
-	public void onMsg(Request req) {
-
-	}
+	public abstract void onMsg(Request req);
 
 	public void sendMsg(Response res) {
 

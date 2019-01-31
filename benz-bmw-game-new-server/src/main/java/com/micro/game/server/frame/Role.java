@@ -1,6 +1,6 @@
 package com.micro.game.server.frame;
 
-import com.micro.game.server.vo.common.Request;
+import com.micro.game.server.vo.common.Response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +33,7 @@ public abstract class Role {
 
 	private @Getter @Setter String uniqueId;
 
-	public void onMsg(Request req, Role role) {
+	public void sendMsg(Response res) {
 
 	}
 }
