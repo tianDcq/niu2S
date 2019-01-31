@@ -3,12 +3,12 @@ package com.micro.game.server.game;
 import com.micro.game.server.frame.*;
 
 class HCGameMgr implements GameMgrInterface {
-    public Player createPlayer() {
-        return new HCPlayer();
+    public Player createPlayer(String uniqueId) {
+        return new HCPlayer(uniqueId);
     }
 
-    public Robot createRobot() {
-        return new HCRobot();
+    public Robot createRobot(String uniqueId) {
+        return new HCRobot(uniqueId);
     }
 
     public Table createTable(float time) {
