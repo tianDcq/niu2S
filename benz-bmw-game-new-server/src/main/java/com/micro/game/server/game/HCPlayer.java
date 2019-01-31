@@ -15,8 +15,8 @@ import com.micro.game.server.vo.common.Response;
 class HCPlayer extends Player implements HCRoleInterface {
     private long chip;
 
-    public HCPlayer() {
-        super();
+    public HCPlayer(String uniqueId) {
+        super(uniqueId);
     }
 
     public void onMsg(Request req) {
