@@ -1,5 +1,8 @@
 package com.micro.game.server.frame;
 
+import com.micro.game.server.queue.MsgQueue;
+import com.micro.game.server.vo.common.Request;
+
 import lombok.Getter;
 
 public abstract class GameMain {
@@ -21,6 +24,7 @@ public abstract class GameMain {
     private @Getter HallMgr hallMgr;
     private @Getter GameTimerMgr timerMgr;
     protected @Getter GameMgrInterface gameMgr;
+    protected @Getter MsgQueue msgQueue;
 
     private @Getter long millisecond;
     private long lastUpdate;
@@ -31,6 +35,7 @@ public abstract class GameMain {
         roleMgr = new RoleMgr();
         hallMgr = new HallMgr();
         timerMgr = new GameTimerMgr();
+        msgQueue = new MsgQueue();
 
         onStart();
     }
@@ -38,6 +43,7 @@ public abstract class GameMain {
     protected abstract void onStart();
 
     private void step() {
+        dealRequests();
         timerMgr.update();
         hallMgr.update();
     }
@@ -72,6 +78,15 @@ public abstract class GameMain {
     // 停机步骤3：心跳骤停，死亡横线---------------
     private void doDestory() {
 
+    }
+
+    // 处理接受的消息
+    private void dealRequests() {
+        Iterable<Request> it = msgQueue.getAll();
+
+        for (Request req : it) {
+            
+        }
     }
 
     public void run() {

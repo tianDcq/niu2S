@@ -7,6 +7,10 @@ public class GameTimerMgr {
 
     private HashSet<GameTimer> timers;
 
+    public GameTimerMgr() {
+        timers = new HashSet<GameTimer>();
+    }
+
     public GameTimer createTimer(int time, Callback callback) {
         GameTimer timer = new GameTimer(time, callback);
         timers.add(timer);

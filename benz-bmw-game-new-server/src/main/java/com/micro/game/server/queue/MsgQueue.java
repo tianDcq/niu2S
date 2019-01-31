@@ -1,4 +1,5 @@
 package com.micro.game.server.queue;
+
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.micro.game.server.vo.common.Request;
@@ -29,6 +30,9 @@ public class MsgQueue {
     }
 
     public Iterable<Request> getAll() {
+        if (currentReveiveQ.size() == 0) {
+            return null;
+        }
         Iterable<Request> ret = currentReveiveQ;
         currentReveiveQ = currentReveiveQ == receiveQ1 ? receiveQ2 : receiveQ1;
         currentReveiveQ.clear();

@@ -113,9 +113,10 @@ public class BenzApp {
 
 	public static void main(String[] args) throws Exception {
 		ConfigurableApplicationContext context = SpringApplication.run(BenzApp.class, args);
+		TCPServer tcpServer = context.getBean(TCPServer.class);
 
 		ThreadPoolExecutorUtils.getInstance().execute(() -> {
-			TCPServer tcpServer = context.getBean(TCPServer.class);
+
 			try {
 				tcpServer.start();
 			} catch (Exception e) {
