@@ -11,39 +11,34 @@ public abstract class Player extends Role {
 	/**
 	 * 账号
 	 */
-	protected String account;
+	public String account;
 
 	/**
 	 * 账户状态：0-正常 1-冻结
 	 */
-	protected Integer state;
+	public Integer state;
 
 	/**
 	 * 会员等级id
 	 */
-	protected Integer levelId;
+	public Integer levelId;
 
 	/**
 	 * 1,正式玩家,2临时玩家,默认1
 	 */
-	protected Integer identity;
+	public Integer identity;
 
 	/**
 	 * 0：总控账号，1：厅主账号，2：会员账号，11厅主子账号
 	 */
-	protected Integer accountType;
-
-	/**
-	 * 用户token
-	 */
-	protected String token;
+	public Integer accountType;
 
 	/**
 	 * 是否启用会员下注 1：启用、0：禁用
 	 */
-	protected Integer accountBet;
+	public Integer accountBet;
 
-	protected String playId;
+	public String playId;
 
 	protected @Getter Hall hall;
 	protected @Getter Room room;

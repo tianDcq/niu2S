@@ -1,11 +1,11 @@
 package com.micro.game.server.game;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
 import com.micro.game.server.frame.*;
 import com.micro.game.server.vo.common.Response;
-import com.sun.tools.classfile.Annotation.element_value;
 
 final class HCTable extends Table {
     private HashSet<Role> roles;
@@ -23,9 +23,15 @@ final class HCTable extends Table {
                 mm.msgType="2001";
                 mm.status="1";
             }else{
-                Map msg=Map<String,String>;
                 mm.msgType="2007";
                 mm.status="1";
+                Map<String,Object> msg=new HashMap<>();
+                msg.put("playerName", role.nickName);
+                msg.put("playerCoins", role.money);
+                msg.put("portrait", role.portrait);
+                msg.put("token", role.token);
+                msg.put("uniqueId", role.getUniqueId());
+                mm.msg=msg;
             }
             rr.sendMsg(mm);
         }
