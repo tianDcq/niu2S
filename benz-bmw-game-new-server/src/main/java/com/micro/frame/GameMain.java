@@ -22,7 +22,7 @@ public abstract class GameMain {
 
     private @Getter RoleMgr roleMgr;
     private @Getter HallMgr hallMgr;
-    private @Getter TaskMgr TaskMgr;
+    private @Getter TaskMgr taskMgr;
     protected @Getter GameMgrInterface gameMgr;
     protected @Getter MsgQueue msgQueue;
 
@@ -34,7 +34,7 @@ public abstract class GameMain {
         status = Status.START;
         roleMgr = new RoleMgr();
         hallMgr = new HallMgr();
-        TaskMgr = new TaskMgr();
+        taskMgr = new TaskMgr();
         msgQueue = new MsgQueue();
 
         onStart();
@@ -44,7 +44,7 @@ public abstract class GameMain {
 
     private void step() {
         dealRequests();
-        TaskMgr.update();
+        taskMgr.update();
         hallMgr.update();
     }
 
