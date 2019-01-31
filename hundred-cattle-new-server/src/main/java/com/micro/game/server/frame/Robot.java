@@ -4,5 +4,5 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Robot extends Role{
-    private @Getter @Setter Long hallId;
+    protected @Getter @Setter Long hallId;
 }
