@@ -21,6 +21,8 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.dangdang/sharding-jdbc-self-id-generator --><dependency>    <groupId>com.dangdang</groupId>    <artifactId>sharding-jdbc-self-id-generator</artifactId>    <version>1.4.2</version></dependency>
+
         <!-- pring-cloud-starter-netflix-eureka-client -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

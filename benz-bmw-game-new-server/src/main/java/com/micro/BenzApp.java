@@ -43,7 +43,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
-public class App {
+public class BenzApp {
 
 	// 监听端口
 	@Value("${tcp.port}")
@@ -112,7 +112,7 @@ public class App {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ConfigurableApplicationContext context = SpringApplication.run(App.class,
+		ConfigurableApplicationContext context = SpringApplication.run(BenzApp.class,
 				args);
 
 		ThreadPoolExecutorUtils.getInstance().execute(() -> {
