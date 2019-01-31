@@ -1,24 +1,17 @@
 package com.micro.game.server.handler;
 
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
-import com.micro.common.bean.GlobeResponse;
 import com.micro.common.util.JsonUtil;
 import com.micro.common.vo.GameRequestVO;
 import com.micro.game.server.client.AccountFeignClient;
-import com.micro.game.server.common.WebSocketResponse;
-import com.micro.game.server.handler.business.AbstractGameHandler;
 import com.micro.game.server.handler.business.BullfightGameHandler;
 import com.micro.game.server.nettyMap.NettyChannelMap;
 import com.micro.game.server.nettyMap.nettyData.WebSocketData;
-import com.micro.game.server.queue.RequestQueue;
 import com.micro.game.server.service.BullfightGameService;
 import com.micro.game.server.util.CodeUtils;
 
@@ -92,7 +85,6 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 		}
 		String msg = JsonUtil.parseJsonString(bullfightGameHandler.processRequest(request, ctx));
 		GameRequestVO gameRequestVO = JsonUtil.parseObject(msg, GameRequestVO.class);
-		RequestQueue.add(gameRequestVO);
 		/*// 加密
 		if (isEncrypt == 1) {
 			msg = CodeUtils.encode(msg);

@@ -1,3 +1,4 @@
+package com.micro.game.server.queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.micro.game.server.vo.common.Request;

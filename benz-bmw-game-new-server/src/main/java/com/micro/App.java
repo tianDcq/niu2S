@@ -112,7 +112,7 @@ public class App {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ConfigurableApplicationContext context = SpringApplication.run(HundredCattleNewGameServerApplication.class,
+		ConfigurableApplicationContext context = SpringApplication.run(App.class,
 				args);
 
 		ThreadPoolExecutorUtils.getInstance().execute(() -> {

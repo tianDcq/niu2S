@@ -18,7 +18,6 @@ import com.micro.game.server.nettyMap.NettyChannelMap;
 import com.micro.game.server.nettyMap.nettyData.WebSocketData;
 import com.micro.game.server.service.BullfightGameService;
 import com.micro.game.server.util.CodeUtils;
-import com.micro.game.server.vo.UserInputVo;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -78,6 +77,8 @@ public class BullfightGameServiceImpl implements BullfightGameService {
 	 */
 	@Override
 	public GlobeResponse enterGame(GameRequestVO enterBullfight, ChannelHandlerContext ctx) {
+		return null;
+		/*
 		String userMsg = enterBullfight.getUserMsg();
 		UserInputVo inputVo = JsonUtil.parseObject(userMsg, UserInputVo.class);
 		Long siteId = inputVo.getSiteId();
@@ -123,7 +124,7 @@ public class BullfightGameServiceImpl implements BullfightGameService {
 			NettyChannelMap.putInMap(enterBullfight.getUniqueId(),webSocketData);
 		}
 		return globeResponse;
-	}
+	*/}
 
 	/**
 	 * 玩家申请上庄
