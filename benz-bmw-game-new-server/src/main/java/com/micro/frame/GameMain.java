@@ -89,8 +89,11 @@ public abstract class GameMain {
                 Player p = roleMgr.getPlayer(req.uniqueId);
 
                 if (p == null) {
-
+                    // TODO
+                    p = roleMgr.createPlayer(req.uniqueId);
                 }
+
+                p.onMsg(req);
             }
         }
     }

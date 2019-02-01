@@ -7,9 +7,10 @@ public final class RoleMgr {
     private Map<String, Player> players;
     private Map<Long, Map<String, Robot>> robots;
 
-    public void createPlayer(String uniqueId) {
+    public Player createPlayer(String uniqueId) {
         Player player = GameMain.getInstance().getGameMgr().createPlayer(uniqueId);
-
+        addPlayer(player);
+        return player;
     }
 
     public void addPlayer(Player player) {
