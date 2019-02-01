@@ -14,6 +14,5 @@ public class Hall {
     public void enterRoom(Role role, String id) {
         roles.remove(role);
         roomMgr.getRooms().get(id).enter(role);
-        ;
     }
 }

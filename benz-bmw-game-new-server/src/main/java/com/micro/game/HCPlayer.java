@@ -1,15 +1,10 @@
 package com.micro.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.micro.frame.GameMain;
 import com.micro.frame.Player;
-import com.micro.frame.Role;
 import com.micro.frame.Room;
-import com.micro.frame.Table;
 import com.micro.frame.socket.ErrRespone;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
@@ -85,6 +80,11 @@ class HCPlayer extends Player implements HCRoleInterface {
             ((HCTable) table).requstTableScene(this);
         }
 
+        }
+    }
+    public void endGame(){
+        for(int i=0;i<8;++i){
+            chipList[i].betAmount=0;
         }
     }
 }

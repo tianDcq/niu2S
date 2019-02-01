@@ -2,7 +2,10 @@
 package com.micro;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +20,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import cn.hutool.log.Log;
 
 import com.micro.common.util.ThreadPoolExecutorUtils;
 import com.micro.frame.GameMain;
@@ -112,19 +117,21 @@ public class BenzApp {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ConfigurableApplicationContext context = SpringApplication.run(BenzApp.class, args);
-		TCPServer tcpServer = context.getBean(TCPServer.class);
+		// ConfigurableApplicationContext context = SpringApplication.run(BenzApp.class,
+		// args);
+		// TCPServer tcpServer = context.getBean(TCPServer.class);
 
-		ThreadPoolExecutorUtils.getInstance().execute(() -> {
+		// ThreadPoolExecutorUtils.getInstance().execute(() -> {
 
-			try {
-				tcpServer.start();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-		// 游戏主循环
-		(new HCGameMain()).run();
+		// try {
+		// tcpServer.start();
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// });
+
+		// // 游戏主循环
+		// (new HCGameMain()).run();
 	}
 
 }
