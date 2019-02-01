@@ -1,5 +1,6 @@
 package com.micro.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,8 @@ final class HCTable extends Table {
     private @Getter int time;
     private @Getter int gameStae;
     private @Getter int gameIndex;
+    private List<chipStruct> chipList;
+
     private List<String> bankerList;
     private int openTime;
     private int waitTime;
@@ -25,6 +28,7 @@ final class HCTable extends Table {
         openTime = (int) roomConfig.get("openTime");
         waitTime = (int) roomConfig.get("waitTime");
         chipTime = (int) roomConfig.get("chipTime");
+        bankerList = new ArrayList<>();
     }
 
     public void onAddRole(Role role) {
@@ -48,11 +52,32 @@ final class HCTable extends Table {
         msg.put("token", role.token);
         msg.put("playerCoins", role.money);
         ownMsg.msg = msg;
-
         Response mm = new Response(2008, 1);
         mm.msg = new HashMap<>(msg);
         pushMsgToOther(mm, ownMsg, role.uniqueId);
     };
+
+    @SuppressWarnings("unchecked")
+    public void playerChip(Role role, Map<String, Object> map) {
+        if ((int) map.get("gameIndex") != gameIndex) {
+            ErrRespone msg = new ErrRespone(2002, 0, "局数不对");
+            role.sendMsg(msg);
+
+        } else {
+            Object obj = map.get("betInfo");
+            long nMoney = 0;
+            List<Map<String, Long>> list = (List<Map<String, Long>>) obj;
+            for (int i = 0; i < list.size(); ++i) {
+                Map<String, Long> info = list.get(i);
+                nMoney += info.get("betAmount");
+            }
+            if (nMoney > role.money) {
+                ErrRespone msg = new ErrRespone(2002, 0, "钱不够下注");
+                role.sendMsg(msg);
+            }
+        }
+
+    }
 
     public void playerUpBanker(Role role) {
         Map<String, Object> roomConfig = room.getRoomConfig();
