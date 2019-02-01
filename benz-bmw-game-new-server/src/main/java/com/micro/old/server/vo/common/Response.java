@@ -16,15 +16,14 @@ public class Response {
   public String msgType;
 
   public String status;
-
-  public Response(String type) {
-    msgType = type;
-  };
-
-  public Response(String type, String state) {
-    msgType = type;
-    status = state;
-  };
-
   public Map<String, Object> msg;
+  public Response(int type) {
+    msgType = String.valueOf(type);
+  };
+
+  public Response(int type, int state) {
+    msgType = String.valueOf(type);
+    status = String.valueOf(state);
+  };
+
 }

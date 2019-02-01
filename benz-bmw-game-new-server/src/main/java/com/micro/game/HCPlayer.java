@@ -57,11 +57,11 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2010": {
             if (chip > 0) {
-                ErrRespone msg = new ErrRespone("2010","0","已经下注不能退出");
+                ErrRespone msg = new ErrRespone(2010,0,"已经下注不能退出");
                 sendMsg(msg);
                 return;
             } else if (((HCTable) table).getGameStae() == 0) {
-                ErrRespone msg = new ErrRespone("2010","0","已经开奖不能退出");
+                ErrRespone msg = new ErrRespone(2010,0,"已经开奖不能退出");
                 sendMsg(msg);
                 return;
             }
@@ -72,7 +72,13 @@ class HCPlayer extends Player implements HCRoleInterface {
             ((HCTable) table).playerUpBanker(this);
             break;
         }
-
+        case "2002":{
+            int gameIndex=(int) map.get("gameIndex");
+            if(((HCTable) table).getGameIndex()==gameIndex){
+                
+            }
+            long money=0;
+        }
 
         }
     }

@@ -15,6 +15,7 @@ final class HCTable extends Table {
     private HashSet<Role> roles;
     private @Getter int time;
     private @Getter int gameStae;
+    private @Getter int gameIndex;
     private List<String> bankerList;
     private int openTime;
     private int waitTime;
@@ -30,13 +31,8 @@ final class HCTable extends Table {
 
     public void addRole(Role role) {
         roles.add(role);
-        Response ownMsg = new Response();
-        ownMsg.msgType = "2001";
-        ownMsg.status = "1";
-
-        Response mm = new Response();
-        mm.msgType = "2007";
-        mm.status = "1";
+        Response ownMsg = new Response(2001,1);
+        Response mm = new Response(2007,1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("playerName", role.nickName);
         msg.put("playerCoins", role.money);
@@ -71,18 +67,27 @@ final class HCTable extends Table {
     };
 
     public void playerUpBanker(Role role){
-
         Map<String, Object> roomConfig = room.getRoomConfig();
         boolean up=(boolean) roomConfig.get("hostAble");  //获取是否允许上庄
         if(up){
             long coin=(long)roomConfig.get("hostAble");  //获取上庄的钱
             if(role.money<coin){
-                ErrRespone res=new ErrRespone("2009","0","钱不够不能上庄");
+                ErrRespone res=new ErrRespone(2009,0,"钱不够不能上庄");
                 role.sendMsg(res);
             }else{
                 bankerList.add(role.uniqueId);
-                int size=bankerList.size();
-                ErrRespone ownMsg=new ErrRespone("2009","0",String.valueOf(size));
+                String size= String.valueOf(bankerList.size());
+                ErrRespone ownMsg=new ErrRespone(2009,1,size);
+                Response otherMsg=new Response(2004,1);
+                Map<String,Object> msg=new HashMap<>();
+                msg.put("playerName", role.nickName);
+                msg.put("playerCoins", role.money);
+                msg.put("portrait ", role.portrait);
+                msg.put("position",size);
+                msg.put("token",role.token);
+                msg.put("uniqueId",role.uniqueId);
+                otherMsg.msg=msg;
+                pushMsgToOther(otherMsg,ownMsg,role.uniqueId);
             }
         }
     };
