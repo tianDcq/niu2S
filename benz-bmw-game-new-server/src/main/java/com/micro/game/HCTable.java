@@ -46,18 +46,14 @@ final class HCTable extends Table {
     public void removeRole(Role role) {
         roles.remove(role);
         Map<String, Object> msg = new HashMap<>();
-        Response ownMsg = new Response();
-        ownMsg.msgType = "2010";
-        ownMsg.status = "1";
+        Response ownMsg = new Response(2010,1);
         msg.put("playerName", role.nickName);
         msg.put("uniqueId", role.uniqueId);
         msg.put("token", role.token);
         msg.put("playerCoins", role.money);
         ownMsg.msg=msg;
 
-        Response mm = new Response();
-        mm.msgType = "2008";
-        mm.status = "1";
+        Response mm = new Response(2008,1);
         mm.msg=new HashMap<>(msg);
         pushMsgToOther(mm,ownMsg,role.uniqueId);
     };

@@ -31,7 +31,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2019": {
-            Response mm = new Response("2019","1");
+            Response mm = new Response(2019,1);
             Map<String, Object> msg = new HashMap<>();
             Map<String, Object> selfData = new HashMap<>();
             selfData.put("coins", money);
@@ -73,11 +73,14 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2002":{
-            int gameIndex=(int) map.get("gameIndex");
-            if(((HCTable) table).getGameIndex()==gameIndex){
-                
-            }
-            long money=0;
+            ((HCTable) table).playerUpBanker(this);
+            break;
+            // int gameIndex=(int) map.get("gameIndex");
+            // if(((HCTable) table).getGameIndex()==gameIndex){
+            //     long money=0;
+            //     for
+            // }
+            
         }
 
         }
