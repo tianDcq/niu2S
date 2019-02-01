@@ -435,4 +435,22 @@ final class HCTable extends Table {
             }
         }
     }
+    protected void onExit(Role role){
+
+    };
+
+    protected void onDestroy(){
+
+    };
+    protected void onStop(){
+        
+    };
+
+    protected void onTerminate(){
+
+    };
+
+    protected void onEnter(Role role){
+        
+    };
 }

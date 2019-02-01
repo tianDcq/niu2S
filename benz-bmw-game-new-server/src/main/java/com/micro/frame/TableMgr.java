@@ -1,5 +1,6 @@
 package com.micro.frame;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.Getter;
  */
 public class TableMgr {
     private Hall hall;
-    private @Getter Map<Integer, Table> tables;
+    private @Getter HashMap<Integer, Table> tables = new HashMap<>();
 
     private int index;
     // 目前只做单个桌子排队等待机制
@@ -27,5 +28,23 @@ public class TableMgr {
             wait = createTable();
         }
         return wait;
+    }
+
+    void doStop() {
+        for (Table table : tables.values()) {
+            table.doStop();
+        }
+    }
+
+    void doDestroy() {
+        for (Table table : tables.values()) {
+            table.doDestroy();
+        }
+    }
+
+    void doTerminate() {
+        for (Table table : tables.values()) {
+            table.doTerminate();
+        }
     }
 }

@@ -10,7 +10,6 @@ public class Trigger extends Task {
 
     public Trigger(Callback callback) {
         super(callback);
-        this.callback = callback;
     }
 
     public void fire() {

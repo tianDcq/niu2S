@@ -14,4 +14,16 @@ class HCGameMgr implements GameMgrInterface {
     public Table createTable() {
         return new HCTable();
     }
+
+    public void onTerminate() {
+
+    }
+
+    public void onStop() {
+
+    }
+
+    public void onDestroy() {
+
+    }
 }

@@ -1,9 +1,13 @@
 package com.micro.frame;
 
+import com.micro.frame.http.GameHttpRequest;
 import com.micro.frame.socket.MsgQueue;
 import com.micro.frame.socket.Request;
 
 import lombok.Getter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class GameMain {
 
@@ -12,7 +16,7 @@ public abstract class GameMain {
     }
 
     public enum Status {
-        END, START, RUN, STOP, TERMINATE,
+        END, START, RUN, STOP, TERMINATE
     }
 
     private @Getter Status status = Status.END;
@@ -69,14 +73,31 @@ public abstract class GameMain {
 
     private void doStop() {
 
+        roleMgr.doStop();
+        hallMgr.doStop();
+        taskMgr.doStop();
+        msgQueue.doStop();
+        gameMgr.onStop();
     }
 
     private void doTerminate() {
 
+        roleMgr.doTerminate();
+        hallMgr.doTerminate();
+        taskMgr.doTerminate();
+        msgQueue.doTerminate();
+        gameMgr.onTerminate();
+
     }
 
     // 停机步骤3：心跳骤停，死亡横线---------------
-    private void doDestory() {
+    private void doDestroy() {
+
+        roleMgr.doDestroy();
+        hallMgr.doDestroy();
+        taskMgr.doDestroy();
+        msgQueue.doDestroy();
+        gameMgr.onDestroy();
 
     }
 
@@ -89,11 +110,29 @@ public abstract class GameMain {
                 Player p = roleMgr.getPlayer(req.uniqueId);
 
                 if (p == null) {
-                    // TODO
+                    GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
+                    httpRequest.setSuccessCallback(new Callback() {
+                        @Override
+                        public void func() {
+                            System.out.println(1);
+                        }
+                    });
+                    httpRequest.setFailCallback(new Callback() {
+                        @Override
+                        public void func() {
+                            System.out.println(2);
+                        }
+                    });
+                    // 发起请求
+                    Map<String, String> map = new HashMap<>();
+                    map.put("siteId", "1");
+                    map.put("gameId", "12");
+                    Callback send = httpRequest.sendForm("http://localhost:9501/game/getWildGameRoomConfigVo", map);
+
                     p = roleMgr.createPlayer(req.uniqueId);
                 }
 
-                p.onMsg(req);
+                // p.onMsg(req);
             }
         }
     }
@@ -109,6 +148,6 @@ public abstract class GameMain {
             }
         }
 
-        doDestory();
+        doDestroy();
     }
 }

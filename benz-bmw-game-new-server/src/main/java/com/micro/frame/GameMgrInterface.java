@@ -6,4 +6,10 @@ public interface GameMgrInterface {
     public Robot createRobot();
 
     public Table createTable();
+
+    public void onStop();
+
+    public void onTerminate();
+
+    public void onDestroy();
 }

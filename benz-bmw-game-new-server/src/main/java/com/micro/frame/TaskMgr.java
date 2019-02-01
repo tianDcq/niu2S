@@ -5,11 +5,7 @@ import java.util.Iterator;
 
 public class TaskMgr {
 
-    private HashSet<Task> tasks;
-
-    public TaskMgr() {
-        tasks = new HashSet<Task>();
-    }
+    private HashSet<Task> tasks = new HashSet<Task>();
 
     public Timer createTimer(int time, Callback callback) {
         Timer task = new Timer(time, callback);
@@ -61,6 +57,18 @@ public class TaskMgr {
         }
 
         tasks.clear();
+    }
+
+    void doStop() {
+        // TODO
+    }
+
+    void doDestroy() {
+        // TODO
+    }
+
+    void doTerminate() {
+        // TODO
     }
 
     public void update() {
