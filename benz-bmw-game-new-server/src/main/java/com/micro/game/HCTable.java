@@ -17,7 +17,9 @@ final class HCTable extends Table {
     private @Getter int time;
     private @Getter int gameStae;
     private @Getter int gameIndex;
-    private List<chipStruct> chipList;
+    private ChipStruct[] chipList;
+    private int maxBanker;
+    private int bIndex=0;
 
     private List<String> bankerList;
     private int openTime;
@@ -30,7 +32,7 @@ final class HCTable extends Table {
         openTime = (int) roomConfig.get("openTime");
         waitTime = (int) roomConfig.get("waitTime");
         chipTime = (int) roomConfig.get("chipTime");
-        bankerList = new ArrayList<>();
+        chipList=new ChipStruct[8];
     }
 
     public void addRole(Role role) {
@@ -62,11 +64,11 @@ final class HCTable extends Table {
     };
 
     @SuppressWarnings("unchecked")
-    public void playerChip(Role role, Map<String, Object> map) {
+    public boolean playerChip(Role role, Map<String, Object> map) {
         if ((int) map.get("gameIndex") != gameIndex) {
             ErrRespone msg = new ErrRespone(2002, 0, "局数不对");
             role.sendMsg(msg);
-
+            return false;
         } else {
             Object obj = map.get("betInfo");
             long nMoney = 0;
@@ -78,9 +80,28 @@ final class HCTable extends Table {
             if (nMoney > role.money) {
                 ErrRespone msg = new ErrRespone(2002, 0, "钱不够下注");
                 role.sendMsg(msg);
+                return false;
             }
+            for (int i = 0; i < list.size(); ++i) {
+                Map<String, Long> info = list.get(i);
+                long pos=info.get("betTarget");
+                ((HCRoleInterface)role).getChipList()[(int)pos].betAmount=info.get("betAmount");
+                chipList[(int)pos].betAmount+=info.get("betAmount");
+            }
+            Response ownMsg=new Response(2002,1);
+            ownMsg.msg=new HashMap<String, Object>();
+            ownMsg.msg.put("betInfo", map.get("betInfo"));
+            Response otherMsg=new Response(2003,1);
+            List<Object> playerInfo=new ArrayList<Object>();
+            Map<String, Object> bet=new HashMap<>();
+            bet.put("uniqueId", role.uniqueId);
+            bet.put("betInfo", map.get("betInfo"));
+            playerInfo.add(playerInfo);
+            otherMsg.msg=new HashMap<String, Object>();
+            otherMsg.msg.put("playerInfo",playerInfo);
+            pushMsgToOther(otherMsg,ownMsg,role.uniqueId);
+            return true;
         }
-
     }
 
     public HashSet<Role> getRoles() {
@@ -112,15 +133,58 @@ final class HCTable extends Table {
             }
         }
     };
+    public void playerDownBanker(Role role){
+        if(bankerList.remove(role.uniqueId)){
+            ErrRespone ownMsg=new ErrRespone(2011, 1, "离开庄家");
+            Response otherMsg=new Response(2016,1);
+            otherMsg.msg=new HashMap<String, Object>();
+            otherMsg.msg.put("playerName", role.nickName);
+            otherMsg.msg.put("playerCoins", role.money);
+            otherMsg.msg.put("token", role.token);
+            otherMsg.msg.put("uniqueId", role.uniqueId);
+            pushMsgToOther(otherMsg, ownMsg, role.uniqueId);
+        }
+    };
+    public void requstTableScene(Role role){
+        Response response=new Response(2018,1);
+        Map<String, Object> msg=new HashMap<>();
+        
+        Map<String, Object> isObserve=new HashMap<>();
+        //ttttttttttt
+        msg.put("isObserve", isObserve);
+
+        List<Object> players=new ArrayList<>();
+        for (Role rr : roles) {
+            Map<String, Object> player=new HashMap<>();
+            player.put("playerName", rr.nickName);
+            player.put("playerCoins", rr.money);
+            player.put("portrait ", rr.portrait);
+            player.put("token", rr.token);
+            player.put("uniqueId", rr.uniqueId);
+            players.add(player);
+        }
+        msg.put("Players", players);
+        msg.put("selfCoins", role.money);
+        Map<String, Object> hostSqeunce=new HashMap<>();
+        for(int i=0;i<bankerList.size();++i){
+            Map<String, Object> host=new HashMap<>();
+            //
+            // host.put("playerName", bankerList[i].nickName);
+            // host.put("playerCoins", rr.money);
+            // host.put("portrait ", rr.portrait);
+            // host.put("token", rr.token);
+            // host.put("uniqueId", rr.uniqueId);
+        }
+    }
 
     public void start() {
 
     };
 
-    public void pushMsgToOther(Response otherMsg, Response ownMsg, String oId) {
+    public void pushMsgToOther(Response otherMsg, Response ownMsg, String tarID) {
         for (Role rr : roles) {
             String id = rr.uniqueId;
-            if (oId.equals(id)) {
+            if (tarID.equals(id)) {
                 rr.sendMsg(ownMsg);
             } else {
                 rr.sendMsg(otherMsg);

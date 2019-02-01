@@ -14,10 +14,12 @@ import com.micro.frame.socket.ErrRespone;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
-import cn.hutool.json.JSONArray;
+import lombok.Getter;
+
+
 
 class HCPlayer extends Player implements HCRoleInterface {
-    private List<chipStruct> chipList;
+    public @Getter ChipStruct[] chipList=new ChipStruct[8];
 
     public HCPlayer(String uniqueId) {
         super(uniqueId);
@@ -59,7 +61,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2010": {
-            if (chipList.size()>0) {
+            if (chipList.length>0) {
                 ErrRespone msg = new ErrRespone(2010,0,"已经下注不能退出");
                 sendMsg(msg);
                 return;
@@ -76,11 +78,14 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2002":{
-
             ((HCTable) table).playerChip(this,map);
             break;
-    
-            
+        }
+        case "2011":{
+            ((HCTable) table).playerDownBanker(this);
+        }
+        case "2018":{
+            ((HCTable) table).requstTableScene(this);
         }
 
         }
