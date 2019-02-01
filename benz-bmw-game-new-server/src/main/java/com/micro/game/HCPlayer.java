@@ -1,6 +1,8 @@
 package com.micro.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.micro.frame.GameMain;
@@ -12,13 +14,14 @@ import com.micro.old.server.vo.common.ErrRespone;
 import com.micro.old.server.vo.common.Request;
 import com.micro.old.server.vo.common.Response;
 
+import cn.hutool.json.JSONArray;
+
 class HCPlayer extends Player implements HCRoleInterface {
-    private long chip;
+    private List<chipStruct> chipList;
 
     public HCPlayer(String uniqueId) {
         super(uniqueId);
     }
-
     public void onMsg(Request req) {
         Map<String, Object> map = req.msg;
         String msgType = (String) map.get("msgType");
@@ -56,7 +59,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2010": {
-            if (chip > 0) {
+            if (chipList.size()>0) {
                 ErrRespone msg = new ErrRespone(2010,0,"已经下注不能退出");
                 sendMsg(msg);
                 return;
@@ -73,13 +76,10 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2002":{
-            ((HCTable) table).playerUpBanker(this);
+
+            ((HCTable) table).playerChip(this,map);
             break;
-            // int gameIndex=(int) map.get("gameIndex");
-            // if(((HCTable) table).getGameIndex()==gameIndex){
-            //     long money=0;
-            //     for
-            // }
+    
             
         }
 

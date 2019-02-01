@@ -1,5 +1,6 @@
 package com.micro.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import com.micro.frame.*;
 import com.micro.old.server.vo.common.ErrRespone;
 import com.micro.old.server.vo.common.Response;
+import com.sun.tools.classfile.Annotation.element_value;
 
 import lombok.Getter;
 
@@ -16,6 +18,8 @@ final class HCTable extends Table {
     private @Getter int time;
     private @Getter int gameStae;
     private @Getter int gameIndex;
+    private List<chipStruct> chipList;
+
     private List<String> bankerList;
     private int openTime;
     private int waitTime;
@@ -27,12 +31,13 @@ final class HCTable extends Table {
         openTime = (int) roomConfig.get("openTime");
         waitTime = (int) roomConfig.get("waitTime");
         chipTime = (int) roomConfig.get("chipTime");
+        bankerList = new ArrayList<>();
     }
 
     public void addRole(Role role) {
         roles.add(role);
-        Response ownMsg = new Response(2001,1);
-        Response mm = new Response(2007,1);
+        Response ownMsg = new Response(2001, 1);
+        Response mm = new Response(2007, 1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("playerName", role.nickName);
         msg.put("playerCoins", role.money);
@@ -46,44 +51,65 @@ final class HCTable extends Table {
     public void removeRole(Role role) {
         roles.remove(role);
         Map<String, Object> msg = new HashMap<>();
-        Response ownMsg = new Response(2010,1);
+        Response ownMsg = new Response(2010, 1);
         msg.put("playerName", role.nickName);
         msg.put("uniqueId", role.uniqueId);
         msg.put("token", role.token);
         msg.put("playerCoins", role.money);
-        ownMsg.msg=msg;
-
-        Response mm = new Response(2008,1);
-        mm.msg=new HashMap<>(msg);
-        pushMsgToOther(mm,ownMsg,role.uniqueId);
+        ownMsg.msg = msg;
+        Response mm = new Response(2008, 1);
+        mm.msg = new HashMap<>(msg);
+        pushMsgToOther(mm, ownMsg, role.uniqueId);
     };
+
+    @SuppressWarnings("unchecked")
+    public void playerChip(Role role, Map<String, Object> map) {
+        if ((int) map.get("gameIndex") != gameIndex) {
+            ErrRespone msg = new ErrRespone(2002, 0, "局数不对");
+            role.sendMsg(msg);
+
+        } else {
+            Object obj = map.get("betInfo");
+            long nMoney = 0;
+            List<Map<String, Long>> list = (List<Map<String, Long>>) obj;
+            for (int i = 0; i < list.size(); ++i) {
+                Map<String, Long> info = list.get(i);
+                nMoney += info.get("betAmount");
+            }
+            if (nMoney > role.money) {
+                ErrRespone msg = new ErrRespone(2002, 0, "钱不够下注");
+                role.sendMsg(msg);
+            }
+        }
+
+    }
 
     public HashSet<Role> getRoles() {
         return roles;
     };
 
-    public void playerUpBanker(Role role){
+    public void playerUpBanker(Role role) {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        boolean up=(boolean) roomConfig.get("hostAble");  //获取是否允许上庄
-        if(up){
-            long coin=(long)roomConfig.get("hostAble");  //获取上庄的钱
-            if(role.money<coin){
-                ErrRespone res=new ErrRespone(2009,0,"钱不够不能上庄");
+        boolean up = (boolean) roomConfig.get("hostAble"); // 获取是否允许上庄
+        if (up) {
+            long coin = (long) roomConfig.get("hostAble"); // 获取上庄的钱
+            if (role.money < coin) {
+                ErrRespone res = new ErrRespone(2009, 0, "钱不够不能上庄");
                 role.sendMsg(res);
-            }else{
+            } else {
                 bankerList.add(role.uniqueId);
-                String size= String.valueOf(bankerList.size());
-                ErrRespone ownMsg=new ErrRespone(2009,1,size);
-                Response otherMsg=new Response(2004,1);
-                Map<String,Object> msg=new HashMap<>();
+                String size = String.valueOf(bankerList.size());
+                ErrRespone ownMsg = new ErrRespone(2009, 1, size);
+                Response otherMsg = new Response(2004, 1);
+                Map<String, Object> msg = new HashMap<>();
                 msg.put("playerName", role.nickName);
                 msg.put("playerCoins", role.money);
                 msg.put("portrait ", role.portrait);
-                msg.put("position",size);
-                msg.put("token",role.token);
-                msg.put("uniqueId",role.uniqueId);
-                otherMsg.msg=msg;
-                pushMsgToOther(otherMsg,ownMsg,role.uniqueId);
+                msg.put("position", size);
+                msg.put("token", role.token);
+                msg.put("uniqueId", role.uniqueId);
+                otherMsg.msg = msg;
+                pushMsgToOther(otherMsg, ownMsg, role.uniqueId);
             }
         }
     };
@@ -91,6 +117,7 @@ final class HCTable extends Table {
     public void start() {
 
     };
+
     public void pushMsgToOther(Response otherMsg, Response ownMsg, String oId) {
         for (Role rr : roles) {
             String id = rr.uniqueId;
