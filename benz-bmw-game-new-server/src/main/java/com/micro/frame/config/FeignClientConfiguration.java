@@ -1,4 +1,4 @@
-package com.micro.old.server.config;
+package com.micro.frame.config;
 
 import feign.Request;
 import org.springframework.context.annotation.Bean;

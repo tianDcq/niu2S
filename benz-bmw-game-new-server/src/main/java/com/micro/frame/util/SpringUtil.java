@@ -1,4 +1,4 @@
-package com.micro.old.server.util;
+package com.micro.frame.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

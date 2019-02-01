@@ -1,6 +1,6 @@
-package com.micro.old.server.config;
+package com.micro.frame.config;
 
-import com.micro.old.server.util.CodeUtils;
+import com.micro.frame.util.CodeUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;

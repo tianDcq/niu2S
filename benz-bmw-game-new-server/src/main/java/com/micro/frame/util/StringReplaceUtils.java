@@ -1,4 +1,4 @@
-package com.micro.old.server.util;
+package com.micro.frame.util;
 
 import java.io.UnsupportedEncodingException;
 

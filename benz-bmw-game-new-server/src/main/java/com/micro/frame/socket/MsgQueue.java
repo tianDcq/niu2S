@@ -1,9 +1,9 @@
-package com.micro.old.server.queue;
+package com.micro.frame.socket;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.micro.old.server.vo.common.Request;
-import com.micro.old.server.vo.common.Response;
+import com.micro.frame.socket.Request;
+import com.micro.frame.socket.Response;
 
 public class MsgQueue {
     private LinkedBlockingQueue<Request> receiveQ1 = new LinkedBlockingQueue<>();

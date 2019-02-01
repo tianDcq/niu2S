@@ -1,7 +1,7 @@
 package com.micro.frame;
 
-import com.micro.old.server.queue.MsgQueue;
-import com.micro.old.server.vo.common.Request;
+import com.micro.frame.socket.MsgQueue;
+import com.micro.frame.socket.Request;
 
 import lombok.Getter;
 

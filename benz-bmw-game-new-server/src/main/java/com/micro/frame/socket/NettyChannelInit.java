@@ -1,4 +1,4 @@
-package com.micro.old.server.handler;
+package com.micro.frame.socket;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author sam
- * @ClassName: NettyWebSocketChannelInitializer
+ * @ClassName: NettyChannelInit
  * @Description: tcp连接初始化，包装成WebSocket连接，并设置连接通道的各种配置
  * @date 2018-07-23
  */
 @Component
 @Qualifier("somethingChannelInitializer")
-public class NettyWebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class NettyChannelInit extends ChannelInitializer<SocketChannel> {
 
     @Autowired
     private WebSocketFrameHandler webSocketFrameHandler;

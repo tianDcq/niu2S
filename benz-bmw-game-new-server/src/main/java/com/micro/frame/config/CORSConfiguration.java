@@ -1,4 +1,4 @@
-package com.micro.old.server.config;
+package com.micro.frame.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
