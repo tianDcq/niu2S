@@ -3,7 +3,6 @@ package com.micro.frame.http;
 import com.micro.common.bean.GlobeResponse;
 import com.micro.common.bean.account.model.TbGameEachRecord;
 import com.micro.common.vo.GameResultInputVO;
-import com.micro.temp.RoomConfigurationVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

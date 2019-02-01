@@ -1,4 +1,4 @@
-package com.micro.temp;
+package com.micro.frame.http;
 
 import com.micro.common.bean.BaseModel;
 import com.micro.common.bean.account.model.TbGameRoom;
