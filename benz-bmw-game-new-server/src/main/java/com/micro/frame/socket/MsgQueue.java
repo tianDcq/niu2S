@@ -29,6 +29,18 @@ public class MsgQueue {
         return currentReveiveQ.poll();
     }
 
+    public void doStop() {
+        // TODO
+    }
+
+    public void doTerminate() {
+        // TODO
+    }
+
+    public void doDestroy() {
+        // TODO
+    }
+
     public Iterable<Request> getAll() {
         if (currentReveiveQ.size() == 0) {
             return null;

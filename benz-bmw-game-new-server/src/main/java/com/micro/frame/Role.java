@@ -51,20 +51,61 @@ public abstract class Role {
 		onEnterTable();
 	}
 
-	void leaveTable() {
-		onLeaveTable();
+	void exitTable() {
+		onExitTable();
 		this.table = null;
+	}
+
+	void enterRoom(Room room) {
+		this.room = room;
+		onEnterRoom();
+	}
+
+	void exitRoom() {
+		onExitRoom();
+		this.room = null;
 	}
 
 	void onEnterTable() {
 
 	}
 
-	void onLeaveTable() {
+	void onExitTable() {
 
 	}
 
+	void onEnterRoom() {
+
+	}
+
+	void onExitRoom() {
+
+	}
+
+	void doStop() {
+		onStop();
+	}
+
+	void doTerminate() {
+		onTerminate();
+	}
+
+	void doDestroy() {
+		onDestroy();
+	}
+
 	public void sendMsg(Response res) {
+
+	}
+
+	protected void onStop() {
+	}
+
+	protected void onTerminate() {
+
+	}
+
+	protected void onDestroy() {
 
 	}
 }

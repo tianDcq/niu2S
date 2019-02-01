@@ -27,9 +27,11 @@ public abstract class Table {
     private @Getter Status status;
 
     protected Map<String, Role> roles = new HashMap<String, Role>();
-    protected float pairTime;
     protected @Setter Room room;
     protected @Getter int id;
+
+    private @Getter boolean canDestory = true;
+    private Trigger destroyTrigger;
 
     protected boolean pair(Role role) {
         if (status == Status.Open) {
@@ -54,31 +56,97 @@ public abstract class Table {
 
     }
 
-    public void leave(Role role) {
+    protected boolean enter(Role role) {
+        if (addRole(role)) {
+            role.enterTable(this);
+            onEnter(role);
+            return true;
+        }
+        return false;
+    }
 
+    public boolean exit(Role role) {
+        if (removeRole(role)) {
+            role.exitTable();
+            role.room.enter(role);
+            onExit(role);
+            return true;
+        }
+        return false;
     }
 
     protected boolean addRole(Role role) {
         roles.put(role.uniqueId, role);
-        role.enterTable(this);
-        onAddRole(role);
         return true;
     }
 
     protected boolean removeRole(Role role) {
         roles.remove(role.uniqueId);
-        role.leaveTable();
-        onRemoveRole(role);
-        return false;
+        return true;
+    }
+
+    protected void save() {
+
+    }
+
+    protected void saveHistory(Map<String, Object> history) {
+
     }
 
     protected void start() {
-
+        onStart();
     }
 
-    protected abstract void onAddRole(Role role);
+    protected void destroy() {
+        save();
+        for (Role role : roles.values()) {
+            role.exitTable();
+            onExit(role);
+        }
 
-    public abstract void onRemoveRole(Role role);
+        onDestroy();
+    }
 
-    public abstract void onStart();
+    protected void setCanDestroy(boolean b) {
+        canDestory = b;
+        if (canDestory && destroyTrigger != null) {
+            destroyTrigger.fire();
+        }
+    }
+
+    void doStop() {
+        for (Role role : roles.values()) {
+            role.doStop();
+        }
+
+        onStop();
+    }
+
+    void doTerminate() {
+        for (Role role : roles.values()) {
+            role.doTerminate();
+        }
+
+        onTerminate();
+    }
+
+    void doDestroy() {
+        for (Role role : roles.values()) {
+            role.doDestroy();
+        }
+
+        onStop();
+    }
+
+    protected abstract void onStop();
+
+    protected abstract void onTerminate();
+
+    protected abstract void onEnter(Role role);
+
+    protected abstract void onExit(Role role);
+
+    protected abstract void onStart();
+
+    protected abstract void onDestroy();
 }

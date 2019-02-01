@@ -49,4 +49,16 @@ public final class RoleMgr {
     public void removeAllPlayers() {
         // @TODO
     }
+
+    void doDestroy() {
+        // TODO
+    }
+
+    void doStop() {
+        // TODO
+    }
+
+    void doTerminate() {
+        // TODO
+    }
 }

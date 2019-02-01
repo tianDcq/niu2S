@@ -69,14 +69,31 @@ public abstract class GameMain {
 
     private void doStop() {
 
+        roleMgr.doStop();
+        hallMgr.doStop();
+        taskMgr.doStop();
+        msgQueue.doStop();
+        gameMgr.onStop();
     }
 
     private void doTerminate() {
 
+        roleMgr.doTerminate();
+        hallMgr.doTerminate();
+        taskMgr.doTerminate();
+        msgQueue.doTerminate();
+        gameMgr.onTerminate();
+
     }
 
     // 停机步骤3：心跳骤停，死亡横线---------------
-    private void doDestory() {
+    private void doDestroy() {
+
+        roleMgr.doDestroy();
+        hallMgr.doDestroy();
+        taskMgr.doDestroy();
+        msgQueue.doDestroy();
+        gameMgr.onDestroy();
 
     }
 
@@ -109,6 +126,6 @@ public abstract class GameMain {
             }
         }
 
-        doDestory();
+        doDestroy();
     }
 }

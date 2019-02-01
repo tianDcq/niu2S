@@ -15,6 +15,24 @@ public final class HallMgr {
         return halls.get(id);
     }
 
+    void doStop() {
+        for (Hall hall : halls.values()) {
+            hall.doStop();
+        }
+    }
+
+    void doTerminate() {
+        for (Hall hall : halls.values()) {
+            hall.doTerminate();
+        }
+    }
+
+    void doDestroy() {
+        for (Hall hall : halls.values()) {
+            hall.doDestroy();
+        }
+    }
+
     public void update() {
 
     }

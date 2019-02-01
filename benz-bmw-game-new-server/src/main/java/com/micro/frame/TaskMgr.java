@@ -63,6 +63,18 @@ public class TaskMgr {
         tasks.clear();
     }
 
+    void doStop() {
+        // TODO
+    }
+
+    void doDestroy() {
+        // TODO
+    }
+
+    void doTerminate() {
+        // TODO
+    }
+
     public void update() {
         Iterator<Task> it = tasks.iterator();
         while (it.hasNext()) {

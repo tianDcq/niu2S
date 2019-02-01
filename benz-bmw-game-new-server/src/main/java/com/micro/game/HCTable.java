@@ -18,7 +18,7 @@ final class HCTable extends Table {
     private @Getter int gameIndex;
     private ChipStruct[] chipList;
     private int maxBanker;
-    private int bIndex=0;
+    private int bIndex = 0;
 
     private List<String> bankerList;
     private int openTime;
@@ -30,10 +30,10 @@ final class HCTable extends Table {
         openTime = (int) roomConfig.get("openTime");
         waitTime = (int) roomConfig.get("waitTime");
         chipTime = (int) roomConfig.get("chipTime");
-        chipList=new ChipStruct[8];
+        chipList = new ChipStruct[8];
     }
 
-    public void onAddRole(Role role) {
+    public void onEnter(Role role) {
         Response ownMsg = new Response(2001, 1);
         Response mm = new Response(2007, 1);
         Map<String, Object> msg = new HashMap<>();
@@ -46,7 +46,7 @@ final class HCTable extends Table {
         pushMsgToOther(mm, ownMsg, role.uniqueId);
     };
 
-    public void onRemoveRole(Role role) {
+    public void onExit(Role role) {
         Map<String, Object> msg = new HashMap<>();
         Response ownMsg = new Response(2010, 1);
         msg.put("playerName", role.nickName);
@@ -80,22 +80,22 @@ final class HCTable extends Table {
             }
             for (int i = 0; i < list.size(); ++i) {
                 Map<String, Long> info = list.get(i);
-                long pos=info.get("betTarget");
-                ((HCRoleInterface)role).getChipList()[(int)pos].betAmount=info.get("betAmount");
-                chipList[(int)pos].betAmount+=info.get("betAmount");
+                long pos = info.get("betTarget");
+                ((HCRoleInterface) role).getChipList()[(int) pos].betAmount = info.get("betAmount");
+                chipList[(int) pos].betAmount += info.get("betAmount");
             }
-            Response ownMsg=new Response(2002,1);
-            ownMsg.msg=new HashMap<String, Object>();
+            Response ownMsg = new Response(2002, 1);
+            ownMsg.msg = new HashMap<String, Object>();
             ownMsg.msg.put("betInfo", map.get("betInfo"));
-            Response otherMsg=new Response(2003,1);
-            List<Object> playerInfo=new ArrayList<Object>();
-            Map<String, Object> bet=new HashMap<>();
+            Response otherMsg = new Response(2003, 1);
+            List<Object> playerInfo = new ArrayList<Object>();
+            Map<String, Object> bet = new HashMap<>();
             bet.put("uniqueId", role.uniqueId);
             bet.put("betInfo", map.get("betInfo"));
             playerInfo.add(playerInfo);
-            otherMsg.msg=new HashMap<String, Object>();
-            otherMsg.msg.put("playerInfo",playerInfo);
-            pushMsgToOther(otherMsg,ownMsg,role.uniqueId);
+            otherMsg.msg = new HashMap<String, Object>();
+            otherMsg.msg.put("playerInfo", playerInfo);
+            pushMsgToOther(otherMsg, ownMsg, role.uniqueId);
             return true;
         }
     }
@@ -125,11 +125,12 @@ final class HCTable extends Table {
             }
         }
     };
-    public void playerDownBanker(Role role){
-        if(bankerList.remove(role.uniqueId)){
-            ErrRespone ownMsg=new ErrRespone(2011, 1, "离开庄家");
-            Response otherMsg=new Response(2016,1);
-            otherMsg.msg=new HashMap<String, Object>();
+
+    public void playerDownBanker(Role role) {
+        if (bankerList.remove(role.uniqueId)) {
+            ErrRespone ownMsg = new ErrRespone(2011, 1, "离开庄家");
+            Response otherMsg = new Response(2016, 1);
+            otherMsg.msg = new HashMap<String, Object>();
             otherMsg.msg.put("playerName", role.nickName);
             otherMsg.msg.put("playerCoins", role.money);
             otherMsg.msg.put("token", role.token);
@@ -137,17 +138,18 @@ final class HCTable extends Table {
             pushMsgToOther(otherMsg, ownMsg, role.uniqueId);
         }
     };
-    public void requstTableScene(Role role){
-        Response response=new Response(2018,1);
-        Map<String, Object> msg=new HashMap<>();
-        
-        Map<String, Object> isObserve=new HashMap<>();
-        //ttttttttttt
+
+    public void requstTableScene(Role role) {
+        Response response = new Response(2018, 1);
+        Map<String, Object> msg = new HashMap<>();
+
+        Map<String, Object> isObserve = new HashMap<>();
+        // ttttttttttt
         msg.put("isObserve", isObserve);
 
-        List<Object> players=new ArrayList<>();
+        List<Object> players = new ArrayList<>();
         for (Role rr : roles.values()) {
-            Map<String, Object> player=new HashMap<>();
+            Map<String, Object> player = new HashMap<>();
             player.put("playerName", rr.nickName);
             player.put("playerCoins", rr.money);
             player.put("portrait ", rr.portrait);
@@ -157,9 +159,9 @@ final class HCTable extends Table {
         }
         msg.put("Players", players);
         msg.put("selfCoins", role.money);
-        Map<String, Object> hostSqeunce=new HashMap<>();
-        for(int i=0;i<bankerList.size();++i){
-            Map<String, Object> host=new HashMap<>();
+        Map<String, Object> hostSqeunce = new HashMap<>();
+        for (int i = 0; i < bankerList.size(); ++i) {
+            Map<String, Object> host = new HashMap<>();
             //
             // host.put("playerName", bankerList[i].nickName);
             // host.put("playerCoins", rr.money);
@@ -173,9 +175,21 @@ final class HCTable extends Table {
 
     };
 
+    protected void onStop() {
+
+    }
+
+    protected void onTerminate() {
+
+    }
+
+    protected void onDestroy() {
+
+    }
+
     public void pushMsgToOther(Response otherMsg, Response ownMsg, String tarID) {
 
-        for(Role rr :roles.values()){
+        for (Role rr : roles.values()) {
             String id = rr.uniqueId;
             if (tarID.equals(id)) {
                 rr.sendMsg(ownMsg);

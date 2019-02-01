@@ -28,4 +28,22 @@ public class TableMgr {
         }
         return wait;
     }
+
+    void doStop() {
+        for (Table table : tables.values()) {
+            table.doStop();
+        }
+    }
+
+    void doDestroy() {
+        for (Table table : tables.values()) {
+            table.doDestroy();
+        }
+    }
+
+    void doTerminate() {
+        for (Table table : tables.values()) {
+            table.doTerminate();
+        }
+    }
 }
