@@ -38,8 +38,30 @@ public abstract class Role {
 
 	public String uniqueId;
 
-	public Role(String uniqueId) {
-		this.uniqueId = uniqueId;
+	protected @Getter Hall hall;
+	protected @Getter Room room;
+	protected @Getter Table table;
+
+	protected void onInit() {
+
+	}
+
+	void enterTable(Table table) {
+		this.table = table;
+		onEnterTable();
+	}
+
+	void leaveTable() {
+		onLeaveTable();
+		this.table = null;
+	}
+
+	void onEnterTable() {
+
+	}
+
+	void onLeaveTable() {
+
 	}
 
 	public void sendMsg(Response res) {

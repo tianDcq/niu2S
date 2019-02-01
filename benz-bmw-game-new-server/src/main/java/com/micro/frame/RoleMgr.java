@@ -8,7 +8,8 @@ public final class RoleMgr {
     private Map<Long, Map<String, Robot>> robots;
 
     public Player createPlayer(String uniqueId) {
-        Player player = GameMain.getInstance().getGameMgr().createPlayer(uniqueId);
+        Player player = GameMain.getInstance().getGameMgr().createPlayer();
+        player.uniqueId = uniqueId;
         addPlayer(player);
         return player;
     }

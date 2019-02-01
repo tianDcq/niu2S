@@ -5,15 +5,15 @@ import java.util.HashSet;
 
 public class Hall {
     private @Getter RoomMgr roomMgr;
-    private @Getter HashSet<Player> players;
+    private @Getter HashSet<Role> roles;
 
-    public void enter(Role palyer) {
+    public void enter(Role role) {
 
     };
 
-    public void playerToRoom(Role player, String id) {
-        players.remove(player);
-        roomMgr.getRooms().get(id).enter(player);
+    public void enterRoom(Role role, String id) {
+        roles.remove(role);
+        roomMgr.getRooms().get(id).enter(role);
         ;
     }
 }

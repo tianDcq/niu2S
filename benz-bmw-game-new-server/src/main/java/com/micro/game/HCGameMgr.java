@@ -3,15 +3,15 @@ package com.micro.game;
 import com.micro.frame.*;
 
 class HCGameMgr implements GameMgrInterface {
-    public Player createPlayer(String uniqueId) {
-        return new HCPlayer(uniqueId);
+    public Player createPlayer() {
+        return new HCPlayer();
     }
 
-    public Robot createRobot(String uniqueId) {
-        return new HCRobot(uniqueId);
+    public Robot createRobot() {
+        return new HCRobot();
     }
 
-    public Table createTable(float time) {
-        return new HCTable(time);
+    public Table createTable() {
+        return new HCTable();
     }
 }

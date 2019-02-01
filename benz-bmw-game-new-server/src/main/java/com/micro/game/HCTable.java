@@ -12,7 +12,6 @@ import com.micro.frame.socket.Response;
 import lombok.Getter;
 
 final class HCTable extends Table {
-    private HashSet<Role> roles;
     private @Getter int time;
     private @Getter int gameStae;
     private @Getter int gameIndex;
@@ -21,16 +20,14 @@ final class HCTable extends Table {
     private int waitTime;
     private int chipTime;
 
-    public HCTable(float time) {
-        super(time);
+    protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
         openTime = (int) roomConfig.get("openTime");
         waitTime = (int) roomConfig.get("waitTime");
         chipTime = (int) roomConfig.get("chipTime");
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
+    public void onAddRole(Role role) {
         Response ownMsg = new Response(2001, 1);
         Response mm = new Response(2007, 1);
         Map<String, Object> msg = new HashMap<>();
@@ -43,8 +40,7 @@ final class HCTable extends Table {
         pushMsgToOther(mm, ownMsg, role.uniqueId);
     };
 
-    public void removeRole(Role role) {
-        roles.remove(role);
+    public void onRemoveRole(Role role) {
         Map<String, Object> msg = new HashMap<>();
         Response ownMsg = new Response(2010, 1);
         msg.put("playerName", role.nickName);
@@ -56,10 +52,6 @@ final class HCTable extends Table {
         Response mm = new Response(2008, 1);
         mm.msg = new HashMap<>(msg);
         pushMsgToOther(mm, ownMsg, role.uniqueId);
-    };
-
-    public HashSet<Role> getRoles() {
-        return roles;
     };
 
     public void playerUpBanker(Role role) {
@@ -88,7 +80,7 @@ final class HCTable extends Table {
         }
     };
 
-    public void start() {
+    public void onStart() {
 
     };
 

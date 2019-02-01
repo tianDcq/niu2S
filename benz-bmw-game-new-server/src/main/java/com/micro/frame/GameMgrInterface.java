@@ -1,9 +1,9 @@
 package com.micro.frame;
 
 public interface GameMgrInterface {
-    public Player createPlayer(String uniqueId);
+    public Player createPlayer();
 
-    public Robot createRobot(String uniqueId);
+    public Robot createRobot();
 
-    public Table createTable(float time);
+    public Table createTable();
 }

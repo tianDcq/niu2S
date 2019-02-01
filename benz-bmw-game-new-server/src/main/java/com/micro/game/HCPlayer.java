@@ -15,10 +15,6 @@ import com.micro.frame.socket.Response;
 class HCPlayer extends Player implements HCRoleInterface {
     private long chip;
 
-    public HCPlayer(String uniqueId) {
-        super(uniqueId);
-    }
-
     public void onMsg(Request req) {
         Map<String, Object> map = req.msg;
         String msgType = (String) map.get("msgType");
@@ -26,7 +22,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         case "2001": {
             if (hall != null && table == null) {
                 Object roomId = map.get("roomId");
-                hall.playerToRoom(this, (String) roomId);
+                hall.enterRoom(this, (String) roomId);
             }
             break;
         }
@@ -41,7 +37,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             for (Map.Entry<String, Room> entry : rooms.entrySet()) {
                 Room room = entry.getValue();
                 Map<String, Object> roomConfig = room.getRoomConfig();
-                HCTable table = (HCTable) room.getTableMgr().tables.get("0");
+                HCTable table = (HCTable) room.getTableMgr().getTables().get("0");
                 roomConfig.put("currentPlayer", room.getRoles().size());
                 Map<String, Object> phaseData = new HashMap<>();
                 phaseData.put("status", table.getGameStae());
@@ -65,7 +61,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                 sendMsg(msg);
                 return;
             }
-            ((HCTable) table).removeRole(this);
+            ((HCTable) table).leave(this);
             break;
         }
         case "2009": {
