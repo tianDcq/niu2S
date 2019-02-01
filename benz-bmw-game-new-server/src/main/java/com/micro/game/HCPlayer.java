@@ -24,7 +24,6 @@ class HCPlayer extends Player implements HCRoleInterface {
         String msgType = (String) map.get("msgType");
         switch (msgType) {
         case "2001": {
-
             if (hall != null && table == null) {
                 Object roomId = map.get("roomId");
                 hall.playerToRoom(this, (String) roomId);
@@ -32,9 +31,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2019": {
-            Response mm = new Response();
-            mm.msgType = "2019";
-            mm.status = "1";
+            Response mm = new Response("2019","1");
             Map<String, Object> msg = new HashMap<>();
             Map<String, Object> selfData = new HashMap<>();
             selfData.put("coins", money);
@@ -60,14 +57,23 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2010": {
             if (chip > 0) {
-                ErrRespone msg = new ErrRespone();
-                msg.msgType = "2010";
-                msg.state = "0";
+                ErrRespone msg = new ErrRespone("2010","0","已经下注不能退出");
+                sendMsg(msg);
+                return;
+            } else if (((HCTable) table).getGameStae() == 0) {
+                ErrRespone msg = new ErrRespone("2010","0","已经开奖不能退出");
+                sendMsg(msg);
+                return;
             }
-
             ((HCTable) table).removeRole(this);
             break;
         }
+        case "2009":{
+            ((HCTable) table).playerUpBanker(this);
+            break;
+        }
+
+
         }
     }
 }

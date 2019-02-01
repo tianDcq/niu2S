@@ -17,5 +17,14 @@ public class Response {
 
   public String status;
 
+  public Response(String type) {
+    msgType = type;
+  };
+
+  public Response(String type, String state) {
+    msgType = type;
+    status = state;
+  };
+
   public Map<String, Object> msg;
 }
