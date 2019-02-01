@@ -40,14 +40,6 @@ public abstract class Player extends Role {
 
 	public String playId;
 
-	protected @Getter Hall hall;
-	protected @Getter Room room;
-	protected @Getter Table table;
-
-	public Player(String uniqueId) {
-		super(uniqueId);
-	}
-
 	public abstract void onMsg(Request req);
 
 	public void sendMsg(Response res) {

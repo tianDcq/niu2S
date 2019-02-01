@@ -13,7 +13,6 @@ import com.micro.frame.socket.Response;
 import lombok.Getter;
 
 final class HCTable extends Table {
-    private HashSet<Role> roles;
     private @Getter int time;
     private @Getter int gameStae;
     private @Getter int gameIndex;
@@ -26,8 +25,7 @@ final class HCTable extends Table {
     private int waitTime;
     private int chipTime;
 
-    public HCTable(float time) {
-        super(time);
+    protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
         openTime = (int) roomConfig.get("openTime");
         waitTime = (int) roomConfig.get("waitTime");
@@ -35,8 +33,7 @@ final class HCTable extends Table {
         chipList=new ChipStruct[8];
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
+    public void onAddRole(Role role) {
         Response ownMsg = new Response(2001, 1);
         Response mm = new Response(2007, 1);
         Map<String, Object> msg = new HashMap<>();
@@ -49,8 +46,7 @@ final class HCTable extends Table {
         pushMsgToOther(mm, ownMsg, role.uniqueId);
     };
 
-    public void removeRole(Role role) {
-        roles.remove(role);
+    public void onRemoveRole(Role role) {
         Map<String, Object> msg = new HashMap<>();
         Response ownMsg = new Response(2010, 1);
         msg.put("playerName", role.nickName);
@@ -104,10 +100,6 @@ final class HCTable extends Table {
         }
     }
 
-    public HashSet<Role> getRoles() {
-        return roles;
-    };
-
     public void playerUpBanker(Role role) {
         Map<String, Object> roomConfig = room.getRoomConfig();
         boolean up = (boolean) roomConfig.get("hostAble"); // 获取是否允许上庄
@@ -154,7 +146,7 @@ final class HCTable extends Table {
         msg.put("isObserve", isObserve);
 
         List<Object> players=new ArrayList<>();
-        for (Role rr : roles) {
+        for (Role rr : roles.values()) {
             Map<String, Object> player=new HashMap<>();
             player.put("playerName", rr.nickName);
             player.put("playerCoins", rr.money);
@@ -177,12 +169,13 @@ final class HCTable extends Table {
         }
     }
 
-    public void start() {
+    public void onStart() {
 
     };
 
     public void pushMsgToOther(Response otherMsg, Response ownMsg, String tarID) {
-        for (Role rr : roles) {
+
+        for(Role rr :roles.values()){
             String id = rr.uniqueId;
             if (tarID.equals(id)) {
                 rr.sendMsg(ownMsg);
