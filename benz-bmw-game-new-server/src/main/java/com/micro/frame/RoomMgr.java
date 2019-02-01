@@ -5,7 +5,7 @@ import java.util.HashMap;
 import lombok.Getter;
 
 public class RoomMgr {
-    private @Getter HashMap<String, Room> rooms;
+    private @Getter HashMap<String, Room> rooms = new HashMap<>();
 
     void doStop() {
         for (Room room : rooms.values()) {

@@ -10,8 +10,8 @@ public class Room {
         Success, Failed
     }
 
-    private @Getter TableMgr tableMgr;
-    private @Getter HashMap<String, Role> roles;
+    private @Getter TableMgr tableMgr = new TableMgr();
+    private @Getter HashMap<String, Role> roles = new HashMap<>();
     private @Getter Map<String, Object> RoomConfig;
 
     public boolean enter(Role role) {

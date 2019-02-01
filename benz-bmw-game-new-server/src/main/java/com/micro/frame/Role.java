@@ -51,6 +51,11 @@ public abstract class Role {
 		onEnterTable();
 	}
 
+	void enterHall(Hall hall) {
+		this.hall = hall;
+		onEnterHall();
+	}
+
 	void exitTable() {
 		onExitTable();
 		this.table = null;
@@ -79,6 +84,10 @@ public abstract class Role {
 	}
 
 	void onExitRoom() {
+
+	}
+
+	void onEnterHall() {
 
 	}
 

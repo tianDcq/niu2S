@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class RoleMgr {
-    private Map<String, Player> players;
-    private Map<Long, Map<String, Robot>> robots;
+    private HashMap<String, Player> players = new HashMap<>();
+    private HashMap<Long, HashMap<String, Robot>> robots = new HashMap<>();
 
     public Player createPlayer(String uniqueId) {
         Player player = GameMain.getInstance().getGameMgr().createPlayer();

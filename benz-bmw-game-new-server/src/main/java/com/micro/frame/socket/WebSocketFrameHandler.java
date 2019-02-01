@@ -77,8 +77,8 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 		if (isEncrypt == 1) {
 			request = CodeUtils.decode(request);
 		}
-		String msg = JsonUtil.parseJsonString(request);
-		Map o = JsonUtil.parseObject(msg, Map.class);
+		//String msg = JsonUtil.parseJsonString(request);
+		Map o = JsonUtil.parseObject(request, Map.class);
 
 		Request req = new Request();
 		req.msg = o;

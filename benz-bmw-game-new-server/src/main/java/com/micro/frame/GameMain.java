@@ -16,7 +16,7 @@ public abstract class GameMain {
     }
 
     public enum Status {
-        END, START, RUN, STOP, TERMINATE,
+        END, START, RUN, STOP, TERMINATE
     }
 
     private @Getter Status status = Status.END;
@@ -127,12 +127,12 @@ public abstract class GameMain {
                     Map<String, String> map = new HashMap<>();
                     map.put("siteId", "1");
                     map.put("gameId", "12");
-                    Callback send = httpRequest.sendForm("http://localhost:9501/game/getWildGameRoomConfigVo",map);
+                    Callback send = httpRequest.sendForm("http://localhost:9501/game/getWildGameRoomConfigVo", map);
 
                     p = roleMgr.createPlayer(req.uniqueId);
                 }
 
-                p.onMsg(req);
+                // p.onMsg(req);
             }
         }
     }
