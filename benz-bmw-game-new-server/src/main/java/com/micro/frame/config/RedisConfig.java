@@ -1,4 +1,4 @@
-package com.micro.old.server.config;
+package com.micro.frame.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

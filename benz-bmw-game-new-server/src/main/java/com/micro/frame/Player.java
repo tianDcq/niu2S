@@ -1,7 +1,7 @@
 package com.micro.frame;
 
-import com.micro.old.server.vo.common.Request;
-import com.micro.old.server.vo.common.Response;
+import com.micro.frame.socket.Request;
+import com.micro.frame.socket.Response;
 
 import lombok.Getter;
 import lombok.Setter;

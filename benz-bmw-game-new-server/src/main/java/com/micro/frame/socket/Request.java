@@ -1,4 +1,4 @@
-package com.micro.old.server.vo.common;
+package com.micro.frame.socket;
 
 import java.util.Map;
 

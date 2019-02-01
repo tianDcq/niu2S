@@ -8,9 +8,9 @@ import com.micro.frame.Player;
 import com.micro.frame.Role;
 import com.micro.frame.Room;
 import com.micro.frame.Table;
-import com.micro.old.server.vo.common.ErrRespone;
-import com.micro.old.server.vo.common.Request;
-import com.micro.old.server.vo.common.Response;
+import com.micro.frame.socket.ErrRespone;
+import com.micro.frame.socket.Request;
+import com.micro.frame.socket.Response;
 
 class HCPlayer extends Player implements HCRoleInterface {
     private long chip;
@@ -31,7 +31,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2019": {
-            Response mm = new Response(2019,1);
+            Response mm = new Response(2019, 1);
             Map<String, Object> msg = new HashMap<>();
             Map<String, Object> selfData = new HashMap<>();
             selfData.put("coins", money);
@@ -57,30 +57,30 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2010": {
             if (chip > 0) {
-                ErrRespone msg = new ErrRespone(2010,0,"已经下注不能退出");
+                ErrRespone msg = new ErrRespone(2010, 0, "已经下注不能退出");
                 sendMsg(msg);
                 return;
             } else if (((HCTable) table).getGameStae() == 0) {
-                ErrRespone msg = new ErrRespone(2010,0,"已经开奖不能退出");
+                ErrRespone msg = new ErrRespone(2010, 0, "已经开奖不能退出");
                 sendMsg(msg);
                 return;
             }
             ((HCTable) table).removeRole(this);
             break;
         }
-        case "2009":{
+        case "2009": {
             ((HCTable) table).playerUpBanker(this);
             break;
         }
-        case "2002":{
+        case "2002": {
             ((HCTable) table).playerUpBanker(this);
             break;
             // int gameIndex=(int) map.get("gameIndex");
             // if(((HCTable) table).getGameIndex()==gameIndex){
-            //     long money=0;
-            //     for
+            // long money=0;
+            // for
             // }
-            
+
         }
 
         }

@@ -21,7 +21,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.micro.common.util.ThreadPoolExecutorUtils;
 import com.micro.frame.GameMain;
 import com.micro.game.HCGameMain;
-import com.micro.old.server.handler.NettyWebSocketChannelInitializer;
+import com.micro.frame.socket.NettyChannelInit;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
@@ -70,7 +70,7 @@ public class BenzApp {
 	public ServerBootstrap bootstrap() {
 		ServerBootstrap b = new ServerBootstrap();
 		b.group(bossGroup(), workerGroup()).channel(NioServerSocketChannel.class)
-				.handler(new LoggingHandler(LogLevel.DEBUG)).childHandler(nettyWebSocketChannelInitializer);
+				.handler(new LoggingHandler(LogLevel.DEBUG)).childHandler(NettyChannelInit);
 		Map<ChannelOption<?>, Object> tcpChannelOptions = tcpChannelOptions();
 		Set<ChannelOption<?>> keySet = tcpChannelOptions.keySet();
 		for (@SuppressWarnings("rawtypes")
@@ -82,7 +82,7 @@ public class BenzApp {
 
 	@Autowired
 	@Qualifier("somethingChannelInitializer")
-	private NettyWebSocketChannelInitializer nettyWebSocketChannelInitializer;
+	private NettyChannelInit NettyChannelInit;
 
 	// tcp连接管道设置
 	@Bean(name = "tcpChannelOptions")
