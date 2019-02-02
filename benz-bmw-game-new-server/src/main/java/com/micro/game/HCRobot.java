@@ -60,7 +60,6 @@ class HCRobot extends Robot implements HCRoleInterface {
                             },this);
                         }
                     }
-                    
                 }
              
             }
