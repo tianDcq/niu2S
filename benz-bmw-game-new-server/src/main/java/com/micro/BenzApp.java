@@ -117,21 +117,20 @@ public class BenzApp {
 	}
 
 	public static void main(String[] args) throws Exception {
-		// ConfigurableApplicationContext context = SpringApplication.run(BenzApp.class,
-		// args);
-		// TCPServer tcpServer = context.getBean(TCPServer.class);
+		ConfigurableApplicationContext context = SpringApplication.run(BenzApp.class, args);
+		TCPServer tcpServer = context.getBean(TCPServer.class);
 
-		// ThreadPoolExecutorUtils.getInstance().execute(() -> {
+		ThreadPoolExecutorUtils.getInstance().execute(() -> {
 
-		// try {
-		// tcpServer.start();
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// });
+			try {
+				tcpServer.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 
-		// // 游戏主循环
-		// (new HCGameMain()).run();
+		// 游戏主循环
+		(new HCGameMain()).run();
 	}
 
 }

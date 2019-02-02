@@ -77,12 +77,13 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 		if (isEncrypt == 1) {
 			request = CodeUtils.decode(request);
 		}
-		//String msg = JsonUtil.parseJsonString(request);
+		// String msg = JsonUtil.parseJsonString(request);
 		Map o = JsonUtil.parseObject(request, Map.class);
 
 		Request req = new Request();
 		req.msg = o;
 		req.ctx = ctx;
+		req.millisecond = System.currentTimeMillis();
 		req.uniqueId = (String) o.get("uniqueId");
 
 		GameMain.getInstance().getMsgQueue().receive(req);
@@ -99,6 +100,12 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 		WebSocketData webSocketData = new WebSocketData();
 		webSocketData.setChannel(channel);
 		NettyChannelMap.add(channel.id(), webSocketData);
+
+		// Request req = new Request();
+		// req.ctx = ctx;
+		// req.millisecond = System.currentTimeMillis();
+		// GameMain.getInstance().getMsgQueue().receive(req);
+
 	}
 
 	/**

@@ -5,10 +5,12 @@ import com.micro.frame.socket.MsgQueue;
 import com.micro.frame.socket.Request;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public abstract class GameMain {
 
     public GameMain() {
@@ -21,8 +23,6 @@ public abstract class GameMain {
 
     private @Getter Status status = Status.END;
     private static @Getter GameMain instance;
-
-    private final static long RATE = 1000 * 1000 / 60;
 
     private @Getter RoleMgr roleMgr;
     private @Getter HallMgr hallMgr;
@@ -107,32 +107,24 @@ public abstract class GameMain {
 
         if (it != null) {
             for (Request req : it) {
-                Player p = roleMgr.getPlayer(req.uniqueId);
-
-                if (p == null) {
-                    GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
-                    httpRequest.setSuccessCallback(new Callback() {
-                        @Override
-                        public void func() {
-                            System.out.println(1);
-                        }
-                    });
-                    httpRequest.setFailCallback(new Callback() {
-                        @Override
-                        public void func() {
-                            System.out.println(2);
-                        }
-                    });
-                    // 发起请求
-                    Map<String, String> map = new HashMap<>();
-                    map.put("siteId", "1");
-                    map.put("gameId", "12");
-                    Callback send = httpRequest.sendForm("http://localhost:9501/game/getWildGameRoomConfigVo", map);
-
-                    p = roleMgr.createPlayer(req.uniqueId);
+                if (millisecond - req.millisecond > Config.TIMEOUT) {
+                    log.error("消息处理超时!! uniqueId:{} msg:{}", req.uniqueId, req.msg);
+                    continue;
                 }
 
-                // p.onMsg(req);
+                Player p = roleMgr.getPlayer(req.uniqueId);
+
+                // 玩家未初始化，数据重回队列延迟处理
+                if (p == null) {
+                    roleMgr.createPlayer(req.uniqueId);
+                    msgQueue.receive(req);
+                    continue;
+                } else if (!p.getInited()) {
+                    msgQueue.receive(req);
+                    continue;
+                }
+
+                p.onMsg(req);
             }
         }
     }
@@ -141,7 +133,7 @@ public abstract class GameMain {
         start();
         while (status != Status.END) {
             millisecond = System.currentTimeMillis();
-            if (millisecond - lastUpdate >= RATE) {
+            if (millisecond - lastUpdate >= Config.RATE) {
                 delta = millisecond - lastUpdate;
                 step();
                 lastUpdate = millisecond;
