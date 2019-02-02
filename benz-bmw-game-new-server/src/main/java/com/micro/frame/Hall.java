@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import com.micro.frame.socket.Response;
+
 public class Hall {
     private @Getter RoomMgr roomMgr = new RoomMgr();
     private @Getter HashMap<String, Role> roles = new HashMap<String, Role>();
@@ -18,6 +20,12 @@ public class Hall {
     public void enterRoom(Role role, String id) {
         roles.remove(role.uniqueId);
         roomMgr.getRooms().get(id).enter(role);
+    }
+
+    public void senToAll(Response msg){
+        for(Role role:roles.values()){
+            role.sendMsg(msg);
+        }
     }
 
     public void doStop() {
