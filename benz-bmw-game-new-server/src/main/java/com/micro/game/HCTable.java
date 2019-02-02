@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import com.micro.frame.*;
 import com.micro.frame.socket.ErrRespone;
@@ -15,25 +16,36 @@ import lombok.Getter;
 final class HCTable extends Table {
     private @Getter int time;
     private @Getter int gameStae;
-    private @Getter int gameIndex;
+    private @Getter int gameIndex=0;
+    private float revenue=0;
     private ChipStruct[] chipList;
+    private long[] playerChipList ={0,0,0,0,0,0,0,0};
+    private List<Integer> history;
     private int maxBanker;
-    private int bIndex = 0;
-
+    private int bankerIndex=0;
+    private Role banker;
     private List<String> bankerList;
+    private Schedule schedule;
     private int openTime;
     private int waitTime;
     private int chipTime;
+    private HashSet<Role> chipPlayer;
 
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
         openTime = (int) roomConfig.get("openTime");
         waitTime = (int) roomConfig.get("waitTime");
         chipTime = (int) roomConfig.get("chipTime");
-        chipList = new ChipStruct[8];
+        chipList=new ChipStruct[8];
+        for(int i=0;i<8;++i){
+            chipList[i]=new ChipStruct(i);
+        }
+        bankerList=new ArrayList<>();
+        chipPlayer=new HashSet<>();
+        history=new ArrayList<>();
     }
 
-    public void onEnter(Role role) {
+    public void onAddRole(Role role) {
         Response ownMsg = new Response(2001, 1);
         Response mm = new Response(2007, 1);
         Map<String, Object> msg = new HashMap<>();
@@ -46,7 +58,7 @@ final class HCTable extends Table {
         pushMsgToOther(mm, ownMsg, role.uniqueId);
     };
 
-    public void onExit(Role role) {
+    public void onRemoveRole(Role role) {
         Map<String, Object> msg = new HashMap<>();
         Response ownMsg = new Response(2010, 1);
         msg.put("playerName", role.nickName);
@@ -61,6 +73,11 @@ final class HCTable extends Table {
 
     @SuppressWarnings("unchecked")
     public boolean playerChip(Role role, Map<String, Object> map) {
+        if(gameStae!=1){
+            ErrRespone msg = new ErrRespone(2002, 0, "不在下注阶段");
+            role.sendMsg(msg);
+            return false;
+        }
         if ((int) map.get("gameIndex") != gameIndex) {
             ErrRespone msg = new ErrRespone(2002, 0, "局数不对");
             role.sendMsg(msg);
@@ -80,27 +97,36 @@ final class HCTable extends Table {
             }
             for (int i = 0; i < list.size(); ++i) {
                 Map<String, Long> info = list.get(i);
-                long pos = info.get("betTarget");
-                ((HCRoleInterface) role).getChipList()[(int) pos].betAmount = info.get("betAmount");
-                chipList[(int) pos].betAmount += info.get("betAmount");
+                long pos=info.get("betTarget");
+                ((HCRoleInterface)role).getChipList()[(int)pos].betAmount=info.get("betAmount");
+                chipList[(int)pos].betAmount+=info.get("betAmount");
+                if(role instanceof Player){
+                    playerChipList[i]+=info.get("betAmount");
+                }
             }
-            Response ownMsg = new Response(2002, 1);
-            ownMsg.msg = new HashMap<String, Object>();
+            chipPlayer.add(role);
+            Response ownMsg=new Response(2002,1);
+            ownMsg.msg=new HashMap<String, Object>();
             ownMsg.msg.put("betInfo", map.get("betInfo"));
-            Response otherMsg = new Response(2003, 1);
-            List<Object> playerInfo = new ArrayList<Object>();
-            Map<String, Object> bet = new HashMap<>();
+            Response otherMsg=new Response(2003,1);
+            List<Object> playerInfo=new ArrayList<Object>();
+            Map<String, Object> bet=new HashMap<>();
             bet.put("uniqueId", role.uniqueId);
             bet.put("betInfo", map.get("betInfo"));
             playerInfo.add(playerInfo);
-            otherMsg.msg = new HashMap<String, Object>();
-            otherMsg.msg.put("playerInfo", playerInfo);
-            pushMsgToOther(otherMsg, ownMsg, role.uniqueId);
+            otherMsg.msg=new HashMap<String, Object>();
+            otherMsg.msg.put("playerInfo",playerInfo);
+            pushMsgToOther(otherMsg,ownMsg,role.uniqueId);
             return true;
         }
     }
 
     public void playerUpBanker(Role role) {
+        if(gameStae!=2){
+            ErrRespone msg = new ErrRespone(2002, 0, "现在不能上庄");
+            role.sendMsg(msg);
+            return;
+        }
         Map<String, Object> roomConfig = room.getRoomConfig();
         boolean up = (boolean) roomConfig.get("hostAble"); // 获取是否允许上庄
         if (up) {
@@ -125,12 +151,16 @@ final class HCTable extends Table {
             }
         }
     };
-
-    public void playerDownBanker(Role role) {
-        if (bankerList.remove(role.uniqueId)) {
-            ErrRespone ownMsg = new ErrRespone(2011, 1, "离开庄家");
-            Response otherMsg = new Response(2016, 1);
-            otherMsg.msg = new HashMap<String, Object>();
+    public void playerDownBanker(Role role){
+        if(gameStae!=2){
+            ErrRespone msg = new ErrRespone(2002, 0, "现在不能下庄");
+            role.sendMsg(msg);
+            return;
+        }
+        if(bankerList.remove(role.uniqueId)){
+            ErrRespone ownMsg=new ErrRespone(2011, 1, "离开庄家");
+            Response otherMsg=new Response(2016,1);
+            otherMsg.msg=new HashMap<String, Object>();
             otherMsg.msg.put("playerName", role.nickName);
             otherMsg.msg.put("playerCoins", role.money);
             otherMsg.msg.put("token", role.token);
@@ -138,18 +168,17 @@ final class HCTable extends Table {
             pushMsgToOther(otherMsg, ownMsg, role.uniqueId);
         }
     };
-
-    public void requstTableScene(Role role) {
-        Response response = new Response(2018, 1);
-        Map<String, Object> msg = new HashMap<>();
-
-        Map<String, Object> isObserve = new HashMap<>();
-        // ttttttttttt
+    public void requstTableScene(Role role){
+        Response response=new Response(2018,1);
+        Map<String, Object> msg=new HashMap<>();
+        
+        Map<String, Object> isObserve=new HashMap<>();
+        //ttttttttttt
         msg.put("isObserve", isObserve);
 
-        List<Object> players = new ArrayList<>();
+        List<Object> players=new ArrayList<>();
         for (Role rr : roles.values()) {
-            Map<String, Object> player = new HashMap<>();
+            Map<String, Object> player=new HashMap<>();
             player.put("playerName", rr.nickName);
             player.put("playerCoins", rr.money);
             player.put("portrait ", rr.portrait);
@@ -159,37 +188,245 @@ final class HCTable extends Table {
         }
         msg.put("Players", players);
         msg.put("selfCoins", role.money);
-        Map<String, Object> hostSqeunce = new HashMap<>();
-        for (int i = 0; i < bankerList.size(); ++i) {
-            Map<String, Object> host = new HashMap<>();
-            //
-            // host.put("playerName", bankerList[i].nickName);
-            // host.put("playerCoins", rr.money);
-            // host.put("portrait ", rr.portrait);
-            // host.put("token", rr.token);
-            // host.put("uniqueId", rr.uniqueId);
+        Map<String, Object> hostSqeunce=new HashMap<>();
+        for(int i=0;i<bankerList.size();++i){
+            Map<String, Object> host=new HashMap<>();
+            Role player=roles.get(bankerList.get(i));
+            host.put("playerName", player.nickName);
+            host.put("playerCoins", player.money);
+            host.put("portrait ", player.portrait);
+            host.put("token", player.token);
+            host.put("uniqueId", player.uniqueId);
+            hostSqeunce.put("hostSqeunce", host);
         }
+        msg.put("hostSqeunce", hostSqeunce);
+
+        Map<String, Object> currentHost=new HashMap<>();
+        if(banker==null){
+            currentHost.put("system", true);
+            currentHost.put("playerName", null);
+            currentHost.put("playerCoins", null);
+            currentHost.put("portrait", null);
+            currentHost.put("restHost", 0);
+            currentHost.put("maxHost", maxBanker);
+            currentHost.put("uniqueId", null);
+        }else{
+            currentHost.put("system", false);
+            currentHost.put("playerName", banker.nickName);
+            currentHost.put("playerCoins", banker.money);
+            currentHost.put("portrait", banker.portrait);
+            currentHost.put("restHost", maxBanker-bankerIndex);
+            currentHost.put("maxHost", maxBanker);
+            currentHost.put("uniqueId", banker.uniqueId);
+        }
+        msg.put("currentHost", currentHost);
+        msg.put("totalAmount", getCountMoney());
+        msg.put("betable", gameStae);
+        msg.put("restTime", time);
+        msg.put("gameIndex", gameIndex);
+        msg.put("history", history);
+        msg.put("betInfo", chipList);
+        msg.put("selfbetInfo",  ((HCRoleInterface)role).getChipList());
+        msg.put("betTime",  chipTime);
+        msg.put("endTime",  openTime);
+        msg.put("freeTime",  waitTime);
+        msg.put("tax",  revenue);
+        response.msg=msg;
+        role.sendMsg(response);
+    };
+    public long getCountMoney(){
+        long money=0;
+        for(int i=0;i< chipList.length;++i){
+            money+= chipList[i].betAmount;
+        }
+        return money;
     }
-
     public void onStart() {
+        time=waitTime;
+        gameStae=2;
+        GameMain game=GameMain.getInstance();
+        schedule=game.getTaskMgr().createSchedule(new Callback(){
+            @Override
+            public void func() {
+                try {
+                    mainLoop();
+                } catch (Exception e) {
+                    //TODO: handle exception
+                }
+                
+            }
+        },1);
+    };
+    private void mainLoop(){
+        time--;
+        if(time==0){
+            toNextState();
+        }
+    };
+    private void toNextState(){
+        switch(gameStae){
+            case 2:
+            runChipPeriod();
+            sendChanegGameState();
+            break;
+            case 1:
+            runOpenPeriod();
+            sendChanegGameState();
+            lottory();
+            case 0:
+            runWaitPeriod();
+        }
+     
+    };
+    private void sendChanegGameState(){
+        Response response=new Response(2012,1);
+        Map<String,Object> currentHost=new HashMap<>();
+        if(banker==null){
+            currentHost.put("system", true);
+            currentHost.put("playerName", null);
+            currentHost.put("playerCoins", null);
+            currentHost.put("hostCount", null);
+            currentHost.put("hostMsg", "1111");
+            currentHost.put("uniqueId", null);
+        }else{
+            currentHost.put("system", true);
+            currentHost.put("playerName", banker.nickName);
+            currentHost.put("playerCoins", banker.money);
+            currentHost.put("hostCount", bankerIndex);
+            currentHost.put("hostMsg", "1111");
+            currentHost.put("uniqueId", banker.uniqueId);
+        }
+        response.msg=currentHost;
+        pushMsgToAll(response);
+    };
+    private void lottory(){
+        List<Integer> list=new ArrayList<Integer>();
+        list.add(0);
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+        list.add(6);
+        list.add(7);
+        for(int i=0;i<8;++i){
+            int p= (int)(Math.random()*(list.size()+1));
+            if( banker instanceof Player){
+                snedLottoryMessage(p);
+                return;
+            }else{
+                int b=list.remove(p);
+                HCGameMain game=(HCGameMain)GameMain.getInstance();
+                long win=0;
+                for(int j=0;j<playerChipList.length;++j){
+                    if(i!=b){
+                        win+=playerChipList[j];
+                    }
+                }
+                long lose=playerChipList[b]*game.progress[b];
+                win=win-lose;
+                if(game.repertory+win>0){
+                    snedLottoryMessage(p);
+                    return;
+                }
+            }
+        }
+        
+    };
+    public void snedLottoryMessage(int p){
+        history.add(p);
+        if(history.size()>10){
+            history.remove(0);
+        }
+        Response response=new Response(2014, 1);
+        Map<String,Object> msg=new HashMap<>();
+        msg.put("gameIndex", gameIndex);
+        int bei=((HCGameMain)GameMain.getInstance()).progress[p];
+        long bankerWin=0;
+        long playerTatle=0;
+        List<Map<String,Object>> otherPlayers=new ArrayList<>();
+        for(Role player:chipPlayer){
+            Map<String,Object> playerInfo=new HashMap<>();
+            playerInfo.put("playerName", player.nickName);
+            ChipStruct[] playerChip=((HCRoleInterface)player).getChipList();
+            long playerWin=0;
+            for(int i=0;i<playerChip.length;++i){
+                if(i==p){
+                    playerWin+=playerChip[i].betAmount*bei;
+                }else{
+                    playerWin-=playerChip[i].betAmount;
+                }
+            }
+            bankerWin-=playerWin;
+            if(playerWin>0){
+                playerWin-=playerWin*revenue;
+            }
+            player.money+=playerWin;
+            //todo  保存金钱和历史
+            playerInfo.put("playerCoins", player.money);
+            playerInfo.put("selfSettlement", playerWin);
+            playerInfo.put("uniqueId", player.uniqueId);
+            otherPlayers.add(playerInfo);
+            playerTatle+=playerWin;
+        }
+        if(banker!=null&&bankerWin>0){
+            bankerWin-=bankerWin*revenue;
+        }
+        if(playerTatle>0){
+            playerTatle-=playerTatle*revenue;
+        }
+        msg.put("otherPlayers", otherPlayers);
+        msg.put("bankerSettlement", bankerWin);
+        msg.put("playerSettlement", playerTatle);
+        response.msg=msg;
+        pushMsgToAll(response);
+    };
+    private void runWaitPeriod(){
+        time=waitTime;
+        for(int i=0;i<8;++i){
+            playerChipList[i]=0;
+            chipList[i].betAmount=0;
+        }
 
+        for(Role role:chipPlayer){
+            ((HCRoleInterface)role).endGame();
+        }
+
+        chipPlayer.clear();
+        if(bankerIndex==maxBanker){
+            banker=null;
+            bankerIndex=0;
+        }
+        gameStae=2;
     };
 
-    protected void onStop() {
+    private void runOpenPeriod(){
+        time=waitTime;
+        gameStae=0;
+    };
 
-    }
-
-    protected void onTerminate() {
-
-    }
-
-    protected void onDestroy() {
-
-    }
+    private void runChipPeriod(){
+        if(banker==null){
+            if(bankerList.size()>0){
+                String id= bankerList.remove(0);
+                banker=roles.get(id);
+            }
+            bankerIndex=1;
+        }else{
+            bankerIndex++;
+        }
+        gameIndex++;
+        gameStae=1;
+        time=chipTime;
+    };
+    public void pushMsgToAll(Response msg){
+        for(Role rr :roles.values()){
+            rr.sendMsg(msg);
+        }
+    };
 
     public void pushMsgToOther(Response otherMsg, Response ownMsg, String tarID) {
-
-        for (Role rr : roles.values()) {
+        for(Role rr :roles.values()){
             String id = rr.uniqueId;
             if (tarID.equals(id)) {
                 rr.sendMsg(ownMsg);
@@ -198,4 +435,22 @@ final class HCTable extends Table {
             }
         }
     }
+    protected void onExit(Role role){
+
+    };
+
+    protected void onDestroy(){
+
+    };
+    protected void onStop(){
+        
+    };
+
+    protected void onTerminate(){
+
+    };
+
+    protected void onEnter(Role role){
+        
+    };
 }

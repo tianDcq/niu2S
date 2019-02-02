@@ -2,8 +2,8 @@ package com.micro.game;
 class ChipStruct{
     public long betTarget;
     public long betAmount;
-    public ChipStruct(){
-        betTarget=0;
+    public ChipStruct(int idenx){
+        betTarget=idenx;
         betAmount=0;
     }
 }
