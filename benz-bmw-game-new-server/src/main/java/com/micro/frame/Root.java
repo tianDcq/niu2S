@@ -3,7 +3,7 @@ package com.micro.frame;
 import lombok.Getter;
 import lombok.Setter;
 
-abstract class Root {
+public abstract class Root {
     private @Setter boolean isDestroy;
 
     public boolean getIsDestroy() {

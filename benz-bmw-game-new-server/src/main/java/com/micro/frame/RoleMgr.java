@@ -6,19 +6,21 @@ import java.util.Map;
 import com.micro.frame.http.GameHttpRequest;
 
 import io.netty.channel.ChannelHandlerContext;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class RoleMgr {
-    private HashMap<ChannelHandlerContext, Player> queuePlayers = new HashMap<>();
-    private HashMap<String, Player> players = new HashMap<>();
-    private HashMap<Long, HashMap<String, Robot>> robots = new HashMap<>();
+    private HashMap<String, Role> roles = new HashMap<>();
+    private @Getter int playerCount;
+    private @Getter int robotCount;
 
     public Player createPlayer(String uniqueId) {
         Player player = GameMain.getInstance().getGameMgr().createPlayer();
         player.uniqueId = uniqueId;
-        players.put(uniqueId, player);
+        roles.put(uniqueId, player);
         requestPlayerInfo(player.uniqueId.split("_")[0]);
+        ++playerCount;
         return player;
     }
 
@@ -41,32 +43,26 @@ public final class RoleMgr {
         map.put("siteId", Long.valueOf(siteId));
         map.put("gameId", 14);
         httpRequest.sendForm("/game/getWildGameRoomConfigVo", map);
-//        new Thread(()->{
-//        });
-//        Callback send = httpRequest.sendForm("http://localhost:9501/game/getWildGameRoomConfigVo", map);
+        // new Thread(()->{
+        // });
+        // Callback send =
+        // httpRequest.sendForm("http://localhost:9501/game/getWildGameRoomConfigVo",
+        // map);
     }
 
-    public void addPlayer(Player player) {
-        players.put(player.uniqueId, player);
+    public Role getRole(String uniqueId) {
+        return roles.get(uniqueId);
     }
 
-    public Player getPlayer(String uniqueId) {
-        return players.get(uniqueId);
-    }
-
-    public void addRobot(Robot robot) {
-        if (!robots.containsKey(robot.getHallId())) {
-            robots.put(robot.getHallId(), new HashMap<>());
-        }
-
-        robots.get(robot.getHallId()).put(robot.uniqueId, robot);
+    public Robot createRobot() {
+        Robot robot = GameMain.getInstance().getGameMgr().createRobot();
+        ++robotCount;
+        robot.init();
+        roles.put(robot.uniqueId, robot);
+        return robot;
     }
 
     public void removeRobot(Robot robot) {
-        // @TODO
-    }
-
-    public void removeHallRobots(String uniqueId) {
         // @TODO
     }
 

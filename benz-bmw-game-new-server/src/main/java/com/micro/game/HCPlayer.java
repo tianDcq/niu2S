@@ -38,7 +38,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                 Map<String, Object> roomConfig = room.getRoomConfig();
                 Map<String,Object> roomC=new HashMap<>();
                 roomC.put("roomType", roomConfig.get("roomType"));
-                roomC.put("roomId", 231321);
+                roomC.put("roomId", room.roomId);
                 roomC.put("roomName", roomConfig.get("roomName"));
                 roomC.put("hostAble", (int)roomConfig.get("shangzhuangSwitch")==1);
                 roomC.put("minBet", roomConfig.get("bottomRed1"));
@@ -52,7 +52,6 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("phaseData", phaseData);
                 roomC.put("history", table.history);
                 roomData[i] = roomC;
-
             }
             msg.put("roomData", roomData);
             mm.msg = msg;

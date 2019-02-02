@@ -23,12 +23,16 @@ final class HCTable extends Table {
     public List<Integer> history;
     private int maxBanker;
     private int bankerIndex=0;
-    private Role banker;
-    private List<String> bankerList;
+    private int minChip;
+    private int maxChip;
+    private @Getter Role banker;
+    private @Getter List<String> bankerList;
     private Schedule schedule;
     private int openTime;
     private int waitTime;
     private int chipTime;
+    private boolean allowBank;
+    private long bankMoney;
     private HashSet<Role> chipPlayer;
 
     protected void onInit() {
@@ -38,6 +42,10 @@ final class HCTable extends Table {
         chipTime = (int) roomConfig.get("betTime");
         revenue =(int) roomConfig.get("taxRatio");
         maxBanker=(int) roomConfig.get("bankerTime");
+        minChip=(int)roomConfig.get("bottomRed1");
+        maxChip=(int)roomConfig.get("bottomRed2");
+        allowBank=(int)roomConfig.get("shangzhuangSwitch")==1;
+        bankMoney=(int)roomConfig.get("bankerCond");
         chipList=new ChipStruct[8];
         for(int i=0;i<8;++i){
             chipList[i]=new ChipStruct(i);
@@ -80,6 +88,11 @@ final class HCTable extends Table {
             role.sendMsg(msg);
             return false;
         }
+        if(banker==role){
+            ErrRespone msg = new ErrRespone(2002, 0, "庄家不能下注");
+            role.sendMsg(msg);
+            return false;
+        }
         if ((int) map.get("gameIndex") != gameIndex) {
             ErrRespone msg = new ErrRespone(2002, 0, "局数不对");
             role.sendMsg(msg);
@@ -94,6 +107,11 @@ final class HCTable extends Table {
             }
             if (nMoney > role.money) {
                 ErrRespone msg = new ErrRespone(2002, 0, "钱不够下注");
+                role.sendMsg(msg);
+                return false;
+            }
+            if(nMoney<minChip||nMoney>maxChip){
+                ErrRespone msg = new ErrRespone(2002, 0, "下注不在允许范围");
                 role.sendMsg(msg);
                 return false;
             }
@@ -124,17 +142,12 @@ final class HCTable extends Table {
     }
 
     public void playerUpBanker(Role role) {
-        if(gameStae!=2){
-            ErrRespone msg = new ErrRespone(2002, 0, "现在不能上庄");
-            role.sendMsg(msg);
-            return;
-        }
-        Map<String, Object> roomConfig = room.getRoomConfig();
-        int up = (int) roomConfig.get("shangzhuangSwitch"); // 获取是否允许上庄
-        if (up==1) {
-            long coin = (long) roomConfig.get("bankerCond"); // 获取上庄的钱
-            if (role.money < coin) {
+        if (allowBank) {
+            if (role.money < bankMoney) {
                 ErrRespone res = new ErrRespone(2009, 0, "钱不够不能上庄");
+                role.sendMsg(res);
+            }else if(bankerList.contains(role.uniqueId)){
+                ErrRespone res = new ErrRespone(2009, 0, "你已经在列表里面了");
                 role.sendMsg(res);
             } else {
                 bankerList.add(role.uniqueId);
@@ -175,7 +188,6 @@ final class HCTable extends Table {
         Map<String, Object> msg=new HashMap<>();
         
         Map<String, Object> isObserve=new HashMap<>();
-        //ttttttttttt
         msg.put("isObserve", isObserve);
 
         List<Object> players=new ArrayList<>();
@@ -257,7 +269,7 @@ final class HCTable extends Table {
                 }
                 
             }
-        },1);
+        },1,this);
     };
     private void mainLoop(){
         time--;
