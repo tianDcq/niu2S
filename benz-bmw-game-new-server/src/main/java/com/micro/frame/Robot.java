@@ -30,5 +30,6 @@ public abstract class Robot extends Role {
         onPrepareEnterTable(table);
     }
 
-    protected abstract void onPrepareEnterTable(Table table);
+    protected void onPrepareEnterTable(Table table) {
+    }
 }

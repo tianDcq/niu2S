@@ -35,7 +35,7 @@ public class Room {
 
     public PairStatus pair(Role role) {
         Table table = tableMgr.getWait();
-        if (table.pair(role)) {
+        if (table.pair(role) == Config.ERR_SUCCESS) {
             this.exit(role);
             return PairStatus.Success;
         }

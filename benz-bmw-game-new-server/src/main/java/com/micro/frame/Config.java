@@ -27,6 +27,22 @@ public class Config {
 
     public final static Error ERR_SUCCESS = new Error(0, "成功");
 
+    public final static class RobotPairType {
+        public enum Type {
+            One, Range, Fix, Solo
+        }
+
+        public Type type;
+        public int min;
+        public int max;
+
+        public RobotPairType(Type type, int min, int max) {
+            this.type = type;
+            this.min = min;
+            this.max = max;
+        }
+    }
+
     public static class RobotConfig {
         public int bornRate;
     }

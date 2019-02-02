@@ -13,14 +13,9 @@ public abstract class Table extends Root {
         Open, Pair, Game, End
     }
 
-    enum Type {
-        Common, Unique
-    }
-
     public class Configs {
         public int pairTime;
         public int robotTime;
-        public Type type;
         public int max;
     }
 
@@ -111,7 +106,7 @@ public abstract class Table extends Root {
             }
             return err;
         } else if (status == Status.Game) {
-            if (configs.type == Type.Unique) {
+            if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
                 return addRole(role) ? Config.ERR_SUCCESS : Config.ERR_PAIR_FAILURE;
             }
 

@@ -27,7 +27,7 @@ public abstract class GameMain {
     private @Getter RoleMgr roleMgr;
     private @Getter HallMgr hallMgr;
     private @Getter TaskMgr taskMgr;
-    protected @Getter GameMgrInterface gameMgr;
+    protected @Getter GameMgr gameMgr;
     protected @Getter MsgQueue msgQueue;
 
     private @Getter long millisecond;

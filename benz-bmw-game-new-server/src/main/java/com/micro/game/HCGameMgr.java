@@ -2,7 +2,12 @@ package com.micro.game;
 
 import com.micro.frame.*;
 
-class HCGameMgr implements GameMgrInterface {
+class HCGameMgr extends GameMgr {
+    HCGameMgr() {
+        robotPairType = new Config.RobotPairType(Config.RobotPairType.Type.One, 10, 20);
+        gameId = 1;
+    }
+
     public Player createPlayer() {
         return new HCPlayer();
     }
@@ -13,21 +18,5 @@ class HCGameMgr implements GameMgrInterface {
 
     public Table createTable() {
         return new HCTable();
-    }
-
-    public void onPrepare() {
-
-    }
-
-    public void onTerminate() {
-
-    }
-
-    public void onStop() {
-
-    }
-
-    public void onDestroy() {
-
     }
 }
