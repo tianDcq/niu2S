@@ -14,7 +14,7 @@ public class Room {
 
     private @Getter TableMgr tableMgr = new TableMgr();
     private @Getter HashMap<String, Role> roles = new HashMap<>();
-    private @Getter Map<String, Object> RoomConfig;
+    private @Getter Map<String, Object> RoomConfig = new HashMap<>();
 
     public boolean enter(Role role) {
         roles.put(role.uniqueId, role);

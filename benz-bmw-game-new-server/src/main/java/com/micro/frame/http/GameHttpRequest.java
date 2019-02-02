@@ -5,12 +5,9 @@ import com.micro.common.bean.GlobeResponse;
 import com.micro.frame.Callback;
 import com.micro.frame.GameMain;
 import com.micro.frame.TaskMgr;
-import com.micro.frame.Trigger;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

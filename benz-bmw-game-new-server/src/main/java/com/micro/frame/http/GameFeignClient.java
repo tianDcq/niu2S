@@ -29,48 +29,8 @@ public interface GameFeignClient {
 	@PostMapping("/game/getWildGameRoomConfigVo")
     GlobeResponse<List<RoomConfigurationVO>> getWildGameRoomConfigVo(@RequestParam("siteId") Long siteId, @RequestParam("gameId") Integer gameId);
 
-	@PostMapping("/game/updateAccountMoney")
-    GlobeResponse<Object> updateAccountMoney(@RequestBody List<GameResultInputVO> gameResultInputVOList);
+	@PostMapping("/game/getWildGameRoomConfigVo2")
+	public GlobeResponse<Object> getAllSiteGame(@RequestParam("gameId") Integer gameId);
 
-	@PostMapping("/game/insertGameEachRecord")
-    GlobeResponse<Object> insertGameEachRecord(@RequestBody TbGameEachRecord gameRecord);
-	/**
-	 * 游戏是否维护中
-	 * @param siteId
-	 * @param gameId
-	 * @return
-	 */
-	@PostMapping("/game/isGameMaintain")
-    GlobeResponse<Object> isGameMaintain(@RequestParam("siteId") Long siteId, @RequestParam("gameId") Integer gameId);
 
-	/**
-	 * 获取随机姓名
-	 * @return
-	 */
-	@PostMapping("/game/getRandomName")
-    GlobeResponse<String> getRandomName();
-
-	/**
-	 * 修改对应游戏房间真实库存
-	 * 传 roomId + inventory 与 siteId + gameId + inventory
-	 * @param siteId
-	 * @param gameId
-	 * @param inventory
-	 * @param roomId
-	 * @return
-	 */
-	@PostMapping("/game/updateGameStock")
-    GlobeResponse<String> updateGameStock(@RequestParam("siteId") Long siteId, @RequestParam("gameId") Integer gameId,
-                                          @RequestParam("inventory") BigDecimal inventory, @RequestParam("roomId") Integer roomId);
-
-//	/**
-//	 * 获取开奖结果
-//	 * @param gameOpenPrizeVO 玩家下注信息
-//	 * @return
-//	 */
-//	@PostMapping("/gameAccount/getOpenPrize")
-//    GlobeResponse<Object> getOpenPrize(@RequestBody GameOpenPrizeVO gameOpenPrizeVO);
-//
-//	@PostMapping("/gameAccount/getSiteGameInventory")
-//    GlobeResponse<Object> getSiteGameInventory(@RequestBody TbSiteGameInventoryVo tbSiteGameInventoryVo);
 }

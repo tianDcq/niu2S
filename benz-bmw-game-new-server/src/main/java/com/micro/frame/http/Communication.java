@@ -27,6 +27,14 @@ public class Communication {
             }
         });
 
+        gameServiceMap.put("/game/getWildGameRoomConfigVo2",new ComCallback(){
+            @Override
+            public Object func(Map<String, Object> map) {
+                GlobeResponse<Object> wildGameRoomConfigVo = gameFeignClient.getAllSiteGame((Integer) map.get("gameId"));
+                return wildGameRoomConfigVo;
+            }
+        });
+
     }
 
     public static Map<String, ComCallback> getGameServiceMap() {

@@ -144,6 +144,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.6" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.11" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.44" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-openfeign:2.0.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-openfeign-core:2.0.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.0.7.RELEASE" level="project" />
@@ -201,7 +202,6 @@
     <orderEntry type="library" name="Maven: tk.mybatis:mapper-spring-boot-autoconfigure:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: tk.mybatis:mapper:3.5.0" level="project" />
     <orderEntry type="library" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
-    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.7" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-spring:1.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-core:1.4.0" level="project" />
