@@ -11,6 +11,8 @@ import lombok.Getter;
 class HCRobot extends Robot implements HCRoleInterface {
     public @Getter ChipStruct[] chipList=new ChipStruct[8];
     public int rChipTime;
+    public int minChip;
+    public int maxChip;
     public void endGame(){
         for(int i=0;i<8;++i){
             chipList[i].betAmount=0;
@@ -22,8 +24,15 @@ class HCRobot extends Robot implements HCRoleInterface {
             
         }
     }
-    public void chip(){
+
+    protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
+        minChip=(int)roomConfig.get("bottomRed1");
+        maxChip=(int)roomConfig.get("bottomRed2");
+	}
+
+
+    public void chip(){
         
     }
 }
