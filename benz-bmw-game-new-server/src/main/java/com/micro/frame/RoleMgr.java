@@ -19,17 +19,20 @@ public final class RoleMgr {
         Player player = GameMain.getInstance().getGameMgr().createPlayer();
         player.uniqueId = uniqueId;
         roles.put(uniqueId, player);
-        requestPlayerInfo(player.uniqueId.split("_")[0]);
+        requestPlayerInfo(player);
         ++playerCount;
         return player;
     }
 
-    void requestPlayerInfo(String siteId) {
+    void requestPlayerInfo(Player player) {
+        String siteId = player.uniqueId.split("_")[0];
         GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
         httpRequest.setSuccessCallback(new Callback() {
             @Override
             public void func() {
-                System.out.println(1);
+                if (roles.get(player.uniqueId) == player) {
+                    player.init(this.getData());
+                }
             }
         });
         httpRequest.setFailCallback(new Callback() {
@@ -41,13 +44,8 @@ public final class RoleMgr {
         // 发起请求
         final Map<String, Object> map = new HashMap<>();
         map.put("siteId", Long.valueOf(siteId));
-        map.put("gameId", 14);
+        map.put("gameId", 1);
         httpRequest.sendForm("/game/getWildGameRoomConfigVo", map);
-        // new Thread(()->{
-        // });
-        // Callback send =
-        // httpRequest.sendForm("http://localhost:9501/game/getWildGameRoomConfigVo",
-        // map);
     }
 
     public Role getRole(String uniqueId) {

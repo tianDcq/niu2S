@@ -53,6 +53,10 @@ public abstract class Role extends Root {
 		inited = true;
 	}
 
+	void init(Object data) {
+		inited = true;
+	}
+
 	protected void onInit() {
 
 	}
