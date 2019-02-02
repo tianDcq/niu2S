@@ -55,7 +55,7 @@ public final class HallMgr {
         Map<String, Object> map = new HashMap<>();
         // 1.奔驰宝马
         map.put("gameId", 1);
-        Map<String, ComCallback> gameServiceMap = null;
+        Map<String, ComCallback> gameServiceMap = Communication.getGameServiceMap();
         ComCallback callback = gameServiceMap.get("/game/getWildGameRoomConfigVo2");
         GlobeResponse func = (GlobeResponse) callback.func(map);
 
