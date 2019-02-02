@@ -55,7 +55,7 @@ public class Communication {
         accountServiceMap.put("/acc/addMoney",new ComCallback(){
             @Override
             public Object func(Map<String, Object> map) {
-                GlobeResponse<Object> wildGameRoomConfigVo = accountFeignClient.addMoney((Long) map.get("account"), (String) map.get("account"),(BigDecimal) map.get("money"));
+                GlobeResponse<Object> wildGameRoomConfigVo = accountFeignClient.addMoney((Long) map.get("siteId"), (String) map.get("account"),(BigDecimal) map.get("money"));
                 return wildGameRoomConfigVo;
             }
         });

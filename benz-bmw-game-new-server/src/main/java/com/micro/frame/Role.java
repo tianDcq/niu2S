@@ -95,6 +95,13 @@ public abstract class Role extends Root {
 		this.room = null;
 	}
 
+	protected void save(){
+
+	}
+	protected void checkMoney(){
+
+	}
+
 	void onEnterTable() {
 
 	}

@@ -17,7 +17,11 @@ public class Event{
     }
 
     public boolean emit(){
-        if(target != null && target.getIsDestroy()){
+        return emit(null);
+    }
+    public boolean emit(Object o){
+        if(target != null && !target.getIsDestroy()){
+            call.setData(o);
             call.func();
             return true;
         }else{

@@ -53,7 +53,7 @@ public abstract class GameMain {
 
     // 注册站点下的所有游戏,和所有房间
     private void register() {
-//        this.hallMgr.init();
+        this.hallMgr.init();
     }
 
     private void start() {

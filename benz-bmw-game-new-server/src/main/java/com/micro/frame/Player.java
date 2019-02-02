@@ -21,7 +21,7 @@ public abstract class Player extends Role {
 	public int state;
 
 	/**
-	 * 会员等级id
+	 * int 会员等级id
 	 */
 	public int levelId;
 
@@ -41,6 +41,21 @@ public abstract class Player extends Role {
 	public boolean accountBet;
 
 	public String playId;
+
+	private long sqlMoney;
+
+	public void save() {
+		// sql.save((money-sqlMoney)/100);
+	}
+
+	public void checkMoney() {
+		money = sqlMoney;
+	}
+
+	public void addMoney(long win) {
+		sqlMoney += win;
+		money += win;
+	}
 
 	public abstract void onMsg(Request req);
 
