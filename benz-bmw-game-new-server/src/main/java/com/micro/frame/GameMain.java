@@ -135,19 +135,23 @@ public abstract class GameMain {
                     continue;
                 }
 
-                Player p = roleMgr.getPlayer(req.uniqueId);
-
-                // 玩家未初始化，数据重回队列延迟处理
-                if (p == null) {
+                Role r = roleMgr.getRole(req.uniqueId);
+                if (r == null) {
                     roleMgr.createPlayer(req.uniqueId);
-                    msgQueue.receive(req);
-                    continue;
-                } else if (!p.getInited()) {
                     msgQueue.receive(req);
                     continue;
                 }
 
-                p.onMsg(req);
+                if (r instanceof Player) {
+                    Player p = (Player) r;
+                    // 玩家未初始化，数据重回队列延迟处理
+                    if (!p.getInited()) {
+                        msgQueue.receive(req);
+                        continue;
+                    }
+
+                    p.onMsg(req);
+                }
             }
         }
     }

@@ -1,11 +1,17 @@
 package com.micro.frame.http;
 
+import com.alibaba.fastjson.JSON;
+import com.micro.common.bean.GlobeResponse;
 import com.micro.frame.Callback;
+import com.micro.frame.GameMain;
+import com.micro.frame.TaskMgr;
 import com.micro.frame.Trigger;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -23,75 +29,29 @@ public class GameHttpRequest {
         return new GameHttpRequest();
     }
 
-    // form表单请求
-    public Callback sendForm(String url, Map<String, String> params) {
+    public void sendForm(String url, Map<String, Object> params) {
         try {
-            HashMap hashMap = null;
-            hashMap = HttpClientUtils.doPost(url, params);
-            return getCallback(hashMap);
+            TaskMgr taskMgr = GameMain.getInstance().getTaskMgr();
+            Map<String, ComCallback> gameServiceMap = Communication.getGameServiceMap();
+            ComCallback callback = gameServiceMap.get(url);
+            GlobeResponse<List<RoomConfigurationVO>> func = (GlobeResponse<List<RoomConfigurationVO>>) callback.func(params);
+
+            String json = JSON.toJSONString(func.getData());
+
+            if ("200".equals(func.getCode())) {
+                if (successCallback != null) {
+                    successCallback.setData(json);
+                    taskMgr.createTrigger(successCallback).fire();
+                }
+
+            } else {
+                if (failCallback != null) {
+                    failCallback.setData(json);
+                    taskMgr.createTrigger(failCallback).fire();
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
     }
-
-    // json表单请求
-    public Callback sendJson(String url, Map<String, Object> params) {
-        try {
-            HashMap hashMap = null;
-            HttpClientUtils.doPostJson(url, params);
-            return getCallback(hashMap);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private Callback getCallback(HashMap hashMap) {
-        if ("200".equals(hashMap.get("code"))) {
-
-            Trigger trigger = new Trigger(successCallback);
-            if (successCallback != null) {
-                successCallback.func();
-                successCallback.setData(hashMap.get("data"));
-            }
-            trigger.fire();
-
-            return successCallback;
-        } else {
-            if (failCallback != null) {
-                failCallback.func();
-                successCallback.setData(hashMap.get("data"));
-            }
-            return failCallback;
-        }
-    }
-
-
-
-    public static void main(String[] args) {
-//        GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
-//        httpRequest.setSuccessCallback(new Callback() {
-//            @Override
-//            public void func() {
-//                System.out.println(1);
-//            }
-//        });
-//        httpRequest.setFailCallback(new Callback() {
-//            @Override
-//            public void func() {
-//                System.out.println(2);
-//            }
-//        });
-//        // 发起请求
-//        Map<String, String> map = new HashMap<>();
-//        map.put("siteId", "1");
-//        map.put("gameId", "12");
-//        Callback send = httpRequest.sendForm("http://localhost:9501/game/getWildGameRoomConfigVo",map);
-//        System.out.println(send);
-
-
-    }
-
-
 }

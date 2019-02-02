@@ -5,4 +5,10 @@ import lombok.Setter;
 
 public class Robot extends Role {
     protected @Getter @Setter Long hallId;
+
+    enum Type {
+        Bold, Nomal, Timid
+    };
+
+    public Type type;
 }
