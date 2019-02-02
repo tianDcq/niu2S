@@ -1,5 +1,8 @@
 package com.micro.frame;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+
 import com.micro.frame.socket.Response;
 
 import lombok.Getter;
@@ -9,12 +12,12 @@ public abstract class Role extends Root {
 	/**
 	 * 厅主id
 	 */
-	public long siteId;
+	public int siteId;
 
 	/**
 	 * 性别
 	 */
-	public String gender;
+	public int gender;
 
 	/**
 	 * 昵称
@@ -53,7 +56,13 @@ public abstract class Role extends Root {
 		inited = true;
 	}
 
-	void init(Object data) {
+	void init(HashMap<String, Object> data) {
+		siteId = (int) data.get("site_id");
+		gender = Integer.parseInt((String) data.get("gender"));
+		nickName = (String) data.get("nick_name");
+		portrait = (String) data.get("portrait");
+		money = ((BigDecimal) data.get("money")).multiply(new BigDecimal("100")).longValue();
+		onInit();
 		inited = true;
 	}
 

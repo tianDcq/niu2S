@@ -1,5 +1,7 @@
 package com.micro.frame;
 
+import java.util.HashMap;
+
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
@@ -18,8 +20,8 @@ public abstract class Player extends Role {
 	 */
 	public int state;
 
-	/**int
-	 * 会员等级id
+	/**
+	 * int 会员等级id
 	 */
 	public int levelId;
 
@@ -27,9 +29,6 @@ public abstract class Player extends Role {
 	 * 1,正式玩家,2临时玩家,默认1
 	 */
 	public int identity;
-
-
-
 
 	/**
 	 * 0：总控账号，1：厅主账号，2：会员账号，11厅主子账号
@@ -39,24 +38,38 @@ public abstract class Player extends Role {
 	/**
 	 * 是否启用会员下注 1：启用、0：禁用
 	 */
-	public int accountBet;
+	public boolean accountBet;
 
 	public String playId;
 
 	private long sqlMoney;
 
-	public void save(){
+	public void save() {
 		// sql.save((money-sqlMoney)/100);
 	}
-	public void checkMoney(){
-		money=sqlMoney;
+
+	public void checkMoney() {
+		money = sqlMoney;
 	}
-	public void addMoney(long win){
-		sqlMoney+=win;
-		money+=win;
+
+	public void addMoney(long win) {
+		sqlMoney += win;
+		money += win;
 	}
 
 	public abstract void onMsg(Request req);
+
+	void init(HashMap<String, Object> data) {
+		account = (String) data.get("account");
+		state = (int) data.get("state");
+		levelId = Integer.parseInt((String) (data.get("level_id")));
+		identity = (int) data.get("identity");
+		accountType = (int) data.get("account_type");
+		accountBet = (boolean) data.get("account_bet");
+		playId = (String) data.get("play_id");
+
+		super.init(data);
+	}
 
 	public void sendMsg(Response res) {
 

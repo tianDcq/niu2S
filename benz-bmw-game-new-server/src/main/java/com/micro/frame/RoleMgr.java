@@ -19,18 +19,20 @@ public final class RoleMgr {
         Player player = GameMain.getInstance().getGameMgr().createPlayer();
         player.uniqueId = uniqueId;
         roles.put(uniqueId, player);
-        requestPlayerInfo(player.uniqueId.split("_")[0],player.uniqueId.split("_")[1],player.uniqueId);
+        requestPlayerInfo(player);
         ++playerCount;
         return player;
     }
 
-    void requestPlayerInfo(String siteId,String account,String uniqueId) {
+    void requestPlayerInfo(Player player) {
+        String siteId = player.uniqueId.split("_")[0];
+        String account = player.uniqueId.split("_")[1];
         GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
         httpRequest.setSuccessCallback(new Callback() {
             @Override
             public void func() {
                 if (roles.get(player.uniqueId) == player) {
-                    player.init(this.getData());
+                    player.init((HashMap<String, Object>) this.getData());
                 }
             }
         });
@@ -44,7 +46,7 @@ public final class RoleMgr {
         final Map<String, Object> map = new HashMap<>();
         map.put("siteId", Long.valueOf(siteId));
         map.put("account", account);
-        map.put("uniqueId", uniqueId);
+        map.put("uniqueId", player.uniqueId);
         httpRequest.sendForm("/acc/getPlayer", map);
     }
 
