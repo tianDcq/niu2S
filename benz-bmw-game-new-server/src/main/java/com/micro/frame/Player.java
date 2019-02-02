@@ -16,29 +16,45 @@ public abstract class Player extends Role {
 	/**
 	 * 账户状态：0-正常 1-冻结
 	 */
-	public Integer state;
+	public int state;
 
-	/**
+	/**int
 	 * 会员等级id
 	 */
-	public Integer levelId;
+	public int levelId;
 
 	/**
 	 * 1,正式玩家,2临时玩家,默认1
 	 */
-	public Integer identity;
+	public int identity;
+
+
+
 
 	/**
 	 * 0：总控账号，1：厅主账号，2：会员账号，11厅主子账号
 	 */
-	public Integer accountType;
+	public int accountType;
 
 	/**
 	 * 是否启用会员下注 1：启用、0：禁用
 	 */
-	public Integer accountBet;
+	public int accountBet;
 
 	public String playId;
+
+	private long sqlMoney;
+
+	public void save(){
+		// sql.save((money-sqlMoney)/100);
+	}
+	public void checkMoney(){
+		money=sqlMoney;
+	}
+	public void addMoney(long win){
+		sqlMoney+=win;
+		money+=win;
+	}
 
 	public abstract void onMsg(Request req);
 
