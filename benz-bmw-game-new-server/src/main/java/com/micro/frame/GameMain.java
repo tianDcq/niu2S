@@ -75,9 +75,11 @@ public abstract class GameMain {
     }
 
     private void step() {
-        dealRequests();
-        taskMgr.update();
-        hallMgr.update();
+        if (status != Status.START) {
+            dealRequests();
+            taskMgr.update();
+            hallMgr.update();
+        }
     }
 
     // 停机步骤1：挂维护，不再创建新房间

@@ -29,7 +29,9 @@ public final class RoleMgr {
         httpRequest.setSuccessCallback(new Callback() {
             @Override
             public void func() {
-                System.out.println(1);
+                if (roles.get(player.uniqueId) == player) {
+                    player.init(this.getData());
+                }
             }
         });
         httpRequest.setFailCallback(new Callback() {

@@ -1,9 +1,10 @@
 package com.micro.frame;
 
+import lombok.Getter;
 import lombok.Setter;
 
 public abstract class Callback {
-    private @Setter Object data;
+    private @Getter @Setter Object data;
 
     public abstract void func();
 }
