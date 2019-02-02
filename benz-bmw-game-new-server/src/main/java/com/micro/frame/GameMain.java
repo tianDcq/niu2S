@@ -112,7 +112,8 @@ public abstract class GameMain {
                     continue;
                 }
 
-                Player p = roleMgr.getPlayer(req.uniqueId);
+//                Player p = roleMgr.getPlayer(req.uniqueId);
+                Player p = null;
 
                 // 玩家未初始化，数据重回队列延迟处理
                 if (p == null) {
