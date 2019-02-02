@@ -8,7 +8,6 @@ import com.micro.frame.TaskMgr;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -29,21 +28,23 @@ public class GameHttpRequest {
     public void sendForm(String url, Map<String, Object> params) {
         try {
             TaskMgr taskMgr = GameMain.getInstance().getTaskMgr();
-            Map<String, ComCallback> gameServiceMap = Communication.getGameServiceMap();
+            Map<String, ComCallback> gameServiceMap = Communication.getAccoutServiceMap();
             ComCallback callback = gameServiceMap.get(url);
-            GlobeResponse<List<RoomConfigurationVO>> func = (GlobeResponse<List<RoomConfigurationVO>>) callback.func(params);
+            GlobeResponse<Object> func = (GlobeResponse<Object>) callback.func(params);
 
             String json = JSON.toJSONString(func.getData());
 
+            Map map = JSON.parseObject(json, Map.class);
+
             if ("200".equals(func.getCode())) {
                 if (successCallback != null) {
-                    successCallback.setData(json);
+                    successCallback.setData(map);
                     taskMgr.createTrigger(successCallback).fire();
                 }
 
             } else {
                 if (failCallback != null) {
-                    failCallback.setData(json);
+                    failCallback.setData(map);
                     taskMgr.createTrigger(failCallback).fire();
                 }
             }

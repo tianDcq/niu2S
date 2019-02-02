@@ -30,6 +30,9 @@ public abstract class GameMain {
     protected @Getter GameMgr gameMgr;
     protected @Getter MsgQueue msgQueue;
 
+    // 发送请求,注册请求接口
+//    private @Getter ReqMgr reqMgr;
+
     private @Getter long millisecond;
     private long lastUpdate;
     private @Getter float delta;
@@ -50,7 +53,7 @@ public abstract class GameMain {
 
     // 注册站点下的所有游戏,和所有房间
     private void register() {
-        this.hallMgr.init();
+//        this.hallMgr.init();
     }
 
     private void start() {
@@ -59,6 +62,7 @@ public abstract class GameMain {
         hallMgr = new HallMgr();
         taskMgr = new TaskMgr();
         msgQueue = new MsgQueue();
+//        reqMgr = new ReqMgr();
 
         register();
         onStart();
@@ -71,9 +75,11 @@ public abstract class GameMain {
     }
 
     private void step() {
-        dealRequests();
-        taskMgr.update();
-        hallMgr.update();
+        if (status != Status.START) {
+            dealRequests();
+            taskMgr.update();
+            hallMgr.update();
+        }
     }
 
     // 停机步骤1：挂维护，不再创建新房间
@@ -127,6 +133,7 @@ public abstract class GameMain {
 
     // 处理接受的消息
     private void dealRequests() {
+//        System.out.println("=========>");
         Iterable<Request> it = msgQueue.getAll();
 
         if (it != null) {
