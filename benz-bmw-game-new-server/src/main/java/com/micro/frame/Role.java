@@ -38,9 +38,20 @@ public abstract class Role {
 
 	public String uniqueId;
 
+	private boolean inited;
+
+	boolean getInited() {
+		return inited;
+	}
+
 	protected @Getter Hall hall;
 	protected @Getter Room room;
 	protected @Getter Table table;
+
+	void init() {
+		onInit();
+		inited = true;
+	}
 
 	protected void onInit() {
 

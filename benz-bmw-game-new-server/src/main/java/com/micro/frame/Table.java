@@ -85,16 +85,29 @@ public abstract class Table {
         return true;
     }
 
+    // 保存所有玩家数据
     protected void save() {
 
     }
 
+    // 保存历史记录
     protected void saveHistory(Map<String, Object> history) {
 
     }
 
+    // 桌子准备完毕
     protected void start() {
         onStart();
+    }
+
+    // 游戏开始
+    protected void begin() {
+
+    }
+
+    // 游戏结束
+    protected void end() {
+
     }
 
     protected void destroy() {

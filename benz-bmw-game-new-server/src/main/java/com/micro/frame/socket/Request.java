@@ -10,5 +10,6 @@ import io.netty.channel.ChannelHandlerContext;
 public class Request {
     public ChannelHandlerContext ctx;
     public String uniqueId;
+    public long millisecond;
     public Map<String, Object> msg;
 }
