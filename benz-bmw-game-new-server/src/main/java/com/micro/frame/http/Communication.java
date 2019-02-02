@@ -13,8 +13,11 @@ import java.util.Map;
 public class Communication {
 
     static Map<String, ComCallback> gameServiceMap = new HashMap<>();
+    static Map<String, ComCallback> accountServiceMap = new HashMap<>();
 
     private static GameFeignClient gameFeignClient;
+
+    private static AccountFeignClient accountFeignClient ;
 
 
 
@@ -35,6 +38,14 @@ public class Communication {
             }
         });
 
+        accountServiceMap.put("/acc/getPlayer",new ComCallback(){
+            @Override
+            public Object func(Map<String, Object> map) {
+                GlobeResponse<Object> wildGameRoomConfigVo = accountFeignClient.getPlayer((Long) map.get("siteId"), (String) map.get("account"));
+                return wildGameRoomConfigVo;
+            }
+        });
+
     }
 
     public static Map<String, ComCallback> getGameServiceMap() {
@@ -43,6 +54,14 @@ public class Communication {
             gameFeignClient = bean;
         }
         return gameServiceMap;
+    }
+
+    public static Map<String, ComCallback> getAccoutServiceMap() {
+        if (accountFeignClient == null) {
+            AccountFeignClient bean = SpringUtil.getBean(AccountFeignClient.class);
+            accountFeignClient = bean;
+        }
+        return accountServiceMap;
     }
 
     public static void main(String[] args) {

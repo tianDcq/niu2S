@@ -26,6 +26,7 @@ public final class RoleMgr {
 
     void requestPlayerInfo(Player player) {
         String siteId = player.uniqueId.split("_")[0];
+        String account = player.uniqueId.split("_")[1];
         GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
         httpRequest.setSuccessCallback(new Callback() {
             @Override
@@ -44,8 +45,8 @@ public final class RoleMgr {
         // 发起请求
         final Map<String, Object> map = new HashMap<>();
         map.put("siteId", Long.valueOf(siteId));
-        map.put("gameId", 1);
-        httpRequest.sendForm("/game/getWildGameRoomConfigVo", map);
+        map.put("account", account);
+        httpRequest.sendForm("/acc/getPlayer", map);
     }
 
     public Role getRole(String uniqueId) {
