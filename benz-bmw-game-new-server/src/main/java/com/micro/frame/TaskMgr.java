@@ -59,6 +59,10 @@ public class TaskMgr {
         tasks.clear();
     }
 
+    void doPrepare() {
+        // TODO
+    }
+
     void doStop() {
         // TODO
     }

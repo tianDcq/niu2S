@@ -101,8 +101,8 @@ public abstract class Table {
     }
 
     // 游戏开始
-    protected void begin() {
-
+    protected boolean begin() {
+        return true;
     }
 
     // 游戏结束

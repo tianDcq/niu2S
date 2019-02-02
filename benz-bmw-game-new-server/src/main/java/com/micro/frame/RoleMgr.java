@@ -79,6 +79,10 @@ public final class RoleMgr {
         // @TODO
     }
 
+    void doPrepare() {
+        // TODO
+    }
+
     void doDestroy() {
         // TODO
     }
