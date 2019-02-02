@@ -37,6 +37,7 @@ final class HCTable extends Table {
         waitTime = (int) roomConfig.get("freeTime");
         chipTime = (int) roomConfig.get("betTime");
         revenue =(int) roomConfig.get("taxRatio");
+        maxBanker=(int) roomConfig.get("bankerTime");
         chipList=new ChipStruct[8];
         for(int i=0;i<8;++i){
             chipList[i]=new ChipStruct(i);
@@ -267,6 +268,7 @@ final class HCTable extends Table {
     private void toNextState(){
         switch(gameStae){
             case 2:
+            begin();
             runChipPeriod();
             sendChanegGameState();
             break;
@@ -274,8 +276,11 @@ final class HCTable extends Table {
             runOpenPeriod();
             sendChanegGameState();
             lottory();
+            break;
             case 0:
             runWaitPeriod();
+            end();
+            break;
         }
         Response response=new Response(2022, 1);
         Map<String,Object> msg=new HashMap<>();
@@ -455,7 +460,7 @@ final class HCTable extends Table {
     };
 
     protected void onDestroy(){
-
+        schedule.stop();
     };
     protected void onStop(){
         
