@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.Static;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,49 +34,61 @@ public abstract class Table extends Root {
     private Timer pairTimer;
 
     protected Config.Error startPair() {
-        status = Status.Pair;
 
-        if (configs.pairTime > 0) {
-            if (robotTimer != null) {
-                robotTimer.stop();
+        // if (configs.pairTime > 0) {
+        // if (robotTimer != null) {
+        // robotTimer.stop();
+        // }
+        // robotTimer =
+        // GameMain.getInstance().getTaskMgr().createTimer(configs.robotTime, new
+        // Callback() {
+
+        // void randomAddRobot() {
+
+        // }
+
+        // @Override
+        // public void func() {
+        // randomAddRobot();
+        // }
+        // }, this);
+
+        // if (pairTimer != null) {
+        // pairTimer.stop();
+        // }
+
+        // pairTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.pairTime,
+        // new Callback() {
+        // @Override
+        // public void func() {
+        // if (robotTimer != null) {
+        // robotTimer.stop();
+        // robotTimer = null;
+        // }
+
+        // int need = configs.max - roles.size();
+        // for (int i = 0; i < need; ++i) {
+        // dragRobot();
+        // }
+
+        // if (configs.max != roles.size()) {
+        // shutdown();
+        // }
+        // }
+        // });
+
+        // }
+
+        Config.RobotPairType robotConfig = GameMain.getInstance().getGameMgr().getRobotPairType();
+        if (robotConfig.type == Config.RobotPairType.Type.One) {
+            int num = robotConfig.max - robotConfig.min;
+            num = (int) Math.random() * num + robotConfig.min;
+            for (int i = 0; i < num; ++i) {
+                dragRobot();
             }
-            robotTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.robotTime, new Callback() {
-
-                void randomAddRobot() {
-
-                }
-
-                @Override
-                public void func() {
-                    randomAddRobot();
-                }
-            }, this);
-
-            if (pairTimer != null) {
-                pairTimer.stop();
-            }
-
-            pairTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.pairTime, new Callback() {
-                @Override
-                public void func() {
-                    if (robotTimer != null) {
-                        robotTimer.stop();
-                        robotTimer = null;
-                    }
-
-                    int need = configs.max - roles.size();
-                    for (int i = 0; i < need; ++i) {
-                        dragRobot();
-                    }
-
-                    if (configs.max != roles.size()) {
-                        shutdown();
-                    }
-                }
-            });
-
         }
 
+        status = Status.Pair;
         return Config.ERR_SUCCESS;
     }
 
@@ -84,6 +98,19 @@ public abstract class Table extends Root {
         robot.prepareEnterTable(this);
 
         return pair(robot);
+    }
+
+    Config.Error pair() {
+        if (getIsDestroy()) {
+            return Config.ERR_PAIR_DESTORY;
+        }
+
+        if (status == Status.Open) {
+            start();
+            return Config.ERR_SUCCESS;
+        }
+
+        return Config.ERR_PAIR_FAILURE;
     }
 
     protected Config.Error pair(Role role) {
@@ -163,12 +190,28 @@ public abstract class Table extends Root {
 
     // 游戏开始
     protected boolean begin() {
+        Config.RobotPairType robotConfig = GameMain.getInstance().getGameMgr().getRobotPairType();
+        if (robotConfig.type == Config.RobotPairType.Type.One) {
+            if (roles.size() < robotConfig.min) {
+                int num = robotConfig.max - robotConfig.min;
+                num = (int) Math.random() * num + robotConfig.min;
+                for (int i = 0; i < num; ++i) {
+                    dragRobot();
+                }
+            }
+        }
+        for(Role role:roles.values()){
+            role.checkMoney();
+        }
+
         return true;
     }
 
     // 游戏结束
     protected void end() {
-
+        for(Role role:roles.values()){
+            role.save();
+        }
     }
 
     protected void shutdown() {

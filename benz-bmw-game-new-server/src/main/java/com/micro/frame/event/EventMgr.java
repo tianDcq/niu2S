@@ -14,8 +14,9 @@ public final class EventMgr{
     public Event regist(String eventName,Callback cb,Root tar){
         List<Event> list=eventMap.get(eventName);
         Event event=new Event(eventName,cb,tar);
-        if(list!=null){
+        if(list==null){
             list=new ArrayList<>();
+            eventMap.put(eventName, list);
         }
         list.add(event);
         return event;
@@ -30,6 +31,19 @@ public final class EventMgr{
             }
         }
     }
+
+    public void emit(String eventName,Object obj){
+        List<Event> list=eventMap.get(eventName);
+        if(list!=null){
+            for(Event event : list){
+                event.getCall().setData(obj);
+                if(!event.emit(obj)){
+                    removeEvent(event);
+                }
+            }
+        }
+    }
+
     public boolean removeEvent(Event event){
         List<Event> list=eventMap.get(event.getName());
         return list.remove(event);
