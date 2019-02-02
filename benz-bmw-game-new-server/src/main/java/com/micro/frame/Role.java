@@ -5,7 +5,7 @@ import com.micro.frame.socket.Response;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class Role {
+public abstract class Role extends Root {
 	/**
 	 * 厅主id
 	 */

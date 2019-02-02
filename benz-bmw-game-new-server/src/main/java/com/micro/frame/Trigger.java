@@ -20,6 +20,10 @@ public class Trigger extends Task {
         if (expired) {
             return;
         }
+        if (target != null && target.getIsDestroy()) {
+            expired = true;
+            return;
+        }
         expired = trigger;
         if (expired) {
             callback.func();
