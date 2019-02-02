@@ -32,7 +32,7 @@ public final class RoleMgr {
             @Override
             public void func() {
                 if (roles.get(player.uniqueId) == player) {
-                    player.init(this.getData());
+                    player.init((HashMap<String, Object>) this.getData());
                 }
             }
         });

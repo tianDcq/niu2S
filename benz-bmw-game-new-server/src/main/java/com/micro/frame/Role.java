@@ -1,5 +1,7 @@
 package com.micro.frame;
 
+import java.util.HashMap;
+
 import com.micro.frame.socket.Response;
 
 import lombok.Getter;
@@ -53,7 +55,13 @@ public abstract class Role extends Root {
 		inited = true;
 	}
 
-	void init(Object data) {
+	void init(HashMap<String, Object> data) {
+		siteId = (long) data.get("siteId");
+		gender = (String) data.get("gender");
+		nickName = (String) data.get("nickName");
+		portrait = (String) data.get("portrait");
+		money = (long) data.get("money");
+		onInit();
 		inited = true;
 	}
 
