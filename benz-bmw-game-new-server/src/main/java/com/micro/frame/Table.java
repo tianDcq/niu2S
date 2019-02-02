@@ -10,7 +10,7 @@ import lombok.Setter;
 public abstract class Table extends Root {
 
     enum Status {
-        Open, Pair, Game, Close
+        Open, Pair, Game, End
     }
 
     enum Type {
@@ -18,7 +18,8 @@ public abstract class Table extends Root {
     }
 
     public class Configs {
-        public float pairTime;
+        public int pairTime;
+        public int robotTime;
         public Type type;
         public int max;
     }
@@ -32,26 +33,91 @@ public abstract class Table extends Root {
 
     private @Getter boolean canDestory = true;
     private Trigger destroyTrigger;
+    private Timer robotTimer;
+    private Timer pairTimer;
 
-    protected boolean pair(Role role) {
-        if (status == Status.Open) {
-            status = Status.Pair;
-            if (addRole(role)) {
-                if (roles.size() >= this.configs.max) {
-                    status = Status.Game;
-                    start();
-                }
-                return true;
+    protected Config.Error startPair() {
+        status = Status.Pair;
+
+        if (configs.pairTime > 0) {
+            if (robotTimer != null) {
+                robotTimer.stop();
             }
-            return false;
+            robotTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.robotTime, new Callback() {
+
+                void randomAddRobot() {
+
+                }
+
+                @Override
+                public void func() {
+                    randomAddRobot();
+                }
+            }, this);
+
+            if (pairTimer != null) {
+                pairTimer.stop();
+            }
+
+            pairTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.pairTime, new Callback() {
+                @Override
+                public void func() {
+                    if (robotTimer != null) {
+                        robotTimer.stop();
+                        robotTimer = null;
+                    }
+
+                    int need = configs.max - roles.size();
+                    for (int i = 0; i < need; ++i) {
+                        dragRobot();
+                    }
+
+                    if (configs.max != roles.size()) {
+                        shutdown();
+                    }
+                }
+            });
+
+        }
+
+        return Config.ERR_SUCCESS;
+    }
+
+    // 强拉机器人进房间
+    protected Config.Error dragRobot() {
+        Robot robot = room.getRobot();
+        robot.prepareEnterTable(this);
+
+        return pair(robot);
+    }
+
+    protected Config.Error pair(Role role) {
+        if (getIsDestroy()) {
+            return Config.ERR_PAIR_DESTORY;
+        }
+        if (status == Status.Open) {
+            Config.Error err = startPair();
+            if (err == Config.ERR_SUCCESS) {
+                if (addRole(role)) {
+                    if (roles.size() >= this.configs.max) {
+                        status = Status.Game;
+                        start();
+                    }
+                    return Config.ERR_SUCCESS;
+                } else {
+                    return Config.ERR_PAIR_FAILURE;
+                }
+
+            }
+            return err;
         } else if (status == Status.Game) {
             if (configs.type == Type.Unique) {
-                return addRole(role);
+                return addRole(role) ? Config.ERR_SUCCESS : Config.ERR_PAIR_FAILURE;
             }
 
-            return false;
+            return Config.ERR_PAIR_TABLE_STATUS_ERROR;
         } else {
-            return false;
+            return Config.ERR_PAIR_TABLE_STATUS_ERROR;
         }
 
     }
@@ -110,6 +176,10 @@ public abstract class Table extends Root {
 
     }
 
+    protected void shutdown() {
+        destroy();
+    }
+
     protected void destroy() {
         save();
         for (Role role : roles.values()) {
@@ -144,6 +214,7 @@ public abstract class Table extends Root {
     }
 
     void doDestroy() {
+        destroy();
         for (Role role : roles.values()) {
             role.doDestroy();
         }
