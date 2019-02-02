@@ -33,6 +33,10 @@ public final class RoleMgr {
             public void func() {
                 if (roles.get(player.uniqueId) == player) {
                     player.init((HashMap<String, Object>) this.getData());
+                    Hall hall = GameMain.getInstance().getHallMgr().get(player.siteId);
+                    if (hall != null) {
+                        hall.enter(player);
+                    }
                 }
             }
         });
