@@ -19,14 +19,12 @@ public final class RoleMgr {
         Player player = GameMain.getInstance().getGameMgr().createPlayer();
         player.uniqueId = uniqueId;
         roles.put(uniqueId, player);
-        requestPlayerInfo(player);
+        requestPlayerInfo(player.uniqueId.split("_")[0],player.uniqueId.split("_")[1],player.uniqueId);
         ++playerCount;
         return player;
     }
 
-    void requestPlayerInfo(Player player) {
-        String siteId = player.uniqueId.split("_")[0];
-        String account = player.uniqueId.split("_")[1];
+    void requestPlayerInfo(String siteId,String account,String uniqueId) {
         GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
         httpRequest.setSuccessCallback(new Callback() {
             @Override
@@ -46,6 +44,7 @@ public final class RoleMgr {
         final Map<String, Object> map = new HashMap<>();
         map.put("siteId", Long.valueOf(siteId));
         map.put("account", account);
+        map.put("uniqueId", uniqueId);
         httpRequest.sendForm("/acc/getPlayer", map);
     }
 
