@@ -60,7 +60,7 @@ public abstract class Role extends Root {
 		siteId = (int) data.get("site_id");
 		gender = Integer.parseInt((String) data.get("gender"));
 		nickName = (String) data.get("nick_name");
-		portrait = (String) data.get("portrait");
+		portrait = (String) data.get("image");
 		money = ((BigDecimal) data.get("money")).multiply(new BigDecimal("100")).longValue();
 		onInit();
 		inited = true;
