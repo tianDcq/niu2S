@@ -17,6 +17,10 @@ public class Timer extends Task {
         if (expired) {
             return;
         }
+        if (target != null && target.getIsDestroy()) {
+            expired = true;
+            return;
+        }
         expired = endTimeMillisecond >= GameMain.getInstance().getMillisecond();
         if (expired) {
             callback.func();

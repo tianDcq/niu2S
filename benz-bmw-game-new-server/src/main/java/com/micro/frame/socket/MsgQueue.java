@@ -29,6 +29,10 @@ public class MsgQueue {
         return currentReveiveQ.poll();
     }
 
+    public void doPrepare() {
+
+    }
+
     public void doStop() {
         // TODO
     }

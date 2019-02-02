@@ -35,6 +35,10 @@ public class Schedule extends Task {
         if (expired) {
             return;
         }
+        if (target != null && target.getIsDestroy()) {
+            expired = true;
+            return;
+        }
 
         if (delay > 0) {
             delay -= GameMain.getInstance().getDelta();
