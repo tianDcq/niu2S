@@ -7,6 +7,8 @@ public interface GameMgrInterface {
 
     public Table createTable();
 
+    public void onPrepare();
+
     public void onStop();
 
     public void onTerminate();

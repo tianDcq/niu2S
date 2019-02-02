@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Room {
+    private @Getter Hall hall;
+    public long roomId; 
     public enum PairStatus {
         Success, Failed
     }

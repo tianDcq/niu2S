@@ -7,7 +7,7 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class Table {
+public abstract class Table extends Root {
 
     enum Status {
         Open, Pair, Game, Close
@@ -101,8 +101,8 @@ public abstract class Table {
     }
 
     // 游戏开始
-    protected void begin() {
-
+    protected boolean begin() {
+        return true;
     }
 
     // 游戏结束

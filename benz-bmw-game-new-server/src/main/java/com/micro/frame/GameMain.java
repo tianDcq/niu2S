@@ -34,6 +34,24 @@ public abstract class GameMain {
     private long lastUpdate;
     private @Getter float delta;
 
+    private void prepare() {
+
+        // TODO
+
+        status = Status.RUN;
+
+        roleMgr.doPrepare();
+        hallMgr.doPrepare();
+        taskMgr.doPrepare();
+        msgQueue.doPrepare();
+        gameMgr.onPrepare();
+        onPrepare();
+    }
+
+    private void register() {
+
+    }
+
     private void start() {
         status = Status.START;
         roleMgr = new RoleMgr();
@@ -41,10 +59,15 @@ public abstract class GameMain {
         taskMgr = new TaskMgr();
         msgQueue = new MsgQueue();
 
+        register();
         onStart();
+        prepare();
     }
 
     protected abstract void onStart();
+
+    protected void onPrepare() {
+    }
 
     private void step() {
         dealRequests();

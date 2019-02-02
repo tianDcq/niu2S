@@ -3,11 +3,11 @@ package com.micro.frame;
 import lombok.Getter;
 import lombok.Setter;
 
-class Timer extends Task {
+public class Timer extends Task {
     private @Getter float time;
     private @Getter long endTimeMillisecond;
 
-    public Timer(float time, Callback callback) {
+    Timer(float time, Callback callback) {
         super(callback);
         this.time = time;
         endTimeMillisecond = GameMain.getInstance().getMillisecond() + (long) (time * 1000 * 1000);
@@ -15,6 +15,10 @@ class Timer extends Task {
 
     public void update() {
         if (expired) {
+            return;
+        }
+        if (target != null && target.getIsDestroy()) {
+            expired = true;
             return;
         }
         expired = endTimeMillisecond >= GameMain.getInstance().getMillisecond();

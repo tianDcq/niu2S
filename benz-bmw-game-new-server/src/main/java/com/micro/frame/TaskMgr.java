@@ -34,7 +34,40 @@ public class TaskMgr {
     }
 
     public Schedule createSchedule(Callback callback, float interval, int repeat, float delay) {
+        return createSchedule(callback, interval, repeat, delay, null);
+    }
+
+    public Timer createTimer(int time, Callback callback, Root target) {
+        Timer task = new Timer(time, callback);
+        task.setTarget(target);
+        tasks.add(task);
+        return task;
+    }
+
+    public Trigger createTrigger(Callback callback, Root target) {
+        Trigger task = new Trigger(callback);
+        task.setTarget(target);
+        tasks.add(task);
+        return task;
+    }
+
+    public Schedule createSchedule(Callback callback, Root target) {
+        return createSchedule(callback, 0, -1, 0, target);
+
+    }
+
+    public Schedule createSchedule(Callback callback, float interval, Root target) {
+        return createSchedule(callback, interval, -1, 0, target);
+
+    }
+
+    public Schedule createSchedule(Callback callback, float interval, int repeat, Root target) {
+        return createSchedule(callback, interval, repeat, 0, target);
+    }
+
+    public Schedule createSchedule(Callback callback, float interval, int repeat, float delay, Root target) {
         Schedule task = new Schedule(callback, interval, repeat, delay);
+        task.setTarget(target);
         tasks.add(task);
         return task;
     }
@@ -57,6 +90,10 @@ public class TaskMgr {
         }
 
         tasks.clear();
+    }
+
+    void doPrepare() {
+        // TODO
     }
 
     void doStop() {

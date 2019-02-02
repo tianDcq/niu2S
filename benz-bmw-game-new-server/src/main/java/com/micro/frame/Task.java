@@ -10,6 +10,8 @@ public abstract class Task {
     protected @Getter boolean expired;
     protected @Getter Callback callback;
 
+    protected @Getter @Setter Root target;
+
     public Task(Callback callback) {
         this.callback = callback;
     }

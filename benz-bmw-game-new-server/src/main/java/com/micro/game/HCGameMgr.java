@@ -15,6 +15,10 @@ class HCGameMgr implements GameMgrInterface {
         return new HCTable();
     }
 
+    public void onPrepare() {
+
+    }
+
     public void onTerminate() {
 
     }
