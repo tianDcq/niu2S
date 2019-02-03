@@ -16,6 +16,7 @@ public class Trigger extends Task {
         trigger = true;
     }
 
+    @Override
     public void update() {
         if (expired) {
             return;
