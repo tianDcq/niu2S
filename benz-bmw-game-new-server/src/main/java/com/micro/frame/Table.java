@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.micro.frame.socket.BaseRespone;
 import com.micro.frame.socket.Response;
 import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.Static;
 
@@ -261,7 +262,7 @@ public abstract class Table extends Root {
         }
     }
 
-    protected void broadcast(Response self, Response other, String uniqueId) {
+    protected void broadcast(BaseRespone self, BaseRespone other, String uniqueId) {
         for (Role r : roles.values()) {
             if (uniqueId.equals(r.uniqueId)) {
                 r.send(self);

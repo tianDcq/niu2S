@@ -25,7 +25,7 @@ public class MsgQueue {
         currentReveiveQ.add(o);
     }
 
-    public void send(ChannelHandlerContext ctx, Response o) {
+    public void send(ChannelHandlerContext ctx, BaseRespone o) {
         String t2 = JsonUtil.parseJsonString(o);
         ctx.writeAndFlush(new TextWebSocketFrame(t2));
     }

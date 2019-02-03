@@ -8,6 +8,7 @@ import java.util.Map;
 import com.micro.frame.Callback;
 import com.micro.frame.GameMain;
 import com.micro.frame.Robot;
+import com.micro.frame.socket.BaseRespone;
 import com.micro.frame.socket.Response;
 
 import lombok.Getter;
@@ -29,10 +30,10 @@ class HCRobot extends Robot implements HCRoleInterface {
     }
 
     @Override
-    public void send(Response res) {
+    public void send(BaseRespone res) {
         String msgType = res.msgType;
         if (msgType == "2012") {
-            int state = (int) res.msg.get("betable");
+            int state = (int) ((Response)res).msg.get("betable");
             if (state == 1) {
                 // 下注
                 GameMain game = GameMain.getInstance();

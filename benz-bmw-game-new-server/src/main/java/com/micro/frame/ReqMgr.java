@@ -32,40 +32,24 @@ public class ReqMgr {
         getGameServiceMap();
 
 
-        gameServiceMap.put("/game/getWildGameRoomConfigVo",new ComCallback(){
-            @Override
-            public Object func(Map<String, Object> map) {
-                GlobeResponse<List<RoomConfigurationVO>> wildGameRoomConfigVo = gameFeignClient.getWildGameRoomConfigVo((Long) map.get("siteId"), (Integer) map.get("gameId"));
-                return wildGameRoomConfigVo;
-            }
+        gameServiceMap.put("/game/getWildGameRoomConfigVo",(Map<String, Object> map)->{
+            GlobeResponse<List<RoomConfigurationVO>> wildGameRoomConfigVo = gameFeignClient.getWildGameRoomConfigVo((Long) map.get("siteId"), (Integer) map.get("gameId"));
+            return wildGameRoomConfigVo;
         });
 
-        gameServiceMap.put("/game/getWildGameRoomConfigVo2",new ComCallback(){
-            @Override
-            public Object func(Map<String, Object> map) {
-                GlobeResponse<Object> wildGameRoomConfigVo = gameFeignClient.getAllSiteGame((Integer) map.get("gameId"));
-                return wildGameRoomConfigVo;
-            }
+        gameServiceMap.put("/game/getWildGameRoomConfigVo2",(Map<String, Object> map)->{
+            GlobeResponse<Object> wildGameRoomConfigVo = gameFeignClient.getAllSiteGame((Integer) map.get("gameId"));
+            return wildGameRoomConfigVo;
         });
 
-        accountServiceMap.put("/acc/getPlayer",new ComCallback(){
-            @Override
-            public Object func(Map<String, Object> map) {
-                GlobeResponse<Object> wildGameRoomConfigVo = accountFeignClient.getPlayer((Long) map.get("siteId"), (String) map.get("account"));
-                String jsonString = JSON.toJSONString(wildGameRoomConfigVo.getData());
-                HashMap hashMap = JSON.parseObject(jsonString, HashMap.class);
-                hashMap.put("uniqueId", map.get("uniqueId"));
-                wildGameRoomConfigVo.setData(hashMap);
-                return wildGameRoomConfigVo;
-            }
+        accountServiceMap.put("/acc/getPlayer",(Map<String, Object> map)->{
+            GlobeResponse<Object> wildGameRoomConfigVo = accountFeignClient.getPlayer((Long) map.get("siteId"), (String) map.get("account"));
+            return wildGameRoomConfigVo;
         });
 
-        accountServiceMap.put("/acc/addMoney",new ComCallback(){
-            @Override
-            public Object func(Map<String, Object> map) {
-                GlobeResponse<Object> wildGameRoomConfigVo = accountFeignClient.addMoney((Long) map.get("siteId"), (String) map.get("account"),(BigDecimal) map.get("money"));
-                return wildGameRoomConfigVo;
-            }
+        accountServiceMap.put("/acc/addMoney",(Map<String, Object> map)->{
+            GlobeResponse<Object> wildGameRoomConfigVo = accountFeignClient.addMoney((Long) map.get("siteId"), (String) map.get("account"),(BigDecimal) map.get("money"));
+            return wildGameRoomConfigVo;
         });
     }
 
