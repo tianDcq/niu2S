@@ -95,11 +95,16 @@ public abstract class Role extends Root {
 		this.room = null;
 	}
 
-	protected void save(){
+	protected void save() {
 
 	}
-	protected void checkMoney(){
 
+	protected void checkMoney() {
+
+	}
+
+	public void addMoney(long win) {
+		money += win;
 	}
 
 	void onEnterTable() {
@@ -134,7 +139,7 @@ public abstract class Role extends Root {
 		onDestroy();
 	}
 
-	public void sendMsg(Response res) {
+	public void send(Response res) {
 
 	}
 

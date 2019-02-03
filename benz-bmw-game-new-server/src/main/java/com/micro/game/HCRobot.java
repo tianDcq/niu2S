@@ -21,13 +21,15 @@ class HCRobot extends Robot implements HCRoleInterface {
     public boolean allowBanker;
     public int bankerMoney;
 
+    @Override
     public void endGame() {
         for (int i = 0; i < 8; ++i) {
             chipList[i].betAmount = 0;
         }
     }
 
-    public void sendMsg(Response res) {
+    @Override
+    public void send(Response res) {
         String msgType = res.msgType;
         if (msgType == "2012") {
             int state = (int) res.msg.get("betable");
@@ -69,13 +71,15 @@ class HCRobot extends Robot implements HCRoleInterface {
         }
     }
 
+    @Override
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
         minChip = (int) roomConfig.get("bottomRed1");
         maxChip = (int) roomConfig.get("bottomRed2");
         chipTime = (int) roomConfig.get("betTime");
         bankerTime = (int) chipTime + (int) roomConfig.get("freeTime");
-        boolean contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
+        // boolean contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
+        boolean contor = true;
         boolean sys = (int) roomConfig.get("sysGold") == 1;
         allowBanker = contor && sys;
         bankerMoney = (int) roomConfig.get("bankerCond");

@@ -2,6 +2,7 @@ package com.micro.frame.socket;
 
 import java.util.Map;
 
+import io.netty.channel.ChannelHandlerContext;
 import lombok.Data;
 
 /**
@@ -12,7 +13,6 @@ import lombok.Data;
  */
 @Data
 public class Response {
-
   public String msgType;
 
   public String status;

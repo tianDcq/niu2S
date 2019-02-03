@@ -39,7 +39,7 @@ public abstract class GameMain {
 
     private void prepare() {
 
-        this.hallMgr.init(new Callback(){
+        this.hallMgr.init(new Callback() {
             @Override
             public void func() {
                 status = Status.RUN;
@@ -58,6 +58,7 @@ public abstract class GameMain {
     }
 
     private void start() {
+
         status = Status.START;
         roleMgr = new RoleMgr();
         hallMgr = new HallMgr();
@@ -134,7 +135,7 @@ public abstract class GameMain {
 
     // 处理接受的消息
     private void dealRequests() {
-//        System.out.println("=========>");
+        // System.out.println("=========>");
         Iterable<Request> it = msgQueue.getAll();
 
         if (it != null) {
@@ -159,6 +160,7 @@ public abstract class GameMain {
                         continue;
                     }
 
+                    p.setCtx(req.ctx);
                     p.onMsg(req);
                 }
             }
@@ -170,7 +172,7 @@ public abstract class GameMain {
         while (status != Status.END) {
             millisecond = System.currentTimeMillis();
             if (millisecond - lastUpdate >= Config.RATE) {
-                delta = millisecond - lastUpdate;
+                delta = (millisecond - lastUpdate) / 1000.0f;
                 step();
                 lastUpdate = millisecond;
             }

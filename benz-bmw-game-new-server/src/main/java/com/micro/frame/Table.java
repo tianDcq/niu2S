@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.micro.frame.socket.Response;
 import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.Static;
 
 import lombok.Getter;
@@ -33,51 +34,16 @@ public abstract class Table extends Root {
     private Timer robotTimer;
     private Timer pairTimer;
 
+    void init() {
+        status = Status.Open;
+        onInit();
+    }
+
+    protected void onInit() {
+
+    }
+
     protected Config.Error startPair() {
-
-        // if (configs.pairTime > 0) {
-        // if (robotTimer != null) {
-        // robotTimer.stop();
-        // }
-        // robotTimer =
-        // GameMain.getInstance().getTaskMgr().createTimer(configs.robotTime, new
-        // Callback() {
-
-        // void randomAddRobot() {
-
-        // }
-
-        // @Override
-        // public void func() {
-        // randomAddRobot();
-        // }
-        // }, this);
-
-        // if (pairTimer != null) {
-        // pairTimer.stop();
-        // }
-
-        // pairTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.pairTime,
-        // new Callback() {
-        // @Override
-        // public void func() {
-        // if (robotTimer != null) {
-        // robotTimer.stop();
-        // robotTimer = null;
-        // }
-
-        // int need = configs.max - roles.size();
-        // for (int i = 0; i < need; ++i) {
-        // dragRobot();
-        // }
-
-        // if (configs.max != roles.size()) {
-        // shutdown();
-        // }
-        // }
-        // });
-
-        // }
 
         Config.RobotPairType robotConfig = GameMain.getInstance().getGameMgr().getRobotPairType();
         if (robotConfig.type == Config.RobotPairType.Type.One) {
@@ -86,6 +52,46 @@ public abstract class Table extends Root {
             for (int i = 0; i < num; ++i) {
                 dragRobot();
             }
+        } else if (robotConfig.type == Config.RobotPairType.Type.Fix
+                || robotConfig.type == Config.RobotPairType.Type.Range) {
+
+            if (robotTimer != null) {
+                robotTimer.stop();
+            }
+            robotTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.robotTime, new Callback() {
+
+                void randomAddRobot() {
+
+                }
+
+                @Override
+                public void func() {
+                    randomAddRobot();
+                }
+            }, this);
+
+            if (pairTimer != null) {
+                pairTimer.stop();
+            }
+
+            pairTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.pairTime, new Callback() {
+                @Override
+                public void func() {
+                    if (robotTimer != null) {
+                        robotTimer.stop();
+                        robotTimer = null;
+                    }
+
+                    int need = configs.max - roles.size();
+                    for (int i = 0; i < need; ++i) {
+                        dragRobot();
+                    }
+
+                    if (configs.max != roles.size()) {
+                        shutdown();
+                    }
+                }
+            });
         }
 
         status = Status.Pair;
@@ -120,8 +126,8 @@ public abstract class Table extends Root {
         if (status == Status.Open) {
             Config.Error err = startPair();
             if (err == Config.ERR_SUCCESS) {
-                if (addRole(role)) {
-                    if (roles.size() >= this.configs.max) {
+                if (enter(role)) {
+                    if (roles.size() >= -1) {
                         status = Status.Game;
                         start();
                     }
@@ -134,7 +140,7 @@ public abstract class Table extends Root {
             return err;
         } else if (status == Status.Game) {
             if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
-                return addRole(role) ? Config.ERR_SUCCESS : Config.ERR_PAIR_FAILURE;
+                return enter(role) ? Config.ERR_SUCCESS : Config.ERR_PAIR_FAILURE;
             }
 
             return Config.ERR_PAIR_TABLE_STATUS_ERROR;
@@ -200,7 +206,7 @@ public abstract class Table extends Root {
                 }
             }
         }
-        for(Role role:roles.values()){
+        for (Role role : roles.values()) {
             role.checkMoney();
         }
 
@@ -209,7 +215,7 @@ public abstract class Table extends Root {
 
     // 游戏结束
     protected void end() {
-        for(Role role:roles.values()){
+        for (Role role : roles.values()) {
             role.save();
         }
     }
@@ -258,6 +264,22 @@ public abstract class Table extends Root {
         }
 
         onStop();
+    }
+
+    protected void broadcast(Response msg) {
+        for (Role r : roles.values()) {
+            r.send(msg);
+        }
+    }
+
+    protected void broadcast(Response self, Response other, String uniqueId) {
+        for (Role r : roles.values()) {
+            if (uniqueId.equals(r.uniqueId)) {
+                r.send(self);
+            } else {
+                r.send(other);
+            }
+        }
     }
 
     protected abstract void onStop();

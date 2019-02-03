@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
+import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,14 +45,19 @@ public abstract class Player extends Role {
 
 	private long sqlMoney;
 
+	private @Getter @Setter ChannelHandlerContext ctx;
+
+	@Override
 	public void save() {
 		// sql.save((money-sqlMoney)/100);
 	}
 
+	@Override
 	public void checkMoney() {
 		money = sqlMoney;
 	}
 
+	@Override
 	public void addMoney(long win) {
 		sqlMoney += win;
 		money += win;
@@ -67,11 +73,12 @@ public abstract class Player extends Role {
 		accountType = (int) data.get("account_type");
 		accountBet = (boolean) data.get("account_bet");
 		playId = (String) data.get("play_id");
-
 		super.init(data);
+		siteId = 1;
 	}
 
-	public void sendMsg(Response res) {
-
+	@Override
+	public void send(Response res) {
+		GameMain.getInstance().getMsgQueue().send(this.ctx, res);
 	}
 }

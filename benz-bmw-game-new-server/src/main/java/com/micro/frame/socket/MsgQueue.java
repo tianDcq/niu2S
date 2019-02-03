@@ -2,8 +2,12 @@ package com.micro.frame.socket;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.micro.common.util.JsonUtil;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
+
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 public class MsgQueue {
     private LinkedBlockingQueue<Request> receiveQ1 = new LinkedBlockingQueue<>();
@@ -21,8 +25,9 @@ public class MsgQueue {
         currentReveiveQ.add(o);
     }
 
-    public void send(Response o) {
-        currentSendQ.add(o);
+    public void send(ChannelHandlerContext ctx, Response o) {
+        String t2 = JsonUtil.parseJsonString(o);
+        ctx.writeAndFlush(new TextWebSocketFrame(t2));
     }
 
     public Request get() {

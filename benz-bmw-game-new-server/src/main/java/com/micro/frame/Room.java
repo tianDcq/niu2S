@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class Room {
     private @Setter @Getter Hall hall;
-    public long roomId;
 
     public enum PairStatus {
         Success, Failed
@@ -41,6 +40,11 @@ public class Room {
         roles.put(role.uniqueId, role);
         role.enterRoom(this);
         onEnter(role);
+
+        if(GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One){
+            pair(role);
+        }
+
         return true;
     }
 

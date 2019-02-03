@@ -13,6 +13,7 @@ public class Timer extends Task {
         endTimeMillisecond = GameMain.getInstance().getMillisecond() + (long) (time * 1000 * 1000);
     }
 
+    @Override
     public void update() {
         if (expired) {
             return;
