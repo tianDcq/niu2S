@@ -3,6 +3,7 @@ package com.micro.frame.socket;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.micro.common.util.JsonUtil;
+import com.micro.frame.Player;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
@@ -25,9 +26,11 @@ public class MsgQueue {
         currentReveiveQ.add(o);
     }
 
-    public void send(ChannelHandlerContext ctx, BaseRespone o) {
-        String t2 = JsonUtil.parseJsonString(o);
-        ctx.writeAndFlush(new TextWebSocketFrame(t2));
+    public void send(Player player, BaseRespone o) {
+        if (player.getCtx() != null) {
+            String t2 = JsonUtil.parseJsonString(o);
+            player.getCtx().writeAndFlush(new TextWebSocketFrame(t2));
+        }
     }
 
     public Request get() {

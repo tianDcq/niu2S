@@ -44,6 +44,8 @@ public abstract class Role extends Root {
 
 	private boolean inited;
 
+	protected @Getter boolean isLocked;
+
 	boolean getInited() {
 		return inited;
 	}
