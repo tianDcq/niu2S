@@ -49,12 +49,25 @@ public final class HallMgr {
 
     }
 
+    Hall createHall(Long key, List list) {
+
+        Hall hall = new Hall();
+        list.stream().forEach(configvo -> {
+            Map config = JSON.parseObject(JSON.toJSONString(configvo), Map.class);
+            hall.getRoomMgr().createRoom(config);
+        });
+        add(Long.valueOf(key.toString()), hall);
+
+        return hall;
+
+    }
+
     // 查询数据库,获取所有的id
     void init() {
 
         Map<String, Object> map = new HashMap<>();
         // 1.奔驰宝马
-        map.put("gameId", 1);
+        map.put("gameId", GameMain.getInstance().getGameMgr().getGameId());
         Map<String, ComCallback> gameServiceMap = Communication.getGameServiceMap();
         ComCallback callback = gameServiceMap.get("/game/getWildGameRoomConfigVo2");
         GlobeResponse func = (GlobeResponse) callback.func(map);
@@ -72,34 +85,8 @@ public final class HallMgr {
             List list = JSON.parseObject(jsonString1, List.class);
             System.out.println(list);
 
-
-            Hall hall1 = new Hall();
-            RoomMgr roomMgr = hall1.getRoomMgr();
-            HashMap<String, Room> rooms = roomMgr.getRooms();
-
-            // 一个房间
-            list.stream().forEach(configvo -> {
-
-                Room room = new Room();
-                Map<String, Object> roomConfig = room.getRoomConfig();
-
-                Map config = JSON.parseObject(JSON.toJSONString(configvo), Map.class);
-
-                Map tbRoomConfig = JSON.parseObject(JSON.toJSONString(config.get("tbRoomConfig")), Map.class);
-                Map tbGameRoom = JSON.parseObject(JSON.toJSONString(config.get("tbGameRoom")), Map.class);
-
-                roomConfig.putAll(tbGameRoom);
-                roomConfig.putAll(tbRoomConfig);
-
-                Object id = tbGameRoom.get("id");
-                rooms.put(String.valueOf(id), room);
-
-            });
-
-            add(Long.valueOf(key.toString()), hall1);
-
+            createHall(Long.valueOf(key.toString()), list);
         });
-
 
     }
 }

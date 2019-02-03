@@ -9,8 +9,13 @@ import java.util.Map;
 import com.micro.frame.socket.Response;
 
 public class Hall {
-    private @Getter RoomMgr roomMgr = new RoomMgr();
+    private @Getter RoomMgr roomMgr;
     private @Getter HashMap<String, Role> roles = new HashMap<String, Role>();
+
+    Hall() {
+        roomMgr = new RoomMgr();
+        roomMgr.setHall(this);
+    }
 
     public void enter(Role role) {
         roles.put(role.uniqueId, role);
@@ -22,8 +27,8 @@ public class Hall {
         roomMgr.getRooms().get(id).enter(role);
     }
 
-    public void senToAll(Response msg){
-        for(Role role:roles.values()){
+    public void senToAll(Response msg) {
+        for (Role role : roles.values()) {
             role.sendMsg(msg);
         }
     }

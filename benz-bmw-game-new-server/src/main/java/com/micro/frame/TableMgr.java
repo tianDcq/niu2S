@@ -4,12 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * TableMgr
  */
 public class TableMgr {
-    private Hall hall;
+    private @Setter Room room;
     private @Getter HashMap<Integer, Table> tables = new HashMap<>();
 
     private int index;
@@ -18,6 +19,7 @@ public class TableMgr {
 
     private Table createTable() {
         Table table = GameMain.getInstance().getGameMgr().createTable();
+        table.room = room;
 
         // TODO
         return table;

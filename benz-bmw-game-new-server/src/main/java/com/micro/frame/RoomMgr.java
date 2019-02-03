@@ -1,11 +1,32 @@
 package com.micro.frame;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Getter;
+import lombok.Setter;
+
+import com.alibaba.fastjson.JSON;
 
 public class RoomMgr {
     private @Getter HashMap<String, Room> rooms = new HashMap<>();
+    private @Setter Hall hall;
+
+    Room createRoom(Map configvo) {
+        Map<String, Object> roomConfig = new HashMap<String, Object>();
+        Map config = JSON.parseObject(JSON.toJSONString(configvo), Map.class);
+        Map tbRoomConfig = JSON.parseObject(JSON.toJSONString(config.get("tbRoomConfig")), Map.class);
+        Map tbGameRoom = JSON.parseObject(JSON.toJSONString(config.get("tbGameRoom")), Map.class);
+        roomConfig.putAll(tbGameRoom);
+        roomConfig.putAll(tbRoomConfig);
+
+        Room room = new Room();
+        room.setHall(hall);
+        room.init(config);
+        rooms.put(String.valueOf(tbGameRoom.get("id")), room);
+
+        return room;
+    }
 
     void doStop() {
         for (Room room : rooms.values()) {

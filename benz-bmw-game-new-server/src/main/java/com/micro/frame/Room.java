@@ -1,6 +1,7 @@
 package com.micro.frame;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -8,17 +9,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Room {
-    private @Getter Hall hall;
+    private @Setter @Getter Hall hall;
     public long roomId;
 
     public enum PairStatus {
         Success, Failed
     }
 
-    private @Getter TableMgr tableMgr = new TableMgr();
+    private @Getter TableMgr tableMgr;
     private @Getter HashMap<String, Role> roles = new HashMap<>();
     private @Getter ArrayDeque<Robot> waitRobots = new ArrayDeque<>(100);
-    private @Getter Map<String, Object> RoomConfig = new HashMap<>();
+    private @Getter Map<String, Object> roomConfig;
+
+    Room() {
+        tableMgr = new TableMgr();
+        tableMgr.setRoom(this);
+    }
+
+    void init(Map<String, Object> roomConfig) {
+        this.roomConfig = roomConfig;
+        prepareTable();
+    }
+
+    void prepareTable() {
+        if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
+            tableMgr.getWait().pair();
+        }
+    }
 
     public boolean enter(Role role) {
         roles.put(role.uniqueId, role);
