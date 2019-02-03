@@ -33,6 +33,14 @@ public abstract class Table extends Root {
     private Timer robotTimer;
     private Timer pairTimer;
 
+    void init() {
+        onInit();
+    }
+
+    void onInit() {
+
+    }
+
     protected Config.Error startPair() {
 
         // if (configs.pairTime > 0) {
@@ -200,7 +208,7 @@ public abstract class Table extends Root {
                 }
             }
         }
-        for(Role role:roles.values()){
+        for (Role role : roles.values()) {
             role.checkMoney();
         }
 
@@ -209,7 +217,7 @@ public abstract class Table extends Root {
 
     // 游戏结束
     protected void end() {
-        for(Role role:roles.values()){
+        for (Role role : roles.values()) {
             role.save();
         }
     }
