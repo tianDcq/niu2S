@@ -73,8 +73,8 @@ public abstract class Player extends Role {
 		accountType = (int) data.get("account_type");
 		accountBet = (boolean) data.get("account_bet");
 		playId = (String) data.get("play_id");
-
 		super.init(data);
+		siteId=1;
 	}
 
 	@Override
