@@ -27,29 +27,27 @@ public class GameHttpRequest {
 
     public void sendForm(String url, Map<String, Object> params) {
         try {
-            ThreadPool.getExecutor().execute(()->{
-                TaskMgr taskMgr = GameMain.getInstance().getTaskMgr();
-                Map<String, ComCallback> gameServiceMap = GameMain.getInstance().getReqMgr().gccoutServiceMap();
-                ComCallback callback = gameServiceMap.get(url);
-                GlobeResponse<Object> func = (GlobeResponse<Object>) callback.func(params);
+            TaskMgr taskMgr = GameMain.getInstance().getTaskMgr();
+            Map<String, ComCallback> gameServiceMap = GameMain.getInstance().getReqMgr().gccoutServiceMap();
+            ComCallback callback = gameServiceMap.get(url);
+            GlobeResponse<Object> func = (GlobeResponse<Object>) callback.func(params);
 
-                String json = JSON.toJSONString(func.getData());
+            String json = JSON.toJSONString(func.getData());
 
-                Map map = JSON.parseObject(json, Map.class);
+            Map map = JSON.parseObject(json, Map.class);
 
-                if ("200".equals(func.getCode())) {
-                    if (successCallback != null) {
-                        successCallback.setData(map);
-                        taskMgr.createTrigger(successCallback).fire();
-                    }
-
-                } else {
-                    if (failCallback != null) {
-                        failCallback.setData(map);
-                        taskMgr.createTrigger(failCallback).fire();
-                    }
+            if ("200".equals(func.getCode())) {
+                if (successCallback != null) {
+                    successCallback.setData(map);
+                    taskMgr.createTrigger(successCallback).fire();
                 }
-            });
+
+            } else {
+                if (failCallback != null) {
+                    failCallback.setData(map);
+                    taskMgr.createTrigger(failCallback).fire();
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
