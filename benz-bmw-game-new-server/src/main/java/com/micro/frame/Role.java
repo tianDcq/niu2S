@@ -102,6 +102,10 @@ public abstract class Role extends Root {
 
 	}
 
+	public void addMoney(long win) {
+		money += win;
+	}
+
 	void onEnterTable() {
 
 	}

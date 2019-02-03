@@ -45,8 +45,8 @@ final class HCTable extends Table {
         maxBanker = (int) roomConfig.get("bankerTime");
         minChip = (int) roomConfig.get("bottomRed1");
         maxChip = (int) roomConfig.get("bottomRed2");
-        // allowBank=(int)roomConfig.get("shangzhuangSwitch")==1;
-        allowBank = true;
+        allowBank=(int)roomConfig.get("shangzhuangSwitch")==1;
+ 
         bankMoney = (int) roomConfig.get("bankerCond");
         chipList = new ChipStruct[8];
         for (int i = 0; i < 8; ++i) {

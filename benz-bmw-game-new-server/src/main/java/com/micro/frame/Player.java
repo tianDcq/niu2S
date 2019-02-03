@@ -47,14 +47,17 @@ public abstract class Player extends Role {
 
 	private @Getter @Setter ChannelHandlerContext ctx;
 
+	@Override
 	public void save() {
 		// sql.save((money-sqlMoney)/100);
 	}
 
+	@Override
 	public void checkMoney() {
 		money = sqlMoney;
 	}
 
+	@Override
 	public void addMoney(long win) {
 		sqlMoney += win;
 		money += win;
@@ -74,6 +77,7 @@ public abstract class Player extends Role {
 		super.init(data);
 	}
 
+	@Override
 	public void sendMsg(Response res) {
 		GameMain.getInstance().getMsgQueue().send(this.ctx, res);
 	}
