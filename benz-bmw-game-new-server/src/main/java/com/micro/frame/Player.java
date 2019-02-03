@@ -2,8 +2,8 @@ package com.micro.frame;
 
 import java.util.HashMap;
 
+import com.micro.frame.socket.BaseRespone;
 import com.micro.frame.socket.Request;
-import com.micro.frame.socket.Response;
 
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
@@ -78,7 +78,7 @@ public abstract class Player extends Role {
 	}
 
 	@Override
-	public void send(Response res) {
+	public void send(BaseRespone res) {
 		GameMain.getInstance().getMsgQueue().send(this.ctx, res);
 	}
 }

@@ -353,9 +353,6 @@ final class HCTable extends Table {
         for (int i = 0; i < 8; ++i) {
             int p = (int) (Math.random() * (list.size() + 1));
             if (banker instanceof Player) {
-                snedLottoryMessage(p);
-                return;
-            } else {
                 int b = list.remove(p);
                 HCGameMain game = (HCGameMain) GameMain.getInstance();
                 long win = 0;
@@ -370,6 +367,9 @@ final class HCTable extends Table {
                     snedLottoryMessage(p);
                     return;
                 }
+            } else {
+                snedLottoryMessage(p);
+                return;
             }
         }
 

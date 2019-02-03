@@ -1,6 +1,6 @@
 package com.micro.frame.socket;
 
-public class ErrRespone extends Response {
+public class ErrRespone extends BaseRespone {
     public String msg;
 
     public ErrRespone(int type, int state, String msg) {

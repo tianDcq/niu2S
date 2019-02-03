@@ -3,6 +3,7 @@ package com.micro.frame;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import com.micro.frame.socket.BaseRespone;
 import com.micro.frame.socket.Response;
 
 import lombok.Getter;
@@ -139,7 +140,7 @@ public abstract class Role extends Root {
 		onDestroy();
 	}
 
-	public void send(Response res) {
+	public void send(BaseRespone res) {
 
 	}
 
