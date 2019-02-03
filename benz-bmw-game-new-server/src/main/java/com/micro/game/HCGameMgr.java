@@ -8,14 +8,17 @@ class HCGameMgr extends GameMgr {
         gameId = 1;
     }
 
+    @Override
     public Player createPlayer() {
         return new HCPlayer();
     }
 
+    @Override
     public Robot createRobot() {
         return new HCRobot();
     }
 
+    @Override
     public Table createTable() {
         return new HCTable();
     }

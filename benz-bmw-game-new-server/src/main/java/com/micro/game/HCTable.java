@@ -263,6 +263,7 @@ final class HCTable extends Table {
         return money;
     }
 
+    @Override
     public void onStart() {
         time = waitTime;
         gameStae = 2;
@@ -484,14 +485,17 @@ final class HCTable extends Table {
         }
     }
 
+    @Override
     protected void onDestroy() {
         schedule.stop();
     };
 
+    @Override
     protected void onStop() {
 
     };
 
+    @Override
     protected void onTerminate() {
 
     };

@@ -14,6 +14,7 @@ import lombok.Getter;
 class HCPlayer extends Player implements HCRoleInterface {
     public @Getter ChipStruct[] chipList = new ChipStruct[8];
 
+    @Override
     public void onMsg(Request req) {
         Map<String, Object> map = req.msg;
         String msgType = (String) map.get("msgType");
@@ -36,7 +37,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             for (Map.Entry<String, Room> entry : rooms.entrySet()) {
                 Room room = entry.getValue();
                 Map<String, Object> roomConfig = room.getRoomConfig();
-                Map<String,Object> roomC=new HashMap<>();
+                Map<String, Object> roomC = new HashMap<>();
                 roomC.put("roomType", roomConfig.get("roomType"));
                 roomC.put("roomId", room.roomId);
                 roomC.put("roomName", roomConfig.get("roomName"));
@@ -89,9 +90,11 @@ class HCPlayer extends Player implements HCRoleInterface {
 
         }
     }
-    public void endGame(){
-        for(int i=0;i<8;++i){
-            chipList[i].betAmount=0;
+
+    @Override
+    public void endGame() {
+        for (int i = 0; i < 8; ++i) {
+            chipList[i].betAmount = 0;
         }
     }
 }
