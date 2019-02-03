@@ -36,7 +36,7 @@ public class Room {
         }
     }
 
-    public Config.Error enter(Role role) {
+    Config.Error enter(Role role) {
         roles.put(role.uniqueId, role);
         onEnter(role);
         if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
@@ -46,9 +46,9 @@ public class Room {
         return Config.ERR_SUCCESS;
     }
 
-    protected Config.Error exit(Role role) {
-        roles.remove(role.uniqueId);
+    Config.Error exit(Role role) {
         onExit(role);
+        roles.remove(role.uniqueId);
         if (role instanceof Robot) {
             waitRobots.addLast((Robot) role);
         } else {
@@ -57,13 +57,9 @@ public class Room {
         return Config.ERR_SUCCESS;
     }
 
-    public PairStatus pair(Role role) {
+    public Config.Error pair(Role role) {
         Table table = tableMgr.getWait();
-        if (table.pair(role) == Config.ERR_SUCCESS) {
-            this.exit(role);
-            return PairStatus.Success;
-        }
-        return PairStatus.Failed;
+        return table.pair(role);
     }
 
     Robot getRobot() {

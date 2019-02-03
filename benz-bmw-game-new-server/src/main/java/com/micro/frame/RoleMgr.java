@@ -74,7 +74,13 @@ public final class RoleMgr {
         if (player != null) {
             player.setCtx(null);
             ctxs.remove(ctx);
-            player.onDisconnect();
+
+            // 只有桌子存在的时候才会通知
+            if (player.table != null) {
+                player.onDisconnect();
+            } else {
+                player.exitHall();
+            }
         }
     }
 
@@ -102,7 +108,9 @@ public final class RoleMgr {
     }
 
     private void removePlayer(Player player) {
-        // @TODO
+        if (player.getCtx() != null) {
+
+        }
     }
 
     public void removeAllRobots() {

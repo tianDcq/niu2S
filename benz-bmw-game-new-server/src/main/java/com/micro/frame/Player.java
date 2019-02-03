@@ -96,6 +96,12 @@ public abstract class Player extends Role {
 			}
 		}
 
+		if (this.hall != null) {
+			this.hall.exit(this);
+		}
+
+		GameMain.getInstance().getRoleMgr().removeRole(this);
+
 		return Config.ERR_SUCCESS;
 	}
 

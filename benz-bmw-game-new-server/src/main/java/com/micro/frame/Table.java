@@ -160,8 +160,8 @@ public abstract class Table extends Root {
     }
 
     Config.Error exit(Role role) {
-        roles.remove(role.uniqueId);
         onExit(role);
+        roles.remove(role.uniqueId);
         return Config.ERR_SUCCESS;
     }
 
