@@ -44,50 +44,6 @@ public abstract class Table extends Root {
 
     protected Config.Error startPair() {
 
-        // if (configs.pairTime > 0) {
-        // if (robotTimer != null) {
-        // robotTimer.stop();
-        // }
-        // robotTimer =
-        // GameMain.getInstance().getTaskMgr().createTimer(configs.robotTime, new
-        // Callback() {
-
-        // void randomAddRobot() {
-
-        // }
-
-        // @Override
-        // public void func() {
-        // randomAddRobot();
-        // }
-        // }, this);
-
-        // if (pairTimer != null) {
-        // pairTimer.stop();
-        // }
-
-        // pairTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.pairTime,
-        // new Callback() {
-        // @Override
-        // public void func() {
-        // if (robotTimer != null) {
-        // robotTimer.stop();
-        // robotTimer = null;
-        // }
-
-        // int need = configs.max - roles.size();
-        // for (int i = 0; i < need; ++i) {
-        // dragRobot();
-        // }
-
-        // if (configs.max != roles.size()) {
-        // shutdown();
-        // }
-        // }
-        // });
-
-        // }
-
         Config.RobotPairType robotConfig = GameMain.getInstance().getGameMgr().getRobotPairType();
         if (robotConfig.type == Config.RobotPairType.Type.One) {
             int num = robotConfig.max - robotConfig.min;
@@ -95,6 +51,46 @@ public abstract class Table extends Root {
             for (int i = 0; i < num; ++i) {
                 dragRobot();
             }
+        } else if (robotConfig.type == Config.RobotPairType.Type.Fix
+                || robotConfig.type == Config.RobotPairType.Type.Range) {
+
+            if (robotTimer != null) {
+                robotTimer.stop();
+            }
+            robotTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.robotTime, new Callback() {
+
+                void randomAddRobot() {
+
+                }
+
+                @Override
+                public void func() {
+                    randomAddRobot();
+                }
+            }, this);
+
+            if (pairTimer != null) {
+                pairTimer.stop();
+            }
+
+            pairTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.pairTime, new Callback() {
+                @Override
+                public void func() {
+                    if (robotTimer != null) {
+                        robotTimer.stop();
+                        robotTimer = null;
+                    }
+
+                    int need = configs.max - roles.size();
+                    for (int i = 0; i < need; ++i) {
+                        dragRobot();
+                    }
+
+                    if (configs.max != roles.size()) {
+                        shutdown();
+                    }
+                }
+            });
         }
 
         status = Status.Pair;
