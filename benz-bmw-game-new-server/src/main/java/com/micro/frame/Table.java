@@ -34,6 +34,7 @@ public abstract class Table extends Root {
     private Timer pairTimer;
 
     void init() {
+        status = Status.Open;
         onInit();
     }
 
