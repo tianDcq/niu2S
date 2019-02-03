@@ -29,7 +29,7 @@ public class Hall {
 
     public void senToAll(Response msg) {
         for (Role role : roles.values()) {
-            role.sendMsg(msg);
+            role.send(msg);
         }
     }
 

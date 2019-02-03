@@ -45,8 +45,8 @@ final class HCTable extends Table {
         maxBanker = (int) roomConfig.get("bankerTime");
         minChip = (int) roomConfig.get("bottomRed1");
         maxChip = (int) roomConfig.get("bottomRed2");
-        allowBank=(int)roomConfig.get("shangzhuangSwitch")==1;
- 
+        allowBank = (int) roomConfig.get("shangzhuangSwitch") == 1;
+
         bankMoney = (int) roomConfig.get("bankerCond");
         chipList = new ChipStruct[8];
         for (int i = 0; i < 8; ++i) {
@@ -68,7 +68,7 @@ final class HCTable extends Table {
         msg.put("token", role.token);
         msg.put("uniqueId", role.uniqueId);
         mm.msg = msg;
-        pushMsgToOther(mm, ownMsg, role.uniqueId);
+        broadcast(ownMsg, mm, role.uniqueId);
     };
 
     @Override
@@ -82,24 +82,24 @@ final class HCTable extends Table {
         ownMsg.msg = msg;
         Response mm = new Response(2008, 1);
         mm.msg = new HashMap<>(msg);
-        pushMsgToOther(mm, ownMsg, role.uniqueId);
+        broadcast(ownMsg, mm, role.uniqueId);
     };
 
     @SuppressWarnings("unchecked")
     public boolean playerChip(Role role, Map<String, Object> map) {
         if (gameStae != 1) {
             ErrRespone msg = new ErrRespone(2002, 0, "不在下注阶段");
-            role.sendMsg(msg);
+            role.send(msg);
             return false;
         }
         if (banker == role) {
             ErrRespone msg = new ErrRespone(2002, 0, "庄家不能下注");
-            role.sendMsg(msg);
+            role.send(msg);
             return false;
         }
         if ((int) map.get("gameIndex") != gameIndex) {
             ErrRespone msg = new ErrRespone(2002, 0, "局数不对");
-            role.sendMsg(msg);
+            role.send(msg);
             return false;
         } else {
             Object obj = map.get("betInfo");
@@ -111,12 +111,12 @@ final class HCTable extends Table {
             }
             if (nMoney > role.money) {
                 ErrRespone msg = new ErrRespone(2002, 0, "钱不够下注");
-                role.sendMsg(msg);
+                role.send(msg);
                 return false;
             }
             if (nMoney < minChip || nMoney > maxChip) {
                 ErrRespone msg = new ErrRespone(2002, 0, "下注不在允许范围");
-                role.sendMsg(msg);
+                role.send(msg);
                 return false;
             }
             for (int i = 0; i < list.size(); ++i) {
@@ -140,7 +140,7 @@ final class HCTable extends Table {
             playerInfo.add(playerInfo);
             otherMsg.msg = new HashMap<String, Object>();
             otherMsg.msg.put("playerInfo", playerInfo);
-            pushMsgToOther(otherMsg, ownMsg, role.uniqueId);
+            broadcast(ownMsg, otherMsg, role.uniqueId);
             return true;
         }
     }
@@ -149,10 +149,10 @@ final class HCTable extends Table {
         if (allowBank) {
             if (role.money < bankMoney) {
                 ErrRespone res = new ErrRespone(2009, 0, "钱不够不能上庄");
-                role.sendMsg(res);
+                role.send(res);
             } else if (bankerList.contains(role.uniqueId)) {
                 ErrRespone res = new ErrRespone(2009, 0, "你已经在列表里面了");
-                role.sendMsg(res);
+                role.send(res);
             } else {
                 bankerList.add(role.uniqueId);
                 String size = String.valueOf(bankerList.size());
@@ -166,7 +166,7 @@ final class HCTable extends Table {
                 msg.put("token", role.token);
                 msg.put("uniqueId", role.uniqueId);
                 otherMsg.msg = msg;
-                pushMsgToOther(otherMsg, ownMsg, role.uniqueId);
+                broadcast(ownMsg, otherMsg, role.uniqueId);
             }
         }
     };
@@ -174,7 +174,7 @@ final class HCTable extends Table {
     public void playerDownBanker(Role role) {
         if (gameStae != 2) {
             ErrRespone msg = new ErrRespone(2002, 0, "现在不能下庄");
-            role.sendMsg(msg);
+            role.send(msg);
             return;
         }
         if (bankerList.remove(role.uniqueId)) {
@@ -185,7 +185,7 @@ final class HCTable extends Table {
             otherMsg.msg.put("playerCoins", role.money);
             otherMsg.msg.put("token", role.token);
             otherMsg.msg.put("uniqueId", role.uniqueId);
-            pushMsgToOther(otherMsg, ownMsg, role.uniqueId);
+            broadcast(ownMsg, otherMsg, role.uniqueId);
         }
     };
 
@@ -252,7 +252,7 @@ final class HCTable extends Table {
         msg.put("freeTime", waitTime);
         msg.put("tax", revenue);
         response.msg = msg;
-        role.sendMsg(response);
+        role.send(response);
     };
 
     public long getCountMoney() {
@@ -337,7 +337,7 @@ final class HCTable extends Table {
             currentHost.put("uniqueId", banker.uniqueId);
         }
         response.msg = currentHost;
-        pushMsgToAll(response);
+        broadcast(response);
     };
 
     private void lottory() {
@@ -421,7 +421,7 @@ final class HCTable extends Table {
         msg.put("bankerSettlement", bankerWin);
         msg.put("playerSettlement", playerTatle);
         response.msg = msg;
-        pushMsgToAll(response);
+        broadcast(response);
         Response hallResponse = new Response(2021, 1);
         Map<String, Object> hallMsg = new HashMap<>();
         hallMsg.put("roomId", room.getRoomConfig().get("gameRoomId"));
@@ -468,23 +468,6 @@ final class HCTable extends Table {
         gameStae = 1;
         time = chipTime;
     };
-
-    public void pushMsgToAll(Response msg) {
-        for (Role rr : roles.values()) {
-            rr.sendMsg(msg);
-        }
-    };
-
-    public void pushMsgToOther(Response otherMsg, Response ownMsg, String tarID) {
-        for (Role rr : roles.values()) {
-            String id = rr.uniqueId;
-            if (tarID.equals(id)) {
-                rr.sendMsg(ownMsg);
-            } else {
-                rr.sendMsg(otherMsg);
-            }
-        }
-    }
 
     @Override
     protected void onDestroy() {

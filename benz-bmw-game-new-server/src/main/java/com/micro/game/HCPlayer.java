@@ -43,7 +43,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("roomType", roomConfig.get("roomType"));
                 roomC.put("roomId", room.getRoomConfig().get("gameRoomId"));
                 roomC.put("roomName", roomConfig.get("roomName"));
-                roomC.put("hostAble", (int)roomConfig.get("shangzhuangSwitch")==1);
+                roomC.put("hostAble", (int) roomConfig.get("shangzhuangSwitch") == 1);
                 roomC.put("minBet", roomConfig.get("bottomRed1"));
                 roomC.put("maxBet", roomConfig.get("bottomRed2"));
 
@@ -58,17 +58,17 @@ class HCPlayer extends Player implements HCRoleInterface {
             }
             msg.put("roomData", roomData);
             mm.msg = msg;
-            sendMsg(mm);
+            send(mm);
             break;
         }
         case "2010": {
             if (chipList.length > 0) {
                 ErrRespone msg = new ErrRespone(2010, 0, "已经下注不能退出");
-                sendMsg(msg);
+                send(msg);
                 return;
             } else if (((HCTable) table).getGameStae() == 0) {
                 ErrRespone msg = new ErrRespone(2010, 0, "已经开奖不能退出");
-                sendMsg(msg);
+                send(msg);
                 return;
             }
             ((HCTable) table).exit(this);

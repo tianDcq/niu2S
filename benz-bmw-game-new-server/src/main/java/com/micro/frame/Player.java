@@ -74,11 +74,11 @@ public abstract class Player extends Role {
 		accountBet = (boolean) data.get("account_bet");
 		playId = (String) data.get("play_id");
 		super.init(data);
-		siteId=1;
+		siteId = 1;
 	}
 
 	@Override
-	public void sendMsg(Response res) {
+	public void send(Response res) {
 		GameMain.getInstance().getMsgQueue().send(this.ctx, res);
 	}
 }

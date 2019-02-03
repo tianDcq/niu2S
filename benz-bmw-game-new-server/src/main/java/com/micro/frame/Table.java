@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.micro.frame.socket.Response;
 import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.Static;
 
 import lombok.Getter;
@@ -101,7 +102,7 @@ public abstract class Table extends Root {
     protected Config.Error dragRobot() {
         Robot robot = room.getRobot();
         robot.prepareEnterTable(this);
-        
+
         return pair(robot);
     }
 
@@ -263,6 +264,22 @@ public abstract class Table extends Root {
         }
 
         onStop();
+    }
+
+    protected void broadcast(Response msg) {
+        for (Role r : roles.values()) {
+            r.send(msg);
+        }
+    }
+
+    protected void broadcast(Response self, Response other, String uniqueId) {
+        for (Role r : roles.values()) {
+            if (uniqueId.equals(r.uniqueId)) {
+                r.send(self);
+            } else {
+                r.send(other);
+            }
+        }
     }
 
     protected abstract void onStop();

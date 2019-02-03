@@ -29,7 +29,7 @@ class HCRobot extends Robot implements HCRoleInterface {
     }
 
     @Override
-    public void sendMsg(Response res) {
+    public void send(Response res) {
         String msgType = res.msgType;
         if (msgType == "2012") {
             int state = (int) res.msg.get("betable");
