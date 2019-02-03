@@ -6,6 +6,7 @@ import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 public class MsgQueue {
     private LinkedBlockingQueue<Request> receiveQ1 = new LinkedBlockingQueue<>();
@@ -24,7 +25,7 @@ public class MsgQueue {
     }
 
     public void send(ChannelHandlerContext ctx, Response o) {
-        ctx.writeAndFlush(o.toString());
+        ctx.writeAndFlush(new TextWebSocketFrame(o.toString()));
     }
 
     public Request get() {
