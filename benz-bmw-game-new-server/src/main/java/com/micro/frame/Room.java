@@ -41,17 +41,21 @@ public class Room {
         role.enterRoom(this);
         onEnter(role);
 
-        if(GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One){
+        if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
             pair(role);
         }
 
         return true;
     }
 
-    private void exit(Role role) {
+    protected Config.Error exit(Role role) {
         roles.remove(role.uniqueId);
         role.exitRoom();
         onExit(role);
+        if (role instanceof Robot) {
+            waitRobots.addLast((Robot) role);
+        }
+        return Config.ERR_SUCCESS;
     }
 
     public PairStatus pair(Role role) {

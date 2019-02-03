@@ -95,6 +95,8 @@ public abstract class Role extends Root {
 		this.room = null;
 	}
 
+	public abstract Config.Error exitGame();
+
 	protected void save() {
 
 	}

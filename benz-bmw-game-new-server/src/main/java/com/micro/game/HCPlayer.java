@@ -71,7 +71,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                 send(msg);
                 return;
             }
-            ((HCTable) table).exit(this);
+            this.exitGame();
             break;
         }
         case "2009": {

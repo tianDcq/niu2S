@@ -26,6 +26,17 @@ public abstract class Robot extends Role {
         super.init();
     }
 
+    public Config.Error exitGame() {
+        if (this.table != null) {
+            Config.Error err = this.table.exit(this);
+            if (err != Config.ERR_SUCCESS) {
+                return err;
+            }
+        }
+
+        return Config.ERR_SUCCESS;
+    }
+
     void prepareEnterTable(Table table) {
         onPrepareEnterTable(table);
     }
