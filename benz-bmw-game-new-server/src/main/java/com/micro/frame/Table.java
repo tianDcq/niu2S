@@ -2,6 +2,7 @@ package com.micro.frame;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.micro.frame.socket.BaseRespone;
@@ -150,33 +151,17 @@ public abstract class Table extends Root {
 
     }
 
-    protected boolean enter(Role role) {
-        if (addRole(role)) {
-            role.enterTable(this);
-            onEnter(role);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean exit(Role role) {
-        if (removeRole(role)) {
-            role.exitTable();
-            role.room.enter(role);
-            onExit(role);
-            return true;
-        }
-        return false;
-    }
-
-    protected boolean addRole(Role role) {
+    boolean enter(Role role) {
         roles.put(role.uniqueId, role);
+        role.enterTable(this);
+        onEnter(role);
         return true;
     }
 
-    protected boolean removeRole(Role role) {
+    Config.Error exit(Role role) {
         roles.remove(role.uniqueId);
-        return true;
+        onExit(role);
+        return Config.ERR_SUCCESS;
     }
 
     // 保存所有玩家数据
@@ -228,9 +213,10 @@ public abstract class Table extends Root {
     protected void destroy() {
         save();
         for (Role role : roles.values()) {
-            role.exitTable();
+            role.exitRoom();
             onExit(role);
         }
+        roles.clear();
 
         onDestroy();
     }

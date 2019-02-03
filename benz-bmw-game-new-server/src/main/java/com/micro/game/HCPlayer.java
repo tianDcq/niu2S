@@ -30,7 +30,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         case "2001": {
             if (hall != null && table == null) {
                 Object roomId = map.get("roomId");
-                hall.enterRoom(this, roomId.toString());
+                this.enterRoom(roomId.toString());
             }
             break;
         }
@@ -78,7 +78,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                 send(msg);
                 return;
             }
-            table.exit(this);
+            this.exitRoom();
             break;
         }
         case "2009": {

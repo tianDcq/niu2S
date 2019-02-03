@@ -36,22 +36,25 @@ public class Room {
         }
     }
 
-    public boolean enter(Role role) {
+    public Config.Error enter(Role role) {
         roles.put(role.uniqueId, role);
-        role.enterRoom(this);
         onEnter(role);
-
-        if(GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One){
+        if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
             pair(role);
         }
 
-        return true;
+        return Config.ERR_SUCCESS;
     }
 
-    private void exit(Role role) {
+    protected Config.Error exit(Role role) {
         roles.remove(role.uniqueId);
-        role.exitRoom();
         onExit(role);
+        if (role instanceof Robot) {
+            waitRobots.addLast((Robot) role);
+        } else {
+            role.enterHall(role.hall);
+        }
+        return Config.ERR_SUCCESS;
     }
 
     public PairStatus pair(Role role) {

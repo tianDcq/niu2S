@@ -79,6 +79,31 @@ public abstract class Player extends Role {
 
 	@Override
 	public void send(BaseRespone res) {
-		GameMain.getInstance().getMsgQueue().send(this.ctx, res);
+		GameMain.getInstance().getMsgQueue().send(this, res);
+	}
+
+	public Config.Error exitHall() {
+		if (this.table != null) {
+			Config.Error err = this.table.exit(this);
+			if (err != Config.ERR_SUCCESS) {
+				return err;
+			}
+		}
+		if (this.room != null) {
+			Config.Error err = this.room.exit(this);
+			if (err != Config.ERR_SUCCESS) {
+				return err;
+			}
+		}
+
+		return Config.ERR_SUCCESS;
+	}
+
+	protected void onDisconnect() {
+
+	}
+
+	protected void onReconnect() {
+
 	}
 }

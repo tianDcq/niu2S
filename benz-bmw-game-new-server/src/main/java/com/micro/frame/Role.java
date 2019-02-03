@@ -44,6 +44,8 @@ public abstract class Role extends Root {
 
 	private boolean inited;
 
+	protected @Getter @Setter boolean locked;
+
 	boolean getInited() {
 		return inited;
 	}
@@ -77,24 +79,64 @@ public abstract class Role extends Root {
 	}
 
 	void enterHall(Hall hall) {
+		hall.enter(this);
 		this.hall = hall;
 		onEnterHall();
 	}
 
-	void exitTable() {
-		onExitTable();
-		this.table = null;
+	public Config.Error enterRoom() {
+		// TODO 断线重连
+		return Config.ERR_SUCCESS;
 	}
 
-	void enterRoom(Room room) {
-		this.room = room;
-		onEnterRoom();
+	public Config.Error enterRoom(String id) {
+		if (this.hall != null) {
+			Room room = hall.getRoomMgr().getRooms().get(id);
+			if (room != null) {
+				return enterRoom(room);
+			}
+		}
+
+		return Config.ERR_FAILURE;
 	}
 
-	void exitRoom() {
-		onExitRoom();
-		this.room = null;
+	public Config.Error enterRoom(Room room) {
+		Config.Error err = room.enter(this);
+		if (err == Config.ERR_SUCCESS) {
+			hall.exit(this);
+			this.room = room;
+			onEnterRoom();
+			return Config.ERR_SUCCESS;
+		}
+
+		return err;
 	}
+
+	public Config.Error exitRoom() {
+
+		if (this.table != null) {
+			Config.Error err = this.table.exit(this);
+			if (err != Config.ERR_SUCCESS) {
+				return err;
+			}
+
+			onExitTable();
+			this.table = null;
+		}
+		if (this.room != null) {
+			Config.Error err = this.room.exit(this);
+			if (err != Config.ERR_SUCCESS) {
+				return err;
+			}
+
+			onExitRoom();
+			this.room = null;
+		}
+
+		return Config.ERR_SUCCESS;
+	}
+
+	public abstract Config.Error exitHall();
 
 	protected void save() {
 

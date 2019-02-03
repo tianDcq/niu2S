@@ -96,16 +96,6 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 	 */
 	@Override
 	public void handlerAdded(ChannelHandlerContext ctx) {
-		Channel channel = ctx.channel();
-		WebSocketData webSocketData = new WebSocketData();
-		webSocketData.setChannel(channel);
-		NettyChannelMap.add(channel.id(), webSocketData);
-
-		// Request req = new Request();
-		// req.ctx = ctx;
-		// req.millisecond = System.currentTimeMillis();
-		// GameMain.getInstance().getMsgQueue().receive(req);
-
 	}
 
 	/**
@@ -117,7 +107,6 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 	public void handlerRemoved(ChannelHandlerContext ctx) {
 		Channel channel = ctx.channel();
 		brokeConnection(ctx);
-		// NettyChannelMap.removeByChannelId(channel.id() + "");
 	}
 
 	/**
@@ -181,7 +170,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 	 */
 	private void brokeConnection(ChannelHandlerContext ctx) {
 		try {
-			WebSocketData webSocketData = NettyChannelMap.get(ctx.channel().id() + "");
+			GameMain.getInstance().getRoleMgr().disconnect(ctx);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("用户掉线异常：", e);
