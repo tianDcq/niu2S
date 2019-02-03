@@ -57,17 +57,17 @@
         </dependency>
 
         <!-- redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>${redis}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-redis</artifactId>-->
+            <!--<version>${redis}</version>-->
+        <!--</dependency>-->
 
         <!--mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+        <!--</dependency>-->
 
         <!--test-->
         <dependency>
@@ -83,16 +83,16 @@
         <dependencies>
 
             <!--swagger2-->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>io.springfox</groupId>-->
+                <!--<artifactId>springfox-swagger2</artifactId>-->
+                <!--<version>${swagger}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>io.springfox</groupId>-->
+                <!--<artifactId>springfox-swagger-ui</artifactId>-->
+                <!--<version>${swagger}</version>-->
+            <!--</dependency>-->
 
             <!--validator 数据校验-->
             <dependency>
@@ -102,58 +102,47 @@
             </dependency>
 
             <!--mybatis -->
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.mybatis.spring.boot</groupId>-->
+                <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
+                <!--<version>${mybatis}</version>-->
+            <!--</dependency>-->
 
             <!--mapper -->
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring-boot-starter</artifactId>
-                <version>${mapper}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-jdbc</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>tk.mybatis</groupId>-->
+                <!--<artifactId>mapper-spring-boot-starter</artifactId>-->
+                <!--<version>${mapper}</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.springframework.boot</groupId>-->
+                        <!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions>-->
+            <!--</dependency>-->
 
             <!--druid-->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.alibaba</groupId>-->
+                <!--<artifactId>druid-spring-boot-starter</artifactId>-->
+                <!--<version>${druid}</version>-->
+            <!--</dependency>-->
 
             <!--spring-boot-admin 客户端-->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-client</artifactId>
-                <version>${spring-boot-admin-client}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>de.codecentric</groupId>-->
+                <!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
+                <!--<version>${spring-boot-admin-client}</version>-->
+            <!--</dependency>-->
 
             <!--公共包-->
-            <dependency>
-                <groupId>com.micro.common</groupId>
-                <artifactId>common-module</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.micro.common</groupId>-->
+                <!--<artifactId>common-module</artifactId>-->
+                <!--<version>0.0.1-SNAPSHOT</version>-->
+            <!--</dependency>-->
 
-            <!--pagehelper 分页助手 -->
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>1.2.5</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.mybatis.spring.boot</groupId>
-                        <artifactId>mybatis-spring-boot-starter</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+
 
             <!-- commons-collections -->
             <dependency>
@@ -162,50 +151,16 @@
                 <version>3.2.2</version>
             </dependency>
 
-            <!--shiro依赖-->
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-core</artifactId>
-                <version>1.4.0</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>slf4j-api</artifactId>
-                        <groupId>org.slf4j</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
 
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-spring</artifactId>
-                <version>1.4.0</version>
-            </dependency>
 
-            <dependency>
-                <groupId>org.crazycake</groupId>
-                <artifactId>shiro-redis</artifactId>
-                <version>2.4.2.1-RELEASE</version>
-            </dependency>
 
-            <!--shiro缓存-->
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-ehcache</artifactId>
-                <version>1.4.0</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>slf4j-api</artifactId>
-                        <groupId>org.slf4j</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
 
             <!--ehcache内存缓存-->
-            <dependency>
-                <groupId>org.ehcache</groupId>
-                <artifactId>ehcache</artifactId>
-                <version>3.5.2</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.ehcache</groupId>-->
+                <!--<artifactId>ehcache</artifactId>-->
+                <!--<version>3.5.2</version>-->
+            <!--</dependency>-->
 
             <!--spring-cloud-->
             <!--包含以下包的版本,项目中用到的-->

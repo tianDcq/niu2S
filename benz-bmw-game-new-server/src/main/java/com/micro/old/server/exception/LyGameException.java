@@ -1,11 +1,9 @@
 package com.micro.old.server.exception;
 
-import org.apache.shiro.session.UnknownSessionException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import com.micro.common.bean.GlobeResponse;
 import com.micro.common.exception.GlobeException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class LyGameException {
@@ -46,20 +44,20 @@ public class LyGameException {
         return response;
     }
 
-    /**
-     * 所有异常报错
-     * 
-     * @param exception
-     * @return
-     * @throws Exception
-     */
-    @ExceptionHandler(value = UnknownSessionException.class)
-    public GlobeResponse<String> redisUnknownSessionException(Exception exception) throws Exception {
-        // 封装数据,返回给前端
-        GlobeResponse<String> response = new GlobeResponse<>();
-        response.setMsg("下线成功");
-        response.setCode("200");
-        return response;
-    }
+//    /**
+//     * 所有异常报错
+//     *
+//     * @param exception
+//     * @return
+//     * @throws Exception
+//     */
+//    @ExceptionHandler(value = UnknownSessionException.class)
+//    public GlobeResponse<String> redisUnknownSessionException(Exception exception) throws Exception {
+//        // 封装数据,返回给前端
+//        GlobeResponse<String> response = new GlobeResponse<>();
+//        response.setMsg("下线成功");
+//        response.setCode("200");
+//        return response;
+//    }
 
 }

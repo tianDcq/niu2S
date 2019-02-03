@@ -31,7 +31,7 @@ public abstract class GameMain {
     protected @Getter MsgQueue msgQueue;
 
     // 发送请求,注册请求接口
-//    private @Getter ReqMgr reqMgr;
+    private @Getter ReqMgr reqMgr;
 
     private @Getter long millisecond;
     private long lastUpdate;
@@ -39,21 +39,22 @@ public abstract class GameMain {
 
     private void prepare() {
 
-        // TODO
-
-        status = Status.RUN;
-
-        roleMgr.doPrepare();
-        hallMgr.doPrepare();
-        taskMgr.doPrepare();
-        msgQueue.doPrepare();
-        gameMgr.onPrepare();
-        onPrepare();
+        this.hallMgr.init(new Callback(){
+            @Override
+            public void func() {
+                status = Status.RUN;
+                roleMgr.doPrepare();
+                hallMgr.doPrepare();
+                taskMgr.doPrepare();
+                msgQueue.doPrepare();
+                gameMgr.onPrepare();
+                onPrepare();
+            }
+        });
     }
 
-    // 注册站点下的所有游戏,和所有房间
     private void register() {
-        this.hallMgr.init();
+        this.reqMgr.init();
     }
 
     private void start() {
@@ -62,7 +63,7 @@ public abstract class GameMain {
         hallMgr = new HallMgr();
         taskMgr = new TaskMgr();
         msgQueue = new MsgQueue();
-//        reqMgr = new ReqMgr();
+        reqMgr = new ReqMgr();
 
         register();
         onStart();
