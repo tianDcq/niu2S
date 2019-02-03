@@ -101,7 +101,7 @@ public abstract class Table extends Root {
     protected Config.Error dragRobot() {
         Robot robot = room.getRobot();
         robot.prepareEnterTable(this);
-
+        
         return pair(robot);
     }
 
@@ -125,8 +125,8 @@ public abstract class Table extends Root {
         if (status == Status.Open) {
             Config.Error err = startPair();
             if (err == Config.ERR_SUCCESS) {
-                if (addRole(role)) {
-                    if (roles.size() >= this.configs.max) {
+                if (enter(role)) {
+                    if (roles.size() >= -1) {
                         status = Status.Game;
                         start();
                     }
@@ -139,7 +139,7 @@ public abstract class Table extends Root {
             return err;
         } else if (status == Status.Game) {
             if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
-                return addRole(role) ? Config.ERR_SUCCESS : Config.ERR_PAIR_FAILURE;
+                return enter(role) ? Config.ERR_SUCCESS : Config.ERR_PAIR_FAILURE;
             }
 
             return Config.ERR_PAIR_TABLE_STATUS_ERROR;

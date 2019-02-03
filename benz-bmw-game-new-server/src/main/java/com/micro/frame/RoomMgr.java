@@ -21,7 +21,7 @@ public class RoomMgr {
         // roomConfig.putAll(tbGameRoom);
         // roomConfig.putAll(tbRoomConfig);
         roomConfig.put("roomType", 1);
-        roomConfig.put("roomId", tbRoomConfig.get("gameRoomId"));
+        roomConfig.put("gameRoomId", tbRoomConfig.get("gameRoomId"));
         roomConfig.put("roomName", "覅欸發");
         roomConfig.put("bottomRed1", 20);
         roomConfig.put("bottomRed2", 100);
@@ -37,7 +37,7 @@ public class RoomMgr {
         Room room = new Room();
         room.setHall(hall);
         room.init(roomConfig);
-        rooms.put(String.valueOf(config.get("gameRoomId")), room);
+        rooms.put(String.valueOf(roomConfig.get("gameRoomId")), room);
 
         return room;
     }

@@ -59,7 +59,7 @@ final class HCTable extends Table {
 
     @Override
     protected void onEnter(Role role) {
-        Response ownMsg = new Response(2001, 1);
+        ErrRespone ownMsg = new ErrRespone(2001, 1, "45544454");
         Response mm = new Response(2007, 1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("playerName", role.nickName);
@@ -283,6 +283,7 @@ final class HCTable extends Table {
 
     private void mainLoop() {
         time--;
+        System.out.print(time);
         if (time == 0) {
             toNextState();
         }
@@ -305,16 +306,16 @@ final class HCTable extends Table {
             end();
             break;
         }
-        Response response = new Response(2022, 1);
-        Map<String, Object> msg = new HashMap<>();
-        msg.put("roomId", room.roomId);
-        msg.put("currentPlayer", room.getRoles().size());
-        Map<String, Object> phaseData = new HashMap<>();
-        phaseData.put("status", gameStae);
-        phaseData.put("restTime", time);
-        msg.put("phaseData", phaseData);
-        response.msg = msg;
-        room.getHall().senToAll(response);
+        // Response response = new Response(2021, 1);
+        // Map<String, Object> msg = new HashMap<>();
+        // msg.put("roomId", room.roomId);
+        // msg.put("currentPlayer", room.getRoles().size());
+        // Map<String, Object> phaseData = new HashMap<>();
+        // phaseData.put("status", gameStae);
+        // phaseData.put("restTime", time);
+        // msg.put("phaseData", phaseData);
+        // response.msg = msg;
+        // room.getHall().senToAll(response);
     };
 
     private void sendChanegGameState() {
@@ -423,7 +424,7 @@ final class HCTable extends Table {
         pushMsgToAll(response);
         Response hallResponse = new Response(2021, 1);
         Map<String, Object> hallMsg = new HashMap<>();
-        hallMsg.put("roomId", room.roomId);
+        hallMsg.put("roomId", room.getRoomConfig().get("gameRoomId"));
         hallMsg.put("newReward", p);
         hallResponse.msg = hallMsg;
         room.getHall().senToAll(hallResponse);
