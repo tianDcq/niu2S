@@ -20,6 +20,7 @@ public class TableMgr {
     private Table createTable() {
         Table table = GameMain.getInstance().getGameMgr().createTable();
         table.room = room;
+        tables.put(index++, table);
 
         // TODO
         return table;
