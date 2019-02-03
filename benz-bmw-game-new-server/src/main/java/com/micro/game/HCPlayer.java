@@ -15,6 +15,13 @@ class HCPlayer extends Player implements HCRoleInterface {
     public @Getter ChipStruct[] chipList = new ChipStruct[8];
 
     @Override
+    protected void onInit() {
+        for(int i=0;i<8;++i){
+            chipList[i]=new ChipStruct(i);
+        }
+    }
+
+    @Override
     public void onMsg(Request req) {
         Map<String, Object> map = req.msg;
         String msgType = (String) map.get("msgType");
