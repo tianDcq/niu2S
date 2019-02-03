@@ -31,7 +31,7 @@ public abstract class GameMain {
     protected @Getter MsgQueue msgQueue;
 
     // 发送请求,注册请求接口
-//    private @Getter ReqMgr reqMgr;
+    // private @Getter ReqMgr reqMgr;
 
     private @Getter long millisecond;
     private long lastUpdate;
@@ -62,7 +62,7 @@ public abstract class GameMain {
         hallMgr = new HallMgr();
         taskMgr = new TaskMgr();
         msgQueue = new MsgQueue();
-//        reqMgr = new ReqMgr();
+        // reqMgr = new ReqMgr();
 
         register();
         onStart();
@@ -133,7 +133,7 @@ public abstract class GameMain {
 
     // 处理接受的消息
     private void dealRequests() {
-//        System.out.println("=========>");
+        // System.out.println("=========>");
         Iterable<Request> it = msgQueue.getAll();
 
         if (it != null) {
@@ -158,6 +158,7 @@ public abstract class GameMain {
                         continue;
                     }
 
+                    p.setCtx(req.ctx);
                     p.onMsg(req);
                 }
             }

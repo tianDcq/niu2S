@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
+import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,6 +45,8 @@ public abstract class Player extends Role {
 
 	private long sqlMoney;
 
+	private @Getter @Setter ChannelHandlerContext ctx;
+
 	public void save() {
 		// sql.save((money-sqlMoney)/100);
 	}
@@ -72,6 +75,6 @@ public abstract class Player extends Role {
 	}
 
 	public void sendMsg(Response res) {
-
+		GameMain.getInstance().getMsgQueue().send(this.ctx, res);
 	}
 }

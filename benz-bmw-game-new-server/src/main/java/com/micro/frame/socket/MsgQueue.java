@@ -5,6 +5,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
+import io.netty.channel.ChannelHandlerContext;
+
 public class MsgQueue {
     private LinkedBlockingQueue<Request> receiveQ1 = new LinkedBlockingQueue<>();
     private LinkedBlockingQueue<Request> receiveQ2 = new LinkedBlockingQueue<>();
@@ -21,8 +23,8 @@ public class MsgQueue {
         currentReveiveQ.add(o);
     }
 
-    public void send(Response o) {
-        currentSendQ.add(o);
+    public void send(ChannelHandlerContext ctx, Response o) {
+        ctx.writeAndFlush(o.toString());
     }
 
     public Request get() {
