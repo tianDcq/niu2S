@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @Component
 public class GameHttpRequest {
@@ -28,27 +27,29 @@ public class GameHttpRequest {
 
     public void sendForm(String url, Map<String, Object> params) {
         try {
-            TaskMgr taskMgr = GameMain.getInstance().getTaskMgr();
-            Map<String, ComCallback> gameServiceMap = Communication.getAccoutServiceMap();
-            ComCallback callback = gameServiceMap.get(url);
-            GlobeResponse<Object> func = (GlobeResponse<Object>) callback.func(params);
+            ThreadPool.getExecutor().execute(()->{
+                TaskMgr taskMgr = GameMain.getInstance().getTaskMgr();
+                Map<String, ComCallback> gameServiceMap = Communication.getAccoutServiceMap();
+                ComCallback callback = gameServiceMap.get(url);
+                GlobeResponse<Object> func = (GlobeResponse<Object>) callback.func(params);
 
-            String json = JSON.toJSONString(func.getData());
+                String json = JSON.toJSONString(func.getData());
 
-            Map map = JSON.parseObject(json, Map.class);
+                Map map = JSON.parseObject(json, Map.class);
 
-            if ("200".equals(func.getCode())) {
-                if (successCallback != null) {
-                    successCallback.setData(map);
-                    taskMgr.createTrigger(successCallback).fire();
+                if ("200".equals(func.getCode())) {
+                    if (successCallback != null) {
+                        successCallback.setData(map);
+                        taskMgr.createTrigger(successCallback).fire();
+                    }
+
+                } else {
+                    if (failCallback != null) {
+                        failCallback.setData(map);
+                        taskMgr.createTrigger(failCallback).fire();
+                    }
                 }
-
-            } else {
-                if (failCallback != null) {
-                    failCallback.setData(map);
-                    taskMgr.createTrigger(failCallback).fire();
-                }
-            }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
