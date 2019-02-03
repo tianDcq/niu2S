@@ -172,7 +172,7 @@ public abstract class GameMain {
         while (status != Status.END) {
             millisecond = System.currentTimeMillis();
             if (millisecond - lastUpdate >= Config.RATE) {
-                delta = millisecond - lastUpdate;
+                delta = (millisecond - lastUpdate) / 1000.0f;
                 step();
                 lastUpdate = millisecond;
             }
