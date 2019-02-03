@@ -152,7 +152,7 @@ public abstract class Table extends Root {
 
     }
 
-    protected boolean enter(Role role) {
+    boolean enter(Role role) {
         roles.put(role.uniqueId, role);
         role.enterTable(this);
         onEnter(role);
@@ -161,8 +161,6 @@ public abstract class Table extends Root {
 
     Config.Error exit(Role role) {
         roles.remove(role.uniqueId);
-        role.exitTable();
-        role.room.enter(role);
         onExit(role);
         return Config.ERR_SUCCESS;
     }
@@ -215,8 +213,7 @@ public abstract class Table extends Root {
     protected void destroy() {
         save();
         for (Role role : roles.values()) {
-            role.exitTable();
-            role.room.enter(role);
+            role.exitRoom();
             onExit(role);
         }
         roles.clear();

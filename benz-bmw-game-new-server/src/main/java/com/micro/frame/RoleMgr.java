@@ -35,7 +35,7 @@ public final class RoleMgr {
                     player.init((HashMap<String, Object>) this.getData());
                     Hall hall = GameMain.getInstance().getHallMgr().get(player.siteId);
                     if (hall != null) {
-                        hall.enter(player);
+                        player.enterHall(hall);
                     }
                 }
             }

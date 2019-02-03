@@ -82,7 +82,7 @@ public abstract class Player extends Role {
 		GameMain.getInstance().getMsgQueue().send(this.ctx, res);
 	}
 
-	public Config.Error exitGame() {
+	public Config.Error exitHall() {
 		if (this.table != null) {
 			Config.Error err = this.table.exit(this);
 			if (err != Config.ERR_SUCCESS) {

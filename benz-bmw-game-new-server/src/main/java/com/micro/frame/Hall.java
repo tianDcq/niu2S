@@ -19,11 +19,14 @@ public class Hall {
 
     public void enter(Role role) {
         roles.put(role.uniqueId, role);
-        role.enterHall(this);
     };
 
-    public void enterRoom(Role role, String id) {
+    void exit(Role role) {
         roles.remove(role.uniqueId);
+    }
+
+    void enterRoom(Role role, String id) {
+
         roomMgr.getRooms().get(id).enter(role);
     }
 
