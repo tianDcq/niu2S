@@ -38,7 +38,7 @@ public abstract class Table extends Root {
         onInit();
     }
 
-    void onInit() {
+    protected void onInit() {
 
     }
 
