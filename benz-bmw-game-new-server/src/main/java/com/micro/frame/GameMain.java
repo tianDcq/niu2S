@@ -58,6 +58,7 @@ public abstract class GameMain {
     }
 
     private void start() {
+
         status = Status.START;
         roleMgr = new RoleMgr();
         hallMgr = new HallMgr();

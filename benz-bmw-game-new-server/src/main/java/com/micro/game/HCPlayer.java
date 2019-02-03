@@ -40,11 +40,12 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("roomType", roomConfig.get("roomType"));
                 roomC.put("roomId", room.roomId);
                 roomC.put("roomName", roomConfig.get("roomName"));
-                roomC.put("hostAble", (int)roomConfig.get("shangzhuangSwitch")==1);
+                // roomC.put("hostAble", (int)roomConfig.get("shangzhuangSwitch")==1);
+                roomC.put("hostAble", true);
                 roomC.put("minBet", roomConfig.get("bottomRed1"));
                 roomC.put("maxBet", roomConfig.get("bottomRed2"));
 
-                HCTable table = (HCTable) room.getTableMgr().getTables().get("0");
+                HCTable table = (HCTable) room.getTableMgr().getTables().get(0);
                 roomC.put("currentPlayer", room.getRoles().size());
                 Map<String, Object> phaseData = new HashMap<>();
                 phaseData.put("status", table.getGameStae());
