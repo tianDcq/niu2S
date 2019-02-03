@@ -11,5 +11,6 @@ public class HCGameMain extends GameMain {
 
     protected void onStart() {
         gameMgr = new HCGameMgr();
+
     }
 }

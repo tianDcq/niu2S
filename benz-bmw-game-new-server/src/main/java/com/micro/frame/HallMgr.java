@@ -1,16 +1,16 @@
 package com.micro.frame;
 
+import com.alibaba.fastjson.JSON;
+import com.micro.common.bean.GlobeResponse;
+import com.micro.frame.http.ComCallback;
+import com.micro.frame.http.ThreadPool;
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.micro.common.bean.GlobeResponse;
-import com.micro.frame.http.ComCallback;
-import com.micro.frame.http.Communication;
-import lombok.Getter;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public final class HallMgr {
     private @Getter HashMap<Long, Hall> halls = new HashMap<Long, Hall>();
@@ -63,29 +63,38 @@ public final class HallMgr {
     }
 
     // 查询数据库,获取所有的id
-    void init() {
+    void init(Callback callbackOut) {
 
-        Map<String, Object> map = new HashMap<>();
-        // 1.奔驰宝马
-        map.put("gameId", GameMain.getInstance().getGameMgr().getGameId());
-        Map<String, ComCallback> gameServiceMap = Communication.getGameServiceMap();
-        ComCallback callback = gameServiceMap.get("/game/getWildGameRoomConfigVo2");
-        GlobeResponse func = (GlobeResponse) callback.func(map);
+        ThreadPool.getExecutor().execute(()->{
+            Map<String, Object> map = new HashMap<>();
+            // 1.奔驰宝马
+            map.put("gameId", GameMain.getInstance().getGameMgr().getGameId());
 
-        String jsonString = JSON.toJSONString(func.getData());
+            Map<String, ComCallback> gameServiceMap = GameMain.getInstance().getReqMgr().getGameServiceMap();
+            ComCallback callback = gameServiceMap.get("/game/getWildGameRoomConfigVo2");
 
-        Map map1 = JSON.parseObject(jsonString, Map.class);
-        System.out.println(map1);
+            ThreadPoolExecutor executor = ThreadPool.getExecutor();
 
-        Set set = map1.keySet();
+            GlobeResponse func = (GlobeResponse) callback.func(map);
 
-        set.stream().forEach(key -> {
+            String jsonString = JSON.toJSONString(func.getData());
 
-            String jsonString1 = JSON.toJSONString(map1.get(key));
-            List list = JSON.parseObject(jsonString1, List.class);
-            System.out.println(list);
+            Map map1 = JSON.parseObject(jsonString, Map.class);
+            System.out.println(map1);
 
-            createHall(Long.valueOf(key.toString()), list);
+            Set set = map1.keySet();
+
+            set.stream().forEach(key -> {
+
+                String jsonString1 = JSON.toJSONString(map1.get(key));
+                List list = JSON.parseObject(jsonString1, List.class);
+                System.out.println(list);
+
+                createHall(Long.valueOf(key.toString()), list);
+            });
+
+            callbackOut.func();
+
         });
 
     }

@@ -1,14 +1,15 @@
 
 package com.micro;
 
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.micro.common.util.ThreadPoolExecutorUtils;
+import com.micro.frame.socket.NettyChannelInit;
+import com.micro.game.HCGameMain;
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,20 +22,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import cn.hutool.log.Log;
-
-import com.micro.common.util.ThreadPoolExecutorUtils;
-import com.micro.frame.GameMain;
-import com.micro.game.HCGameMain;
-import com.micro.frame.socket.NettyChannelInit;
-
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author sam
@@ -43,7 +34,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date 2018-07-23
  */
 @EnableScheduling // 添加定时任务支持
-@EnableSwagger2
+//@EnableSwagger2
 @PropertySource(value = "classpath:/application.properties")
 @EnableFeignClients
 @EnableDiscoveryClient

@@ -29,7 +29,7 @@ public class GameHttpRequest {
         try {
             ThreadPool.getExecutor().execute(()->{
                 TaskMgr taskMgr = GameMain.getInstance().getTaskMgr();
-                Map<String, ComCallback> gameServiceMap = Communication.getAccoutServiceMap();
+                Map<String, ComCallback> gameServiceMap = GameMain.getInstance().getReqMgr().gccoutServiceMap();
                 ComCallback callback = gameServiceMap.get(url);
                 GlobeResponse<Object> func = (GlobeResponse<Object>) callback.func(params);
 
