@@ -1,5 +1,6 @@
 package com.micro.frame;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,32 +56,29 @@ public abstract class Player extends Role {
 
 	@Override
 	public void save() {
-		// sql.save((money-sqlMoney)/100);
-		// ReqMgr req=GameMain.getInstance().getReqMgr();
-		// GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
-        // httpRequest.setSuccessCallback(new Callback() {
-        //     @Override
-        //     public void func() {
-        //         // if (roles.get(player.uniqueId) == player) {
-        //         //     player.init((HashMap<String, Object>) this.getData());
-        //         //     Hall hall = GameMain.getInstance().getHallMgr().get(player.siteId);
-        //         //     if (hall != null) {
-        //         //         player.enterHall(hall);
-        //         //     }
-        //         // }
-        //     }
-        // });
-        // httpRequest.setFailCallback(new Callback() {
-        //     @Override
-        //     public void func() {
-        //         System.out.println(2);
-        //     }
-        // });
-        // final Map<String, Object> map = new HashMap<>();
-        // map.put("siteId", Long.valueOf(siteId));
-        // map.put("account", account);
-        // map.put("money",money);
-        // httpRequest.sendForm("/acc/addMoney", map);
+		long win=(money-sqlMoney)/100;
+		GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
+        httpRequest.setSuccessCallback(new Callback() {
+            @Override
+            public void func() {
+				System.out.print(this.getData());
+
+				// String nMoney=(String) this.getData();
+				// money+=nMoney-sqlMoney;
+				// sqlMoney=nMoney;
+            }
+        });
+        httpRequest.setFailCallback(new Callback() {
+            @Override
+            public void func() {
+                System.out.println(2);
+            }
+        });
+        final Map<String, Object> map = new HashMap<>();
+        map.put("siteId", Long.valueOf(siteId));
+		map.put("account", account);
+        map.put("money",new BigDecimal(win));
+        httpRequest.sendForm("/acc/addMoney", map);
 	}
 
 	@Override
@@ -105,6 +103,7 @@ public abstract class Player extends Role {
 		accountBet = (boolean) data.get("account_bet");
 		playId = (String) data.get("play_id");
 		super.init(data);
+		sqlMoney=money;
 	}
 
 	@Override

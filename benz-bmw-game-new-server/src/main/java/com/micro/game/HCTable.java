@@ -56,8 +56,8 @@ final class HCTable extends Table {
             revenue=0;
         }
         maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
-        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1"));
-        maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2"));
+        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
+        maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2"))*100;
         allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
 
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
@@ -318,10 +318,10 @@ final class HCTable extends Table {
         case 1:
             runOpenPeriod();
             sendChanegGameState();
+            lottory();
             System.out.println("开车");
             break;
         case 0:
-            lottory();
             runWaitPeriod();
             end();
             System.out.println("开奖");
@@ -360,6 +360,7 @@ final class HCTable extends Table {
         Map<String, Object> msg = new HashMap<>();
         msg.put("betable", gameStae);
         msg.put("hostUpdate", currentHost);
+        msg.put("gameIndex", gameIndex);
         response.msg = msg;
         broadcast(response);
     };
