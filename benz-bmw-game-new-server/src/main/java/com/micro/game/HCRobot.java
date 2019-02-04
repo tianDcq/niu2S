@@ -75,15 +75,15 @@ class HCRobot extends Robot implements HCRoleInterface {
     @Override
     protected void onEnterTable() {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        minChip = (int) roomConfig.get("bottomRed1");
-        maxChip = (int) roomConfig.get("bottomRed2");
-        chipTime = (int) roomConfig.get("betTime");
-        bankerTime = (int) chipTime + (int) roomConfig.get("freeTime");
-        // boolean contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
-        boolean contor = true;
+        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1"));
+        maxChip =    Integer.valueOf((String) roomConfig.get("bottomRed2"));
+        chipTime =  Integer.valueOf((String) roomConfig.get("betTime"));
+        bankerTime = (int) chipTime + Integer.valueOf((String) roomConfig.get("betTime"));
+        boolean contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
         boolean sys = (int) roomConfig.get("sysGold") == 1;
         allowBanker = contor && sys;
-        bankerMoney = (int) roomConfig.get("bankerCond");
+        bankerMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
+        money=(int)(Math.random()*50000)+minChip;
     }
 
     @Override
