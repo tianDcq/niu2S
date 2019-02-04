@@ -83,6 +83,8 @@ public final class HallMgr {
 
                     createHall(Long.valueOf(key.toString()), list);
                 }
+
+                GameMain.getInstance().setStatus(GameMain.Status.RUN);
             }
         });
         call.done();

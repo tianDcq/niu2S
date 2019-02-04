@@ -4,6 +4,7 @@ import com.micro.frame.socket.MsgQueue;
 import com.micro.frame.socket.Request;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,7 +18,7 @@ public abstract class GameMain {
         END, START, RUN, STOP, TERMINATE
     }
 
-    private @Getter Status status = Status.END;
+    private @Getter @Setter Status status = Status.END;
     private static @Getter GameMain instance;
 
     private @Getter RoleMgr roleMgr;
