@@ -1,14 +1,10 @@
 package com.micro.frame;
 
-import com.micro.frame.http.GameHttpRequest;
 import com.micro.frame.socket.MsgQueue;
 import com.micro.frame.socket.Request;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 public abstract class GameMain {
@@ -29,9 +25,7 @@ public abstract class GameMain {
     private @Getter TaskMgr taskMgr;
     protected @Getter GameMgr gameMgr;
     protected @Getter MsgQueue msgQueue;
-
-    // 发送请求,注册请求接口
-    private @Getter ReqMgr reqMgr;
+    protected @Getter CallMgr callMgr;
 
     private @Getter long millisecond;
     private long lastUpdate;
@@ -54,7 +48,8 @@ public abstract class GameMain {
     }
 
     private void register() {
-        this.reqMgr.init();
+        Register.calls();
+        callMgr.start();
     }
 
     private void start() {
@@ -64,7 +59,7 @@ public abstract class GameMain {
         hallMgr = new HallMgr();
         taskMgr = new TaskMgr();
         msgQueue = new MsgQueue();
-        reqMgr = new ReqMgr();
+        callMgr = new CallMgr();
 
         register();
         onStart();
@@ -77,7 +72,9 @@ public abstract class GameMain {
     }
 
     private void step() {
-        if (status != Status.START) {
+        if (status == Status.START) {
+            taskMgr.update();
+        } else {
             dealRequests();
             taskMgr.update();
             hallMgr.update();

@@ -3,7 +3,6 @@ package com.micro.frame;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.micro.frame.http.GameHttpRequest;
 import com.micro.frame.socket.BaseRespone;
 import com.micro.frame.socket.Request;
 
@@ -49,7 +48,7 @@ public abstract class Player extends Role {
 
 	private @Getter @Setter ChannelHandlerContext ctx;
 
-	public boolean isOnline(){
+	public boolean isOnline() {
 		return ctx != null;
 	}
 
@@ -58,29 +57,29 @@ public abstract class Player extends Role {
 		// sql.save((money-sqlMoney)/100);
 		// ReqMgr req=GameMain.getInstance().getReqMgr();
 		// GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
-        // httpRequest.setSuccessCallback(new Callback() {
-        //     @Override
-        //     public void func() {
-        //         // if (roles.get(player.uniqueId) == player) {
-        //         //     player.init((HashMap<String, Object>) this.getData());
-        //         //     Hall hall = GameMain.getInstance().getHallMgr().get(player.siteId);
-        //         //     if (hall != null) {
-        //         //         player.enterHall(hall);
-        //         //     }
-        //         // }
-        //     }
-        // });
-        // httpRequest.setFailCallback(new Callback() {
-        //     @Override
-        //     public void func() {
-        //         System.out.println(2);
-        //     }
-        // });
-        // final Map<String, Object> map = new HashMap<>();
-        // map.put("siteId", Long.valueOf(siteId));
-        // map.put("account", account);
-        // map.put("money",money);
-        // httpRequest.sendForm("/acc/addMoney", map);
+		// httpRequest.setSuccessCallback(new Callback() {
+		// @Override
+		// public void func() {
+		// // if (roles.get(player.uniqueId) == player) {
+		// // player.init((HashMap<String, Object>) this.getData());
+		// // Hall hall = GameMain.getInstance().getHallMgr().get(player.siteId);
+		// // if (hall != null) {
+		// // player.enterHall(hall);
+		// // }
+		// // }
+		// }
+		// });
+		// httpRequest.setFailCallback(new Callback() {
+		// @Override
+		// public void func() {
+		// System.out.println(2);
+		// }
+		// });
+		// final Map<String, Object> map = new HashMap<>();
+		// map.put("siteId", Long.valueOf(siteId));
+		// map.put("account", account);
+		// map.put("money",money);
+		// httpRequest.sendForm("/acc/addMoney", map);
 	}
 
 	@Override

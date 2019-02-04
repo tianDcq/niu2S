@@ -67,36 +67,25 @@ public final class HallMgr {
     // 查询数据库,获取所有的id
     void init(Callback callbackOut) {
 
-        ThreadPool.getExecutor().execute(()->{
-            Map<String, Object> map = new HashMap<>();
-            // 1.奔驰宝马
-            map.put("gameId", GameMain.getInstance().getGameMgr().getGameId());
+        Map<String, Object> map = new HashMap<>();
+        map.put("gameId", GameMain.getInstance().getGameMgr().getGameId());
+        Call call = GameMain.getInstance().getCallMgr().create("/game/getWildGameRoomConfigVo2", map);
+        call.setSuccess(new Callback() {
 
-            Map<String, ComCallback> gameServiceMap = GameMain.getInstance().getReqMgr().getGameServiceMap();
-            ComCallback callback = gameServiceMap.get("/game/getWildGameRoomConfigVo2");
+            @Override
+            public void func() {
 
-            ThreadPoolExecutor executor = ThreadPool.getExecutor();
+                Map map1 = (Map) this.getData();
+                for (Object key : map1.keySet()) {
+                    String jsonString1 = JSON.toJSONString(map1.get(key));
+                    List list = JSON.parseObject(jsonString1, List.class);
+                    System.out.println(list);
 
-            GlobeResponse func = (GlobeResponse) callback.func(map);
-
-            String jsonString = JSON.toJSONString(func.getData());
-
-            Map map1 = JSON.parseObject(jsonString, Map.class);
-            System.out.println(map1);
-
-            Set set = map1.keySet();
-
-            for(Object key : set)
-            {
-                String jsonString1 = JSON.toJSONString(map1.get(key));
-                List list = JSON.parseObject(jsonString1, List.class);
-                System.out.println(list);
-
-                createHall(Long.valueOf(key.toString()), list);
+                    createHall(Long.valueOf(key.toString()), list);
+                }
             }
-            callbackOut.func();
-
         });
+        call.done();
 
     }
 }

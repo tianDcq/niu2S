@@ -3,8 +3,6 @@ package com.micro.frame;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.micro.frame.http.GameHttpRequest;
-
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +28,14 @@ public final class RoleMgr {
     void requestPlayerInfo(Player player) {
         String siteId = player.uniqueId.split("_")[0];
         String account = player.uniqueId.split("_")[1];
-        GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
-        httpRequest.setSuccessCallback(new Callback() {
+
+        final Map<String, Object> params = new HashMap<>();
+        params.put("siteId", Long.valueOf(siteId));
+        params.put("account", account);
+        params.put("uniqueId", player.uniqueId);
+        Call call = GameMain.getInstance().getCallMgr().create("/acc/getPlayer", params);
+        call.setSuccess(new Callback() {
+
             @Override
             public void func() {
                 if (roles.get(player.uniqueId) == player) {
@@ -43,18 +47,7 @@ public final class RoleMgr {
                 }
             }
         });
-        httpRequest.setFailCallback(new Callback() {
-            @Override
-            public void func() {
-                System.out.println(2);
-            }
-        });
-        // 发起请求
-        final Map<String, Object> map = new HashMap<>();
-        map.put("siteId", Long.valueOf(siteId));
-        map.put("account", account);
-        map.put("uniqueId", player.uniqueId);
-        httpRequest.sendForm("/acc/getPlayer", map);
+        call.done();
     }
 
     public Role getRole(String uniqueId) {
