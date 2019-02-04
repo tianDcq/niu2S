@@ -1,23 +1,9 @@
 package com.micro.frame.socket;
 
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import com.micro.common.util.JsonUtil;
-import com.micro.common.vo.GameRequestVO;
-import com.micro.old.server.client.AccountFeignClient;
-import com.micro.old.server.common.WebSocketResponse;
 import com.micro.frame.GameMain;
-import com.micro.old.server.nettyMap.NettyChannelMap;
-import com.micro.old.server.nettyMap.nettyData.WebSocketData;
 import com.micro.frame.util.CodeUtils;
-import com.micro.frame.socket.Request;
-
+import com.micro.old.server.client.AccountFeignClient;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,6 +11,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author sam

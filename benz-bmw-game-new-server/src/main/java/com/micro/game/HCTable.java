@@ -38,7 +38,7 @@ final class HCTable extends Table {
     @Override
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        openTime = (int) roomConfig.get("betTime");
+        openTime = Integer.valueOf((String)roomConfig.get("betTime"));
         waitTime = (int) roomConfig.get("freeTime");
         chipTime = (int) roomConfig.get("betTime");
         revenue = (int) roomConfig.get("taxRatio");
