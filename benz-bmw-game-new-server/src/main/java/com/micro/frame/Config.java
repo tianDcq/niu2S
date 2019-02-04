@@ -25,6 +25,7 @@ public class Config {
     public final static Error ERR_STOP = new Error(-5, "停服维护中");
     public final static Error ERR_PAIR_DESTORY = new Error(-5, "房间已销毁");
     public final static Error ERR_ROOM_NOT_EXIST = new Error(-6, "房间不存在");
+    public final static Error ERR_TABLE_FULL = new Error(-7, "房间已满员");
 
     public final static Error ERR_SUCCESS = new Error(0, "成功");
 

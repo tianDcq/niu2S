@@ -101,15 +101,22 @@ public abstract class Role extends Root {
 	public Config.Error enterRoom(Room room) {
 		Config.Error err = room.enter(this);
 		if (err == Config.ERR_SUCCESS) {
-			if(hall != null){
-				hall.exit(this);
-			}
 			this.room = room;
 			onEnterRoom();
-			
+
 			if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
-				room.pair(this);
+				err = room.pair(this);
+				if (err == Config.ERR_SUCCESS) {
+
+					if (hall != null) {
+						hall.exit(this);
+					}
+					return Config.ERR_SUCCESS;
+				}
+
+				return err;
 			}
+
 			return Config.ERR_SUCCESS;
 		}
 

@@ -36,8 +36,12 @@ public abstract class Table extends Root {
     private Timer robotTimer;
     private Timer pairTimer;
 
-    void init() {
+    public int maxRoles;
+
+    void init(Map<String, Object> roomConfig) {
         status = Status.Open;
+        maxRoles = Integer.valueOf((String) roomConfig.get("roomPersons"));
+
         onInit();
     }
 
@@ -111,6 +115,9 @@ public abstract class Table extends Root {
         if (getIsDestroy()) {
             return Config.ERR_PAIR_DESTORY;
         }
+        if (maxRoles <= roles.size()) {
+            return Config.ERR_TABLE_FULL;
+        }
 
         if (status == Status.Open) {
             start();
@@ -124,6 +131,7 @@ public abstract class Table extends Root {
         if (getIsDestroy()) {
             return Config.ERR_PAIR_DESTORY;
         }
+
         if (status == Status.Open) {
             Config.Error err = startPair();
             if (err == Config.ERR_SUCCESS) {
