@@ -41,23 +41,24 @@ final class HCTable extends Table {
         openTime = Integer.valueOf((String) roomConfig.get("betTime"));
         waitTime = Integer.valueOf((String) roomConfig.get("freeTime"));
         chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
-        if(openTime<15){
-            openTime=15;
+        if (openTime < 15) {
+            openTime = 15;
         }
-        if(waitTime<5){
-            waitTime=5;
+        if (waitTime < 5) {
+            waitTime = 5;
         }
-        if(chipTime<15){
-            chipTime=15;
+        if (chipTime < 15) {
+            chipTime = 15;
         }
-        if(roomConfig.get("taxRatio")!=null){
+        if (roomConfig.get("taxRatio") != null) {
             revenue = Float.valueOf((String) roomConfig.get("taxRatio"));
-        }else{
-            revenue=0;
+        } else {
+            revenue = 0;
         }
         maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
-        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
-        maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2"))*100;
+        // minChip = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
+        minChip = 0;
+        maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100;
         allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
 
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
@@ -121,7 +122,7 @@ final class HCTable extends Table {
             List<Map<String, Integer>> list = (List<Map<String, Integer>>) obj;
             for (int i = 0; i < list.size(); ++i) {
                 Map<String, Integer> info = list.get(i);
-                nMoney +=  info.get("betAmount").longValue();
+                nMoney += info.get("betAmount").longValue();
             }
             if (nMoney > role.money) {
                 ErrRespone msg = new ErrRespone(2002, 0, "钱不够下注");
@@ -136,10 +137,13 @@ final class HCTable extends Table {
             for (int i = 0; i < list.size(); ++i) {
                 Map<String, Integer> info = list.get(i);
                 long pos = info.get("betTarget");
-                long chipT=info.get("betAmount");
-                ((HCRoleInterface) role).getChipList()[(int) pos].betAmount += chipT;
-                role.money-=chipT;
-                chipList[(int) pos].betAmount += chipT;
+                long chipT = info.get("betAmount");
+                if (pos < 0 || pos > 7) {
+                    ((HCRoleInterface) role).getChipList()[(int) pos].betAmount += chipT;
+                    role.money -= chipT;
+                    chipList[(int) pos].betAmount += chipT;
+                }
+
                 if (role instanceof Player) {
                     playerChipList[i] += chipT;
                 }
@@ -210,7 +214,7 @@ final class HCTable extends Table {
         Map<String, Object> msg = new HashMap<>();
 
         Map<String, Object> isObserve = new HashMap<>();
-        isObserve.put("canPlay", minChip<role.money);
+        isObserve.put("canPlay", minChip < role.money);
         isObserve.put("minMoney", minChip);
         msg.put("isObserve", isObserve);
 
@@ -301,7 +305,6 @@ final class HCTable extends Table {
 
     private void mainLoop() {
         time--;
-        System.out.println(time);
         if (time <= 0) {
             toNextState();
         }
@@ -313,18 +316,15 @@ final class HCTable extends Table {
             begin();
             runChipPeriod();
             sendChanegGameState();
-            System.out.println("下注");
             break;
         case 1:
             runOpenPeriod();
             sendChanegGameState();
             lottory();
-            System.out.println("开车");
             break;
         case 0:
             runWaitPeriod();
             end();
-            System.out.println("开奖");
             break;
         }
         Response response = new Response(2021, 1);
@@ -405,7 +405,7 @@ final class HCTable extends Table {
         if (history.size() > 10) {
             history.remove(0);
         }
-        int pos= 31-((int)Math.random()*4)*8-p;
+        int pos = 31 - ((int) Math.random() * 4) * 8 - p;
         Response response = new Response(2014, 1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("rewardPosition", pos);
@@ -428,7 +428,7 @@ final class HCTable extends Table {
             }
             bankerWin -= playerWin;
             if (playerWin > 0) {
-                playerWin -= playerWin * revenue/100;
+                playerWin -= playerWin * revenue / 100;
             }
             player.money += playerWin;
             // todo 保存金钱和历史
@@ -439,8 +439,8 @@ final class HCTable extends Table {
             playerTatle += playerWin;
         }
         if (banker != null && bankerWin > 0) {
-            bankerWin -= bankerWin * revenue/100;
-            banker.money+=bankerWin;
+            bankerWin -= bankerWin * revenue / 100;
+            banker.money += bankerWin;
         }
         if (playerTatle > 0) {
             playerTatle -= playerTatle * revenue;
@@ -449,7 +449,6 @@ final class HCTable extends Table {
         msg.put("bankerSettlement", bankerWin);
         msg.put("playerSettlement", playerTatle);
         response.msg = msg;
-        System.out.print(response.msg);
         broadcast(response);
         Response hallResponse = new Response(2020, 1);
         Map<String, Object> hallMsg = new HashMap<>();
