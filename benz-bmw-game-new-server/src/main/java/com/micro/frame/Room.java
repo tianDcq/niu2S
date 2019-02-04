@@ -32,13 +32,14 @@ public class Room {
 
     void prepareTable() {
         if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
-            GameMain.getInstance().getTaskMgr().createTimer((float) (Math.random() * 30), new Callback() {
+            GameMain.getInstance().getTaskMgr().createTimer((float) (Math.random() * Config.ROOMCREATETIME),
+                    new Callback() {
 
-                @Override
-                public void func() {
-                    tableMgr.getWait().pair();
-                }
-            });
+                        @Override
+                        public void func() {
+                            tableMgr.getWait().pair();
+                        }
+                    });
         }
     }
 

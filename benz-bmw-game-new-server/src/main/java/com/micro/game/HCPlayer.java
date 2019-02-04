@@ -16,8 +16,8 @@ class HCPlayer extends Player implements HCRoleInterface {
 
     @Override
     protected void onInit() {
-        for(int i=0;i<8;++i){
-            chipList[i]=new ChipStruct(i);
+        for (int i = 0; i < 8; ++i) {
+            chipList[i] = new ChipStruct(i);
         }
     }
 
@@ -28,10 +28,8 @@ class HCPlayer extends Player implements HCRoleInterface {
         System.out.print(map);
         switch (msgType) {
         case "2001": {
-            if (hall != null && table == null) {
-                Object roomId = map.get("roomId");
-                this.enterRoom(roomId.toString());
-            }
+            Object roomId = map.get("roomId");
+            this.enterRoom(roomId.toString());
             break;
         }
         case "2019": {
@@ -51,8 +49,8 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("roomId", room.getRoomConfig().get("gameRoomId"));
                 roomC.put("roomName", roomConfig.get("roomName"));
                 roomC.put("hostAble", (int) roomConfig.get("shangzhuangSwitch") == 1);
-                roomC.put("minBet", Integer.valueOf((String) roomConfig.get("bottomRed1"))*100);
-                roomC.put("maxBet", Integer.valueOf((String) roomConfig.get("bottomRed1"))*100);
+                roomC.put("minBet", Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100);
+                roomC.put("maxBet", Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100);
 
                 HCTable table = (HCTable) room.getTableMgr().getTables().get(0);
                 roomC.put("currentPlayer", room.getRoles().size());
@@ -94,28 +92,32 @@ class HCPlayer extends Player implements HCRoleInterface {
 
         }
     }
-    private boolean checkChip(){
-        for(int i=0;i<8;++i){
-            if(chipList[i].betAmount>0){
+
+    private boolean checkChip() {
+        for (int i = 0; i < 8; ++i) {
+            if (chipList[i].betAmount > 0) {
                 return true;
             }
         }
         return false;
     };
+
     @Override
     public void endGame() {
         for (int i = 0; i < 8; ++i) {
             chipList[i].betAmount = 0;
         }
     }
+
     @Override
     protected void onDisconnect() {
-        if(!checkChip()){
+        if (!checkChip()) {
             exitRoom();
         }
     }
+
     @Override
     protected void onExitTable() {
         save();
-	}
+    }
 }
