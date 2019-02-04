@@ -101,9 +101,15 @@ public abstract class Role extends Root {
 	public Config.Error enterRoom(Room room) {
 		Config.Error err = room.enter(this);
 		if (err == Config.ERR_SUCCESS) {
-			hall.exit(this);
+			if(hall != null){
+				hall.exit(this);
+			}
 			this.room = room;
 			onEnterRoom();
+			
+			if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
+				room.pair(this);
+			}
 			return Config.ERR_SUCCESS;
 		}
 
@@ -167,23 +173,23 @@ public abstract class Role extends Root {
 		money += win;
 	}
 
-	void onEnterTable() {
+	protected void onEnterTable() {
 
 	}
 
-	void onExitTable() {
+	protected void onExitTable() {
 
 	}
 
-	void onEnterRoom() {
+	protected void onEnterRoom() {
 
 	}
 
-	void onExitRoom() {
+	protected void onExitRoom() {
 
 	}
 
-	void onEnterHall() {
+	protected void onEnterHall() {
 
 	}
 

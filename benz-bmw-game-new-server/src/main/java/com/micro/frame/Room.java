@@ -39,9 +39,6 @@ public class Room {
     Config.Error enter(Role role) {
         roles.put(role.uniqueId, role);
         onEnter(role);
-        if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
-            pair(role);
-        }
 
         return Config.ERR_SUCCESS;
     }
@@ -67,6 +64,7 @@ public class Room {
         if (robot == null) {
             robot = GameMain.getInstance().getRoleMgr().createRobot();
             robot.init();
+            robot.enterRoom(this);
         }
 
         return robot;

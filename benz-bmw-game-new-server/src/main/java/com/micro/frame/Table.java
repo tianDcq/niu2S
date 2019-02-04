@@ -103,7 +103,6 @@ public abstract class Table extends Root {
     // 强拉机器人进房间
     protected Config.Error dragRobot() {
         Robot robot = room.getRobot();
-        robot.prepareEnterTable(this);
 
         return pair(robot);
     }

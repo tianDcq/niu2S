@@ -19,6 +19,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         for(int i=0;i<8;++i){
             chipList[i]=new ChipStruct(i);
         }
+        
     }
 
     @Override
@@ -69,12 +70,8 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2010": {
-            if (chipList.length > 0) {
+            if (checkChip()) {
                 ErrRespone msg = new ErrRespone(2010, 0, "已经下注不能退出");
-                send(msg);
-                return;
-            } else if (((HCTable) table).getGameStae() == 0) {
-                ErrRespone msg = new ErrRespone(2010, 0, "已经开奖不能退出");
                 send(msg);
                 return;
             }
@@ -98,11 +95,24 @@ class HCPlayer extends Player implements HCRoleInterface {
 
         }
     }
-
+    private boolean checkChip(){
+        for(int i=0;i<8;++i){
+            if(chipList[i].betAmount>0){
+                return true;
+            }
+        }
+        return false;
+    };
     @Override
     public void endGame() {
         for (int i = 0; i < 8; ++i) {
             chipList[i].betAmount = 0;
         }
     }
+    @Override
+    protected void onDisconnect() {
+        if(!checkChip()){
+            exitRoom();
+        }
+	}
 }

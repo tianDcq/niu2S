@@ -12,6 +12,7 @@ public abstract class Robot extends Role {
 
     public Type type;
 
+    private static int index = 0;
     void init() {
         int random = (int) (Math.random() * 100);
         int inc = 0;
@@ -22,7 +23,11 @@ public abstract class Robot extends Role {
                 break;
             }
         }
-
+        gender=1;
+        nickName="卡拉圣诞快乐";
+        portrait="4";
+        money=100000000;
+        uniqueId="Robot_" + (index++);
         super.init();
     }
 
@@ -35,12 +40,5 @@ public abstract class Robot extends Role {
         }
 
         return Config.ERR_SUCCESS;
-    }
-
-    void prepareEnterTable(Table table) {
-        onPrepareEnterTable(table);
-    }
-
-    protected void onPrepareEnterTable(Table table) {
     }
 }
