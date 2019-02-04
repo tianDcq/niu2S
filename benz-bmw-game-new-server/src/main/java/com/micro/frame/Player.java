@@ -56,29 +56,29 @@ public abstract class Player extends Role {
 
 	@Override
 	public void save() {
-		long win=(money-sqlMoney)/100;
-		GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
-        httpRequest.setSuccessCallback(new Callback() {
-            @Override
-            public void func() {
-				System.out.print(this.getData());
+		// long win=(money-sqlMoney)/100;
+		// GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
+        // httpRequest.setSuccessCallback(new Callback() {
+        //     @Override
+        //     public void func() {
+		// 		System.out.print(this.getData());
 
-				// String nMoney=(String) this.getData();
-				// money+=nMoney-sqlMoney;
-				// sqlMoney=nMoney;
-            }
-        });
-        httpRequest.setFailCallback(new Callback() {
-            @Override
-            public void func() {
-                System.out.println(2);
-            }
-        });
-        final Map<String, Object> map = new HashMap<>();
-        map.put("siteId", Long.valueOf(siteId));
-		map.put("account", account);
-        map.put("money",new BigDecimal(win));
-        httpRequest.sendForm("/acc/addMoney", map);
+		// 		// String nMoney=(String) this.getData();
+		// 		// money+=nMoney-sqlMoney;
+		// 		// sqlMoney=nMoney;
+        //     }
+        // });
+        // httpRequest.setFailCallback(new Callback() {
+        //     @Override
+        //     public void func() {
+        //         System.out.println(2);
+        //     }
+        // });
+        // final Map<String, Object> map = new HashMap<>();
+        // map.put("siteId", Long.valueOf(siteId));
+		// map.put("account", account);
+        // map.put("money",new BigDecimal(win));
+        // httpRequest.sendForm("/acc/addMoney", map);
 	}
 
 	@Override
