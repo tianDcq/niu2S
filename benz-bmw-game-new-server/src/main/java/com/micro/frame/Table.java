@@ -36,8 +36,12 @@ public abstract class Table extends Root {
     private Timer robotTimer;
     private Timer pairTimer;
 
-    void init() {
+    public int maxRoles;
+
+    void init(Map<String, Object> roomConfig) {
         status = Status.Open;
+        maxRoles = Integer.valueOf((String) roomConfig.get("roomPersons"));
+
         onInit();
     }
 
@@ -45,7 +49,7 @@ public abstract class Table extends Root {
 
     }
 
-    protected Config.Error startPair() {
+    Config.Error startPair() {
 
         Config.RobotPairType robotConfig = GameMain.getInstance().getGameMgr().getRobotPairType();
         if (robotConfig.type == Config.RobotPairType.Type.One) {
@@ -103,7 +107,6 @@ public abstract class Table extends Root {
     // 强拉机器人进房间
     protected Config.Error dragRobot() {
         Robot robot = room.getRobot();
-        robot.prepareEnterTable(this);
 
         return pair(robot);
     }
@@ -111,6 +114,9 @@ public abstract class Table extends Root {
     Config.Error pair() {
         if (getIsDestroy()) {
             return Config.ERR_PAIR_DESTORY;
+        }
+        if (maxRoles <= roles.size()) {
+            return Config.ERR_TABLE_FULL;
         }
 
         if (status == Status.Open) {
@@ -121,10 +127,11 @@ public abstract class Table extends Root {
         return Config.ERR_PAIR_FAILURE;
     }
 
-    protected Config.Error pair(Role role) {
+    Config.Error pair(Role role) {
         if (getIsDestroy()) {
             return Config.ERR_PAIR_DESTORY;
         }
+
         if (status == Status.Open) {
             Config.Error err = startPair();
             if (err == Config.ERR_SUCCESS) {

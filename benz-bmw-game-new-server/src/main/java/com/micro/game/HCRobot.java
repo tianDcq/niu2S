@@ -32,7 +32,7 @@ class HCRobot extends Robot implements HCRoleInterface {
     @Override
     public void send(BaseRespone res) {
         String msgType = res.msgType;
-        if (msgType == "2012") {
+        if (msgType.equals("2012")) {
             int state = (int) ((Response)res).msg.get("betable");
             if (state == 1) {
                 // 下注
@@ -42,10 +42,10 @@ class HCRobot extends Robot implements HCRoleInterface {
                         long mm = money - minChip;
                         long ii = maxChip - minChip;
                         mm = mm > ii ? ii : mm;
-                        final long chipMoney = (long) Math.random() * mm;
-                        int time = (int) Math.random() * chipTime;
+                        final long chipMoney = (long) (Math.random() * mm);
+                        int time = (int) (Math.random() * (chipTime-3))+3;
 
-                        int p = (int) (Math.random() * 9);
+                        int p = (int) (Math.random() * 8);
                         game.getTaskMgr().createTimer(time, new Callback() {
                             @Override
                             public void func() {
@@ -54,8 +54,8 @@ class HCRobot extends Robot implements HCRoleInterface {
                         }, this);
                     }
                     if (allowBanker) {
-                        if (!((HCTable) table).getBankerList().contains(uniqueId)) {
-                            int time = (int) Math.random() * bankerTime;
+                        if (!((HCTable) table).getBankerList().contains(this)) {
+                            int time = (int) (Math.random() * bankerTime);
                             game.getTaskMgr().createTimer(time, new Callback() {
 
                                 @Override
@@ -73,31 +73,38 @@ class HCRobot extends Robot implements HCRoleInterface {
     }
 
     @Override
-    protected void onInit() {
+    protected void onEnterTable() {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        minChip = (int) roomConfig.get("bottomRed1");
-        maxChip = (int) roomConfig.get("bottomRed2");
-        chipTime = (int) roomConfig.get("betTime");
-        bankerTime = (int) chipTime + (int) roomConfig.get("freeTime");
-        // boolean contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
-        boolean contor = true;
+        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
+        maxChip =    Integer.valueOf((String) roomConfig.get("bottomRed2"))*100;
+        chipTime =  Integer.valueOf((String) roomConfig.get("betTime"));
+        bankerTime = (int) chipTime + Integer.valueOf((String) roomConfig.get("betTime"));
+        boolean contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
         boolean sys = (int) roomConfig.get("sysGold") == 1;
         allowBanker = contor && sys;
-        bankerMoney = (int) roomConfig.get("bankerCond");
+        bankerMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
+        money=(int)(Math.random()*50000)+minChip;
     }
 
+    @Override
+    protected void onInit() {
+        for(int i=0;i<8;++i){
+            chipList[i]=new ChipStruct(i);
+        }
+    }
     private void upBanker() {
         ((HCTable) table).playerUpBanker(this);
     }
 
-    private void chip(int tar, long money) {
+    private void chip(int tar, long chip) {
         Map<String, Object> map = new HashMap<>();
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> chipInfo = new HashMap<>();
         chipInfo.put("betTarget", tar);
-        chipInfo.put("betAmount", money);
+        chipInfo.put("betAmount", (int)chip);
         list.add(chipInfo);
         map.put("betInfo", list);
+        map.put("gameIndex", ((HCTable)table).getGameIndex());
         ((HCTable) table).playerChip(this, map);
     }
 }

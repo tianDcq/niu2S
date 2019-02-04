@@ -32,16 +32,19 @@ public class Room {
 
     void prepareTable() {
         if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
-            tableMgr.getWait().pair();
+            GameMain.getInstance().getTaskMgr().createTimer((float) (Math.random() * 30), new Callback() {
+
+                @Override
+                public void func() {
+                    tableMgr.getWait().pair();
+                }
+            });
         }
     }
 
     Config.Error enter(Role role) {
         roles.put(role.uniqueId, role);
         onEnter(role);
-        if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
-            pair(role);
-        }
 
         return Config.ERR_SUCCESS;
     }
@@ -67,6 +70,7 @@ public class Room {
         if (robot == null) {
             robot = GameMain.getInstance().getRoleMgr().createRobot();
             robot.init();
+            robot.enterRoom(this);
         }
 
         return robot;

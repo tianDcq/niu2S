@@ -16,22 +16,9 @@ public class RoomMgr {
         Map<String, Object> roomConfig = new HashMap<String, Object>();
         Map config = JSON.parseObject(JSON.toJSONString(configvo), Map.class);
         Map tbRoomConfig = JSON.parseObject(JSON.toJSONString(config.get("tbRoomConfig")), Map.class);
-        // Map tbGameRoom = JSON.parseObject(JSON.toJSONString(config.get("tbGameRoom")), Map.class);
-        
-        roomConfig.put("roomType", 1);
-        roomConfig.put("gameRoomId", tbRoomConfig.get("gameRoomId"));
-        roomConfig.put("roomName", "覅欸發");
-        roomConfig.put("bottomRed1", 20);
-        roomConfig.put("bottomRed2", 100);
-        roomConfig.put("betTime", 20);
-        roomConfig.put("freeTime", 5);
-        roomConfig.put("taxRatio", 2);
-        roomConfig.put("bankerTime", 8);
-        roomConfig.put("bankerCond", 1000);
-        roomConfig.put("sysGold", 1);
-        roomConfig.put("shangzhuangSwitch", 1);
-
-        // System.out.print(roomConfig);
+        Map tbGameRoom = JSON.parseObject(JSON.toJSONString(config.get("tbGameRoom")), Map.class);
+        roomConfig.putAll(tbRoomConfig);
+        roomConfig.putAll(tbGameRoom);
 
         Room room = new Room();
         room.setHall(hall);

@@ -1,7 +1,10 @@
 package com.micro.frame;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
 
+import com.micro.frame.http.GameHttpRequest;
 import com.micro.frame.socket.BaseRespone;
 import com.micro.frame.socket.Request;
 
@@ -47,9 +50,35 @@ public abstract class Player extends Role {
 
 	private @Getter @Setter ChannelHandlerContext ctx;
 
+	public boolean isOnline(){
+		return ctx != null;
+	}
+
 	@Override
 	public void save() {
-		// sql.save((money-sqlMoney)/100);
+		long win=(money-sqlMoney)/100;
+		GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
+        httpRequest.setSuccessCallback(new Callback() {
+            @Override
+            public void func() {
+				System.out.print(this.getData());
+
+				// String nMoney=(String) this.getData();
+				// money+=nMoney-sqlMoney;
+				// sqlMoney=nMoney;
+            }
+        });
+        httpRequest.setFailCallback(new Callback() {
+            @Override
+            public void func() {
+                System.out.println(2);
+            }
+        });
+        final Map<String, Object> map = new HashMap<>();
+        map.put("siteId", Long.valueOf(siteId));
+		map.put("account", account);
+        map.put("money",new BigDecimal(win));
+        httpRequest.sendForm("/acc/addMoney", map);
 	}
 
 	@Override
@@ -74,7 +103,7 @@ public abstract class Player extends Role {
 		accountBet = (boolean) data.get("account_bet");
 		playId = (String) data.get("play_id");
 		super.init(data);
-		siteId = 1;
+		sqlMoney=money;
 	}
 
 	@Override
