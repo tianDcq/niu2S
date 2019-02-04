@@ -38,16 +38,29 @@ final class HCTable extends Table {
     @Override
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        openTime = (int) roomConfig.get("betTime");
-        waitTime = (int) roomConfig.get("freeTime");
-        chipTime = (int) roomConfig.get("betTime");
-        revenue = (int) roomConfig.get("taxRatio");
-        maxBanker = (int) roomConfig.get("bankerTime");
-        minChip = (int) roomConfig.get("bottomRed1");
-        maxChip = (int) roomConfig.get("bottomRed2");
-        allowBank = (int) roomConfig.get("shangzhuangSwitch") == 1;
+        openTime = Integer.valueOf((String) roomConfig.get("betTime"));
+        waitTime = Integer.valueOf((String) roomConfig.get("freeTime"));
+        chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
+        if(openTime<15){
+            openTime=15;
+        }
+        if(waitTime<5){
+            waitTime=5;
+        }
+        if(chipTime<15){
+            chipTime=15;
+        }
+        if(roomConfig.get("taxRatio")!=null){
+            revenue = Float.valueOf((String) roomConfig.get("taxRatio"));
+        }else{
+            revenue=0;
+        }
+        maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
+        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1"));
+        maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2"));
+        allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
 
-        bankMoney = (int) roomConfig.get("bankerCond");
+        bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
         chipList = new ChipStruct[8];
         for (int i = 0; i < 8; ++i) {
             chipList[i] = new ChipStruct(i);
@@ -414,7 +427,7 @@ final class HCTable extends Table {
             }
             bankerWin -= playerWin;
             if (playerWin > 0) {
-                playerWin -= playerWin * revenue;
+                playerWin -= playerWin * revenue/100;
             }
             player.money += playerWin;
             // todo 保存金钱和历史
@@ -425,7 +438,7 @@ final class HCTable extends Table {
             playerTatle += playerWin;
         }
         if (banker != null && bankerWin > 0) {
-            bankerWin -= bankerWin * revenue;
+            bankerWin -= bankerWin * revenue/100;
             banker.money+=bankerWin;
         }
         if (playerTatle > 0) {
@@ -435,6 +448,7 @@ final class HCTable extends Table {
         msg.put("bankerSettlement", bankerWin);
         msg.put("playerSettlement", playerTatle);
         response.msg = msg;
+        System.out.print(response.msg);
         broadcast(response);
         Response hallResponse = new Response(2020, 1);
         Map<String, Object> hallMsg = new HashMap<>();

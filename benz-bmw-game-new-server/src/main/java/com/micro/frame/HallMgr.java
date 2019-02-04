@@ -52,8 +52,8 @@ public final class HallMgr {
     Hall createHall(Long key, List list) {
 
         Hall hall = new Hall();
-        // @test
-        list = list.subList(0, 1);
+        // // @test
+        // list = list.subList(0, 1);
         list.stream().forEach(configvo -> {
             Map config = JSON.parseObject(JSON.toJSONString(configvo), Map.class);
             hall.getRoomMgr().createRoom(config);
@@ -93,17 +93,7 @@ public final class HallMgr {
                 System.out.println(list);
 
                 createHall(Long.valueOf(key.toString()), list);
-                break;
             }
-            // set.stream().forEach(key -> {
-
-            //     String jsonString1 = JSON.toJSONString(map1.get(key));
-            //     List list = JSON.parseObject(jsonString1, List.class);
-            //     System.out.println(list);
-
-            //     createHall(Long.valueOf(key.toString()), list);
-            // });
-
             callbackOut.func();
 
         });
