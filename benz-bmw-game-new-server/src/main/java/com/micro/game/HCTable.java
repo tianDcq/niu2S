@@ -104,10 +104,10 @@ final class HCTable extends Table {
         } else {
             Object obj = map.get("betInfo");
             long nMoney = 0;
-            List<Map<String, Long>> list = (List<Map<String, Long>>) obj;
+            List<Map<String, Integer>> list = (List<Map<String, Integer>>) obj;
             for (int i = 0; i < list.size(); ++i) {
-                Map<String, Long> info = list.get(i);
-                nMoney += info.get("betAmount");
+                Map<String, Integer> info = list.get(i);
+                nMoney +=  info.get("betAmount").longValue();
             }
             if (nMoney > role.money) {
                 ErrRespone msg = new ErrRespone(2002, 0, "钱不够下注");
@@ -120,7 +120,7 @@ final class HCTable extends Table {
                 return false;
             }
             for (int i = 0; i < list.size(); ++i) {
-                Map<String, Long> info = list.get(i);
+                Map<String, Integer> info = list.get(i);
                 long pos = info.get("betTarget");
                 ((HCRoleInterface) role).getChipList()[(int) pos].betAmount = info.get("betAmount");
                 chipList[(int) pos].betAmount += info.get("betAmount");
@@ -194,6 +194,8 @@ final class HCTable extends Table {
         Map<String, Object> msg = new HashMap<>();
 
         Map<String, Object> isObserve = new HashMap<>();
+        isObserve.put("canPlay", minChip<role.money);
+        isObserve.put("minMoney", minChip);
         msg.put("isObserve", isObserve);
 
         List<Object> players = new ArrayList<>();
@@ -206,7 +208,7 @@ final class HCTable extends Table {
             player.put("uniqueId", rr.uniqueId);
             players.add(player);
         }
-        msg.put("Players", players);
+        msg.put("players", players);
         msg.put("selfCoins", role.money);
         Map<String, Object> hostSqeunce = new HashMap<>();
         for (int i = 0; i < bankerList.size(); ++i) {
@@ -274,6 +276,7 @@ final class HCTable extends Table {
                 try {
                     mainLoop();
                 } catch (Exception e) {
+                    e.printStackTrace();
                     // TODO: handle exception
                 }
 
@@ -283,8 +286,8 @@ final class HCTable extends Table {
 
     private void mainLoop() {
         time--;
-        System.out.print(time);
-        if (time == 0) {
+        System.out.println(time);
+        if (time <= 0) {
             toNextState();
         }
     };
@@ -295,27 +298,30 @@ final class HCTable extends Table {
             begin();
             runChipPeriod();
             sendChanegGameState();
+            System.out.println("下注");
             break;
         case 1:
             runOpenPeriod();
             sendChanegGameState();
-            lottory();
+            System.out.println("开车");
             break;
         case 0:
+            lottory();
             runWaitPeriod();
             end();
+            System.out.println("开奖");
             break;
         }
-        // Response response = new Response(2021, 1);
-        // Map<String, Object> msg = new HashMap<>();
-        // msg.put("roomId", room.roomId);
-        // msg.put("currentPlayer", room.getRoles().size());
-        // Map<String, Object> phaseData = new HashMap<>();
-        // phaseData.put("status", gameStae);
-        // phaseData.put("restTime", time);
-        // msg.put("phaseData", phaseData);
-        // response.msg = msg;
-        // room.getHall().senToAll(response);
+        Response response = new Response(2021, 1);
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("roomId", room.getRoomConfig().get("gameRoomId"));
+        msg.put("currentPlayer", room.getRoles().size());
+        Map<String, Object> phaseData = new HashMap<>();
+        phaseData.put("status", gameStae);
+        phaseData.put("restTime", time);
+        msg.put("phaseData", phaseData);
+        response.msg = msg;
+        room.getHall().senToAll(response);
     };
 
     private void sendChanegGameState() {
@@ -336,7 +342,10 @@ final class HCTable extends Table {
             currentHost.put("hostMsg", "1111");
             currentHost.put("uniqueId", banker.uniqueId);
         }
-        response.msg = currentHost;
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("betable", gameStae);
+        msg.put("hostUpdate", currentHost);
+        response.msg = msg;
         broadcast(response);
     };
 
@@ -351,7 +360,7 @@ final class HCTable extends Table {
         list.add(6);
         list.add(7);
         for (int i = 0; i < 8; ++i) {
-            int p = (int) (Math.random() * (list.size() + 1));
+            int p = (int) (Math.random() * list.size());
             if (banker instanceof Player) {
                 int b = list.remove(p);
                 HCGameMain game = (HCGameMain) GameMain.getInstance();
@@ -380,8 +389,10 @@ final class HCTable extends Table {
         if (history.size() > 10) {
             history.remove(0);
         }
+        int pos= 31-((int)Math.random()*4)*8-p;
         Response response = new Response(2014, 1);
         Map<String, Object> msg = new HashMap<>();
+        msg.put("rewardPosition", pos);
         msg.put("gameIndex", gameIndex);
         int bei = ((HCGameMain) GameMain.getInstance()).progress[p];
         long bankerWin = 0;
@@ -422,7 +433,7 @@ final class HCTable extends Table {
         msg.put("playerSettlement", playerTatle);
         response.msg = msg;
         broadcast(response);
-        Response hallResponse = new Response(2021, 1);
+        Response hallResponse = new Response(2020, 1);
         Map<String, Object> hallMsg = new HashMap<>();
         hallMsg.put("roomId", room.getRoomConfig().get("gameRoomId"));
         hallMsg.put("newReward", p);
@@ -450,7 +461,7 @@ final class HCTable extends Table {
     };
 
     private void runOpenPeriod() {
-        time = waitTime;
+        time = openTime;
         gameStae = 0;
     };
 

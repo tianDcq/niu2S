@@ -130,7 +130,6 @@ public abstract class Table extends Root {
             if (err == Config.ERR_SUCCESS) {
                 if (enter(role)) {
                     if (roles.size() >= -1) {
-                        status = Status.Game;
                         start();
                     }
                     return Config.ERR_SUCCESS;
@@ -160,8 +159,8 @@ public abstract class Table extends Root {
     }
 
     Config.Error exit(Role role) {
-        roles.remove(role.uniqueId);
         onExit(role);
+        roles.remove(role.uniqueId);
         return Config.ERR_SUCCESS;
     }
 
@@ -177,6 +176,7 @@ public abstract class Table extends Root {
 
     // 桌子准备完毕
     protected void start() {
+        status = Status.Game;
         onStart();
     }
 

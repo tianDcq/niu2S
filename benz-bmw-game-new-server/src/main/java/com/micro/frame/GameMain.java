@@ -147,7 +147,7 @@ public abstract class GameMain {
 
                 Role r = roleMgr.getRole(req.uniqueId);
                 if (r == null) {
-                    roleMgr.createPlayer(req.uniqueId);
+                    roleMgr.createPlayer(req.uniqueId, req.ctx);
                     msgQueue.receive(req);
                     continue;
                 }
@@ -160,7 +160,6 @@ public abstract class GameMain {
                         continue;
                     }
 
-                    p.setCtx(req.ctx);
                     p.onMsg(req);
                 }
             }

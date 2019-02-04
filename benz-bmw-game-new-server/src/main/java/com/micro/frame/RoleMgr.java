@@ -12,12 +12,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class RoleMgr {
     private HashMap<String, Role> roles = new HashMap<>();
+    private HashMap<ChannelHandlerContext, Player> ctxs = new HashMap<>();
     private @Getter int playerCount;
     private @Getter int robotCount;
 
-    public Player createPlayer(String uniqueId) {
+    Player createPlayer(String uniqueId, ChannelHandlerContext ctx) {
         Player player = GameMain.getInstance().getGameMgr().createPlayer();
         player.uniqueId = uniqueId;
+        player.setCtx(ctx);
+        ctxs.put(ctx, player);
         roles.put(uniqueId, player);
         requestPlayerInfo(player);
         ++playerCount;
@@ -58,7 +61,7 @@ public final class RoleMgr {
         return roles.get(uniqueId);
     }
 
-    public Robot createRobot() {
+    Robot createRobot() {
         Robot robot = GameMain.getInstance().getGameMgr().createRobot();
         ++robotCount;
         robot.init();
@@ -66,15 +69,51 @@ public final class RoleMgr {
         return robot;
     }
 
-    public void removeRobot(Robot robot) {
+    public void disconnect(ChannelHandlerContext ctx) {
+        Player player = ctxs.get(ctx);
+        if (player != null) {
+            player.setCtx(null);
+            ctxs.remove(ctx);
+
+            // 只有桌子存在的时候才会通知
+            if (player.table != null) {
+                player.onDisconnect();
+            } else {
+                player.exitHall();
+            }
+        }
+    }
+
+    public void reconnect(Player player, ChannelHandlerContext ctx) {
+        if (player.getCtx() != null) {
+            if (player.getCtx() == ctx) {
+                return;
+            }
+            disconnect(ctx);
+        }
+        player.setCtx(ctx);
+        player.onReconnect();
+    }
+
+    void removeRole(Role role) {
+        if (role instanceof Player) {
+            removePlayer((Player) role);
+        } else {
+            removeRobot((Robot) role);
+        }
+    }
+
+    private void removeRobot(Robot robot) {
         // @TODO
+    }
+
+    private void removePlayer(Player player) {
+        if (player.getCtx() != null) {
+
+        }
     }
 
     public void removeAllRobots() {
-        // @TODO
-    }
-
-    public void removePlayer(Player player) {
         // @TODO
     }
 

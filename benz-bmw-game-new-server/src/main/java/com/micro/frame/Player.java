@@ -79,7 +79,7 @@ public abstract class Player extends Role {
 
 	@Override
 	public void send(BaseRespone res) {
-		GameMain.getInstance().getMsgQueue().send(this.ctx, res);
+		GameMain.getInstance().getMsgQueue().send(this, res);
 	}
 
 	public Config.Error exitHall() {
@@ -96,6 +96,20 @@ public abstract class Player extends Role {
 			}
 		}
 
+		if (this.hall != null) {
+			this.hall.exit(this);
+		}
+
+		GameMain.getInstance().getRoleMgr().removeRole(this);
+
 		return Config.ERR_SUCCESS;
+	}
+
+	protected void onDisconnect() {
+
+	}
+
+	protected void onReconnect() {
+
 	}
 }
