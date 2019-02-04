@@ -154,6 +154,9 @@ public abstract class GameMain {
 
                 if (r instanceof Player) {
                     Player p = (Player) r;
+                    if (p.getCtx() != req.ctx) {
+                        roleMgr.reconnect(p, req.ctx);
+                    }
                     // 玩家未初始化，数据重回队列延迟处理
                     if (!p.getInited()) {
                         msgQueue.receive(req);

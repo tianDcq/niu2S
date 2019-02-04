@@ -80,6 +80,7 @@ public final class RoleMgr {
                 player.onDisconnect();
             } else {
                 player.exitHall();
+                removeRole(player);
             }
         }
     }
@@ -104,13 +105,14 @@ public final class RoleMgr {
     }
 
     private void removeRobot(Robot robot) {
-        // @TODO
+        roles.remove(robot.uniqueId);
     }
 
     private void removePlayer(Player player) {
         if (player.getCtx() != null) {
-
+            ctxs.remove(player.getCtx());
         }
+        roles.remove(player.uniqueId);
     }
 
     public void removeAllRobots() {

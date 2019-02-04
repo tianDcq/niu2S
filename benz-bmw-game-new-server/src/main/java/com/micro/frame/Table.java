@@ -40,7 +40,8 @@ public abstract class Table extends Root {
 
     void init(Map<String, Object> roomConfig) {
         status = Status.Open;
-        maxRoles = Integer.valueOf((String) roomConfig.get("roomPersons"));
+        // maxRoles = Integer.valueOf((String) roomConfig.get("roomPersons"));
+        maxRoles = 100;
 
         onInit();
     }
