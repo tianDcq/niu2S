@@ -95,7 +95,7 @@ public abstract class Role extends Root {
 			}
 		}
 
-		return Config.ERR_FAILURE;
+		return Config.ERR_ROOM_NOT_EXIST;
 	}
 
 	public Config.Error enterRoom(Room room) {
