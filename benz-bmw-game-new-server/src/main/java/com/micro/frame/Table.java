@@ -45,7 +45,7 @@ public abstract class Table extends Root {
 
     }
 
-    protected Config.Error startPair() {
+    Config.Error startPair() {
 
         Config.RobotPairType robotConfig = GameMain.getInstance().getGameMgr().getRobotPairType();
         if (robotConfig.type == Config.RobotPairType.Type.One) {
@@ -121,7 +121,7 @@ public abstract class Table extends Root {
         return Config.ERR_PAIR_FAILURE;
     }
 
-    protected Config.Error pair(Role role) {
+    Config.Error pair(Role role) {
         if (getIsDestroy()) {
             return Config.ERR_PAIR_DESTORY;
         }

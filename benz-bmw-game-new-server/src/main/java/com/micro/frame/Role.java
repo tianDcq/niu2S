@@ -110,8 +110,7 @@ public abstract class Role extends Root {
 		return err;
 	}
 
-	public Config.Error exitRoom() {
-
+	private Config.Error exitTable() {
 		if (this.table != null) {
 			Config.Error err = this.table.exit(this);
 			if (err != Config.ERR_SUCCESS) {
@@ -121,8 +120,16 @@ public abstract class Role extends Root {
 			onExitTable();
 			this.table = null;
 		}
+		return Config.ERR_SUCCESS;
+	}
+
+	public Config.Error exitRoom() {
+		Config.Error err = exitTable();
+		if (err != Config.ERR_SUCCESS) {
+			return err;
+		}
 		if (this.room != null) {
-			Config.Error err = this.room.exit(this);
+			err = this.room.exit(this);
 			if (err != Config.ERR_SUCCESS) {
 				return err;
 			}
@@ -132,6 +139,18 @@ public abstract class Role extends Root {
 		}
 
 		return Config.ERR_SUCCESS;
+	}
+
+	public Config.Error pair() {
+		Config.Error err = exitTable();
+		if (err != Config.ERR_SUCCESS) {
+			return err;
+		}
+		if (this.room != null) {
+			return this.room.pair(this);
+		}
+
+		return Config.ERR_ROOM_NOT_EXIST;
 	}
 
 	public abstract Config.Error exitHall();

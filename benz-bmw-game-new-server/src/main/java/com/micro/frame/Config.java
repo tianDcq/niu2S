@@ -24,6 +24,7 @@ public class Config {
     public final static Error ERR_PAIR_TABLE_STATUS_ERROR = new Error(-4, "桌子状态错误");
     public final static Error ERR_STOP = new Error(-5, "停服维护中");
     public final static Error ERR_PAIR_DESTORY = new Error(-5, "房间已销毁");
+    public final static Error ERR_ROOM_NOT_EXIST = new Error(-6, "房间不存在");
 
     public final static Error ERR_SUCCESS = new Error(0, "成功");
 
