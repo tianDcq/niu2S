@@ -19,7 +19,6 @@ class HCPlayer extends Player implements HCRoleInterface {
         for(int i=0;i<8;++i){
             chipList[i]=new ChipStruct(i);
         }
-        
     }
 
     @Override
@@ -52,8 +51,8 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("roomId", room.getRoomConfig().get("gameRoomId"));
                 roomC.put("roomName", roomConfig.get("roomName"));
                 roomC.put("hostAble", (int) roomConfig.get("shangzhuangSwitch") == 1);
-                roomC.put("minBet", roomConfig.get("bottomRed1"));
-                roomC.put("maxBet", roomConfig.get("bottomRed2"));
+                roomC.put("minBet", Integer.valueOf((String) roomConfig.get("bottomRed1"))*100);
+                roomC.put("maxBet", Integer.valueOf((String) roomConfig.get("bottomRed1"))*100);
 
                 HCTable table = (HCTable) room.getTableMgr().getTables().get(0);
                 roomC.put("currentPlayer", room.getRoles().size());
@@ -114,5 +113,9 @@ class HCPlayer extends Player implements HCRoleInterface {
         if(!checkChip()){
             exitRoom();
         }
+    }
+    @Override
+    protected void onExitTable() {
+        save();
 	}
 }

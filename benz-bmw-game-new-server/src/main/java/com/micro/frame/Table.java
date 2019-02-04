@@ -208,9 +208,9 @@ public abstract class Table extends Root {
 
     // 游戏结束
     protected void end() {
-        for (Role role : roles.values()) {
-            role.save();
-        }
+        // for (Role role : roles.values()) {
+        //     role.save();
+        // }
     }
 
     protected void shutdown() {
