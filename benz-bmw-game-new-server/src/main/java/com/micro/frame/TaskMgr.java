@@ -6,16 +6,35 @@ import java.util.Iterator;
 public class TaskMgr {
 
     private HashSet<Task> tasks = new HashSet<Task>();
+    private HashSet<Task> addTasks = new HashSet<Task>();
+    private HashSet<Task> removeTasks = new HashSet<Task>();
+    private boolean safe = true;
 
-    public Timer createTimer(int time, Callback callback) {
+    private void safeAdd(Task task){
+        (safe ? tasks : addTasks).add(task);
+    }
+    private void safeRemove(Task task){
+        (safe ? tasks : removeTasks).remove(task);
+    }
+    private void safeFlash(){
+        if(safe)
+        {
+            tasks.addAll(addTasks);
+            tasks.removeAll(removeTasks);
+            addTasks.clear();
+            removeTasks.clear();
+        }
+    }
+
+    public Timer createTimer(float time, Callback callback) {
         Timer task = new Timer(time, callback);
-        tasks.add(task);
+        safeAdd(task);
         return task;
     }
 
     public Trigger createTrigger(Callback callback) {
         Trigger task = new Trigger(callback);
-        tasks.add(task);
+        safeAdd(task);
         return task;
     }
 
@@ -37,17 +56,17 @@ public class TaskMgr {
         return createSchedule(callback, interval, repeat, delay, null);
     }
 
-    public Timer createTimer(int time, Callback callback, Root target) {
+    public Timer createTimer(float time, Callback callback, Root target) {
         Timer task = new Timer(time, callback);
         task.setTarget(target);
-        tasks.add(task);
+        safeAdd(task);
         return task;
     }
 
     public Trigger createTrigger(Callback callback, Root target) {
         Trigger task = new Trigger(callback);
         task.setTarget(target);
-        tasks.add(task);
+        safeAdd(task);
         return task;
     }
 
@@ -68,12 +87,12 @@ public class TaskMgr {
     public Schedule createSchedule(Callback callback, float interval, int repeat, float delay, Root target) {
         Schedule task = new Schedule(callback, interval, repeat, delay);
         task.setTarget(target);
-        tasks.add(task);
+        safeAdd(task);
         return task;
     }
 
     public void remove(Task task) {
-        tasks.remove(task);
+        safeRemove(task);
     }
 
     public void removeAll() {
@@ -109,13 +128,12 @@ public class TaskMgr {
     }
 
     public void update() {
-        Iterator<Task> it = tasks.iterator();
-        while (it.hasNext()) {
-            Task task = it.next();
+        safe = false;
+        tasks.removeIf(task ->{
             task.update();
-            if (task.isExpired()) {
-                it.remove();
-            }
-        }
+            return task.isExpired();
+        });
+        safe = true;
+        safeFlash();
     }
 }

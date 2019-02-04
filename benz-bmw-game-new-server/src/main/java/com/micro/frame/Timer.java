@@ -10,7 +10,7 @@ public class Timer extends Task {
     Timer(float time, Callback callback) {
         super(callback);
         this.time = time;
-        endTimeMillisecond = GameMain.getInstance().getMillisecond() + (long) (time * 1000 * 1000);
+        endTimeMillisecond = GameMain.getInstance().getMillisecond() + (long) (time * 1000);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class Timer extends Task {
             expired = true;
             return;
         }
-        expired = endTimeMillisecond >= GameMain.getInstance().getMillisecond();
+        expired = (endTimeMillisecond <= GameMain.getInstance().getMillisecond());
         if (expired) {
             callback.func();
         }

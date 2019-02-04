@@ -13,8 +13,6 @@ import com.micro.common.vo.GameRequestVO;
 import com.micro.old.server.client.AccountFeignClient;
 import com.micro.old.server.common.WebSocketResponse;
 import com.micro.frame.GameMain;
-import com.micro.old.server.nettyMap.NettyChannelMap;
-import com.micro.old.server.nettyMap.nettyData.WebSocketData;
 import com.micro.frame.util.CodeUtils;
 import com.micro.frame.socket.Request;
 

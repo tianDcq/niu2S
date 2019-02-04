@@ -23,7 +23,7 @@ public class RoomMgr {
         roomConfig.put("roomName", "覅欸發");
         roomConfig.put("bottomRed1", 20);
         roomConfig.put("bottomRed2", 100);
-        roomConfig.put("betTime", 20);
+        roomConfig.put("betTime", 5);
         roomConfig.put("freeTime", 5);
         roomConfig.put("taxRatio", 2);
         roomConfig.put("bankerTime", 8);
