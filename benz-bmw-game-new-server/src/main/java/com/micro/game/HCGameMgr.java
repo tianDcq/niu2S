@@ -4,7 +4,7 @@ import com.micro.frame.*;
 
 class HCGameMgr extends GameMgr {
     HCGameMgr() {
-        robotPairType = new Config.RobotPairType(Config.RobotPairType.Type.One, 2, 10);
+        robotPairType = new Config.RobotPairType(Config.RobotPairType.Type.One, 0, 0);
         gameId = 1;
     }
 
