@@ -10,19 +10,25 @@ public class TaskMgr {
     private HashSet<Task> removeTasks = new HashSet<Task>();
     private boolean safe = true;
 
-    private void safeAdd(Task task){
+    private void safeAdd(Task task) {
         (safe ? tasks : addTasks).add(task);
     }
-    private void safeRemove(Task task){
+
+    private void safeRemove(Task task) {
         (safe ? tasks : removeTasks).remove(task);
     }
-    private void safeFlash(){
-        if(safe)
-        {
-            tasks.addAll(addTasks);
-            tasks.removeAll(removeTasks);
-            addTasks.clear();
-            removeTasks.clear();
+
+    private void safeFlash() {
+        if (safe) {
+            if (addTasks.size() > 0) {
+                tasks.addAll(addTasks);
+                addTasks.clear();
+            }
+
+            if (removeTasks.size() > 0) {
+                tasks.removeAll(removeTasks);
+                removeTasks.clear();
+            }
         }
     }
 
@@ -129,7 +135,7 @@ public class TaskMgr {
 
     public void update() {
         safe = false;
-        tasks.removeIf(task ->{
+        tasks.removeIf(task -> {
             task.update();
             return task.isExpired();
         });
