@@ -42,10 +42,8 @@ class Register {
             @Override
             public void func() {
                 // Map map = (Map) this.getData();
-                System.out.println("请求开始   ");
 
                 String json = JSON.toJSONString(this.getData());
-                System.out.println("请求开始   "+json);
                 Map map = JSON.parseObject(json, HashMap.class);
                 Long siteId = ((Integer)map.get("siteId")).longValue();
                 Object obj=accountFeignClient.getPlayer(siteId, (String) map.get("account"));

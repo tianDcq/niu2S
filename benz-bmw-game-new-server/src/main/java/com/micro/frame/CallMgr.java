@@ -18,7 +18,6 @@ class CallMgr extends Thread {
         if (urlCall == null) {
             return null;
         }
-        System.out.println("注册进去的一个call   ");
         urlCall.setData(params);
         Call req = new Call();
         req.mgr = this;
@@ -27,7 +26,6 @@ class CallMgr extends Thread {
     }
 
     void add(Call call) {
-        System.out.println("添加call   ");
         reqs.add(call);
     }
 
@@ -36,7 +34,6 @@ class CallMgr extends Thread {
         while (true) {
             Call req = reqs.poll();
             if (req != null) {
-                System.out.println("调用一个注册进去的   ");
                 req.run();
             }
         }

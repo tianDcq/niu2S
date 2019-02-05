@@ -22,6 +22,7 @@ public final class RoleMgr {
         roles.put(uniqueId, player);
         requestPlayerInfo(player);
         ++playerCount;
+        System.out.println("人数       +++                                      "+playerCount);
         return player;
     }
 
