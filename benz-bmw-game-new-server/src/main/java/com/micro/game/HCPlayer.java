@@ -60,6 +60,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("phaseData", phaseData);
                 roomC.put("history", table.history);
                 roomData[i] = roomC;
+                ++i;
             }
             msg.put("roomData", roomData);
             mm.msg = msg;
