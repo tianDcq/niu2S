@@ -37,6 +37,7 @@ class Register {
         callMgr.register("/acc/getPlayer", new Callback() {
             @Override
             public void func() {
+                System.out.println("scott is idiot+++++++++++++++++++++++" + this.getData());
                 Map map = (Map) this.getData();
                 this.setData(accountFeignClient.getPlayer((Long) map.get("siteId"), (String) map.get("account")));
             }
