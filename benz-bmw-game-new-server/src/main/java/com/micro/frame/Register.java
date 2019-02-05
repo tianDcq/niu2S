@@ -1,11 +1,15 @@
 package com.micro.frame;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.micro.frame.http.AccountFeignClient;
 import com.micro.frame.http.GameFeignClient;
 import com.micro.frame.util.SpringUtil;
+
+import org.bouncycastle.jcajce.provider.digest.GOST3411.HashMac;
 
 class Register {
     private static GameFeignClient gameFeignClient;
@@ -37,9 +41,14 @@ class Register {
         callMgr.register("/acc/getPlayer", new Callback() {
             @Override
             public void func() {
-                System.out.println("scott is idiot+++++++++++++++++++++++" + this.getData());
-                Map map = (Map) this.getData();
-                this.setData(accountFeignClient.getPlayer((Long) map.get("siteId"), (String) map.get("account")));
+                // Map map = (Map) this.getData();
+
+                String json = JSON.toJSONString(this.getData());
+                System.out.println("===发送请求的josn===>"+json);
+                Map map = JSON.parseObject(json, HashMap.class);
+                Object obj=accountFeignClient.getPlayer((Long) map.get("siteId"), (String) map.get("account"));
+                System.out.println("  111111111  "+obj);
+                this.setData(obj);
             }
         });
 
