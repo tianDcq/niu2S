@@ -131,10 +131,12 @@ public abstract class Table extends Root {
         if (getIsDestroy()) {
             return Config.ERR_PAIR_DESTORY;
         }
-
+        System.out.println("桌子匹配");
         if (status == Status.Open) {
+            System.out.println("桌子成功");
             Config.Error err = startPair();
             if (err == Config.ERR_SUCCESS) {
+                System.out.println("进入桌子");
                 if (enter(role)) {
                     if (roles.size() >= -1) {
                         start();
@@ -162,6 +164,7 @@ public abstract class Table extends Root {
         roles.put(role.uniqueId, role);
         role.enterTable(this);
         onEnter(role);
+        System.out.println("进入桌子成功");
         return true;
     }
 
