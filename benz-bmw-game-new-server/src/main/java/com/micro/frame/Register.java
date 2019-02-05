@@ -46,7 +46,8 @@ class Register {
                 String json = JSON.toJSONString(this.getData());
                 System.out.println("===发送请求的josn===>"+json);
                 Map map = JSON.parseObject(json, HashMap.class);
-                Object obj=accountFeignClient.getPlayer((Long) map.get("siteId"), (String) map.get("account"));
+                Long siteId = ((Integer)map.get("siteId")).longValue();
+                Object obj=accountFeignClient.getPlayer(siteId, (String) map.get("account"));
                 System.out.println("  111111111  "+obj);
                 this.setData(obj);
             }
