@@ -11,6 +11,9 @@ import com.micro.frame.Root;
 
 public final class EventMgr{
     private Map<String,List<Event>> eventMap=new HashMap<>();
+
+    private boolean del=false;
+
     public Event regist(String eventName,Callback cb,Root tar){
         List<Event> list=eventMap.get(eventName);
         Event event=new Event(eventName,cb,tar);

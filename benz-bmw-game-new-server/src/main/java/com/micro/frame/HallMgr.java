@@ -74,7 +74,6 @@ public final class HallMgr {
 
             @Override
             public void func() {
-
                 Map map1 = (Map) this.getData();
                 for (Object key : map1.keySet()) {
                     String jsonString1 = JSON.toJSONString(map1.get(key));

@@ -145,6 +145,7 @@ public abstract class GameMain {
 
                 Role r = roleMgr.getRole(req.uniqueId);
                 if (r == null) {
+                    System.out.println("创建玩家   ");
                     roleMgr.createPlayer(req.uniqueId, req.ctx);
                     msgQueue.receive(req);
                     continue;

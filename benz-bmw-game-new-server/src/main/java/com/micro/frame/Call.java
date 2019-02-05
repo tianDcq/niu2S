@@ -25,9 +25,10 @@ class Call {
     }
 
     void run() {
+        System.out.println("调用 获取玩家  请求");
         call.func();
         GlobeResponse data = (GlobeResponse) call.getData();
-
+        System.out.println("获取到的数据   "+data);
         Trigger ok;
         Trigger no;
         if ("200".equals(data.getCode())) {
