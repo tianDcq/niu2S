@@ -8,7 +8,7 @@ public class Config {
     // 消息处理超时时间
     public final static long TIMEOUT = 1000 * 5000;
 
-    public final static float ROOMCREATETIME = 30.0f;
+    public final static float ROOMCREATETIME = 0.0f;
 
     public static class Error {
         public int code;

@@ -164,7 +164,6 @@ public abstract class Table extends Root {
         roles.put(role.uniqueId, role);
         role.enterTable(this);
         onEnter(role);
-        System.out.println("进入桌子成功");
         return true;
     }
 
