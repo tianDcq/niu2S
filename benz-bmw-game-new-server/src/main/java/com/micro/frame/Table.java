@@ -267,10 +267,12 @@ public abstract class Table extends Root {
 
     protected void broadcast(BaseRespone self, BaseRespone other, String uniqueId) {
         for (Role r : roles.values()) {
-            if (uniqueId.equals(r.uniqueId)) {
-                r.send(self);
-            } else {
-                r.send(other);
+            if(r!=null){
+                if (uniqueId.equals(r.uniqueId)) {
+                    r.send(self);
+                } else {
+                    r.send(other);
+                }
             }
         }
     }

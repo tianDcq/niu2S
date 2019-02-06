@@ -76,18 +76,28 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2009": {
-            ((HCTable) table).playerUpBanker(this);
+            if(table!=null){
+                ((HCTable) table).playerUpBanker(this);
+            }
             break;
         }
         case "2002": {
-            ((HCTable) table).playerChip(this, map);
+            if(table!=null){
+                ((HCTable) table).playerChip(this, map);
+            }
             break;
         }
         case "2011": {
-            ((HCTable) table).playerDownBanker(this);
+            if(table!=null){
+                ((HCTable) table).playerDownBanker(this);
+            }
+            break;
         }
         case "2018": {
-            ((HCTable) table).requstTableScene(this);
+            if(table!=null){
+                ((HCTable) table).requstTableScene(this);
+            }
+            break;
         }
 
         }
