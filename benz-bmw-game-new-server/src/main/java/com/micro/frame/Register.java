@@ -61,8 +61,7 @@ class Register {
                     @Override
                     public void func() {
                         Map map = (Map) this.getData();
-                        Long siteId = ((Integer) map.get("siteId")).longValue();
-                        System.out.println("发送    " + siteId);
+                        long siteId = ((Long) map.get("siteId")).longValue();
                         Object obj = accountFeignClient.getPlayer(siteId, (String) map.get("account"));
                         log.info("==================jieshou {}", JSON.toJSONString(obj));
                         this.setData(obj);
