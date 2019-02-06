@@ -38,7 +38,6 @@ final class HCTable extends Table {
     @Override
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        System.out.println("房间配置   "+roomConfig);
         openTime = Integer.valueOf((String) roomConfig.get("betTime"));
         waitTime = Integer.valueOf((String) roomConfig.get("freeTime"));
         chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
@@ -139,7 +138,7 @@ final class HCTable extends Table {
                 Map<String, Integer> info = list.get(i);
                 long pos = info.get("betTarget");
                 long chipT = info.get("betAmount");
-                if (pos < 0 || pos > 7) {
+                if (pos >= 0 && pos < 8) {
                     ((HCRoleInterface) role).getChipList()[(int) pos].betAmount += chipT;
                     role.money -= chipT;
                     chipList[(int) pos].betAmount += chipT;
