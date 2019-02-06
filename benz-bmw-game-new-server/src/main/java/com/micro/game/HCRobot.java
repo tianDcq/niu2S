@@ -79,7 +79,11 @@ class HCRobot extends Robot implements HCRoleInterface {
         maxChip =    Integer.valueOf((String) roomConfig.get("bottomRed2"))*100;
         chipTime =  Integer.valueOf((String) roomConfig.get("betTime"));
         bankerTime = (int) chipTime + Integer.valueOf((String) roomConfig.get("betTime"));
-        boolean contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
+        boolean contor = false;
+        if(roomConfig.get("shangzhuangSwitch")!=null){
+            contor=(int) roomConfig.get("shangzhuangSwitch") == 1;
+        }
+        
         boolean sys = (int) roomConfig.get("sysGold") == 1;
         allowBanker = contor && sys;
         bankerMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
