@@ -18,7 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 class Register {
     private static GameFeignClient gameFeignClient;
     private static AccountFeignClient accountFeignClient;
-
+    private static long i=0;
+    private static long j=0;
     static void calls() {
         gameFeignClient = SpringUtil.getBean(GameFeignClient.class);
         accountFeignClient = SpringUtil.getBean(AccountFeignClient.class);
@@ -63,9 +64,11 @@ class Register {
                     public void func() {
                         Map map = (Map) this.getData();
                         long siteId = ((Long) map.get("siteId")).longValue();
-                        System.out.println("请求玩家数据");
+                        i++;
+                        System.out.println("请求玩家数据  "+i);
                         Object obj = accountFeignClient.getPlayer(siteId, (String) map.get("account"));
-                        System.out.println("数据接收成功");
+                        j++;
+                        System.out.println("数据接收成功  "+j);
                         this.setData(obj);
                     }
                 };
