@@ -78,8 +78,6 @@ public final class HallMgr {
                 for (Object key : map1.keySet()) {
                     String jsonString1 = JSON.toJSONString(map1.get(key));
                     List list = JSON.parseObject(jsonString1, List.class);
-                    System.out.println(list);
-
                     createHall(Long.valueOf(key.toString()), list);
                 }
 

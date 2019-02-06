@@ -89,10 +89,8 @@ public abstract class Role extends Root {
 
 	public Config.Error enterRoom(String id) {
 		if (this.hall != null) {
-			System.out.println("获取房间");
 			Room room = hall.getRoomMgr().getRooms().get(id);
 			if (room != null) {
-				System.out.println("进入房间");
 				return enterRoom(room);
 			}
 		}
@@ -103,15 +101,11 @@ public abstract class Role extends Root {
 	public Config.Error enterRoom(Room room) {
 		Config.Error err = room.enter(this);
 		if (err == Config.ERR_SUCCESS) {
-			System.out.println("进入房间成功");
 			this.room = room;
 			onEnterRoom();
-
 			if (GameMain.getInstance().getGameMgr().getRobotPairType().type == Config.RobotPairType.Type.One) {
-				System.out.println("匹配类型成功");
 				err = room.pair(this);
 				if (err == Config.ERR_SUCCESS) {
-					System.out.println("房间匹配");
 					if (hall != null) {
 						hall.exit(this);
 					}

@@ -131,10 +131,4 @@ public final class RoleMgr {
     void doTerminate() {
         // TODO
     }
-
-    public static void main(String[] args) {
-        String str = "1_abc";
-        String s = str.split("_")[0];
-        System.out.println(s);
-    }
 }

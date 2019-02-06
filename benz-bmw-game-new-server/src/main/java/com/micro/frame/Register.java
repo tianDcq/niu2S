@@ -11,6 +11,7 @@ import com.micro.frame.util.SpringUtil;
 
 import org.bouncycastle.jcajce.provider.digest.GOST3411.HashMac;
 
+import cn.hutool.core.lang.Console;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -62,8 +63,9 @@ class Register {
                     public void func() {
                         Map map = (Map) this.getData();
                         long siteId = ((Long) map.get("siteId")).longValue();
+                        System.out.println("请求玩家数据");
                         Object obj = accountFeignClient.getPlayer(siteId, (String) map.get("account"));
-                        log.info("==================jieshou {}", JSON.toJSONString(obj));
+                        System.out.println("数据接收成功");
                         this.setData(obj);
                     }
                 };

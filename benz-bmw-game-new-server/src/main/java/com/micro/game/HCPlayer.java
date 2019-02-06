@@ -25,7 +25,6 @@ class HCPlayer extends Player implements HCRoleInterface {
     public void onMsg(Request req) {
         Map<String, Object> map = req.msg;
         String msgType = (String) map.get("msgType");
-        System.out.print(map);
         switch (msgType) {
         case "2001": {
             Object roomId = map.get("roomId");
