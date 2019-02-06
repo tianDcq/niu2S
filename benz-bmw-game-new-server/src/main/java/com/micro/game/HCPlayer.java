@@ -35,6 +35,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             //此处包kong
             if(roomId==null){
                 log.error("roomId为空=========================");
+                break;
             }
             this.enterRoom(roomId.toString());
             break;
