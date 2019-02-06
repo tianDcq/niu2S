@@ -4,18 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CallRegisterMgr {
-    private HashMap<String, Callback> urls = new HashMap<>();
+    private HashMap<String, CallbackFactory> urls = new HashMap<>();
 
-    void register(String url, Callback callback) {
-        urls.put(url, callback);
+    void register(String url, CallbackFactory callbackClass) {
+        urls.put(url, callbackClass);
     }
 
     Call create(String url, Map<String, Object> params) {
-        Callback urlCall = urls.get(url);
-        if (urlCall == null) {
+        CallbackFactory callCls = urls.get(url);
+        if (callCls == null) {
             return null;
         }
 
+        Callback urlCall = callCls.create();
+        if (urlCall == null) {
+            return null;
+        }
         urlCall.setData(params);
         Call req = new Call();
         req.setCall(urlCall);
