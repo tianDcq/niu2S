@@ -15,7 +15,7 @@ class Register {
         gameFeignClient = SpringUtil.getBean(GameFeignClient.class);
         accountFeignClient = SpringUtil.getBean(AccountFeignClient.class);
 
-        CallMgr callMgr = GameMain.getInstance().getCallMgr();
+        CallRegisterMgr callMgr = GameMain.getInstance().getCallRegisterMgr();
 
         callMgr.register("/game/getWildGameRoomConfigVo", new Callback() {
             @Override

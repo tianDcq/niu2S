@@ -26,7 +26,9 @@ public abstract class GameMain {
     private @Getter TaskMgr taskMgr;
     protected @Getter GameMgr gameMgr;
     protected @Getter MsgQueue msgQueue;
+    protected @Getter CallRegisterMgr callRegisterMgr;
     protected @Getter CallMgr callMgr;
+    protected @Getter MultiCallMgr multiCallMgr;
 
     private @Getter long millisecond;
     private long lastUpdate;
@@ -51,6 +53,7 @@ public abstract class GameMain {
     private void register() {
         Register.calls();
         callMgr.start();
+        multiCallMgr.start();
     }
 
     private void start() {
@@ -60,7 +63,9 @@ public abstract class GameMain {
         hallMgr = new HallMgr();
         taskMgr = new TaskMgr();
         msgQueue = new MsgQueue();
+        callRegisterMgr = new CallRegisterMgr();
         callMgr = new CallMgr();
+        multiCallMgr = new MultiCallMgr();
 
         register();
         onStart();

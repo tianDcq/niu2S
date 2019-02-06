@@ -4,13 +4,16 @@ import com.micro.common.bean.GlobeResponse;
 import java.util.Map;
 import com.alibaba.fastjson.JSON;
 
+import lombok.Getter;
 import lombok.Setter;
 
 class Call {
     private @Setter Callback call;
     private Trigger success;
     private Trigger failure;
-    CallMgr mgr;
+    private @Setter long timeout = Config.DEFAULTTIMEOUT;
+    private @Getter long runTime;
+    private boolean isDone;
 
     void setSuccess(Callback callback) {
         success = GameMain.getInstance().getTaskMgr().createTrigger(callback);
@@ -20,11 +23,12 @@ class Call {
         failure = GameMain.getInstance().getTaskMgr().createTrigger(callback);
     }
 
-    void done() {
-        mgr.add(this);
+    boolean isTimeout() {
+        return System.currentTimeMillis() - this.runTime >= timeout;
     }
 
     void run() {
+        this.runTime = System.currentTimeMillis();
         call.func();
         GlobeResponse data = (GlobeResponse) call.getData();
 

@@ -9,6 +9,8 @@ public class Config {
     public final static long TIMEOUT = 1000 * 5000;
 
     public final static float ROOMCREATETIME = 30.0f;
+    public final static int MAXCALLTHREAD = 10;
+    public final static int DEFAULTTIMEOUT = 1000 * 10;
 
     public static class Error {
         public int code;

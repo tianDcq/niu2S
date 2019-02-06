@@ -69,12 +69,11 @@ public final class HallMgr {
 
         Map<String, Object> map = new HashMap<>();
         map.put("gameId", GameMain.getInstance().getGameMgr().getGameId());
-        Call call = GameMain.getInstance().getCallMgr().create("/game/getWildGameRoomConfigVo2", map);
+        Call call = GameMain.getInstance().getCallRegisterMgr().create("/game/getWildGameRoomConfigVo2", map);
         call.setSuccess(new Callback() {
 
             @Override
             public void func() {
-
                 Map map1 = (Map) this.getData();
                 for (Object key : map1.keySet()) {
                     String jsonString1 = JSON.toJSONString(map1.get(key));
@@ -87,7 +86,6 @@ public final class HallMgr {
                 GameMain.getInstance().setStatus(GameMain.Status.RUN);
             }
         });
-        call.done();
-
+        GameMain.getInstance().getMultiCallMgr().call(call);
     }
 }

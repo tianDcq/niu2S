@@ -33,7 +33,7 @@ public final class RoleMgr {
         params.put("siteId", Long.valueOf(siteId));
         params.put("account", account);
         params.put("uniqueId", player.uniqueId);
-        Call call = GameMain.getInstance().getCallMgr().create("/acc/getPlayer", params);
+        Call call = GameMain.getInstance().getCallRegisterMgr().create("/acc/getPlayer", params);
         call.setSuccess(new Callback() {
 
             @Override
@@ -47,7 +47,7 @@ public final class RoleMgr {
                 }
             }
         });
-        call.done();
+        GameMain.getInstance().getMultiCallMgr().call(call);
     }
 
     public Role getRole(String uniqueId) {
