@@ -1,6 +1,7 @@
 package com.micro.frame.socket;
 
 import com.micro.common.util.JsonUtil;
+import com.micro.frame.Callback;
 import com.micro.frame.GameMain;
 import com.micro.frame.util.CodeUtils;
 import com.micro.old.server.client.AccountFeignClient;
@@ -161,7 +162,13 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 	 */
 	private void brokeConnection(ChannelHandlerContext ctx) {
 		try {
-			GameMain.getInstance().getRoleMgr().disconnect(ctx);
+			GameMain.getInstance().getTaskMgr().createTrigger(new Callback() {
+
+				@Override
+				public void func() {
+					GameMain.getInstance().getRoleMgr().disconnect(ctx);
+				}
+			}).fire();
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("用户掉线异常：", e);

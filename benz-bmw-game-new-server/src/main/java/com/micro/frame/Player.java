@@ -107,10 +107,7 @@ public abstract class Player extends Role {
 
 	@Override
 	public void send(BaseRespone res) {
-		if(isOnline()){
-			GameMain.getInstance().getMsgQueue().send(this, res);
-		}
-		
+		GameMain.getInstance().getMsgQueue().send(this, res);
 	}
 
 	public Config.Error exitHall() {
