@@ -46,7 +46,7 @@ public class NettyChannelInit extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new HttpObjectAggregator(64 * 1024));
         pipeline.addLast(new ChunkedWriteHandler());
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
-        pipeline.addLast(new IdleStateHandler(readerIdleTime, 0, 0, TimeUnit.SECONDS));
+        pipeline.addLast(new IdleStateHandler(15, 15, 15, TimeUnit.SECONDS));
         pipeline.addLast(webSocketFrameHandler);
 
     }
