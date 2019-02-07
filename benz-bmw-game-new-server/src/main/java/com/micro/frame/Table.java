@@ -204,10 +204,7 @@ public abstract class Table extends Root {
         for (Role role : roles.values()) {
             role.checkMoney();
         }
-<<<<<<< HEAD
         startTime=GameMain.getInstance().getMillisecond();
-=======
->>>>>>> 978eed7bf463d330a0adee55f286e8702ec9c285
         return true;
     }
 
