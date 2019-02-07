@@ -10,6 +10,10 @@ public class TaskMgr {
     private HashSet<Task> removeTasks = new HashSet<Task>();
     private boolean safe = true;
 
+    int getTaskSize() {
+        return tasks.size();
+    }
+
     private void safeAdd(Task task) {
         (safe ? tasks : addTasks).add(task);
     }

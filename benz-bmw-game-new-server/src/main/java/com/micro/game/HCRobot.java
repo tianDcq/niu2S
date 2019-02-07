@@ -33,7 +33,7 @@ class HCRobot extends Robot implements HCRoleInterface {
     public void send(BaseRespone res) {
         String msgType = res.msgType;
         if (msgType.equals("2012")) {
-            int state = (int) ((Response)res).msg.get("betable");
+            int state = (int) ((Response) res).msg.get("betable");
             if (state == 1) {
                 // 下注
                 GameMain game = GameMain.getInstance();
@@ -43,7 +43,7 @@ class HCRobot extends Robot implements HCRoleInterface {
                         long ii = maxChip - minChip;
                         mm = mm > ii ? ii : mm;
                         final long chipMoney = (long) (Math.random() * mm);
-                        int time = (int) (Math.random() * (chipTime-3))+3;
+                        int time = (int) (Math.random() * (chipTime - 3)) + 3;
 
                         int p = (int) (Math.random() * 8);
                         game.getTaskMgr().createTimer(time, new Callback() {
@@ -75,27 +75,28 @@ class HCRobot extends Robot implements HCRoleInterface {
     @Override
     protected void onEnterTable() {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
-        maxChip =    Integer.valueOf((String) roomConfig.get("bottomRed2"))*100;
-        chipTime =  Integer.valueOf((String) roomConfig.get("betTime"));
+        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
+        maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100;
+        chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
         bankerTime = (int) chipTime + Integer.valueOf((String) roomConfig.get("betTime"));
         boolean contor = false;
-        if(roomConfig.get("shangzhuangSwitch")!=null){
-            contor=(int) roomConfig.get("shangzhuangSwitch") == 1;
+        if (roomConfig.get("shangzhuangSwitch") != null) {
+            contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
         }
-        
+
         boolean sys = (int) roomConfig.get("sysGold") == 1;
         allowBanker = contor && sys;
         bankerMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
-        money=(int)(Math.random()*50000)+minChip;
+        money = (int) (Math.random() * 50000) + minChip;
     }
 
     @Override
     protected void onInit() {
-        for(int i=0;i<8;++i){
-            chipList[i]=new ChipStruct(i);
+        for (int i = 0; i < 8; ++i) {
+            chipList[i] = new ChipStruct(i);
         }
     }
+
     private void upBanker() {
         ((HCTable) table).playerUpBanker(this);
     }
@@ -105,10 +106,10 @@ class HCRobot extends Robot implements HCRoleInterface {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> chipInfo = new HashMap<>();
         chipInfo.put("betTarget", tar);
-        chipInfo.put("betAmount", (int)chip);
+        chipInfo.put("betAmount", (int) chip);
         list.add(chipInfo);
         map.put("betInfo", list);
-        map.put("gameIndex", ((HCTable)table).getGameIndex());
+        map.put("gameIndex", ((HCTable) table).getGameIndex());
         ((HCTable) table).playerChip(this, map);
     }
 }

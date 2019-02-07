@@ -80,8 +80,6 @@ public final class HallMgr {
                     List list = JSON.parseObject(jsonString1, List.class);
                     createHall(Long.valueOf(key.toString()), list);
                 }
-
-                GameMain.getInstance().setStatus(GameMain.Status.RUN);
             }
         });
         GameMain.getInstance().getMultiCallMgr().call(call);

@@ -33,13 +33,13 @@ public abstract class GameMain {
     private @Getter long millisecond;
     private long lastUpdate;
     private @Getter float delta;
+    private boolean callReady = false;
 
     private void prepare() {
 
         this.hallMgr.init(new Callback() {
             @Override
             public void func() {
-                status = Status.RUN;
                 roleMgr.doPrepare();
                 hallMgr.doPrepare();
                 taskMgr.doPrepare();
@@ -80,6 +80,22 @@ public abstract class GameMain {
     private void step() {
         if (status == Status.START) {
             taskMgr.update();
+            if (!callReady && multiCallMgr.isDone()) {
+                callReady = true;
+                if (gameMgr.getRobotPairType().type == Config.RobotPairType.Type.One) {
+                    taskMgr.createTimer(Config.ROOMCREATETIME, new Callback() {
+
+                        @Override
+                        public void func() {
+                            log.info("游戏服务启动");
+                            setStatus(GameMain.Status.RUN);
+                        }
+                    });
+                } else {
+                    log.info("游戏服务启动");
+                    setStatus(GameMain.Status.RUN);
+                }
+            }
         } else {
             dealRequests();
             taskMgr.update();

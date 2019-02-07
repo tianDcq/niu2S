@@ -1,13 +1,11 @@
 package com.micro.frame;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
 import com.micro.frame.socket.BaseRespone;
 import com.micro.frame.socket.Response;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.Static;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +27,7 @@ public abstract class Table extends Root {
 
     protected Map<String, Role> roles = new HashMap<String, Role>();
     protected @Setter Room room;
-    protected @Getter int id;
+    protected @Setter @Getter int id;
 
     private @Getter boolean canDestory = true;
     private Trigger destroyTrigger;
@@ -40,6 +38,7 @@ public abstract class Table extends Root {
     public long startTime;
 
     public int maxRoles;
+    protected String gameUUID;
 
     void init(Map<String, Object> roomConfig) {
         status = Status.Open;
@@ -201,17 +200,21 @@ public abstract class Table extends Root {
                 }
             }
         }
+        gameUUID = UUID.randomUUID().toString();
         for (Role role : roles.values()) {
             role.checkMoney();
         }
+<<<<<<< HEAD
         startTime=GameMain.getInstance().getMillisecond();
+=======
+>>>>>>> 978eed7bf463d330a0adee55f286e8702ec9c285
         return true;
     }
 
     // 游戏结束
     protected void end() {
         // for (Role role : roles.values()) {
-        //     role.save();
+        // role.save();
         // }
         endTime=GameMain.getInstance().getMillisecond();
     }
@@ -271,7 +274,7 @@ public abstract class Table extends Root {
 
     protected void broadcast(BaseRespone self, BaseRespone other, String uniqueId) {
         for (Role r : roles.values()) {
-            if(r!=null){
+            if (r != null) {
                 if (uniqueId.equals(r.uniqueId)) {
                     r.send(self);
                 } else {
