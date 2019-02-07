@@ -73,7 +73,7 @@ public abstract class Player extends Role {
 		call.setFailure(new Callback() {
 			@Override
 			public void func() {
-				System.out.println("存钱失败  " + win);
+				System.out.println("存钱失败 " + win);
 			}
 		});
 		GameMain.getInstance().getMultiCallMgr().call(call);

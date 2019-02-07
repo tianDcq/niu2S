@@ -62,10 +62,14 @@ class MultiCallMgr extends Thread {
     public void run() {
 
         while (true) {
-            Call req = reqs.poll();
-            if (req != null) {
-                CallThread t = new CallThread(req);
-                threads.execute(t);
+            try {
+                Call req = reqs.poll();
+                if (req != null) {
+                    CallThread t = new CallThread(req);
+                    threads.execute(t);
+                }
+            } catch (Exception err) {
+                log.error("多线程任务未知错误！！！ err:" + err.getMessage());
             }
         }
     }

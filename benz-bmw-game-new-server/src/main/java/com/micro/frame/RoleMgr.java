@@ -47,6 +47,14 @@ public final class RoleMgr {
                 }
             }
         });
+
+        call.setFailure(new Callback() {
+
+            @Override
+            public void func() {
+                log.error("玩家初始化失败！！" + this.getData());
+            }
+        });
         GameMain.getInstance().getMultiCallMgr().call(call);
     }
 

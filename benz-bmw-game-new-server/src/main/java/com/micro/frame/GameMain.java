@@ -83,7 +83,7 @@ public abstract class GameMain {
             if (!callReady && multiCallMgr.isDone()) {
                 callReady = true;
                 if (gameMgr.getRobotPairType().type == Config.RobotPairType.Type.One) {
-                    taskMgr.createTimer(Config.ROOMCREATETIME, new Callback() {
+                    taskMgr.createTimer(Config.ROOMCREATETIME + 1, new Callback() {
 
                         @Override
                         public void func() {
@@ -154,7 +154,6 @@ public abstract class GameMain {
 
     // 处理接受的消息
     private void dealRequests() {
-        // System.out.println("=========>");
         Iterable<Request> it = msgQueue.getAll();
 
         if (it != null) {
@@ -166,7 +165,11 @@ public abstract class GameMain {
 
                 Role r = roleMgr.getRole(req.uniqueId);
                 if (r == null) {
-                    roleMgr.createPlayer(req.uniqueId, req.ctx);
+                    try {
+                        roleMgr.createPlayer(req.uniqueId, req.ctx);
+                    } catch (Exception err) {
+                        log.error("玩家初始化失败！！ uuid:" + req.uniqueId + "  err:" + err.toString());
+                    }
                     msgQueue.receive(req);
                     continue;
                 }
@@ -194,7 +197,11 @@ public abstract class GameMain {
             millisecond = System.currentTimeMillis();
             if (millisecond - lastUpdate >= Config.RATE) {
                 delta = (millisecond - lastUpdate) / 1000.0f;
-                step();
+                try {
+                    step();
+                } catch (Exception err) {
+                    log.error("服务器未知错误！！！ err:" + err.getMessage());
+                }
                 lastUpdate = millisecond;
             }
         }
