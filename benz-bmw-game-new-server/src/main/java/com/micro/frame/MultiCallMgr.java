@@ -1,10 +1,14 @@
 package com.micro.frame;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 class MultiCallMgr extends Thread {
 
     class CallThreadFactory implements ThreadFactory {
@@ -29,10 +33,21 @@ class MultiCallMgr extends Thread {
         }
     }
 
-    ExecutorService threads;
+    class CallThreadRejecter implements RejectedExecutionHandler {
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+            log.info("线程池卡死！！！！！！！！！！！！！！");
+            executor.shutdownNow();
+            threads = (ThreadPoolExecutor) Executors.newFixedThreadPool(Config.MAXCALLTHREAD);
+        }
+
+    }
+
+    ThreadPoolExecutor threads;
 
     MultiCallMgr() {
-        threads = Executors.newFixedThreadPool(Config.MAXCALLTHREAD);
+        threads = (ThreadPoolExecutor) Executors.newFixedThreadPool(Config.MAXCALLTHREAD);
+
+        threads.setRejectedExecutionHandler(new CallThreadRejecter());
     }
 
     void call(Call c) {
