@@ -30,6 +30,8 @@ import java.util.Map;
 @SuppressWarnings("all")
 public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
+	int index = 0;
+
 	/**
 	 * 消息处理业务线程池核心线程数
 	 */
@@ -88,6 +90,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 	 */
 	@Override
 	public void handlerAdded(ChannelHandlerContext ctx) {
+		log.info("用户连接：" + (++index));
 	}
 
 	/**
@@ -161,6 +164,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 	 * @param ctx
 	 */
 	private void brokeConnection(ChannelHandlerContext ctx) {
+		log.info("用户掉线：" + (--index));
 		try {
 			GameMain.getInstance().getTaskMgr().createTrigger(new Callback() {
 
