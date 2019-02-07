@@ -55,29 +55,28 @@ public abstract class Player extends Role {
 
 	@Override
 	public void save() {
-		// long win=(money-sqlMoney)/100;
-		// GameHttpRequest httpRequest = GameHttpRequest.buildRequest();
-		// httpRequest.setSuccessCallback(new Callback() {
-		// @Override
-		// public void func() {
-		// System.out.print(this.getData());
-
-		// // String nMoney=(String) this.getData();
-		// // money+=nMoney-sqlMoney;
-		// // sqlMoney=nMoney;
-		// }
-		// });
-		// httpRequest.setFailCallback(new Callback() {
-		// @Override
-		// public void func() {
-		// System.out.println(2);
-		// }
-		// });
-		// final Map<String, Object> map = new HashMap<>();
-		// map.put("siteId", Long.valueOf(siteId));
-		// map.put("account", account);
-		// map.put("money",new BigDecimal(win));
-		// httpRequest.sendForm("/acc/addMoney", map);
+		long win=(money-sqlMoney)/100;
+		final Map<String, Object> params = new HashMap<>();
+		params.put("siteId", Long.valueOf(siteId));
+        params.put("account", account);
+        params.put("money", win);
+		Call call = GameMain.getInstance().getCallRegisterMgr().create("/acc/addMoney", params);
+		call.setSuccess(new Callback() {
+            @Override
+            public void func() {
+				System.out.print(this.getData());
+				long nMoney=(long)this.getData()*100;
+				money+=nMoney-sqlMoney;
+				sqlMoney=nMoney;
+            }
+		});
+		call.setFailure(new Callback(){
+			@Override
+            public void func() {
+				System.out.println("存钱失败  "+win);
+            }
+		});
+        GameMain.getInstance().getMultiCallMgr().call(call);
 	}
 
 	@Override

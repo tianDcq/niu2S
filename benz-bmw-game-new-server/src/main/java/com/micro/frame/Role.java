@@ -156,7 +156,7 @@ public abstract class Role extends Root {
 
 	public abstract Config.Error exitHall();
 
-	protected void save() {
+	public void save() {
 
 	}
 
