@@ -21,6 +21,7 @@ public class TableMgr {
         Table table = GameMain.getInstance().getGameMgr().createTable();
         table.room = room;
         table.init(room.getRoomConfig());
+        table.setId(index);
         tables.put(index++, table);
 
         // TODO

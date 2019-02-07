@@ -55,28 +55,28 @@ public abstract class Player extends Role {
 
 	@Override
 	public void save() {
-		long win=(money-sqlMoney)/100;
+		long win = money - sqlMoney;
 		final Map<String, Object> params = new HashMap<>();
 		params.put("siteId", Long.valueOf(siteId));
-        params.put("account", account);
-        params.put("money", win);
+		params.put("account", account);
+		params.put("money", BigDecimal.valueOf(win / 100.0));
 		Call call = GameMain.getInstance().getCallRegisterMgr().create("/acc/addMoney", params);
 		call.setSuccess(new Callback() {
-            @Override
-            public void func() {
-				System.out.print(this.getData());
-				long nMoney=(long)this.getData()*100;
-				money+=nMoney-sqlMoney;
-				sqlMoney=nMoney;
-            }
-		});
-		call.setFailure(new Callback(){
 			@Override
-            public void func() {
-				System.out.println("存钱失败  "+win);
-            }
+			public void func() {
+				System.out.print(this.getData());
+				long nMoney = (long) this.getData() * 100;
+				money += nMoney - sqlMoney;
+				sqlMoney = nMoney;
+			}
 		});
-        GameMain.getInstance().getMultiCallMgr().call(call);
+		call.setFailure(new Callback() {
+			@Override
+			public void func() {
+				System.out.println("存钱失败  " + win);
+			}
+		});
+		GameMain.getInstance().getMultiCallMgr().call(call);
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public abstract class Player extends Role {
 		gender = Integer.parseInt((String) data.get("gender"));
 		nickName = (String) data.get("nick_name");
 		portrait = (String) data.get("image");
-		money = ((BigDecimal) data.get("money")).multiply(new BigDecimal("100")).longValue();
+		money = (long) ((double) data.get("money") * 100);
 		sqlMoney = money;
 		super.init();
 	}

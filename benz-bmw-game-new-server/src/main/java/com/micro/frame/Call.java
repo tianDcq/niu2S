@@ -42,7 +42,7 @@ class Call {
             no = success;
         }
         if (ok != null) {
-            ok.getCallback().setData(JSON.parseObject(JSON.toJSONString(data.getData()), Map.class));
+            ok.getCallback().setData(data.getData());
             ok.fire();
         }
         if (no != null) {
