@@ -38,7 +38,9 @@ import java.util.Set;
 @PropertySource(value = "classpath:/application.properties")
 @EnableFeignClients
 @EnableDiscoveryClient
+
 @SpringBootApplication
+
 public class BenzApp {
 
 	// 监听端口

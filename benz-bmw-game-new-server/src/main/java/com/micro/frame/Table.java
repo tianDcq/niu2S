@@ -39,7 +39,6 @@ public abstract class Table extends Root {
 
     public int maxRoles;
     protected String gameUUID;
-
     void init(Map<String, Object> roomConfig) {
         status = Status.Open;
         maxRoles = Integer.valueOf((String) roomConfig.get("roomPersons"));
@@ -81,7 +80,6 @@ public abstract class Table extends Root {
             if (pairTimer != null) {
                 pairTimer.stop();
             }
-
             pairTimer = GameMain.getInstance().getTaskMgr().createTimer(configs.pairTime, new Callback() {
                 @Override
                 public void func() {

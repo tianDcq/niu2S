@@ -1,12 +1,10 @@
 package com.micro.game;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import com.micro.frame.*;
 import com.micro.frame.socket.ErrRespone;
@@ -37,16 +35,19 @@ final class HCTable extends Table {
     private int chipTime;
     private boolean allowBank = false;
     private long bankMoney;
+    private String roomName;
     private HashSet<Role> chipPlayer;
+
+    private boolean callReady = false;
     @Autowired
     private MongoTemplate mongoTemplate;
-
     @Override
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
         openTime = Integer.valueOf((String) roomConfig.get("betTime"));
         waitTime = Integer.valueOf((String) roomConfig.get("freeTime"));
         chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
+        roomName = (String)roomConfig.get("roomName");
         if (openTime < 15) {
             openTime = 15;
         }
@@ -312,6 +313,7 @@ final class HCTable extends Table {
 
     private void mainLoop() {
         time--;
+        System.out.println(time);
         if (time <= 0) {
             toNextState();
         }
@@ -421,6 +423,8 @@ final class HCTable extends Table {
         long bankerWin = 0;
         long playerTatle = 0;
         List<Map<String, Object>> otherPlayers = new ArrayList<>();
+        Map<String,Long> wins=new HashMap<>();
+        Map<String,Object> betParts=new HashMap<>();
         for (Role player : chipPlayer) {
             Map<String, Object> playerInfo = new HashMap<>();
             playerInfo.put("playerName", player.nickName);
@@ -433,6 +437,7 @@ final class HCTable extends Table {
                     playerWin -= playerChip[i].betAmount;
                 }
             }
+            betParts.put(player.uniqueId, playerChip);
             bankerWin -= playerWin;
             if (playerWin > 0) {
                 playerWin -= playerWin * revenue / 100;
@@ -443,6 +448,10 @@ final class HCTable extends Table {
             playerInfo.put("uniqueId", player.uniqueId);
             otherPlayers.add(playerInfo);
             playerTatle += playerWin;
+            wins.put(player.uniqueId, playerWin);
+            Map<String,Object> palyerHistory=new HashMap<>();
+            palyerHistory.put(player.uniqueId, gameUUID);
+            mongoTemplate.save(palyerHistory, "benchi_playID_gameID");
         }
         if (banker != null && bankerWin > 0) {
             bankerWin -= bankerWin * revenue / 100;
@@ -463,23 +472,18 @@ final class HCTable extends Table {
         hallResponse.msg = hallMsg;
         room.getHall().senToAll(hallResponse);
         
-        // class History{
-        //     public String gameId;
-        //     public long win;
-        //     public String roomName;
-        //     public long startTime;
-        //     public long endTime;
-        //     public long playerBet;
-        //     public float tax;
-        //     public int open;
-        //     public Map<String,Long>parts;
-        // }
-    
-        Map<String,Object> history=new HashMap<>();
-        history.put("gameId", "value");
-
-
-
+        //存入游戏记录的结构
+        Map<String,Object> gameHistory=new HashMap<>();
+        gameHistory.put("gameId", gameUUID);
+        gameHistory.put("wins", wins);
+        gameHistory.put("roomName", roomName);
+        gameHistory.put("startTime", startTime);
+        gameHistory.put("endTime", endTime);
+        gameHistory.put("playerbetParts", betParts);
+        gameHistory.put("chipList", chipList);
+        gameHistory.put("tax", revenue);
+        gameHistory.put("pos", p);
+        mongoTemplate.save(gameHistory, "benchi_gameID_gameHistory");
     };
 
     private void runWaitPeriod() {
