@@ -31,7 +31,7 @@ final class HCTable extends Table {
     private int openTime;
     private int waitTime;
     private int chipTime;
-    private boolean allowBank=false;
+    private boolean allowBank = false;
     private long bankMoney;
     private HashSet<Role> chipPlayer;
 
@@ -56,13 +56,11 @@ final class HCTable extends Table {
             revenue = 0;
         }
         maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
-        // minChip = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
-        minChip = 0;
+        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
         maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100;
-        if(roomConfig.get("shangzhuangSwitch")!=null){
+        if (roomConfig.get("shangzhuangSwitch") != null) {
             allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
         }
-        
 
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
         chipList = new ChipStruct[8];
