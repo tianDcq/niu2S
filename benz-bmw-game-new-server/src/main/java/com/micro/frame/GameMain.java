@@ -2,6 +2,11 @@ package com.micro.frame;
 
 import com.micro.frame.socket.MsgQueue;
 import com.micro.frame.socket.Request;
+import com.micro.game.History;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +39,7 @@ public abstract class GameMain {
     private long lastUpdate;
     private @Getter float delta;
     private boolean callReady = false;
+
 
     private void prepare() {
 
@@ -70,6 +76,8 @@ public abstract class GameMain {
         register();
         onStart();
         prepare();
+      
+       
     }
 
     protected abstract void onStart();

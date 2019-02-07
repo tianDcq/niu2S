@@ -9,6 +9,9 @@ import com.micro.frame.socket.ErrRespone;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -111,6 +114,10 @@ class HCPlayer extends Player implements HCRoleInterface {
                 ((HCTable) table).requstTableScene(this);
             }
             break;
+        }
+
+        case "2022":{
+            Query query=new Query(Criteria.where("key"));
         }
 
         }
