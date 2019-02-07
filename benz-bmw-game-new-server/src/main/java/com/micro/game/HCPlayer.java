@@ -10,7 +10,10 @@ import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 class HCPlayer extends Player implements HCRoleInterface {
     public @Getter ChipStruct[] chipList = new ChipStruct[8];
 
@@ -27,7 +30,13 @@ class HCPlayer extends Player implements HCRoleInterface {
         String msgType = (String) map.get("msgType");
         switch (msgType) {
         case "2001": {
+
             Object roomId = map.get("roomId");
+            //此处包kong
+            if(roomId==null){
+                log.error("roomId为空=========================");
+                break;
+            }
             this.enterRoom(roomId.toString());
             break;
         }
