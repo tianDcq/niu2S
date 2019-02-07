@@ -1,6 +1,7 @@
 package com.micro.game;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +11,9 @@ import java.util.Queue;
 import com.micro.frame.*;
 import com.micro.frame.socket.ErrRespone;
 import com.micro.frame.socket.Response;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import lombok.Getter;
 
@@ -34,6 +38,8 @@ final class HCTable extends Table {
     private boolean allowBank = false;
     private long bankMoney;
     private HashSet<Role> chipPlayer;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Override
     protected void onInit() {
@@ -432,7 +438,6 @@ final class HCTable extends Table {
                 playerWin -= playerWin * revenue / 100;
             }
             player.money += playerWin;
-            // todo 保存金钱和历史
             playerInfo.put("playerCoins", player.money);
             playerInfo.put("selfSettlement", playerWin);
             playerInfo.put("uniqueId", player.uniqueId);
@@ -457,6 +462,24 @@ final class HCTable extends Table {
         hallMsg.put("newReward", p);
         hallResponse.msg = hallMsg;
         room.getHall().senToAll(hallResponse);
+        
+        // class History{
+        //     public String gameId;
+        //     public long win;
+        //     public String roomName;
+        //     public long startTime;
+        //     public long endTime;
+        //     public long playerBet;
+        //     public float tax;
+        //     public int open;
+        //     public Map<String,Long>parts;
+        // }
+    
+        Map<String,Object> history=new HashMap<>();
+        history.put("gameId", "value");
+
+
+
     };
 
     private void runWaitPeriod() {

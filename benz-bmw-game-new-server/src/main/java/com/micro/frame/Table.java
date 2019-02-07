@@ -36,6 +36,9 @@ public abstract class Table extends Root {
     private Timer robotTimer;
     private Timer pairTimer;
 
+    public long endTime;
+    public long startTime;
+
     public int maxRoles;
 
     void init(Map<String, Object> roomConfig) {
@@ -201,7 +204,7 @@ public abstract class Table extends Root {
         for (Role role : roles.values()) {
             role.checkMoney();
         }
-
+        startTime=GameMain.getInstance().getMillisecond();
         return true;
     }
 
@@ -210,6 +213,7 @@ public abstract class Table extends Root {
         // for (Role role : roles.values()) {
         //     role.save();
         // }
+        endTime=GameMain.getInstance().getMillisecond();
     }
 
     protected void shutdown() {
