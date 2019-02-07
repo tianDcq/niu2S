@@ -50,6 +50,10 @@ class MultiCallMgr extends Thread {
         threads.setRejectedExecutionHandler(new CallThreadRejecter());
     }
 
+    boolean isDone() {
+        return threads.getActiveCount() == 0;
+    }
+
     void call(Call c) {
         reqs.add(c);
     }

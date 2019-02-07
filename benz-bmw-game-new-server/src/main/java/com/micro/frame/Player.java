@@ -101,8 +101,13 @@ public abstract class Player extends Role {
 		accountType = (int) data.get("account_type");
 		accountBet = (boolean) data.get("account_bet");
 		playId = (String) data.get("play_id");
-		super.init(data);
+		siteId = (int) data.get("site_id");
+		gender = Integer.parseInt((String) data.get("gender"));
+		nickName = (String) data.get("nick_name");
+		portrait = (String) data.get("image");
+		money = ((BigDecimal) data.get("money")).multiply(new BigDecimal("100")).longValue();
 		sqlMoney = money;
+		super.init();
 	}
 
 	@Override
