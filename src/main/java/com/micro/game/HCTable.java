@@ -70,6 +70,7 @@ final class HCTable extends Table {
         if (roomConfig.get("shangzhuangSwitch") != null) {
             allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
         }
+        allowBank = true;
 
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
         chipList = new ChipStruct[8];
@@ -203,13 +204,23 @@ final class HCTable extends Table {
     };
 
     public void playerDownBanker(Role role) {
-        if (gameStae != 2) {
-            ErrResponse msg = new ErrResponse("现在不能下庄");
-            role.send(msg);
-            return;
-        }
-        if (bankerList.remove(role)) {
-            ErrResponse ownMsg = new ErrResponse("离开庄家");
+        if (banker == role) {
+            if (gameStae != 2) {
+                ErrResponse msg = new ErrResponse("现在不能下庄");
+                role.send(msg);
+            } else {
+                banker = null;
+                SuccessResponse ownMsg = new SuccessResponse(2011, "离开庄家");
+                Response otherMsg = new Response(2016, 1);
+                otherMsg.msg = new HashMap<String, Object>();
+                otherMsg.msg.put("playerName", role.nickName);
+                otherMsg.msg.put("playerCoins", role.money);
+                otherMsg.msg.put("token", role.token);
+                otherMsg.msg.put("uniqueId", role.uniqueId);
+                broadcast(ownMsg, otherMsg, role.uniqueId);
+            }
+        } else if (bankerList.remove(role)) {
+            SuccessResponse ownMsg = new SuccessResponse(2011, "离开庄家列表");
             Response otherMsg = new Response(2016, 1);
             otherMsg.msg = new HashMap<String, Object>();
             otherMsg.msg.put("playerName", role.nickName);
@@ -283,6 +294,7 @@ final class HCTable extends Table {
         msg.put("endTime", openTime);
         msg.put("freeTime", waitTime);
         msg.put("tax", revenue);
+        msg.put("hostable", allowBank);
         response.msg = msg;
         role.send(response);
     };
@@ -361,7 +373,7 @@ final class HCTable extends Table {
             currentHost.put("hostMsg", "1111");
             currentHost.put("uniqueId", null);
         } else {
-            currentHost.put("system", true);
+            currentHost.put("system", false);
             currentHost.put("playerName", banker.nickName);
             currentHost.put("playerCoins", banker.money);
             currentHost.put("hostCount", bankerIndex);
@@ -416,29 +428,33 @@ final class HCTable extends Table {
         if (history.size() > 10) {
             history.remove(0);
         }
-        int pos = 31 - ((int) Math.random() * 4) * 8 - p;
+        int pos = ((int) Math.random() * 4) * 8 + p;
         Response response = new Response(2014, 1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("rewardPosition", pos);
         msg.put("gameIndex", gameIndex);
         int bei = ((HCGameMain) GameMain.getInstance()).progress[p];
         long bankerWin = 0;
-        long playerTatle = 0;
+        // long playerTatle = 0;
         List<Map<String, Object>> otherPlayers = new ArrayList<>();
         Map<String, Long> wins = new HashMap<>();
         Map<String, Object> betParts = new HashMap<>();
+        HashMap<String, Long> opens = new HashMap<>();
         for (Role player : chipPlayer) {
             Map<String, Object> playerInfo = new HashMap<>();
             playerInfo.put("playerName", player.nickName);
             ChipStruct[] playerChip = ((HCRoleInterface) player).getChipList();
             long playerWin = 0;
+            long getMon = 0;
             for (int i = 0; i < playerChip.length; ++i) {
                 if (i == p) {
                     playerWin += playerChip[i].betAmount * bei;
+                    getMon += playerChip[i].betAmount * bei;
                 } else {
                     playerWin -= playerChip[i].betAmount;
                 }
             }
+            opens.put(player.uniqueId, getMon);
             betParts.put(player.uniqueId, playerChip);
             bankerWin -= playerWin;
             if (playerWin > 0) {
@@ -449,22 +465,33 @@ final class HCTable extends Table {
             playerInfo.put("selfSettlement", playerWin);
             playerInfo.put("uniqueId", player.uniqueId);
             otherPlayers.add(playerInfo);
-            playerTatle += playerWin;
+            // playerTatle += playerWin;
             wins.put(player.uniqueId, playerWin);
             Map<String, Object> palyerHistory = new HashMap<>();
             palyerHistory.put(player.uniqueId, gameUUID);
-            // mongoTemplate.save(palyerHistory, "benchi_playID_gameID");
+            PlayerID_gameID playerhistory = new PlayerID_gameID();
+            playerhistory.gameID = gameUUID;
+            playerhistory.playerID = player.uniqueId;
+            GameMain.getInstance().getMongoTemplate().save(playerhistory);
         }
-        if (banker != null && bankerWin > 0) {
-            bankerWin -= bankerWin * revenue / 100;
-            banker.money += bankerWin;
+        if (banker != null) {
+            if (bankerWin > 0) {
+                bankerWin -= bankerWin * revenue / 100;
+                banker.money += bankerWin;
+            }
+            Map<String, Object> bankerInfo = new HashMap<>();
+            bankerInfo.put("playerCoins", banker.money);
+            bankerInfo.put("selfSettlement", bankerWin);
+            bankerInfo.put("uniqueId", banker.uniqueId);
+            otherPlayers.add(bankerInfo);
         }
-        if (playerTatle > 0) {
-            playerTatle -= playerTatle * revenue;
-        }
+
+        // if (playerTatle > 0) {
+        // playerTatle -= playerTatle * revenue/100;
+        // }
         msg.put("otherPlayers", otherPlayers);
         msg.put("bankerSettlement", bankerWin);
-        msg.put("playerSettlement", playerTatle);
+        // msg.put("playerSettlement", playerTatle);
         response.msg = msg;
         broadcast(response);
         Response hallResponse = new Response(2020, 1);
@@ -474,18 +501,18 @@ final class HCTable extends Table {
         hallResponse.msg = hallMsg;
         room.getHall().senToAll(hallResponse);
 
-        // 存入游戏记录的结构
-        Map<String, Object> gameHistory = new HashMap<>();
-        gameHistory.put("gameId", gameUUID);
-        gameHistory.put("wins", wins);
-        gameHistory.put("roomName", roomName);
-        gameHistory.put("startTime", startTime);
-        gameHistory.put("endTime", endTime);
-        gameHistory.put("playerbetParts", betParts);
-        gameHistory.put("chipList", chipList);
-        gameHistory.put("tax", revenue);
-        gameHistory.put("pos", p);
-        // mongoTemplate.save(gameHistory, "benchi_gameID_gameHistory");
+        GameID_game gameHistory = new GameID_game();
+        gameHistory.gameId = gameUUID;
+        gameHistory.wins = wins;
+        gameHistory.roomName = roomName;
+        gameHistory.startTime = startTime;
+        gameHistory.endTime = GameMain.getInstance().getMillisecond();
+        gameHistory.playerbetParts = betParts;
+        gameHistory.chipList = chipList;
+        gameHistory.sysHost = banker == null;
+        gameHistory.tax = String.valueOf(revenue);
+        gameHistory.open = p;
+        GameMain.getInstance().getMongoTemplate().save(gameHistory);
     };
 
     private void runWaitPeriod() {
