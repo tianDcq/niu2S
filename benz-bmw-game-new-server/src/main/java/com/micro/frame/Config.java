@@ -8,7 +8,7 @@ public class Config {
     // 消息处理超时时间
     public final static long TIMEOUT = 1000 * 5;
 
-    public final static float ROOMCREATETIME = 30.0f;
+    public final static float ROOMCREATETIME = 10.0f;
     public final static int MAXCALLTHREAD = 10;
     public final static int DEFAULTTIMEOUT = 1000 * 10;
 

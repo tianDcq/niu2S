@@ -2,17 +2,17 @@ package com.micro.frame;
 
 import com.micro.frame.socket.MsgQueue;
 import com.micro.frame.socket.Request;
-import com.micro.game.History;
+import com.micro.frame.util.SpringUtil;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Component;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public abstract class GameMain {
 
     public GameMain() {
@@ -40,6 +40,10 @@ public abstract class GameMain {
     private @Getter float delta;
     private boolean callReady = false;
 
+    private @Getter MongoTemplate mongoTemplate;
+
+  
+
     private void prepare() {
 
         this.hallMgr.init(new Callback() {
@@ -62,7 +66,6 @@ public abstract class GameMain {
     }
 
     private void start() {
-
         status = Status.START;
         roleMgr = new RoleMgr();
         hallMgr = new HallMgr();
@@ -71,11 +74,10 @@ public abstract class GameMain {
         callRegisterMgr = new CallRegisterMgr();
         callMgr = new CallMgr();
         multiCallMgr = new MultiCallMgr();
-
+        mongoTemplate= SpringUtil.getBean(MongoTemplate.class);
         register();
         onStart();
         prepare();
-
     }
 
     protected abstract void onStart();

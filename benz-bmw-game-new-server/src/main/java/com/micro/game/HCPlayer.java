@@ -1,20 +1,27 @@
 package com.micro.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.micro.frame.GameMain;
 import com.micro.frame.Player;
 import com.micro.frame.Room;
 import com.micro.frame.socket.ErrRespone;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 class HCPlayer extends Player implements HCRoleInterface {
@@ -35,8 +42,8 @@ class HCPlayer extends Player implements HCRoleInterface {
         case "2001": {
 
             Object roomId = map.get("roomId");
-            //此处包kong
-            if(roomId==null){
+            // 此处包kong
+            if (roomId == null) {
                 log.error("roomId为空=========================");
                 break;
             }
@@ -59,13 +66,13 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("roomType", roomConfig.get("roomType"));
                 roomC.put("roomId", room.getRoomConfig().get("gameRoomId"));
                 roomC.put("roomName", roomConfig.get("roomName"));
-                boolean bb=false;
-                if(roomConfig.get("shangzhuangSwitch")!=null){
+                boolean bb = false;
+                if (roomConfig.get("shangzhuangSwitch") != null) {
                     bb = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
                 }
                 roomC.put("hostAble", bb);
                 roomC.put("minBet", Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100);
-                roomC.put("maxBet", Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100);
+                roomC.put("maxBet", Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100);
 
                 HCTable table = (HCTable) room.getTableMgr().getTables().get(0);
                 roomC.put("currentPlayer", room.getRoles().size());
@@ -92,34 +99,98 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2009": {
-            if(table!=null){
+            if (table != null) {
                 ((HCTable) table).playerUpBanker(this);
             }
             break;
         }
         case "2002": {
-            if(table!=null){
+            if (table != null) {
                 ((HCTable) table).playerChip(this, map);
             }
             break;
         }
         case "2011": {
-            if(table!=null){
+            if (table != null) {
                 ((HCTable) table).playerDownBanker(this);
             }
             break;
         }
         case "2018": {
-            if(table!=null){
+            if (table != null) {
                 ((HCTable) table).requstTableScene(this);
             }
             break;
         }
 
-        case "2022":{
-            Query query=new Query(Criteria.where("key"));
+        case "2022": {
+            MongoTemplate mogo = GameMain.getInstance().getMongoTemplate();
+            Query query = new Query(Criteria.where("playerID").is(uniqueId));
+            int count = (int) mogo.count(query, PlayerID_gameID.class);
+            PageRequest pageable = PageRequest.of(0, 6);
+            query.with(pageable);
+            query.with(new Sort(new Order(Direction.DESC, "id")));
+            List<PlayerID_gameID> pp = mogo.find(query, PlayerID_gameID.class);
+            List<GameID_game> games = new ArrayList<>();
+            if (pp.size() > 0) {
+                Criteria gameCri = new Criteria();
+                for (int i = 0; i < pp.size(); ++i) {
+                    gameCri.orOperator(Criteria.where("gameID").is(pp.get(i).gameID));
+                }
+                Query gameQuery = new Query(gameCri);
+                games = mogo.find(gameQuery, GameID_game.class);
+            }
+            Response recordMsg = new Response(2022, 1);
+            Map<String, Object> msg = new HashMap<>();
+            msg.put("currentPage", map.get("requestPage"));
+            msg.put("totalPage", count);
+            Map<String, Object> gameRecord = new HashMap<>();
+            for (GameID_game game : games) {
+                gameRecord.put("id", game.gameId);
+                gameRecord.put("roomName", game.roomName);
+                gameRecord.put("endTime", game.endTime);
+                gameRecord.put("result", game.wins.get(uniqueId));
+            }
+            msg.put("gameRecord", gameRecord);
+            recordMsg.msg = msg;
+            send(recordMsg);
+            break;
         }
-
+        case "2023":
+            MongoTemplate mogo = GameMain.getInstance().getMongoTemplate();
+            Query query = new Query(Criteria.where("gameID").is((String) map.get("requestId")));
+            GameID_game game=  mogo.findOne(query, GameID_game.class);
+            Response recordMsg = new Response(2023, 1);
+            Map<String, Object> msg = new HashMap<>();
+            recordMsg.msg=msg;
+            Map<String, Object> sum = new HashMap<>();
+            sum.put("roomName", game.roomName);
+            ChipStruct[] chipL=(ChipStruct[])game.playerbetParts.get(uniqueId);
+            long chips=0;
+            for(ChipStruct cp:chipL){
+                chips+=cp.betAmount;
+            }
+            sum.put("playerBet", chips);
+            sum.put("selfResult",game.wins.get(uniqueId));
+            sum.put("totalWin",game.opens.get(uniqueId));
+            sum.put("tax",game.tax);
+            msg.put("sum", sum);
+            msg.put("gameCode", game.gameId);
+            msg.put("isHost", game.sysHost);
+            msg.put("reward", game.open);
+            Map<String, Object>[] rewardZone=new HashMap[9];
+            ChipStruct[] ownChip= ( ChipStruct[])(game.playerbetParts.get(uniqueId));
+            ChipStruct[] gameChip=game.chipList;
+            for(int i=0;i<8;++i){
+                Map<String, Object> chipInfo = new HashMap<>();
+                chipInfo.put("zone", i);
+                chipInfo.put("totalBet", gameChip[i].betAmount);
+                chipInfo.put("selfBet", ownChip[i].betAmount);
+                rewardZone[i]=chipInfo;
+            }
+            msg.put("rewardZone", rewardZone);
+            send(recordMsg);
+            break;
         }
     }
 
@@ -130,6 +201,14 @@ class HCPlayer extends Player implements HCRoleInterface {
             }
         }
         return false;
+    };
+
+    public long getChip() {
+        long chip = 0;
+        for (int i = 0; i < 8; ++i) {
+            chip += chipList[i].betAmount;
+        }
+        return chip;
     };
 
     @Override

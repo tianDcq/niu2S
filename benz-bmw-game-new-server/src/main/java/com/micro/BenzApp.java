@@ -19,6 +19,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -38,7 +39,7 @@ import java.util.Set;
 @PropertySource(value = "classpath:/application.properties")
 @EnableFeignClients
 @EnableDiscoveryClient
-
+@ComponentScan
 @SpringBootApplication
 
 public class BenzApp {
@@ -108,6 +109,8 @@ public class BenzApp {
 	public InetSocketAddress tcpPort() {
 		return new InetSocketAddress(tcpPort);
 	}
+
+
 
 	public static void main(String[] args) throws Exception {
 		ConfigurableApplicationContext context = SpringApplication.run(BenzApp.class, args);
