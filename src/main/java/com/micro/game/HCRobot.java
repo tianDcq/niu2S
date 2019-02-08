@@ -3,7 +3,7 @@ package com.micro.game;
 import frame.Callback;
 import frame.GameMain;
 import frame.Robot;
-import frame.socket.BaseRespone;
+import frame.socket.BaseResponse;
 import frame.socket.Response;
 import lombok.Getter;
 
@@ -29,7 +29,7 @@ class HCRobot extends Robot implements HCRoleInterface {
     }
 
     @Override
-    public void send(BaseRespone res) {
+    public void send(BaseResponse res) {
         String msgType = res.msgType;
         if (msgType.equals("2012")) {
             int state = (int) ((Response) res).msg.get("betable");
