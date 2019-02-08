@@ -181,7 +181,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.0.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.0.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.0.7.RELEASE" level="project" />
-    <orderEntry type="module" module-name="benz-bmw-game-new-common" />
     <orderEntry type="library" name="Maven: cn.hutool:hutool-all:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.6" level="project" />
     <orderEntry type="library" name="Maven: commons-net:commons-net:3.6" level="project" />

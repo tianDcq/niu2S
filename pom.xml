@@ -6,7 +6,6 @@
     <artifactId>benz-bmw-game-new-game</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>benz-bmw-game-new-common</module>
         <module>benz-bmw-game-new-server</module>
   </modules>
     <packaging>pom</packaging>

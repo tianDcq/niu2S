@@ -174,11 +174,11 @@ public abstract class GameMain {
                     if (r == null) {
                         try {
                             roleMgr.createPlayer(req.uniqueId, req.ctx);
+                            msgQueue.receive(req);
                         } catch (Exception err) {
                             log.error("玩家初始化失败！！ uuid:" + req.uniqueId + "  err:" + err.toString());
                             log.error(err.getStackTrace().toString());
                         }
-                        msgQueue.receive(req);
                         continue;
                     }
 
