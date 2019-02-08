@@ -5,7 +5,7 @@ import java.util.Map;
 
 import frame.Player;
 import frame.Room;
-import frame.socket.ErrRespone;
+import frame.socket.ErrResponse;
 import frame.socket.Request;
 import frame.socket.Response;
 
@@ -84,7 +84,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2010": {
             if (checkChip()) {
-                ErrRespone msg = new ErrRespone(2010, 0, "已经下注不能退出");
+                ErrResponse msg = new ErrResponse("已经下注不能退出");
                 send(msg);
                 return;
             }

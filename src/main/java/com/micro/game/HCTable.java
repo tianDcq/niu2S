@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import frame.*;
-import frame.socket.ErrRespone;
+import frame.socket.ErrResponse;
 import frame.socket.Response;
 
 import frame.socket.SuccessResponse;
@@ -83,11 +83,7 @@ final class HCTable extends Table {
 
     @Override
     protected void onEnter(Role role) {
-<<<<<<< HEAD:benz-bmw-game-new-server/src/main/java/com/micro/game/HCTable.java
         SuccessResponse ownMsg = new SuccessResponse(2001, "45544454");
-=======
-        ErrRespone ownMsg = new ErrRespone(2001, 1, "45544454");
->>>>>>> 26f8a1aef281dbda6ecb86a9d88dd02d629832a8:src/main/java/com/micro/game/HCTable.java
         Response mm = new Response(2007, 1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("playerName", role.nickName);
@@ -117,17 +113,17 @@ final class HCTable extends Table {
     @SuppressWarnings("unchecked")
     public boolean playerChip(Role role, Map<String, Object> map) {
         if (gameStae != 1) {
-            ErrRespone msg = new ErrRespone(2002, 0, "不在下注阶段");
+            ErrResponse msg = new ErrResponse("不在下注阶段");
             role.send(msg);
             return false;
         }
         if (banker == role) {
-            ErrRespone msg = new ErrRespone(2002, 0, "庄家不能下注");
+            ErrResponse msg = new ErrResponse("庄家不能下注");
             role.send(msg);
             return false;
         }
         if ((int) map.get("gameIndex") != gameIndex) {
-            ErrRespone msg = new ErrRespone(2002, 0, "局数不对");
+            ErrResponse msg = new ErrResponse("局数不对");
             role.send(msg);
             return false;
         } else {
@@ -139,18 +135,13 @@ final class HCTable extends Table {
                 nMoney += info.get("betAmount").longValue();
             }
             if (nMoney > role.money) {
-                ErrRespone msg = new ErrRespone(2002, 0, "钱不够下注");
+                ErrResponse msg = new ErrResponse("钱不够下注");
                 role.send(msg);
                 return false;
             }
-<<<<<<< HEAD:benz-bmw-game-new-server/src/main/java/com/micro/game/HCTable.java
             long max = maxChip - ((HCRoleInterface) role).getChip();
             if (nMoney < minChip || nMoney > max) {
                 ErrResponse msg = new ErrResponse("下注不在允许范围");
-=======
-            if (nMoney < minChip || nMoney > maxChip) {
-                ErrRespone msg = new ErrRespone(2002, 0, "下注不在允许范围");
->>>>>>> 26f8a1aef281dbda6ecb86a9d88dd02d629832a8:src/main/java/com/micro/game/HCTable.java
                 role.send(msg);
                 return false;
             }
@@ -188,15 +179,15 @@ final class HCTable extends Table {
     public void playerUpBanker(Role role) {
         if (allowBank) {
             if (role.money < bankMoney) {
-                ErrRespone res = new ErrRespone(2009, 0, "钱不够不能上庄");
+                ErrResponse res = new ErrResponse("钱不够不能上庄");
                 role.send(res);
             } else if (bankerList.contains(role)) {
-                ErrRespone res = new ErrRespone(2009, 0, "你已经在列表里面了");
+                ErrResponse res = new ErrResponse("你已经在列表里面了");
                 role.send(res);
             } else {
                 bankerList.add(role);
                 String size = String.valueOf(bankerList.size());
-                ErrRespone ownMsg = new ErrRespone(2009, 1, size);
+                SuccessResponse ownMsg = new SuccessResponse(2009, size);
                 Response otherMsg = new Response(2004, 1);
                 Map<String, Object> msg = new HashMap<>();
                 msg.put("playerName", role.nickName);
@@ -213,12 +204,12 @@ final class HCTable extends Table {
 
     public void playerDownBanker(Role role) {
         if (gameStae != 2) {
-            ErrRespone msg = new ErrRespone(2002, 0, "现在不能下庄");
+            ErrResponse msg = new ErrResponse("现在不能下庄");
             role.send(msg);
             return;
         }
         if (bankerList.remove(role)) {
-            ErrRespone ownMsg = new ErrRespone(2011, 1, "离开庄家");
+            ErrResponse ownMsg = new ErrResponse("离开庄家");
             Response otherMsg = new Response(2016, 1);
             otherMsg.msg = new HashMap<String, Object>();
             otherMsg.msg.put("playerName", role.nickName);
