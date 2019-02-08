@@ -1,14 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.simplemall.micro.serv</groupId>
-    <artifactId>benz-bmw-game-new-game</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <modules>
-        <module>benz-bmw-game-new-server</module>
-  </modules>
-    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -16,6 +9,10 @@
         <version>2.0.3.RELEASE</version>
         <relativePath/>
     </parent>
+
+    <groupId>com.leying.game</groupId>
+    <artifactId>benz-bmw-game-new</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,53 +28,64 @@
         <spring-boot-admin-client>2.0.0</spring-boot-admin-client>
         <commons-collections>3.2.2</commons-collections>
         <shiro-redis>3.2.2</shiro-redis>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
     </properties>
-
 
 
     <!--强制依赖-->
     <dependencies>
+
+        <!--<dependency>-->
+            <!--<groupId>com.dangdang</groupId>-->
+            <!--<artifactId>sharding-jdbc-self-id-generator</artifactId>-->
+            <!--<version>1.4.2</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-websocket</artifactId>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version>
+        </dependency>
+
+
+        <!-- mongodb -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.leying.frame</groupId>
+            <artifactId>game-frame</artifactId>
+            <version>1.0-RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-    
-
-        <!-- websocket -->
+        <!-- commons-collections -->
         <dependency>
-            <groupId>org.java-websocket</groupId>
-            <artifactId>Java-WebSocket</artifactId>
-            <version>1.3.0</version>
-        </dependency>
-
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- redis -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-data-redis</artifactId>-->
-            <!--<version>${redis}</version>-->
-        <!--</dependency>-->
-
-        <!--mysql-->
-        <!--<dependency>-->
-            <!--<groupId>mysql</groupId>-->
-            <!--<artifactId>mysql-connector-java</artifactId>-->
-        <!--</dependency>-->
-
-        <!--test-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
         </dependency>
 
     </dependencies>
@@ -85,33 +93,6 @@
     <!--选择性依赖-->
     <dependencyManagement>
         <dependencies>
-
-            <!--validator 数据校验-->
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator}</version>
-            </dependency>
-
-            <!-- commons-collections -->
-            <dependency>
-                <groupId>commons-collections</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>3.2.2</version>
-            </dependency>
-
-            <!--spring-cloud-->
-            <!--包含以下包的版本,项目中用到的-->
-            <!--spring-cloud-starter-netflix-eureka-client-->
-            <!--spring-cloud-starter-netflix-eureka-server-->
-            <!--spring-cloud-starter-config-->
-            <!--spring-boot-starter-actuator-->
-            <!--spring-boot-starter-test-->
-            <!--spring-boot-starter-web-->
-            <!--spring-boot-starter-data-mongodb-->
-            <!--spring-cloud-starter-openfeign-->
-            <!--spring-boot-starter-thymeleaf-->
-            <!--spring-cloud-netflix-core-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -119,8 +100,64 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>timestamp-property</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>current.time</name>
+                            <pattern>yyyy-MM-dd HH:mm:ss</pattern>
+                            <timeZone>GMT+8</timeZone>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                        <configuration>
+                            <additionalProperties>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <time>${current.time}</time>
+                            </additionalProperties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
+    </build>
 
 </project>
