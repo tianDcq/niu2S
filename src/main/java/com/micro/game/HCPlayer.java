@@ -1,5 +1,6 @@
 package com.micro.game;
 
+import frame.GameMain;
 import frame.Player;
 import frame.Room;
 import frame.socket.ErrResponse;
@@ -7,6 +8,15 @@ import frame.socket.Request;
 import frame.socket.Response;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
