@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import frame.GameMain;
 import frame.Player;
 import frame.Room;
 import frame.socket.ErrResponse;

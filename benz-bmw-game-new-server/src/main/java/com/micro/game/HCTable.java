@@ -10,6 +10,7 @@ import frame.*;
 import frame.socket.ErrResponse;
 import frame.socket.Response;
 
+import frame.socket.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -86,7 +87,7 @@ final class HCTable extends Table {
 
     @Override
     protected void onEnter(Role role) {
-        SuccessResponse ownMsg = new SuccessResponse(2001, 1, "45544454");
+        SuccessResponse ownMsg = new SuccessResponse(2001, "45544454");
         Response mm = new Response(2007, 1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("playerName", role.nickName);
@@ -144,7 +145,7 @@ final class HCTable extends Table {
             }
             long max = maxChip - ((HCRoleInterface) role).getChip();
             if (nMoney < minChip || nMoney > max) {
-                ErrRespone msg = new ErrRespone("下注不在允许范围");
+                ErrResponse msg = new ErrResponse("下注不在允许范围");
                 role.send(msg);
                 return false;
             }
