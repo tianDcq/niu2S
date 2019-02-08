@@ -1,4 +1,4 @@
-package com.micro.common.bean;
+package com.micro.frame.http;
 
 
 import java.io.Serializable;

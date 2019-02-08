@@ -84,11 +84,11 @@
             <!--<version>4.9</version>-->
         <!--</dependency>-->
 
-        <dependency>
+        <!-- <dependency>
             <groupId>com.micro.common</groupId>
             <artifactId>benz-bmw-game-new-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+        </dependency> -->
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket -->
         <dependency>
@@ -110,6 +110,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
+
+        <dependency>
+    <groupId>cn.hutool</groupId>
+    <artifactId>hutool-all</artifactId>
+    <version>4.4.4</version>
+</dependency>
 	
 
         <!--&lt;!&ndash;rabbitMQ &ndash;&gt;-->

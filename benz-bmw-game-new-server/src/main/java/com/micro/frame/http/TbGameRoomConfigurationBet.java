@@ -1,4 +1,4 @@
-package com.micro.common.bean.account.model;
+package com.micro.frame.http;
 
 import lombok.Data;
 

@@ -1,6 +1,5 @@
-package com.micro.common.bean;
+package com.micro.frame.http;
 
-import com.micro.common.bean.BaseModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,14 +7,15 @@ import java.math.BigDecimal;
 
 /**
  * tb_game_room_configuration_doudizhu
- * @author 
+ * 
+ * @author
  */
 @Data
 public class TbGameRoomConfiguration extends BaseModel implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
+    /**
      * 房间id,与tb_game_room的id相对应
      */
     private Long gameRoomId;
@@ -24,7 +24,6 @@ public class TbGameRoomConfiguration extends BaseModel implements Serializable {
      * 厅主id
      */
     private Long siteId;
-
 
     /**
      * 开始时间

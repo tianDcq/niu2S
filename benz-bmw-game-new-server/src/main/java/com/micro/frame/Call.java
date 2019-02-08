@@ -1,8 +1,8 @@
 package com.micro.frame;
 
-import com.micro.common.bean.GlobeResponse;
 import java.util.Map;
 import com.alibaba.fastjson.JSON;
+import com.micro.frame.http.GlobeResponse;
 
 import lombok.Getter;
 import lombok.Setter;

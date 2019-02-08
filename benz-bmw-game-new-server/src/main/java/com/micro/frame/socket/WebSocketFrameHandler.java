@@ -1,10 +1,10 @@
 package com.micro.frame.socket;
 
-import com.micro.common.util.JsonUtil;
 import com.micro.frame.Callback;
 import com.micro.frame.GameMain;
 import com.micro.frame.util.CodeUtils;
-import com.micro.old.server.client.AccountFeignClient;
+import com.micro.frame.util.JsonUtil;
+
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -49,9 +49,6 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSo
 	 */
 	@Value("${webSocket.isEncrypt}")
 	private Integer isEncrypt;
-
-	@Resource
-	private AccountFeignClient accountFeignClient;
 
 	/**
 	 * 接收客户端发过来的消息

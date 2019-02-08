@@ -116,17 +116,9 @@ public abstract class Player extends Role {
 	}
 
 	public Config.Error exitHall() {
-		if (this.table != null) {
-			Config.Error err = this.table.exit(this);
-			if (err != Config.ERR_SUCCESS) {
-				return err;
-			}
-		}
-		if (this.room != null) {
-			Config.Error err = this.room.exit(this);
-			if (err != Config.ERR_SUCCESS) {
-				return err;
-			}
+		Config.Error err = exitRoom();
+		if (err != Config.ERR_SUCCESS) {
+			return err;
 		}
 
 		if (this.hall != null) {

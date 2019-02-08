@@ -1,28 +1,29 @@
-package com.micro.common.util;
+package com.micro.frame.util;
 
 import java.util.Random;
 import java.util.UUID;
 
-/** uuid utils
- * @author Guooo
- * 2017年8月23日 上午6:17:01
+/**
+ * uuid utils
+ * 
+ * @author Guooo 2017年8月23日 上午6:17:01
  */
 public class UUIDUtils {
 
-	public  static String getUUID() {
+	public static String getUUID() {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
-	
+
 	/**
-     * 
-     * @Title: GetRandomSequence2  
-     * @Description: TODO(生成八位随机数)  
-     * @param total
-     * @return String  
-     * @author Faker  
-     * @date 2018年9月6日
-     */
-	public  static String getRandomPlayId() {
+	 * 
+	 * @Title: GetRandomSequence2
+	 * @Description: TODO(生成八位随机数)
+	 * @param total
+	 * @return String
+	 * @author Faker
+	 * @date 2018年9月6日
+	 */
+	public static String getRandomPlayId() {
 		StringBuffer id = new StringBuffer("");
 		int[] sequence = new int[8];
 		int[] output = new int[8];

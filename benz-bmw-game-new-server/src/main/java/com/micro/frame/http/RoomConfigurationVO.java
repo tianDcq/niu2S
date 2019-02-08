@@ -1,8 +1,5 @@
 package com.micro.frame.http;
 
-import com.micro.common.bean.BaseModel;
-import com.micro.common.bean.account.model.TbGameRoom;
-import com.micro.common.bean.account.model.TbGameRoomConfigurationBet;
 import lombok.Data;
 
 import java.io.Serializable;

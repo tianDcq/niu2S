@@ -1,16 +1,11 @@
 package com.micro.frame;
 
 import com.alibaba.fastjson.JSON;
-import com.micro.common.bean.GlobeResponse;
-import com.micro.frame.http.ComCallback;
-import com.micro.frame.http.ThreadPool;
 import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public final class HallMgr {
     private @Getter HashMap<Long, Hall> halls = new HashMap<Long, Hall>();

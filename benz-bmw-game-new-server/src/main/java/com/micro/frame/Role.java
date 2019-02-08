@@ -134,8 +134,8 @@ public abstract class Role extends Root {
 			if (err != Config.ERR_SUCCESS) {
 				return err;
 			}
-
 			onExitRoom();
+			save();
 			this.room = null;
 		}
 

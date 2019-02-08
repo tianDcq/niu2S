@@ -1,9 +1,7 @@
-package com.micro.common.bean.account.model;
+package com.micro.frame.http;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import com.micro.common.bean.BaseModel;
 
 import lombok.Data;
 
@@ -12,15 +10,15 @@ public class TbGameRoom extends BaseModel implements Serializable {
 
 	private static final long serialVersionUID = 2011789298643005448L;
 
-	 /**
-     * 下注限红1
-     */
-    private BigDecimal bottomRed1 = BigDecimal.ZERO;
-    /**
-     * 下注限红2
-     */
-    private BigDecimal bottomRed2 = BigDecimal.ZERO;
-	
+	/**
+	 * 下注限红1
+	 */
+	private BigDecimal bottomRed1 = BigDecimal.ZERO;
+	/**
+	 * 下注限红2
+	 */
+	private BigDecimal bottomRed2 = BigDecimal.ZERO;
+
 	/**
 	 * 厅主id
 	 */
@@ -69,10 +67,10 @@ public class TbGameRoom extends BaseModel implements Serializable {
 	 */
 	private Integer roomType;
 
-    /**
-     * 是否密码房间 1：是  2：不是
-     */
-    private Integer whetherPassword;
+	/**
+	 * 是否密码房间 1：是 2：不是
+	 */
+	private Integer whetherPassword;
 
 	/**
 	 * 房间密码
@@ -98,29 +96,29 @@ public class TbGameRoom extends BaseModel implements Serializable {
 	 * 税收比例
 	 */
 	private BigDecimal taxRatio;
-	
+
 	/**
 	 * 房间最低金额
 	 */
 	private BigDecimal minMoney;
 
-    /**
-     * 收费设置 1,收取服务费 2,税收比例收费
-     */
-    private Integer chargeType;
+	/**
+	 * 收费设置 1,收取服务费 2,税收比例收费
+	 */
+	private Integer chargeType;
 
-    /**
-     * 收费值
-     */
-    private BigDecimal chargeValue;
-    
-    /**
-     * 游戏底分
-     */
-    private BigDecimal roomField;
+	/**
+	 * 收费值
+	 */
+	private BigDecimal chargeValue;
+
+	/**
+	 * 游戏底分
+	 */
+	private BigDecimal roomField;
 
 	/**
 	 * 货币类型
 	 */
-	private int  moneyType;
+	private int moneyType;
 }

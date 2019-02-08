@@ -2,10 +2,10 @@ package com.micro.frame.socket;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.micro.common.util.JsonUtil;
 import com.micro.frame.Player;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
+import com.micro.frame.util.JsonUtil;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.micro.frame.socket.BaseRespone;
 import com.micro.frame.socket.Response;
+import com.micro.frame.util.UUIDUtils;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,7 @@ public abstract class Table extends Root {
 
     public int maxRoles;
     protected String gameUUID;
+
     void init(Map<String, Object> roomConfig) {
         status = Status.Open;
         maxRoles = Integer.valueOf((String) roomConfig.get("roomPersons"));
@@ -198,11 +200,11 @@ public abstract class Table extends Root {
                 }
             }
         }
-        gameUUID = UUID.randomUUID().toString();
+        gameUUID = UUIDUtils.getUUID();
         for (Role role : roles.values()) {
             role.checkMoney();
         }
-        startTime=GameMain.getInstance().getMillisecond();
+        startTime = GameMain.getInstance().getMillisecond();
         return true;
     }
 
@@ -211,7 +213,7 @@ public abstract class Table extends Root {
         // for (Role role : roles.values()) {
         // role.save();
         // }
-        endTime=GameMain.getInstance().getMillisecond();
+        endTime = GameMain.getInstance().getMillisecond();
     }
 
     protected void shutdown() {
