@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import frame.*;
-import frame.socket.ErrResponse;
+import frame.socket.ErrRespone;
 import frame.socket.Response;
 
 import frame.socket.SuccessResponse;
@@ -60,7 +60,6 @@ final class HCTable extends Table {
             chipTime = 15;
         }
         if (roomConfig.get("taxRatio") != null) {
-            System.out.println("税 = " + (String) roomConfig.get("taxRatio"));
             revenue = Float.valueOf((String) roomConfig.get("taxRatio"));
         } else {
             revenue = 0;
@@ -68,12 +67,9 @@ final class HCTable extends Table {
         maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
         minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
         maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100;
-
-        System.out.println(minChip + "  sssss  " + maxChip);
         if (roomConfig.get("shangzhuangSwitch") != null) {
             allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
         }
-        allowBank = true;
 
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
         chipList = new ChipStruct[8];
@@ -87,7 +83,11 @@ final class HCTable extends Table {
 
     @Override
     protected void onEnter(Role role) {
+<<<<<<< HEAD:benz-bmw-game-new-server/src/main/java/com/micro/game/HCTable.java
         SuccessResponse ownMsg = new SuccessResponse(2001, "45544454");
+=======
+        ErrRespone ownMsg = new ErrRespone(2001, 1, "45544454");
+>>>>>>> 26f8a1aef281dbda6ecb86a9d88dd02d629832a8:src/main/java/com/micro/game/HCTable.java
         Response mm = new Response(2007, 1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("playerName", role.nickName);
@@ -117,17 +117,17 @@ final class HCTable extends Table {
     @SuppressWarnings("unchecked")
     public boolean playerChip(Role role, Map<String, Object> map) {
         if (gameStae != 1) {
-            ErrResponse msg = new ErrResponse("不在下注阶段");
+            ErrRespone msg = new ErrRespone(2002, 0, "不在下注阶段");
             role.send(msg);
             return false;
         }
         if (banker == role) {
-            ErrResponse msg = new ErrResponse("庄家不能下注");
+            ErrRespone msg = new ErrRespone(2002, 0, "庄家不能下注");
             role.send(msg);
             return false;
         }
         if ((int) map.get("gameIndex") != gameIndex) {
-            ErrResponse msg = new ErrResponse("局数不对");
+            ErrRespone msg = new ErrRespone(2002, 0, "局数不对");
             role.send(msg);
             return false;
         } else {
@@ -139,13 +139,18 @@ final class HCTable extends Table {
                 nMoney += info.get("betAmount").longValue();
             }
             if (nMoney > role.money) {
-                ErrResponse msg = new ErrResponse("钱不够下注");
+                ErrRespone msg = new ErrRespone(2002, 0, "钱不够下注");
                 role.send(msg);
                 return false;
             }
+<<<<<<< HEAD:benz-bmw-game-new-server/src/main/java/com/micro/game/HCTable.java
             long max = maxChip - ((HCRoleInterface) role).getChip();
             if (nMoney < minChip || nMoney > max) {
                 ErrResponse msg = new ErrResponse("下注不在允许范围");
+=======
+            if (nMoney < minChip || nMoney > maxChip) {
+                ErrRespone msg = new ErrRespone(2002, 0, "下注不在允许范围");
+>>>>>>> 26f8a1aef281dbda6ecb86a9d88dd02d629832a8:src/main/java/com/micro/game/HCTable.java
                 role.send(msg);
                 return false;
             }
@@ -183,15 +188,15 @@ final class HCTable extends Table {
     public void playerUpBanker(Role role) {
         if (allowBank) {
             if (role.money < bankMoney) {
-                ErrResponse res = new ErrResponse("钱不够不能上庄");
+                ErrRespone res = new ErrRespone(2009, 0, "钱不够不能上庄");
                 role.send(res);
             } else if (bankerList.contains(role)) {
-                ErrResponse res = new ErrResponse("你已经在列表里面了");
+                ErrRespone res = new ErrRespone(2009, 0, "你已经在列表里面了");
                 role.send(res);
             } else {
                 bankerList.add(role);
                 String size = String.valueOf(bankerList.size());
-                SuccessResponse ownMsg = new SuccessResponse(2009, size);
+                ErrRespone ownMsg = new ErrRespone(2009, 1, size);
                 Response otherMsg = new Response(2004, 1);
                 Map<String, Object> msg = new HashMap<>();
                 msg.put("playerName", role.nickName);
@@ -207,23 +212,13 @@ final class HCTable extends Table {
     };
 
     public void playerDownBanker(Role role) {
-        if (banker == role) {
-            if (gameStae != 2) {
-                ErrResponse msg = new ErrResponse("现在不能下庄");
-                role.send(msg);
-            } else {
-                banker = null;
-                SuccessResponse ownMsg = new SuccessResponse(2011, "离开庄家");
-                Response otherMsg = new Response(2016, 1);
-                otherMsg.msg = new HashMap<String, Object>();
-                otherMsg.msg.put("playerName", role.nickName);
-                otherMsg.msg.put("playerCoins", role.money);
-                otherMsg.msg.put("token", role.token);
-                otherMsg.msg.put("uniqueId", role.uniqueId);
-                broadcast(ownMsg, otherMsg, role.uniqueId);
-            }
-        } else if (bankerList.remove(role)) {
-            SuccessResponse ownMsg = new SuccessResponse(2011, "离开庄家列表");
+        if (gameStae != 2) {
+            ErrRespone msg = new ErrRespone(2002, 0, "现在不能下庄");
+            role.send(msg);
+            return;
+        }
+        if (bankerList.remove(role)) {
+            ErrRespone ownMsg = new ErrRespone(2011, 1, "离开庄家");
             Response otherMsg = new Response(2016, 1);
             otherMsg.msg = new HashMap<String, Object>();
             otherMsg.msg.put("playerName", role.nickName);
@@ -297,7 +292,6 @@ final class HCTable extends Table {
         msg.put("endTime", openTime);
         msg.put("freeTime", waitTime);
         msg.put("tax", revenue);
-        msg.put("hostable", allowBank);
         response.msg = msg;
         role.send(response);
     };
@@ -376,7 +370,7 @@ final class HCTable extends Table {
             currentHost.put("hostMsg", "1111");
             currentHost.put("uniqueId", null);
         } else {
-            currentHost.put("system", false);
+            currentHost.put("system", true);
             currentHost.put("playerName", banker.nickName);
             currentHost.put("playerCoins", banker.money);
             currentHost.put("hostCount", bankerIndex);
@@ -431,33 +425,29 @@ final class HCTable extends Table {
         if (history.size() > 10) {
             history.remove(0);
         }
-        int pos = ((int) Math.random() * 4) * 8 + p;
+        int pos = 31 - ((int) Math.random() * 4) * 8 - p;
         Response response = new Response(2014, 1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("rewardPosition", pos);
         msg.put("gameIndex", gameIndex);
         int bei = ((HCGameMain) GameMain.getInstance()).progress[p];
         long bankerWin = 0;
-        // long playerTatle = 0;
+        long playerTatle = 0;
         List<Map<String, Object>> otherPlayers = new ArrayList<>();
         Map<String, Long> wins = new HashMap<>();
         Map<String, Object> betParts = new HashMap<>();
-        HashMap<String, Long> opens = new HashMap<>();
         for (Role player : chipPlayer) {
             Map<String, Object> playerInfo = new HashMap<>();
             playerInfo.put("playerName", player.nickName);
             ChipStruct[] playerChip = ((HCRoleInterface) player).getChipList();
             long playerWin = 0;
-            long getMon = 0;
             for (int i = 0; i < playerChip.length; ++i) {
                 if (i == p) {
                     playerWin += playerChip[i].betAmount * bei;
-                    getMon += playerChip[i].betAmount * bei;
                 } else {
                     playerWin -= playerChip[i].betAmount;
                 }
             }
-            opens.put(player.uniqueId, getMon);
             betParts.put(player.uniqueId, playerChip);
             bankerWin -= playerWin;
             if (playerWin > 0) {
@@ -468,33 +458,22 @@ final class HCTable extends Table {
             playerInfo.put("selfSettlement", playerWin);
             playerInfo.put("uniqueId", player.uniqueId);
             otherPlayers.add(playerInfo);
-            // playerTatle += playerWin;
+            playerTatle += playerWin;
             wins.put(player.uniqueId, playerWin);
             Map<String, Object> palyerHistory = new HashMap<>();
             palyerHistory.put(player.uniqueId, gameUUID);
-            PlayerID_gameID playerhistory = new PlayerID_gameID();
-            playerhistory.gameID = gameUUID;
-            playerhistory.playerID = player.uniqueId;
-            GameMain.getInstance().getMongoTemplate().save(playerhistory);
+            // mongoTemplate.save(palyerHistory, "benchi_playID_gameID");
         }
-        if (banker != null) {
-            if (bankerWin > 0) {
-                bankerWin -= bankerWin * revenue / 100;
-                banker.money += bankerWin;
-            }
-            Map<String, Object> bankerInfo = new HashMap<>();
-            bankerInfo.put("playerCoins", banker.money);
-            bankerInfo.put("selfSettlement", bankerWin);
-            bankerInfo.put("uniqueId", banker.uniqueId);
-            otherPlayers.add(bankerInfo);
+        if (banker != null && bankerWin > 0) {
+            bankerWin -= bankerWin * revenue / 100;
+            banker.money += bankerWin;
         }
-
-        // if (playerTatle > 0) {
-        // playerTatle -= playerTatle * revenue/100;
-        // }
+        if (playerTatle > 0) {
+            playerTatle -= playerTatle * revenue;
+        }
         msg.put("otherPlayers", otherPlayers);
         msg.put("bankerSettlement", bankerWin);
-        // msg.put("playerSettlement", playerTatle);
+        msg.put("playerSettlement", playerTatle);
         response.msg = msg;
         broadcast(response);
         Response hallResponse = new Response(2020, 1);
@@ -504,18 +483,18 @@ final class HCTable extends Table {
         hallResponse.msg = hallMsg;
         room.getHall().senToAll(hallResponse);
 
-        GameID_game gameHistory = new GameID_game();
-        gameHistory.gameId = gameUUID;
-        gameHistory.wins = wins;
-        gameHistory.roomName = roomName;
-        gameHistory.startTime = startTime;
-        gameHistory.endTime = GameMain.getInstance().getMillisecond();
-        gameHistory.playerbetParts = betParts;
-        gameHistory.chipList = chipList;
-        gameHistory.sysHost = banker == null;
-        gameHistory.tax = String.valueOf(revenue);
-        gameHistory.open = p;
-        GameMain.getInstance().getMongoTemplate().save(gameHistory);
+        // 存入游戏记录的结构
+        Map<String, Object> gameHistory = new HashMap<>();
+        gameHistory.put("gameId", gameUUID);
+        gameHistory.put("wins", wins);
+        gameHistory.put("roomName", roomName);
+        gameHistory.put("startTime", startTime);
+        gameHistory.put("endTime", endTime);
+        gameHistory.put("playerbetParts", betParts);
+        gameHistory.put("chipList", chipList);
+        gameHistory.put("tax", revenue);
+        gameHistory.put("pos", p);
+        // mongoTemplate.save(gameHistory, "benchi_gameID_gameHistory");
     };
 
     private void runWaitPeriod() {

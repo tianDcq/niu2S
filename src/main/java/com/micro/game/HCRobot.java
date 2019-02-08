@@ -97,15 +97,6 @@ class HCRobot extends Robot implements HCRoleInterface {
         }
     }
 
-    public long getChip(){
-        long chip=0;
-        for (int i = 0; i < 8; ++i) {
-            chip+=chipList[i].betAmount;
-        }
-        return chip;
-    };
-
-
     private void upBanker() {
         ((HCTable) table).playerUpBanker(this);
     }
