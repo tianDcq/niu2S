@@ -1,6 +1,7 @@
 package com.micro.game;
 
-import com.micro.frame.*;
+
+import frame.*;
 
 class HCGameMgr extends GameMgr {
     HCGameMgr() {

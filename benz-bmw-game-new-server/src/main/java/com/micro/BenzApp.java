@@ -1,8 +1,8 @@
 
 package com.micro;
 
-import com.micro.frame.util.*;
-import com.micro.frame.socket.NettyChannelInit;
+import frame.socket.NettyChannelInit;
+import frame.util.*;
 import com.micro.game.HCGameMain;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
@@ -19,8 +19,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -34,13 +36,11 @@ import java.util.Set;
  * @date 2018-07-23
  */
 @EnableScheduling // 添加定时任务支持
-// @EnableSwagger2
 @PropertySource(value = "classpath:/application.properties")
-@EnableFeignClients
+@EnableFeignClients(basePackages = "frame")
 @EnableDiscoveryClient
-
+@ComponentScan({"frame.*","com.*"})
 @SpringBootApplication
-
 public class BenzApp {
 
 	// 监听端口

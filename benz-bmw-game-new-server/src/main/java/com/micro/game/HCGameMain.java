@@ -1,6 +1,7 @@
 package com.micro.game;
 
-import com.micro.frame.GameMain;
+
+import frame.GameMain;
 
 public class HCGameMain extends GameMain {
     public long repertory = 0;
