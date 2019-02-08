@@ -1,17 +1,16 @@
 package com.micro.game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import frame.Callback;
 import frame.GameMain;
 import frame.Robot;
 import frame.socket.BaseRespone;
 import frame.socket.Response;
-
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class HCRobot extends Robot implements HCRoleInterface {
     public @Getter ChipStruct[] chipList = new ChipStruct[8];
