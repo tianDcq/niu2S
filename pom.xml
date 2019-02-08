@@ -112,6 +112,7 @@
     </dependencyManagement>
 
     <build>
+        <defaultGoal>compile</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
