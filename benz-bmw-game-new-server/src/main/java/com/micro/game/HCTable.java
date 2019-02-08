@@ -41,13 +41,14 @@ final class HCTable extends Table {
     private boolean callReady = false;
     @Autowired
     private MongoTemplate mongoTemplate;
+
     @Override
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
         openTime = Integer.valueOf((String) roomConfig.get("betTime"));
         waitTime = Integer.valueOf((String) roomConfig.get("freeTime"));
         chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
-        roomName = (String)roomConfig.get("roomName");
+        roomName = (String) roomConfig.get("roomName");
         if (openTime < 15) {
             openTime = 15;
         }
@@ -313,7 +314,6 @@ final class HCTable extends Table {
 
     private void mainLoop() {
         time--;
-        System.out.println(time);
         if (time <= 0) {
             toNextState();
         }
@@ -423,8 +423,8 @@ final class HCTable extends Table {
         long bankerWin = 0;
         long playerTatle = 0;
         List<Map<String, Object>> otherPlayers = new ArrayList<>();
-        Map<String,Long> wins=new HashMap<>();
-        Map<String,Object> betParts=new HashMap<>();
+        Map<String, Long> wins = new HashMap<>();
+        Map<String, Object> betParts = new HashMap<>();
         for (Role player : chipPlayer) {
             Map<String, Object> playerInfo = new HashMap<>();
             playerInfo.put("playerName", player.nickName);
@@ -449,9 +449,9 @@ final class HCTable extends Table {
             otherPlayers.add(playerInfo);
             playerTatle += playerWin;
             wins.put(player.uniqueId, playerWin);
-            Map<String,Object> palyerHistory=new HashMap<>();
+            Map<String, Object> palyerHistory = new HashMap<>();
             palyerHistory.put(player.uniqueId, gameUUID);
-            mongoTemplate.save(palyerHistory, "benchi_playID_gameID");
+            // mongoTemplate.save(palyerHistory, "benchi_playID_gameID");
         }
         if (banker != null && bankerWin > 0) {
             bankerWin -= bankerWin * revenue / 100;
@@ -471,9 +471,9 @@ final class HCTable extends Table {
         hallMsg.put("newReward", p);
         hallResponse.msg = hallMsg;
         room.getHall().senToAll(hallResponse);
-        
-        //存入游戏记录的结构
-        Map<String,Object> gameHistory=new HashMap<>();
+
+        // 存入游戏记录的结构
+        Map<String, Object> gameHistory = new HashMap<>();
         gameHistory.put("gameId", gameUUID);
         gameHistory.put("wins", wins);
         gameHistory.put("roomName", roomName);
@@ -483,7 +483,7 @@ final class HCTable extends Table {
         gameHistory.put("chipList", chipList);
         gameHistory.put("tax", revenue);
         gameHistory.put("pos", p);
-        mongoTemplate.save(gameHistory, "benchi_gameID_gameHistory");
+        // mongoTemplate.save(gameHistory, "benchi_gameID_gameHistory");
     };
 
     private void runWaitPeriod() {

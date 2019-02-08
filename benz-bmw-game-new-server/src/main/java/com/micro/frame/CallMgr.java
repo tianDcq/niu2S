@@ -26,6 +26,7 @@ class CallMgr extends Thread {
                 }
             } catch (Exception err) {
                 log.error("多线程任务未知错误！！！ err:" + err.getMessage());
+                log.error(err.getStackTrace().toString());
             }
         }
     }

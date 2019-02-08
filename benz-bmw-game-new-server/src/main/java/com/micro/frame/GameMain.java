@@ -40,7 +40,6 @@ public abstract class GameMain {
     private @Getter float delta;
     private boolean callReady = false;
 
-
     private void prepare() {
 
         this.hallMgr.init(new Callback() {
@@ -76,8 +75,7 @@ public abstract class GameMain {
         register();
         onStart();
         prepare();
-      
-       
+
     }
 
     protected abstract void onStart();
@@ -91,7 +89,7 @@ public abstract class GameMain {
             if (!callReady && multiCallMgr.isDone()) {
                 callReady = true;
                 if (gameMgr.getRobotPairType().type == Config.RobotPairType.Type.One) {
-                    taskMgr.createTimer(Config.ROOMCREATETIME + 1, new Callback() {
+                    taskMgr.createTimer(Config.ROOMCREATETIME + 5, new Callback() {
 
                         @Override
                         public void func() {
@@ -166,34 +164,39 @@ public abstract class GameMain {
 
         if (it != null) {
             for (Request req : it) {
-                if (millisecond - req.millisecond > Config.TIMEOUT) {
-                    log.error("消息处理超时!! uniqueId:{} msg:{}", req.uniqueId, req.msg);
-                    continue;
-                }
-
-                Role r = roleMgr.getRole(req.uniqueId);
-                if (r == null) {
-                    try {
-                        roleMgr.createPlayer(req.uniqueId, req.ctx);
-                    } catch (Exception err) {
-                        log.error("玩家初始化失败！！ uuid:" + req.uniqueId + "  err:" + err.toString());
+                try {
+                    if (millisecond - req.millisecond > Config.TIMEOUT) {
+                        log.error("消息处理超时!! uniqueId:{} msg:{}", req.uniqueId, req.msg);
+                        continue;
                     }
-                    msgQueue.receive(req);
-                    continue;
-                }
 
-                if (r instanceof Player) {
-                    Player p = (Player) r;
-                    if (p.getCtx() != req.ctx) {
-                        roleMgr.reconnect(p, req.ctx);
-                    }
-                    // 玩家未初始化，数据重回队列延迟处理
-                    if (!p.getInited()) {
+                    Role r = roleMgr.getRole(req.uniqueId);
+                    if (r == null) {
+                        try {
+                            roleMgr.createPlayer(req.uniqueId, req.ctx);
+                        } catch (Exception err) {
+                            log.error("玩家初始化失败！！ uuid:" + req.uniqueId + "  err:" + err.toString());
+                            log.error(err.getStackTrace().toString());
+                        }
                         msgQueue.receive(req);
                         continue;
                     }
 
-                    p.onMsg(req);
+                    if (r instanceof Player) {
+                        Player p = (Player) r;
+                        if (p.getCtx() != req.ctx) {
+                            roleMgr.reconnect(p, req.ctx);
+                        }
+                        // 玩家未初始化，数据重回队列延迟处理
+                        if (!p.getInited()) {
+                            msgQueue.receive(req);
+                            continue;
+                        }
+
+                        p.onMsg(req);
+                    }
+                } catch (Exception err) {
+                    log.error("消息处理错误！！！ uniqueId:{} msg:{}", req.uniqueId, req.msg);
                 }
             }
         }
@@ -209,6 +212,7 @@ public abstract class GameMain {
                     step();
                 } catch (Exception err) {
                     log.error("服务器未知错误！！！ err:" + err.getMessage());
+                    log.error(err.getStackTrace().toString());
                 }
                 lastUpdate = millisecond;
             }
