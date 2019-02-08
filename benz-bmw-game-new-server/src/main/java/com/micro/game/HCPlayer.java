@@ -5,7 +5,7 @@ import java.util.Map;
 
 import frame.Player;
 import frame.Room;
-import frame.socket.ErrRespone;
+import frame.socket.ErrResponse;
 import frame.socket.Request;
 import frame.socket.Response;
 
@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 class HCPlayer extends Player implements HCRoleInterface {
@@ -35,8 +34,8 @@ class HCPlayer extends Player implements HCRoleInterface {
         case "2001": {
 
             Object roomId = map.get("roomId");
-            //此处包kong
-            if(roomId==null){
+            // 此处包kong
+            if (roomId == null) {
                 log.error("roomId为空=========================");
                 break;
             }
@@ -59,8 +58,8 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("roomType", roomConfig.get("roomType"));
                 roomC.put("roomId", room.getRoomConfig().get("gameRoomId"));
                 roomC.put("roomName", roomConfig.get("roomName"));
-                boolean bb=false;
-                if(roomConfig.get("shangzhuangSwitch")!=null){
+                boolean bb = false;
+                if (roomConfig.get("shangzhuangSwitch") != null) {
                     bb = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
                 }
                 roomC.put("hostAble", bb);
@@ -84,7 +83,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2010": {
             if (checkChip()) {
-                ErrRespone msg = new ErrRespone(2010, 0, "已经下注不能退出");
+                ErrResponse msg = new ErrResponse("已经下注不能退出");
                 send(msg);
                 return;
             }
@@ -92,32 +91,32 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2009": {
-            if(table!=null){
+            if (table != null) {
                 ((HCTable) table).playerUpBanker(this);
             }
             break;
         }
         case "2002": {
-            if(table!=null){
+            if (table != null) {
                 ((HCTable) table).playerChip(this, map);
             }
             break;
         }
         case "2011": {
-            if(table!=null){
+            if (table != null) {
                 ((HCTable) table).playerDownBanker(this);
             }
             break;
         }
         case "2018": {
-            if(table!=null){
+            if (table != null) {
                 ((HCTable) table).requstTableScene(this);
             }
             break;
         }
 
-        case "2022":{
-            Query query=new Query(Criteria.where("key"));
+        case "2022": {
+            Query query = new Query(Criteria.where("key"));
         }
 
         }
