@@ -7,7 +7,6 @@ import java.util.Map;
 import com.micro.frame.socket.BaseRespone;
 import com.micro.frame.socket.Request;
 
-
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import lombok.Setter;
@@ -56,28 +55,29 @@ public abstract class Player extends Role {
 
 	@Override
 	public void save() {
-		long win = money - sqlMoney;
-		final Map<String, Object> params = new HashMap<>();
-		params.put("siteId", Long.valueOf(siteId));
-		params.put("account", account);
-		params.put("money", BigDecimal.valueOf(win / 100.0));
-		Call call = GameMain.getInstance().getCallRegisterMgr().create("/acc/addMoney", params);
-		call.setSuccess(new Callback() {
-			@Override
-			public void func() {
-				System.out.print(this.getData());
-				long nMoney = (long) this.getData() * 100;
-				money += nMoney - sqlMoney;
-				sqlMoney = nMoney;
-			}
-		});
-		call.setFailure(new Callback() {
-			@Override
-			public void func() {
-				System.out.println("存钱失败 " + win);
-			}
-		});
-		GameMain.getInstance().getMultiCallMgr().call(call);
+		// long win = money - sqlMoney;
+		// final Map<String, Object> params = new HashMap<>();
+		// params.put("siteId", Long.valueOf(siteId));
+		// params.put("account", account);
+		// params.put("money", BigDecimal.valueOf(win / 100.0));
+		// Call call =
+		// GameMain.getInstance().getCallRegisterMgr().create("/acc/addMoney", params);
+		// call.setSuccess(new Callback() {
+		// @Override
+		// public void func() {
+		// System.out.print(this.getData());
+		// long nMoney = (long) this.getData() * 100;
+		// money += nMoney - sqlMoney;
+		// sqlMoney = nMoney;
+		// }
+		// });
+		// call.setFailure(new Callback() {
+		// @Override
+		// public void func() {
+		// System.out.println("存钱失败 " + win);
+		// }
+		// });
+		// GameMain.getInstance().getMultiCallMgr().call(call);
 	}
 
 	@Override
