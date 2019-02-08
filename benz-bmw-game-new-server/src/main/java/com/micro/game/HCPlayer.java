@@ -5,12 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+<<<<<<< HEAD
 import com.micro.frame.GameMain;
 import com.micro.frame.Player;
 import com.micro.frame.Room;
 import com.micro.frame.socket.ErrRespone;
 import com.micro.frame.socket.Request;
 import com.micro.frame.socket.Response;
+=======
+import frame.Player;
+import frame.Room;
+import frame.socket.ErrResponse;
+import frame.socket.Request;
+import frame.socket.Response;
+>>>>>>> b9f5b306092838bdec854a1ddf81e11a9fc57bdf
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -91,7 +99,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2010": {
             if (checkChip()) {
-                ErrRespone msg = new ErrRespone(2010, 0, "已经下注不能退出");
+                ErrResponse msg = new ErrResponse("已经下注不能退出");
                 send(msg);
                 return;
             }
@@ -124,6 +132,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
 
         case "2022": {
+<<<<<<< HEAD
             MongoTemplate mogo = GameMain.getInstance().getMongoTemplate();
             Query query = new Query(Criteria.where("playerID").is(uniqueId));
             int count = (int) mogo.count(query, PlayerID_gameID.class);
@@ -155,6 +164,9 @@ class HCPlayer extends Player implements HCRoleInterface {
             recordMsg.msg = msg;
             send(recordMsg);
             break;
+=======
+            Query query = new Query(Criteria.where("key"));
+>>>>>>> b9f5b306092838bdec854a1ddf81e11a9fc57bdf
         }
         case "2023":
             MongoTemplate mogo = GameMain.getInstance().getMongoTemplate();

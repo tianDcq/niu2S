@@ -1,6 +1,7 @@
 package com.micro.game;
 
-import com.micro.frame.GameMain;
+
+import frame.GameMain;
 
 import org.springframework.stereotype.Component;
 

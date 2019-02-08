@@ -6,7 +6,6 @@
     <artifactId>benz-bmw-game-new-game</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>benz-bmw-game-new-common</module>
         <module>benz-bmw-game-new-server</module>
   </modules>
     <packaging>pom</packaging>
@@ -33,9 +32,6 @@
         <commons-collections>3.2.2</commons-collections>
         <shiro-redis>3.2.2</shiro-redis>
     </properties>
-
-
-  
 
 
 
@@ -90,18 +86,6 @@
     <dependencyManagement>
         <dependencies>
 
-            <!--swagger2-->
-            <!--<dependency>-->
-                <!--<groupId>io.springfox</groupId>-->
-                <!--<artifactId>springfox-swagger2</artifactId>-->
-                <!--<version>${swagger}</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>io.springfox</groupId>-->
-                <!--<artifactId>springfox-swagger-ui</artifactId>-->
-                <!--<version>${swagger}</version>-->
-            <!--</dependency>-->
-
             <!--validator 数据校验-->
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -109,66 +93,12 @@
                 <version>${hibernate-validator}</version>
             </dependency>
 
-            <!--mybatis -->
-            <!--<dependency>-->
-                <!--<groupId>org.mybatis.spring.boot</groupId>-->
-                <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
-                <!--<version>${mybatis}</version>-->
-            <!--</dependency>-->
-
-            <!--mapper -->
-            <!--<dependency>-->
-                <!--<groupId>tk.mybatis</groupId>-->
-                <!--<artifactId>mapper-spring-boot-starter</artifactId>-->
-                <!--<version>${mapper}</version>-->
-                <!--<exclusions>-->
-                    <!--<exclusion>-->
-                        <!--<groupId>org.springframework.boot</groupId>-->
-                        <!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
-                    <!--</exclusion>-->
-                <!--</exclusions>-->
-            <!--</dependency>-->
-
-            <!--druid-->
-            <!--<dependency>-->
-                <!--<groupId>com.alibaba</groupId>-->
-                <!--<artifactId>druid-spring-boot-starter</artifactId>-->
-                <!--<version>${druid}</version>-->
-            <!--</dependency>-->
-
-            <!--spring-boot-admin 客户端-->
-            <!--<dependency>-->
-                <!--<groupId>de.codecentric</groupId>-->
-                <!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
-                <!--<version>${spring-boot-admin-client}</version>-->
-            <!--</dependency>-->
-
-            <!--公共包-->
-            <!--<dependency>-->
-                <!--<groupId>com.micro.common</groupId>-->
-                <!--<artifactId>common-module</artifactId>-->
-                <!--<version>0.0.1-SNAPSHOT</version>-->
-            <!--</dependency>-->
-
-
-
             <!-- commons-collections -->
             <dependency>
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>3.2.2</version>
             </dependency>
-
-
-
-
-
-            <!--ehcache内存缓存-->
-            <!--<dependency>-->
-                <!--<groupId>org.ehcache</groupId>-->
-                <!--<artifactId>ehcache</artifactId>-->
-                <!--<version>3.5.2</version>-->
-            <!--</dependency>-->
 
             <!--spring-cloud-->
             <!--包含以下包的版本,项目中用到的-->
