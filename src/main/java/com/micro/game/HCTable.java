@@ -23,6 +23,7 @@ final class HCTable extends Table {
     private float revenue = 0;
     private ChipStruct[] chipList;
     private long[] playerChipList = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    private int[] weightsList = { 10, 30, 12, 30, 15, 30, 20, 30 };
     public List<Integer> history;
     private int maxBanker;
     private int bankerIndex = 0;
@@ -408,9 +409,9 @@ final class HCTable extends Table {
         list.add(6);
         list.add(7);
         for (int i = 0; i < 8; ++i) {
-            int p = (int) (Math.random() * list.size());
+            int b=getOpenNumber(list);
+            int p = list.remove(b);
             if (banker instanceof Player) {
-                int b = list.remove(p);
                 HCGameMain game = (HCGameMain) GameMain.getInstance();
                 long win = 0;
                 for (int j = 0; j < playerChipList.length; ++j) {
@@ -429,8 +430,24 @@ final class HCTable extends Table {
                 return;
             }
         }
-
     };
+
+    private int getOpenNumber(List<Integer> list) {
+        int weights = 0;
+        for (int i = 0; i < list.size(); ++i) {
+            weights += weightsList[list.get(i)];
+        }
+        int open = (int) (Math.random() * weights);
+        int temp = 0;
+        int i = 0;
+        for (; i < list.size(); ++i) {
+            temp+=weightsList[list.get(i)];
+            if(temp>open){
+                break;
+            }
+        }
+        return i;
+    }
 
     public void snedLottoryMessage(int p) {
         history.add(p);
