@@ -136,11 +136,12 @@ class HCPlayer extends Player implements HCRoleInterface {
             if (pp.size() > 0) {
                 Criteria[] criterias=new Criteria[pp.size()];
                 for (int i = 0; i < pp.size(); ++i) {
-                    Criteria gameCri = new Criteria();
-                    gameCri.orOperator(Criteria.where("gameId").is(pp.get(i).gameID));
+                    Criteria gameCri = Criteria.where("gameId").is(pp.get(i).gameID);
                     criterias[i]=gameCri;
                 }
-                Query gameQuery = new Query(criterias);
+                Criteria criteria= new Criteria();
+                criteria.orOperator(criterias);
+                Query gameQuery = new Query(criteria);
                 games = mogo.find(gameQuery, GameID_game.class);
             }
             Response recordMsg = new Response(2022, 1);
