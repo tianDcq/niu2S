@@ -17,7 +17,7 @@ class GameID_game implements Serializable{
     public long endTime;
     public String tax;
     public int open;
-    public boolean sysHost;
+    public String sysHost;
     public Map<String,Long> wins;          //结算结果 id-money
     public Map<String,Long> opens;         //中将结果 id-money
     public ChipStruct[] chipList;      //总下注 id-ChipStruct

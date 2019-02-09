@@ -307,6 +307,10 @@ final class HCTable extends Table {
         return money;
     }
 
+    public boolean checkBanker(Role role) {
+        return banker == role;
+    };
+
     @Override
     public void onStart() {
         time = waitTime;
@@ -327,6 +331,9 @@ final class HCTable extends Table {
     };
 
     private void mainLoop() {
+        if (time < 0) {
+            System.out.println(time);
+        }
         time--;
         if (time <= 0) {
             toNextState();
@@ -336,9 +343,13 @@ final class HCTable extends Table {
     private void toNextState() {
         switch (gameStae) {
         case 2:
-            begin();
-            runChipPeriod();
-            sendChanegGameState();
+            if (begin()) {
+                runChipPeriod();
+                sendChanegGameState();
+            } else {
+                schedule.stop();
+                return;
+            }
             break;
         case 1:
             runOpenPeriod();
@@ -479,6 +490,7 @@ final class HCTable extends Table {
                 bankerWin -= bankerWin * revenue / 100;
                 banker.money += bankerWin;
             }
+            wins.put(banker.uniqueId, bankerWin);
             Map<String, Object> bankerInfo = new HashMap<>();
             bankerInfo.put("playerCoins", banker.money);
             bankerInfo.put("selfSettlement", bankerWin);
@@ -509,8 +521,9 @@ final class HCTable extends Table {
         gameHistory.endTime = GameMain.getInstance().getMillisecond();
         gameHistory.playerbetParts = betParts;
         gameHistory.chipList = chipList;
-        gameHistory.sysHost = banker == null;
+        gameHistory.sysHost = banker == null ? null : banker.uniqueId;
         gameHistory.tax = String.valueOf(revenue);
+        gameHistory.opens = opens;
         gameHistory.open = p;
         GameMain.getInstance().getMongoTemplate().save(gameHistory);
     };

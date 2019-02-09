@@ -96,6 +96,11 @@ class HCPlayer extends Player implements HCRoleInterface {
                 send(msg);
                 return;
             }
+            if (((HCTable) table).checkBanker(this)) {
+                ErrResponse msg = new ErrResponse("已经下注不能退出");
+                send(msg);
+                return;
+            }
             this.exitRoom();
             break;
         }
@@ -148,12 +153,14 @@ class HCPlayer extends Player implements HCRoleInterface {
             Map<String, Object> msg = new HashMap<>();
             msg.put("currentPage", map.get("requestPage"));
             msg.put("totalPage", count);
-            Map<String, Object> gameRecord = new HashMap<>();
+            List<Map<String, Object>> gameRecord=new ArrayList<>();
             for (GameID_game game : games) {
-                gameRecord.put("id", game.gameId);
-                gameRecord.put("roomName", game.roomName);
-                gameRecord.put("endTime", game.endTime);
-                gameRecord.put("result", game.wins.get(uniqueId));
+                Map<String, Object> gameinfo = new HashMap<>();
+                gameinfo.put("id", game.gameId);
+                gameinfo.put("roomName", game.roomName);
+                gameinfo.put("endTime", game.endTime);
+                gameinfo.put("result", game.wins.get(uniqueId));
+                gameRecord.add(gameinfo);
             }
             msg.put("gameRecord", gameRecord);
             recordMsg.msg = msg;
@@ -162,38 +169,47 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2023":
             MongoTemplate mogo = GameMain.getInstance().getMongoTemplate();
-            Query query = new Query(Criteria.where("gameID").is((String) map.get("requestId")));
+            Query query = new Query(Criteria.where("gameId").is((String) map.get("requestId")));
             GameID_game game=  mogo.findOne(query, GameID_game.class);
-            Response recordMsg = new Response(2023, 1);
-            Map<String, Object> msg = new HashMap<>();
-            recordMsg.msg=msg;
-            Map<String, Object> sum = new HashMap<>();
-            sum.put("roomName", game.roomName);
-            ChipStruct[] chipL=(ChipStruct[])game.playerbetParts.get(uniqueId);
-            long chips=0;
-            for(ChipStruct cp:chipL){
-                chips+=cp.betAmount;
+            if(game!=null){
+                Response recordMsg = new Response(2023, 1);
+                Map<String, Object> msg = new HashMap<>();
+                recordMsg.msg=msg;
+                Map<String, Object> sum = new HashMap<>();
+                sum.put("roomName", game.roomName);
+
+                // Object pp=game.playerbetParts.get(uniqueId);
+                // System.out.println("pp    "+pp);
+                // ChipStruct[] chipL=(ChipStruct[])pp;
+
+                List<Object> chipL=(List)(game.playerbetParts.get(uniqueId));
+                long chips=0;
+                for(Object cp:chipL){
+                    chips+=((ChipStruct)cp).betAmount;
+                }
+                sum.put("playerBet", chips);
+                sum.put("selfResult",game.wins.get(uniqueId));
+                sum.put("totalWin",game.opens.get(uniqueId));
+                sum.put("tax",game.tax);
+                msg.put("sum", sum);
+                msg.put("gameCode", game.gameId);
+                msg.put("isHost", game.sysHost==uniqueId);
+                msg.put("reward", game.open);
+                Map<String, Object>[] rewardZone=new HashMap[8];
+
+
+                List<Object> ownChip=(List)(game.playerbetParts.get(uniqueId));
+                ChipStruct[] gameChip=game.chipList;
+                for(int i=0;i<8;++i){
+                    Map<String, Object> chipInfo = new HashMap<>();
+                    chipInfo.put("zone", i);
+                    chipInfo.put("totalBet", gameChip[i].betAmount);
+                    chipInfo.put("selfBet", ((ChipStruct)ownChip.get(i)).betAmount);
+                    rewardZone[i]=chipInfo;
+                }
+                msg.put("rewardZone", rewardZone);
+                send(recordMsg);
             }
-            sum.put("playerBet", chips);
-            sum.put("selfResult",game.wins.get(uniqueId));
-            sum.put("totalWin",game.opens.get(uniqueId));
-            sum.put("tax",game.tax);
-            msg.put("sum", sum);
-            msg.put("gameCode", game.gameId);
-            msg.put("isHost", game.sysHost);
-            msg.put("reward", game.open);
-            Map<String, Object>[] rewardZone=new HashMap[9];
-            ChipStruct[] ownChip= ( ChipStruct[])(game.playerbetParts.get(uniqueId));
-            ChipStruct[] gameChip=game.chipList;
-            for(int i=0;i<8;++i){
-                Map<String, Object> chipInfo = new HashMap<>();
-                chipInfo.put("zone", i);
-                chipInfo.put("totalBet", gameChip[i].betAmount);
-                chipInfo.put("selfBet", ownChip[i].betAmount);
-                rewardZone[i]=chipInfo;
-            }
-            msg.put("rewardZone", rewardZone);
-            send(recordMsg);
             break;
         }
     }
