@@ -70,8 +70,6 @@ final class HCTable extends Table {
         if (roomConfig.get("shangzhuangSwitch") != null) {
             allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
         }
-        allowBank = true;
-
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
         chipList = new ChipStruct[8];
         for (int i = 0; i < 8; ++i) {

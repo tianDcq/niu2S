@@ -45,7 +45,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             Object roomId = map.get("roomId");
             // 此处包kong
             if (roomId == null) {
-                log.error("roomId为空=========================");
+                this.enterRoom();
                 break;
             }
             this.enterRoom(roomId.toString());
@@ -247,6 +247,6 @@ class HCPlayer extends Player implements HCRoleInterface {
 
     @Override
     protected void onExitTable() {
-        save();
+        
     }
 }
