@@ -112,6 +112,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2002": {
             if (table != null) {
+                System.out.println("玩家下注  ");
                 ((HCTable) table).playerChip(this, map);
             }
             break;
