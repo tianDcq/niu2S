@@ -485,7 +485,7 @@ final class HCTable extends Table {
             if (playerWin > 0) {
                 playerWin -= playerWin * revenue / 100;
             }
-            player.money += playerWin;
+            player.money += getMon;
             playerInfo.put("playerCoins", player.money);
             playerInfo.put("selfSettlement", playerWin);
             playerInfo.put("uniqueId", player.uniqueId);
