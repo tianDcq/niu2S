@@ -11,8 +11,6 @@ import frame.socket.ErrResponse;
 import frame.socket.Response;
 
 import frame.socket.SuccessResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 import lombok.Getter;
 
@@ -425,7 +423,7 @@ final class HCTable extends Table {
                 }
                 long lose = playerChipList[b] * game.progress[b];
                 win = win - lose;
-                if (game.repertory + win > 0) {
+                if (game.getGameMgr().repertory + win > 0) {
                     snedLottoryMessage(p);
                     return;
                 }
