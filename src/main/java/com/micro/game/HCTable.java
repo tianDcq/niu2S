@@ -411,9 +411,6 @@ final class HCTable extends Table {
             int b = getOpenNumber(list);
             int p = list.remove(b);
             if (banker instanceof Player) {
-                snedLottoryMessage(p);
-                return;
-            } else {
                 HCGameMain game = (HCGameMain) GameMain.getInstance();
                 long win = 0;
                 for (int j = 0; j < playerChipList.length; ++j) {
@@ -423,10 +420,14 @@ final class HCTable extends Table {
                 }
                 long lose = playerChipList[b] * game.progress[b];
                 win = win - lose;
-                if (game.getGameMgr().repertory + win > 0) {
+                if (game.getGameMgr().repertory + win >= 0) {
                     snedLottoryMessage(p);
                     return;
                 }
+                return;
+            } else {
+                snedLottoryMessage(p);
+                return;
             }
         }
     };
