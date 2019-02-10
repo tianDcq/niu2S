@@ -39,6 +39,7 @@ final class HCTable extends Table {
     private long bankMoney;
     private String roomName;
     private HashSet<Role> chipPlayer;
+
     @Override
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
@@ -412,6 +413,9 @@ final class HCTable extends Table {
             int b=getOpenNumber(list);
             int p = list.remove(b);
             if (banker instanceof Player) {
+                snedLottoryMessage(p);
+                return;
+            } else {
                 HCGameMain game = (HCGameMain) GameMain.getInstance();
                 long win = 0;
                 for (int j = 0; j < playerChipList.length; ++j) {
@@ -425,9 +429,6 @@ final class HCTable extends Table {
                     snedLottoryMessage(p);
                     return;
                 }
-            } else {
-                snedLottoryMessage(p);
-                return;
             }
         }
     };
@@ -493,12 +494,14 @@ final class HCTable extends Table {
             otherPlayers.add(playerInfo);
             // playerTatle += playerWin;
             wins.put(player.uniqueId, playerWin);
-            Map<String, Object> palyerHistory = new HashMap<>();
-            palyerHistory.put(player.uniqueId, gameUUID);
-            PlayerID_gameID playerhistory = new PlayerID_gameID();
-            playerhistory.gameID = gameUUID;
-            playerhistory.playerID = player.uniqueId;
-            GameMain.getInstance().getMongoTemplate().save(playerhistory);
+            if(player instanceof Player){
+                Map<String, Object> palyerHistory = new HashMap<>();
+                palyerHistory.put(player.uniqueId, gameUUID);
+                PlayerID_gameID playerhistory = new PlayerID_gameID();
+                playerhistory.gameID = gameUUID;
+                playerhistory.playerID = player.uniqueId;
+                GameMain.getInstance().saveToMogon(playerhistory);
+            }
         }
         if (banker != null) {
             if (bankerWin > 0) {
@@ -511,6 +514,13 @@ final class HCTable extends Table {
             bankerInfo.put("selfSettlement", bankerWin);
             bankerInfo.put("uniqueId", banker.uniqueId);
             otherPlayers.add(bankerInfo);
+            if( banker instanceof Player ){
+                PlayerID_gameID playerhistory = new PlayerID_gameID();
+                playerhistory.gameID = gameUUID;
+                playerhistory.playerID = banker.uniqueId;
+                GameMain.getInstance().saveToMogon(playerhistory);
+            }
+          
         }
 
         // if (playerTatle > 0) {
@@ -540,7 +550,7 @@ final class HCTable extends Table {
         gameHistory.tax = String.valueOf(revenue);
         gameHistory.opens = opens;
         gameHistory.open = p;
-        GameMain.getInstance().getMongoTemplate().save(gameHistory);
+        GameMain.getInstance().saveToMogon(gameHistory);
     };
 
     private void runWaitPeriod() {

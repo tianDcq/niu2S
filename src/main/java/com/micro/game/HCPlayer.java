@@ -22,7 +22,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 
 @Slf4j
-class HCPlayer extends Player implements HCRoleInterface {
+class HCPlayer extends Player implements HCRoleInterface {  
     public @Getter ChipStruct[] chipList = new ChipStruct[8];
 
     @Override
