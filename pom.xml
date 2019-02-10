@@ -146,7 +146,7 @@
         <dependency>
             <groupId>com.leying.frame</groupId>
             <artifactId>game-frame</artifactId>
-            <version>1.0-RELEASE</version>
+            <version>1.0.1-RELEASE</version>
         </dependency>
 
         <dependency>
