@@ -498,7 +498,7 @@ final class HCTable extends Table {
                 PlayerID_gameID playerhistory = new PlayerID_gameID();
                 playerhistory.gameID = gameUUID;
                 playerhistory.playerID = player.uniqueId;
-                GameMain.getInstance().save2Mongo(playerhistory);
+                GameMain.getInstance().save2mongo(playerhistory);
             }
         }
         if (banker != null) {
@@ -516,7 +516,7 @@ final class HCTable extends Table {
                 PlayerID_gameID playerhistory = new PlayerID_gameID();
                 playerhistory.gameID = gameUUID;
                 playerhistory.playerID = banker.uniqueId;
-                GameMain.getInstance().save2Mongo(playerhistory);
+                GameMain.getInstance().save2mongo(playerhistory);
             }
 
         }
@@ -548,7 +548,7 @@ final class HCTable extends Table {
         gameHistory.tax = String.valueOf(revenue);
         gameHistory.opens = opens;
         gameHistory.open = p;
-        GameMain.getInstance().save2Mongo(gameHistory);
+        GameMain.getInstance().save2mongo(gameHistory);
     };
 
     private void runWaitPeriod() {
