@@ -20,9 +20,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 @Slf4j
 class HCPlayer extends Player implements HCRoleInterface {
@@ -148,7 +145,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                 Criteria criteria= new Criteria();
                 criteria.orOperator(criterias);
                 Query gameQuery = new Query(criteria);
-                games = mogo.find(gameQuery, GameID_game.class);
+                games = mogo.find(gameQuery.limit(pp.size()), GameID_game.class);
             }
             Response recordMsg = new Response(2022, 1);
             Map<String, Object> msg = new HashMap<>();

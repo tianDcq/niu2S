@@ -39,11 +39,6 @@ final class HCTable extends Table {
     private long bankMoney;
     private String roomName;
     private HashSet<Role> chipPlayer;
-
-    private boolean callReady = false;
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
     @Override
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
