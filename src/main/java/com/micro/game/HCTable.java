@@ -408,7 +408,7 @@ final class HCTable extends Table {
         list.add(6);
         list.add(7);
         for (int i = 0; i < 8; ++i) {
-            int b=getOpenNumber(list);
+            int b = getOpenNumber(list);
             int p = list.remove(b);
             if (banker instanceof Player) {
                 snedLottoryMessage(p);
@@ -440,8 +440,8 @@ final class HCTable extends Table {
         int temp = 0;
         int i = 0;
         for (; i < list.size(); ++i) {
-            temp+=weightsList[list.get(i)];
-            if(temp>open){
+            temp += weightsList[list.get(i)];
+            if (temp > open) {
                 break;
             }
         }
@@ -492,13 +492,13 @@ final class HCTable extends Table {
             otherPlayers.add(playerInfo);
             // playerTatle += playerWin;
             wins.put(player.uniqueId, playerWin);
-            if(player instanceof Player){
+            if (player instanceof Player) {
                 Map<String, Object> palyerHistory = new HashMap<>();
                 palyerHistory.put(player.uniqueId, gameUUID);
                 PlayerID_gameID playerhistory = new PlayerID_gameID();
                 playerhistory.gameID = gameUUID;
                 playerhistory.playerID = player.uniqueId;
-                GameMain.getInstance().saveToMogon(playerhistory);
+                GameMain.getInstance().save2Mongo(playerhistory);
             }
         }
         if (banker != null) {
@@ -512,13 +512,13 @@ final class HCTable extends Table {
             bankerInfo.put("selfSettlement", bankerWin);
             bankerInfo.put("uniqueId", banker.uniqueId);
             otherPlayers.add(bankerInfo);
-            if( banker instanceof Player ){
+            if (banker instanceof Player) {
                 PlayerID_gameID playerhistory = new PlayerID_gameID();
                 playerhistory.gameID = gameUUID;
                 playerhistory.playerID = banker.uniqueId;
-                GameMain.getInstance().saveToMogon(playerhistory);
+                GameMain.getInstance().save2Mongo(playerhistory);
             }
-          
+
         }
 
         // if (playerTatle > 0) {
@@ -548,7 +548,7 @@ final class HCTable extends Table {
         gameHistory.tax = String.valueOf(revenue);
         gameHistory.opens = opens;
         gameHistory.open = p;
-        GameMain.getInstance().saveToMogon(gameHistory);
+        GameMain.getInstance().save2Mongo(gameHistory);
     };
 
     private void runWaitPeriod() {
