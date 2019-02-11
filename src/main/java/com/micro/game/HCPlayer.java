@@ -1,5 +1,6 @@
 package com.micro.game;
 
+import frame.Callback;
 import frame.GameMain;
 import frame.Player;
 import frame.Room;
@@ -20,9 +21,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-
 @Slf4j
-class HCPlayer extends Player implements HCRoleInterface {  
+class HCPlayer extends Player implements HCRoleInterface {
     public @Getter ChipStruct[] chipList = new ChipStruct[8];
 
     @Override
@@ -128,30 +128,79 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
 
         case "2022": {
-            MongoTemplate mogo = GameMain.getInstance().getMongoTemplate();
             Query query = new Query(Criteria.where("playerID").is(uniqueId));
-            int count = (int) mogo.count(query, PlayerID_gameID.class);
+            Query query1 = new Query(Criteria.where("playerID").is(uniqueId));
             PageRequest pageable = PageRequest.of(0, 6);
-            query.with(pageable);
-            query.with(new Sort(new Order(Direction.DESC, "id")));
-            List<PlayerID_gameID> pp = mogo.find(query, PlayerID_gameID.class);
-            List<GameID_game> games = new ArrayList<>();
-            if (pp.size() > 0) {
-                Criteria[] criterias=new Criteria[pp.size()];
-                for (int i = 0; i < pp.size(); ++i) {
-                    Criteria gameCri = Criteria.where("gameId").is(pp.get(i).gameID);
-                    criterias[i]=gameCri;
+            query1.with(pageable);
+            query1.with(new Sort(new Order(Direction.DESC, "id")));
+            int curr = (int) map.get("requestPage");
+            GameMain.getInstance().getMongo().findRecord(query, query1, "gameId", GameID_game.class,
+                    new Callback() {
+                        @Override
+                        public void func() {
+                            Map<String, Object> mm = (Map<String, Object>) this.getData();
+                            System.out.println(mm);
+                            sendPlayerRecord(curr, (int) mm.get("count"), (List<GameID_game>) mm.get("games"));
+                        }
+                    });
+            break;
+        }
+        case "2023":
+            Query query = new Query(Criteria.where("gameId").is((String) map.get("requestId")));
+            GameMain.getInstance().getMongo().findOne(query, new Callback() {
+
+                @Override
+                public void func() {
+                    sendGameRecord((GameID_game) this.getData());
                 }
-                Criteria criteria= new Criteria();
-                criteria.orOperator(criterias);
-                Query gameQuery = new Query(criteria);
-                games = mogo.find(gameQuery.limit(pp.size()), GameID_game.class);
-            }
-            Response recordMsg = new Response(2022, 1);
+            }, GameID_game.class);
+            break;
+        }
+    }
+
+    private void sendGameRecord(GameID_game game) {
+        if (game != null) {
+            Response recordMsg = new Response(2023, 1);
             Map<String, Object> msg = new HashMap<>();
-            msg.put("currentPage", map.get("requestPage"));
-            msg.put("totalPage", count);
-            List<Map<String, Object>> gameRecord=new ArrayList<>();
+            recordMsg.msg = msg;
+            Map<String, Object> sum = new HashMap<>();
+            sum.put("roomName", game.roomName);
+            List<Object> chipL = (List) (game.playerbetParts.get(uniqueId));
+            long chips = 0;
+            for (Object cp : chipL) {
+                chips += ((ChipStruct) cp).betAmount;
+            }
+            sum.put("playerBet", chips);
+            sum.put("selfResult", game.wins.get(uniqueId));
+            sum.put("totalWin", game.opens.get(uniqueId));
+            sum.put("tax", game.tax);
+            msg.put("sum", sum);
+            msg.put("gameCode", game.gameId);
+            msg.put("isHost", game.sysHost == uniqueId);
+            msg.put("reward", game.open);
+            Map<String, Object>[] rewardZone = new HashMap[8];
+
+            List<Object> ownChip = (List) (game.playerbetParts.get(uniqueId));
+            ChipStruct[] gameChip = game.chipList;
+            for (int i = 0; i < 8; ++i) {
+                Map<String, Object> chipInfo = new HashMap<>();
+                chipInfo.put("zone", i);
+                chipInfo.put("totalBet", gameChip[i].betAmount);
+                chipInfo.put("selfBet", ((ChipStruct) ownChip.get(i)).betAmount);
+                rewardZone[i] = chipInfo;
+            }
+            msg.put("rewardZone", rewardZone);
+            send(recordMsg);
+        }
+    }
+
+    private void sendPlayerRecord(int curr, int count, List<GameID_game> games) {
+        Response recordMsg = new Response(2022, 1);
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("currentPage", curr);
+        msg.put("totalPage", count);
+        List<Map<String, Object>> gameRecord = new ArrayList<>();
+        if(games!=null){
             for (GameID_game game : games) {
                 Map<String, Object> gameinfo = new HashMap<>();
                 gameinfo.put("id", game.gameId);
@@ -160,56 +209,10 @@ class HCPlayer extends Player implements HCRoleInterface {
                 gameinfo.put("result", game.wins.get(uniqueId));
                 gameRecord.add(gameinfo);
             }
-            msg.put("gameRecord", gameRecord);
-            recordMsg.msg = msg;
-            send(recordMsg);
-            break;
         }
-        case "2023":
-            MongoTemplate mogo = GameMain.getInstance().getMongoTemplate();
-            Query query = new Query(Criteria.where("gameId").is((String) map.get("requestId")));
-            GameID_game game=  mogo.findOne(query, GameID_game.class);
-            if(game!=null){
-                Response recordMsg = new Response(2023, 1);
-                Map<String, Object> msg = new HashMap<>();
-                recordMsg.msg=msg;
-                Map<String, Object> sum = new HashMap<>();
-                sum.put("roomName", game.roomName);
-
-                // Object pp=game.playerbetParts.get(uniqueId);
-                // System.out.println("pp    "+pp);
-                // ChipStruct[] chipL=(ChipStruct[])pp;
-
-                List<Object> chipL=(List)(game.playerbetParts.get(uniqueId));
-                long chips=0;
-                for(Object cp:chipL){
-                    chips+=((ChipStruct)cp).betAmount;
-                }
-                sum.put("playerBet", chips);
-                sum.put("selfResult",game.wins.get(uniqueId));
-                sum.put("totalWin",game.opens.get(uniqueId));
-                sum.put("tax",game.tax);
-                msg.put("sum", sum);
-                msg.put("gameCode", game.gameId);
-                msg.put("isHost", game.sysHost==uniqueId);
-                msg.put("reward", game.open);
-                Map<String, Object>[] rewardZone=new HashMap[8];
-
-
-                List<Object> ownChip=(List)(game.playerbetParts.get(uniqueId));
-                ChipStruct[] gameChip=game.chipList;
-                for(int i=0;i<8;++i){
-                    Map<String, Object> chipInfo = new HashMap<>();
-                    chipInfo.put("zone", i);
-                    chipInfo.put("totalBet", gameChip[i].betAmount);
-                    chipInfo.put("selfBet", ((ChipStruct)ownChip.get(i)).betAmount);
-                    rewardZone[i]=chipInfo;
-                }
-                msg.put("rewardZone", rewardZone);
-                send(recordMsg);
-            }
-            break;
-        }
+        msg.put("gameRecord", gameRecord);
+        recordMsg.msg = msg;
+        send(recordMsg);
     }
 
     private boolean checkChip() {
@@ -245,6 +248,6 @@ class HCPlayer extends Player implements HCRoleInterface {
 
     @Override
     protected void onExitTable() {
-        
+
     }
 }

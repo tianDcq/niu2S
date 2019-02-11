@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Document
-class PlayerID_gameID{
+public class PlayerID_gameID{
     @Id
     private String id;
     @Indexed

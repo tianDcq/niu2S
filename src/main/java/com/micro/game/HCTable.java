@@ -137,8 +137,8 @@ final class HCTable extends Table {
                 role.send(msg);
                 return false;
             }
-            long max = maxChip - ((HCRoleInterface) role).getChip();
-            if (nMoney < minChip || nMoney > max) {
+            long tempChip=((HCRoleInterface) role).getChip()+nMoney;
+            if (tempChip< minChip || tempChip > maxChip) {
                 ErrResponse msg = new ErrResponse("下注不在允许范围");
                 System.out.println("下注不在允许范围  ");
                 role.send(msg);
@@ -421,10 +421,10 @@ final class HCTable extends Table {
                 long lose = playerChipList[b] * game.progress[b];
                 win = win - lose;
                 if (game.getGameMgr().repertory + win >= 0) {
+                    game.getGameMgr().repertory+=win;
                     snedLottoryMessage(p);
                     return;
                 }
-                return;
             } else {
                 snedLottoryMessage(p);
                 return;
@@ -484,6 +484,7 @@ final class HCTable extends Table {
             betParts.put(player.uniqueId, playerChip);
             bankerWin -= playerWin;
             if (playerWin > 0) {
+                //收税  playerWin * revenue / 100;
                 playerWin -= playerWin * revenue / 100;
             }
             player.money += getMon;
@@ -499,11 +500,12 @@ final class HCTable extends Table {
                 PlayerID_gameID playerhistory = new PlayerID_gameID();
                 playerhistory.gameID = gameUUID;
                 playerhistory.playerID = player.uniqueId;
-                GameMain.getInstance().save2mongo(playerhistory);
+                GameMain.getInstance().getMongo().save(playerhistory);
             }
         }
         if (banker != null) {
             if (bankerWin > 0) {
+                //收税  bankerWin * revenue / 100;
                 bankerWin -= bankerWin * revenue / 100;
                 banker.money += bankerWin;
             }
@@ -517,9 +519,8 @@ final class HCTable extends Table {
                 PlayerID_gameID playerhistory = new PlayerID_gameID();
                 playerhistory.gameID = gameUUID;
                 playerhistory.playerID = banker.uniqueId;
-                GameMain.getInstance().save2mongo(playerhistory);
+                GameMain.getInstance().getMongo().save(playerhistory);
             }
-
         }
 
         // if (playerTatle > 0) {
@@ -549,11 +550,10 @@ final class HCTable extends Table {
         gameHistory.tax = String.valueOf(revenue);
         gameHistory.opens = opens;
         gameHistory.open = p;
-        GameMain.getInstance().save2mongo(gameHistory);
+        GameMain.getInstance().getMongo().save(gameHistory);
     };
 
     private void runWaitPeriod() {
-        time = waitTime;
         for (int i = 0; i < 8; ++i) {
             playerChipList[i] = 0;
             chipList[i].betAmount = 0;
@@ -568,6 +568,7 @@ final class HCTable extends Table {
             banker = null;
             bankerIndex = 0;
         }
+        time = waitTime;
         gameStae = 2;
     };
 
