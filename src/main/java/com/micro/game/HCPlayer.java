@@ -1,7 +1,7 @@
 package com.micro.game;
 
 import frame.Callback;
-import frame.GameMain;
+import frame.Config;
 import frame.Player;
 import frame.Room;
 import frame.socket.ErrResponse;
@@ -13,12 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 @Slf4j
 class HCPlayer extends Player implements HCRoleInterface {
@@ -37,14 +31,21 @@ class HCPlayer extends Player implements HCRoleInterface {
         String msgType = (String) map.get("msgType");
         switch (msgType) {
         case "2001": {
-
             Object roomId = map.get("roomId");
             // 此处包kong
             if (roomId == null) {
-                this.enterRoom();
-                break;
+                if(this.enterRoom()==Config.ERR_SUCCESS){
+                    break;
+                }
+            }else{
+                if(this.enterRoom(roomId.toString())==Config.ERR_SUCCESS){
+                    break;
+                }
             }
-            this.enterRoom(roomId.toString());
+            ErrResponse msg = new ErrResponse(Config.ERR_PAIR_DESTORY);
+            changeGameState(false);
+            send(msg);
+            exitHall();
             break;
         }
         case "2019": {

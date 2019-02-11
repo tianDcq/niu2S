@@ -98,6 +98,12 @@ final class HCTable extends Table {
     };
 
     @Override
+    protected void onReEnter(Role role) {
+        SuccessResponse ownMsg = new SuccessResponse(2001, "45544454");
+        role.send(ownMsg);
+    };
+
+    @Override
     protected void onExit(Role role) {
         Map<String, Object> msg = new HashMap<>();
         Response ownMsg = new Response(2010, 1);
@@ -428,13 +434,12 @@ final class HCTable extends Table {
                 }
                 long lose = playerChipList[b] * game.progress[b];
                 win = win - lose;
-                if (game.getGameMgr().stock + win >= 0) {
-                    game.getGameMgr().stock+=win;
-                    snedLottoryMessage(p);
+                if (room.getHall().stock + win >= 0) {
+                    snedLottoryMessage(p,win);
                     return;
                 }
             } else {
-                snedLottoryMessage(p);
+                snedLottoryMessage(p,0);
                 return;
             }
         }
@@ -457,7 +462,7 @@ final class HCTable extends Table {
         return i;
     }
 
-    public void snedLottoryMessage(int p) {
+    public void snedLottoryMessage(int p,long stock) {
         history.add(p);
         if (history.size() > 10) {
             history.remove(0);
@@ -469,6 +474,7 @@ final class HCTable extends Table {
         msg.put("gameIndex", gameIndex);
         int bei = ((HCGameMain) GameMain.getInstance()).progress[p];
         long bankerWin = 0;
+        long sysTax=0;
         // long playerTatle = 0;
         List<Map<String, Object>> otherPlayers = new ArrayList<>();
         Map<String, Long> wins = new HashMap<>();
@@ -492,7 +498,7 @@ final class HCTable extends Table {
             betParts.put(player.uniqueId, playerChip);
             bankerWin -= playerWin;
             if (playerWin > 0) {
-                //收税  playerWin * revenue / 100;
+                sysTax+=playerWin * revenue / 100;
                 playerWin -= playerWin * revenue / 100;
             }
             player.money += getMon;
@@ -510,7 +516,7 @@ final class HCTable extends Table {
         }
         if (banker != null) {
             if (bankerWin > 0) {
-                //收税  bankerWin * revenue / 100;
+                sysTax+=bankerWin * revenue / 100;
                 bankerWin -= bankerWin * revenue / 100;
                 banker.money += bankerWin;
             }
@@ -552,7 +558,9 @@ final class HCTable extends Table {
         gameHistory.tax = String.valueOf(revenue);
         gameHistory.opens = opens;
         gameHistory.open = p;
-        GameMain.getInstance().getMongo().save(gameHistory);
+        saveResoult(stock,sysTax,gameHistory);
+
+        
     };
 
     private void runWaitPeriod() {
