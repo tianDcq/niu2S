@@ -17,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -128,32 +127,25 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
 
         case "2022": {
-            Query query = new Query(Criteria.where("playerID").is(uniqueId));
-            Query query1 = new Query(Criteria.where("playerID").is(uniqueId));
-            PageRequest pageable = PageRequest.of(0, 6);
-            query1.with(pageable);
-            query1.with(new Sort(new Order(Direction.DESC, "id")));
             int curr = (int) map.get("requestPage");
-            GameMain.getInstance().getMongo().findRecord(query, query1, "gameId", GameID_game.class,
-                    new Callback() {
-                        @Override
-                        public void func() {
-                            Map<String, Object> mm = (Map<String, Object>) this.getData();
-                            System.out.println(mm);
-                            sendPlayerRecord(curr, (int) mm.get("count"), (List<GameID_game>) mm.get("games"));
-                        }
-                    });
+            getPlayerHisTory(curr, 6, "gameId", GameID_game.class, new Callback() {
+
+                @Override
+                public void func() {
+                    Map<String, Object> mm = (Map<String, Object>) this.getData();
+                    sendPlayerRecord(curr, (int) mm.get("count"), (List<GameID_game>) mm.get("games"));
+                }
+            });
             break;
         }
         case "2023":
-            Query query = new Query(Criteria.where("gameId").is((String) map.get("requestId")));
-            GameMain.getInstance().getMongo().findOne(query, new Callback() {
+            getGameHisTory((String) map.get("requestId"), "gameId", GameID_game.class, new Callback() {
 
                 @Override
                 public void func() {
                     sendGameRecord((GameID_game) this.getData());
                 }
-            }, GameID_game.class);
+            });
             break;
         }
     }
@@ -200,7 +192,7 @@ class HCPlayer extends Player implements HCRoleInterface {
         msg.put("currentPage", curr);
         msg.put("totalPage", count);
         List<Map<String, Object>> gameRecord = new ArrayList<>();
-        if(games!=null){
+        if (games != null) {
             for (GameID_game game : games) {
                 Map<String, Object> gameinfo = new HashMap<>();
                 gameinfo.put("id", game.gameId);

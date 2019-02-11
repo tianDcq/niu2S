@@ -24,7 +24,12 @@ final class HCTable extends Table {
     private int[] weightsList = { 10, 30, 12, 30, 15, 30, 20, 30 };
     public List<Integer> history;
     private int maxBanker;
+    private int relMaxBank;
+    private int extBanker;
+    private long extBankerMoney;
     private int bankerIndex = 0;
+    private long bankMoney;
+    
     private int minChip;
     private int maxChip;
     private @Getter Role banker;
@@ -34,7 +39,6 @@ final class HCTable extends Table {
     private int waitTime;
     private int chipTime;
     private boolean allowBank = false;
-    private long bankMoney;
     private String roomName;
     private HashSet<Role> chipPlayer;
 
@@ -59,13 +63,17 @@ final class HCTable extends Table {
         } else {
             revenue = 0;
         }
-        maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
+        relMaxBank= maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
+        bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
+        extBanker=Integer.valueOf((String) roomConfig.get("addedTime"));
+        extBankerMoney=Integer.valueOf((String) roomConfig.get("addedCond"));
+
+
         minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
         maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100;
         if (roomConfig.get("shangzhuangSwitch") != null) {
             allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
         }
-        bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
         chipList = new ChipStruct[8];
         for (int i = 0; i < 8; ++i) {
             chipList[i] = new ChipStruct(i);
@@ -276,7 +284,7 @@ final class HCTable extends Table {
             currentHost.put("playerName", banker.nickName);
             currentHost.put("playerCoins", banker.money);
             currentHost.put("portrait", banker.portrait);
-            currentHost.put("restHost", maxBanker - bankerIndex);
+            currentHost.put("restHost", relMaxBank - bankerIndex);
             currentHost.put("maxHost", maxBanker);
             currentHost.put("uniqueId", banker.uniqueId);
         }
@@ -420,8 +428,8 @@ final class HCTable extends Table {
                 }
                 long lose = playerChipList[b] * game.progress[b];
                 win = win - lose;
-                if (game.getGameMgr().repertory + win >= 0) {
-                    game.getGameMgr().repertory+=win;
+                if (game.getGameMgr().stock + win >= 0) {
+                    game.getGameMgr().stock+=win;
                     snedLottoryMessage(p);
                     return;
                 }
@@ -495,12 +503,9 @@ final class HCTable extends Table {
             // playerTatle += playerWin;
             wins.put(player.uniqueId, playerWin);
             if (player instanceof Player) {
-                Map<String, Object> palyerHistory = new HashMap<>();
-                palyerHistory.put(player.uniqueId, gameUUID);
-                PlayerID_gameID playerhistory = new PlayerID_gameID();
-                playerhistory.gameID = gameUUID;
-                playerhistory.playerID = player.uniqueId;
-                GameMain.getInstance().getMongo().save(playerhistory);
+                // Map<String, Object> palyerHistory = new HashMap<>();
+                // palyerHistory.put(player.uniqueId, gameUUID);
+                player.savePlayerHistory(gameUUID);
             }
         }
         if (banker != null) {
@@ -516,10 +521,7 @@ final class HCTable extends Table {
             bankerInfo.put("uniqueId", banker.uniqueId);
             otherPlayers.add(bankerInfo);
             if (banker instanceof Player) {
-                PlayerID_gameID playerhistory = new PlayerID_gameID();
-                playerhistory.gameID = gameUUID;
-                playerhistory.playerID = banker.uniqueId;
-                GameMain.getInstance().getMongo().save(playerhistory);
+                banker.savePlayerHistory(gameUUID);
             }
         }
 
@@ -554,6 +556,7 @@ final class HCTable extends Table {
     };
 
     private void runWaitPeriod() {
+        changeBanker();
         for (int i = 0; i < 8; ++i) {
             playerChipList[i] = 0;
             chipList[i].betAmount = 0;
@@ -564,13 +567,21 @@ final class HCTable extends Table {
         }
 
         chipPlayer.clear();
-        if (bankerIndex == maxBanker) {
-            banker = null;
-            bankerIndex = 0;
-        }
         time = waitTime;
         gameStae = 2;
     };
+    private void changeBanker() {
+        if (bankerIndex == relMaxBank) {
+            if(maxBanker<relMaxBank){
+                if(banker.money>=extBankerMoney){
+                    relMaxBank+=extBanker;
+                }
+            }else{
+                banker = null;
+                bankerIndex = 0;
+            }
+        }
+    }
 
     private void runOpenPeriod() {
         time = openTime;

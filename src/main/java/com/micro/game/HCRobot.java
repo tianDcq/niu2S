@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.hutool.core.util.RandomUtil;
+
 class HCRobot extends Robot implements HCRoleInterface {
     public @Getter ChipStruct[] chipList = new ChipStruct[8];
     private int minChip;
@@ -38,17 +40,14 @@ class HCRobot extends Robot implements HCRoleInterface {
                 GameMain game = GameMain.getInstance();
                 if (((HCTable) table).getBanker() != this) {
                     if (money > minChip) {
-                        long mm = money - minChip;
-                        long ii = maxChip - minChip;
-                        mm = mm > ii ? ii : mm;
-                        final long chipMoney = (long) (Math.random() * mm);
+                        long chip = RandomUtil.randomInt(minChip, (int) Math.min(money, maxChip));
                         int time = (int) (Math.random() * (chipTime - 3)) + 3;
 
                         int p = (int) (Math.random() * 8);
                         game.getTaskMgr().createTimer(time, new Callback() {
                             @Override
                             public void func() {
-                                chip(p, chipMoney);
+                                chip(p, chip);
                             }
                         }, this);
                     }
@@ -96,14 +95,13 @@ class HCRobot extends Robot implements HCRoleInterface {
         }
     }
 
-    public long getChip(){
-        long chip=0;
+    public long getChip() {
+        long chip = 0;
         for (int i = 0; i < 8; ++i) {
-            chip+=chipList[i].betAmount;
+            chip += chipList[i].betAmount;
         }
         return chip;
     };
-
 
     private void upBanker() {
         ((HCTable) table).playerUpBanker(this);

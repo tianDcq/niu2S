@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 @Data
 @Document
-class GameID_game implements Serializable{
+public class GameID_game{
     @Indexed
     public String gameId;
     public String roomName;
