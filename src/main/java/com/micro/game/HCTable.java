@@ -21,7 +21,7 @@ final class HCTable extends Table {
     private float revenue = 0;
     private ChipStruct[] chipList;
     private long[] playerChipList = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    private int[] weightsList = { 10, 30, 12, 30, 15, 30, 20, 30 };
+    private int[] weightsList = { 3, 24, 4, 24, 4, 24, 12, 24 };
     public List<Integer> history;
     private int maxBanker;
     private int relMaxBank;
