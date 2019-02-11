@@ -420,7 +420,7 @@ final class HCTable extends Table {
                 }
                 long lose = playerChipList[b] * game.progress[b];
                 win = win - lose;
-                if (game.getGameMgr().repertory + win >= 0) {
+                if (game.getGameMgr().stock + win >= 0) {
                     snedLottoryMessage(p);
                     return;
                 }
