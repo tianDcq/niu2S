@@ -34,16 +34,16 @@ class HCPlayer extends Player implements HCRoleInterface {
             Object roomId = map.get("roomId");
             // 此处包kong
             if (roomId == null) {
-                if(this.enterRoom()==Config.ERR_SUCCESS){
+                if (this.enterRoom() == Config.ERR_SUCCESS) {
                     break;
                 }
-            }else{
-                if(this.enterRoom(roomId.toString())==Config.ERR_SUCCESS){
+            } else {
+                if (this.enterRoom(roomId.toString()) == Config.ERR_SUCCESS) {
                     break;
                 }
             }
             ErrResponse msg = new ErrResponse(Config.ERR_PAIR_DESTORY);
-            changeGameState(false);
+            saveReconnectState(false);
             send(msg);
             exitHall();
             break;
@@ -129,7 +129,7 @@ class HCPlayer extends Player implements HCRoleInterface {
 
         case "2022": {
             int curr = (int) map.get("requestPage");
-            getPlayerHisTory(curr, 6, "gameId", BenChiGameHistory.class, new Callback() {
+            getPlayerHistory(curr, 6, BenChiGameHistory.class, new Callback() {
 
                 @Override
                 public void func() {
@@ -140,7 +140,7 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
         case "2023":
-            getGameHisTory((String) map.get("requestId"), "gameId", BenChiGameHistory.class, new Callback() {
+            getGameHistory((String) map.get("requestId"), BenChiGameHistory.class, new Callback() {
 
                 @Override
                 public void func() {
