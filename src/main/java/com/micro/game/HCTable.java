@@ -29,7 +29,7 @@ final class HCTable extends Table {
     private long extBankerMoney;
     private int bankerIndex = 0;
     private long bankMoney;
-    
+
     private int minChip;
     private int maxChip;
     private @Getter Role banker;
@@ -63,11 +63,10 @@ final class HCTable extends Table {
         } else {
             revenue = 0;
         }
-        relMaxBank= maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
+        relMaxBank = maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
-        extBanker=Integer.valueOf((String) roomConfig.get("addedTime"));
-        extBankerMoney=Integer.valueOf((String) roomConfig.get("addedCond"));
-
+        extBanker = Integer.valueOf((String) roomConfig.get("addedTime"));
+        extBankerMoney = Integer.valueOf((String) roomConfig.get("addedCond"));
 
         minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
         maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100;
@@ -145,8 +144,8 @@ final class HCTable extends Table {
                 role.send(msg);
                 return false;
             }
-            long tempChip=((HCRoleInterface) role).getChip()+nMoney;
-            if (tempChip< minChip || tempChip > maxChip) {
+            long tempChip = ((HCRoleInterface) role).getChip() + nMoney;
+            if (tempChip < minChip || tempChip > maxChip) {
                 ErrResponse msg = new ErrResponse("下注不在允许范围");
                 System.out.println("下注不在允许范围  ");
                 role.send(msg);
@@ -428,8 +427,8 @@ final class HCTable extends Table {
                 }
                 long lose = playerChipList[b] * game.progress[b];
                 win = win - lose;
-                if (game.getGameMgr().stock + win >= 0) {
-                    game.getGameMgr().stock+=win;
+                if (room.getHall().stock + win >= 0) {
+                    room.getHall().stock += win;
                     snedLottoryMessage(p);
                     return;
                 }
@@ -492,7 +491,7 @@ final class HCTable extends Table {
             betParts.put(player.uniqueId, playerChip);
             bankerWin -= playerWin;
             if (playerWin > 0) {
-                //收税  playerWin * revenue / 100;
+                // 收税 playerWin * revenue / 100;
                 playerWin -= playerWin * revenue / 100;
             }
             player.money += getMon;
@@ -510,7 +509,7 @@ final class HCTable extends Table {
         }
         if (banker != null) {
             if (bankerWin > 0) {
-                //收税  bankerWin * revenue / 100;
+                // 收税 bankerWin * revenue / 100;
                 bankerWin -= bankerWin * revenue / 100;
                 banker.money += bankerWin;
             }
@@ -570,13 +569,14 @@ final class HCTable extends Table {
         time = waitTime;
         gameStae = 2;
     };
+
     private void changeBanker() {
         if (bankerIndex == relMaxBank) {
-            if(maxBanker<relMaxBank){
-                if(banker.money>=extBankerMoney){
-                    relMaxBank+=extBanker;
+            if (maxBanker < relMaxBank) {
+                if (banker.money >= extBankerMoney) {
+                    relMaxBank += extBanker;
                 }
-            }else{
+            } else {
                 banker = null;
                 bankerIndex = 0;
             }
