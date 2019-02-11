@@ -39,7 +39,6 @@ final class HCTable extends Table {
     private int waitTime;
     private int chipTime;
     private boolean allowBank = false;
-    private String roomName;
     private HashSet<Role> chipPlayer;
 
     @Override
@@ -545,12 +544,8 @@ final class HCTable extends Table {
         hallResponse.msg = hallMsg;
         room.getHall().senToAll(hallResponse);
 
-        GameID_game gameHistory = new GameID_game();
-        gameHistory.gameId = gameUUID;
+        BenChiGameHistory gameHistory = new BenChiGameHistory();
         gameHistory.wins = wins;
-        gameHistory.roomName = roomName;
-        gameHistory.startTime = startTime;
-        gameHistory.endTime = GameMain.getInstance().getMillisecond();
         gameHistory.playerbetParts = betParts;
         gameHistory.chipList = chipList;
         gameHistory.sysHost = banker == null ? null : banker.uniqueId;
@@ -558,8 +553,6 @@ final class HCTable extends Table {
         gameHistory.opens = opens;
         gameHistory.open = p;
         saveResoult(stock,sysTax,gameHistory);
-
-        
     };
 
     private void runWaitPeriod() {

@@ -129,29 +129,29 @@ class HCPlayer extends Player implements HCRoleInterface {
 
         case "2022": {
             int curr = (int) map.get("requestPage");
-            getPlayerHisTory(curr, 6, "gameId", GameID_game.class, new Callback() {
+            getPlayerHisTory(curr, 6, "gameId", BenChiGameHistory.class, new Callback() {
 
                 @Override
                 public void func() {
                     Map<String, Object> mm = (Map<String, Object>) this.getData();
-                    sendPlayerRecord(curr, (int) mm.get("count"), (List<GameID_game>) mm.get("games"));
+                    sendPlayerRecord(curr, (int) mm.get("count"), (List<BenChiGameHistory>) mm.get("games"));
                 }
             });
             break;
         }
         case "2023":
-            getGameHisTory((String) map.get("requestId"), "gameId", GameID_game.class, new Callback() {
+            getGameHisTory((String) map.get("requestId"), "gameId", BenChiGameHistory.class, new Callback() {
 
                 @Override
                 public void func() {
-                    sendGameRecord((GameID_game) this.getData());
+                    sendGameRecord((BenChiGameHistory) this.getData());
                 }
             });
             break;
         }
     }
 
-    private void sendGameRecord(GameID_game game) {
+    private void sendGameRecord(BenChiGameHistory game) {
         if (game != null) {
             Response recordMsg = new Response(2023, 1);
             Map<String, Object> msg = new HashMap<>();
@@ -187,14 +187,14 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
     }
 
-    private void sendPlayerRecord(int curr, int count, List<GameID_game> games) {
+    private void sendPlayerRecord(int curr, int count, List<BenChiGameHistory> games) {
         Response recordMsg = new Response(2022, 1);
         Map<String, Object> msg = new HashMap<>();
         msg.put("currentPage", curr);
         msg.put("totalPage", count);
         List<Map<String, Object>> gameRecord = new ArrayList<>();
         if (games != null) {
-            for (GameID_game game : games) {
+            for (BenChiGameHistory game : games) {
                 Map<String, Object> gameinfo = new HashMap<>();
                 gameinfo.put("id", game.gameId);
                 gameinfo.put("roomName", game.roomName);

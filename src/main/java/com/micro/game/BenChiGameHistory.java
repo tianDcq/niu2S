@@ -1,20 +1,10 @@
 package com.micro.game;
 
-import java.io.Serializable;
 import java.util.Map;
 
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import frame.history.GameHistory;
 
-import lombok.Data;
-@Data
-@Document
-public class GameID_game{
-    @Indexed
-    public String gameId;
-    public String roomName;
-    public long startTime;
-    public long endTime;
+class BenChiGameHistory extends GameHistory{
     public String tax;
     public int open;
     public String sysHost;
