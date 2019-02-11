@@ -375,7 +375,7 @@ final class HCTable extends Table {
         phaseData.put("restTime", time);
         msg.put("phaseData", phaseData);
         response.msg = msg;
-        room.getHall().senToAll(response);
+        room.getHall().broadcast(response);
     };
 
     private void sendChanegGameState() {
@@ -537,7 +537,7 @@ final class HCTable extends Table {
         hallMsg.put("roomId", room.getRoomConfig().get("gameRoomId"));
         hallMsg.put("newReward", p);
         hallResponse.msg = hallMsg;
-        room.getHall().senToAll(hallResponse);
+        room.getHall().broadcast(hallResponse);
 
         GameID_game gameHistory = new GameID_game();
         gameHistory.gameId = gameUUID;
