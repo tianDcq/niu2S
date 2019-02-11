@@ -1,11 +1,10 @@
 package com.micro.game;
 
-
 import frame.*;
 
 class HCGameMgr extends GameMgr {
     HCGameMgr() {
-        robotPairType = new Config.RobotPairType(Config.RobotPairType.Type.One, 0, 0);
+        robotPairType = new Config.RobotPairType(Config.RobotPairType.Type.One);
         gameId = 1;
     }
 
