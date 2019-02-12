@@ -81,8 +81,8 @@ class HCRobot extends Robot implements HCRoleInterface {
     @Override
     protected void onEnterTable() {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        int max = Integer.valueOf((String) roomConfig.get("bottomRed1"));
-        int min = Integer.valueOf((String) roomConfig.get("bottomRed2"));
+        int max = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
+        int min = Integer.valueOf((String) roomConfig.get("bottomRed2"))*100;
         for (int i = 0; i < chipL.length; ++i) {
             if (chipL[i] >= min) {
                 minChip = i;
