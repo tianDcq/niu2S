@@ -22,7 +22,7 @@ final class HCTable extends Table {
     private float revenue = 0;
     private ChipStruct[] chipList;               //桌子下注信息
     private long[] playerChipList = { 0, 0, 0, 0, 0, 0, 0, 0 };       //每个台上玩家下注量不包含机器人
-    private int[] weightsList = { 3, 24, 4, 24, 4, 24, 12, 24 };
+    private int[] weightsList = { 3, 24, 4, 24, 6, 24, 12, 24 };
     public final int[] progress = { 40, 5, 30, 5, 20, 5, 10, 5 };
     public List<Integer> history;
     private int maxBanker;
@@ -42,6 +42,7 @@ final class HCTable extends Table {
     private int chipTime;
     private boolean allowBank = false;
     private HashSet<Role> chipPlayer;       //下过注的玩家
+    private int nOpen;
 
     @Override
     protected void onInit() {
@@ -397,17 +398,10 @@ final class HCTable extends Table {
         case 1:
             runOpenPeriod();
             sendChanegGameState();
-            Call call=new Call();
-            call.setCall(new Callback(){
-            
-                @Override
-                public void func() {
-                    lottory();
-                }
-            });
-            GameMain.getInstance().getMultiCallMgr().call(call);            
+            lottory();        
             break;
         case 0:
+            sendOpenToHall();
             runWaitPeriod();
             end();
             break;
@@ -423,6 +417,20 @@ final class HCTable extends Table {
         response.msg = msg;
         room.getHall().broadcast(response);
     };
+    private void sendOpenToHall(){
+        history.add(nOpen);
+        if (history.size() > 10) {
+            history.remove(0);
+        }
+        Response hallResponse = new Response(2020, 1);
+        Map<String, Object> hallMsg = new HashMap<>();
+        hallMsg.put("roomId", room.getRoomConfig().get("gameRoomId"));
+        hallMsg.put("newReward", nOpen);
+        hallResponse.msg = hallMsg;
+        room.getHall().broadcast(hallResponse);
+    }
+
+
     /**
      * 发送游戏状态改变给桌子上的人
      */
@@ -468,7 +476,6 @@ final class HCTable extends Table {
             int b = getOpenNumber(list);
             int p = list.remove(b);
             if (banker instanceof Player) {
-                HCGameMain game = (HCGameMain) GameMain.getInstance();
                 long win = 0;
                 for (int j = 0; j < playerChipList.length; ++j) {
                     if (i != b) {
@@ -514,10 +521,6 @@ final class HCTable extends Table {
      * @param stock   库存变化
      */
     public void sendLottoryMessage(int p, long stock) {
-        history.add(p);
-        if (history.size() > 10) {
-            history.remove(0);
-        }
         int pos = ((int) Math.random() * 4) * 8 + p;
         Response response = new Response(2014, 1);
         Map<String, Object> msg = new HashMap<>();
@@ -554,7 +557,7 @@ final class HCTable extends Table {
             }
             player.money += getMon;
             playerInfo.put("playerCoins", player.money);
-            playerInfo.put("selfSettlement", playerWin);
+            playerInfo.put("selfSettlement", getMon);
             playerInfo.put("uniqueId", player.uniqueId);
             otherPlayers.add(playerInfo);
             // playerTatle += playerWin;
@@ -590,12 +593,7 @@ final class HCTable extends Table {
         // msg.put("playerSettlement", playerTatle);
         response.msg = msg;
         broadcast(response);
-        Response hallResponse = new Response(2020, 1);
-        Map<String, Object> hallMsg = new HashMap<>();
-        hallMsg.put("roomId", room.getRoomConfig().get("gameRoomId"));
-        hallMsg.put("newReward", p);
-        hallResponse.msg = hallMsg;
-        room.getHall().broadcast(hallResponse);
+        nOpen=p;
 
         BenChiGameHistory gameHistory = new BenChiGameHistory();
         gameHistory.wins = wins;
