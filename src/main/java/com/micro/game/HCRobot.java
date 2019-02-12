@@ -83,6 +83,8 @@ class HCRobot extends Robot implements HCRoleInterface {
         Map<String, Object> roomConfig = room.getRoomConfig();
         int max = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
         int min = Integer.valueOf((String) roomConfig.get("bottomRed2"))*100;
+        max=100000;
+        maxChip=chipL.length-1;
         for (int i = 0; i < chipL.length; ++i) {
             if (chipL[i] >= min) {
                 minChip = i;
