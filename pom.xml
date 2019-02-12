@@ -36,14 +36,14 @@
     <!--强制依赖-->
     <dependencies>
         <!-- ddd -->
-        <!-- <dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.0</version>
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
+        <!-- <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.44</version>
@@ -124,7 +124,7 @@
         <dependency>
             <groupId>com.leying.frame</groupId>
             <artifactId>game-frame</artifactId>
-            <version>1.0.0-SNAPSHOTS</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -140,6 +140,15 @@
         </dependency>
 
     </dependencies>
+
+
+    <repositories>
+        <repository>
+            <id>release</id>
+            <url>http://172.20.100.202:8084/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
+
 
     <!--选择性依赖-->
     <dependencyManagement>
