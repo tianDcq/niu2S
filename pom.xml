@@ -35,27 +35,8 @@
 
     <!--强制依赖-->
     <dependencies>
-
-        <!--<dependency>-->
-            <!--<groupId>com.dangdang</groupId>-->
-            <!--<artifactId>sharding-jdbc-self-id-generator</artifactId>-->
-            <!--<version>1.4.2</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-websocket</artifactId>-->
-        <!--</dependency>-->
-
-        <!-- lombok -->
-     <!-- <dependency>
-            <groupId>com.leying.frame</groupId>
-            <artifactId>game-frame</artifactId>
-            <version>1.0-RELEASE</version>
-        </dependency> -->
-
         <!-- ddd -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.0</version>
@@ -68,14 +49,12 @@
             <version>1.2.44</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.33.Final</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -83,7 +62,6 @@
         </dependency>
 
 
-        <!-- websocket -->
         <dependency>
             <groupId>org.java-websocket</groupId>
             <artifactId>Java-WebSocket</artifactId>
@@ -117,7 +95,7 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>4.4.4</version>
-        </dependency>
+        </dependency> -->
         <!-- ddd -->
 
         <dependency>
@@ -146,7 +124,7 @@
         <dependency>
             <groupId>com.leying.frame</groupId>
             <artifactId>game-frame</artifactId>
-            <version>1.0.4-RELEASE</version>
+            <version>1.0.0-SNAPSHOTS</version>
         </dependency>
 
         <dependency>
