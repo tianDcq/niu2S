@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import frame.*;
+import frame.http.GlobeResponse;
 import frame.socket.ErrResponse;
 import frame.socket.Response;
 
@@ -22,6 +23,7 @@ final class HCTable extends Table {
     private ChipStruct[] chipList;               //桌子下注信息
     private long[] playerChipList = { 0, 0, 0, 0, 0, 0, 0, 0 };       //每个台上玩家下注量不包含机器人
     private int[] weightsList = { 3, 24, 4, 24, 4, 24, 12, 24 };
+    public final int[] progress = { 40, 5, 30, 5, 20, 5, 10, 5 };
     public List<Integer> history;
     private int maxBanker;
     private int relMaxBank;
@@ -395,7 +397,15 @@ final class HCTable extends Table {
         case 1:
             runOpenPeriod();
             sendChanegGameState();
-            lottory();
+            Call call=new Call();
+            call.setCall(new Callback(){
+            
+                @Override
+                public void func() {
+                    lottory();
+                }
+            });
+            GameMain.getInstance().getMultiCallMgr().call(call);            
             break;
         case 0:
             runWaitPeriod();
@@ -465,7 +475,7 @@ final class HCTable extends Table {
                         win += playerChipList[j];
                     }
                 }
-                long lose = playerChipList[b] * game.progress[b];
+                long lose = playerChipList[b] * progress[b];
                 win = win - lose;
                 if (room.getHall().stock + win >= 0) {
                     sendLottoryMessage(p, win);
@@ -513,7 +523,7 @@ final class HCTable extends Table {
         Map<String, Object> msg = new HashMap<>();
         msg.put("rewardPosition", pos);
         msg.put("gameIndex", gameIndex);
-        int bei = ((HCGameMain) GameMain.getInstance()).progress[p];
+        int bei = progress[p];
         long bankerWin = 0;
         long sysTax = 0;
         // long playerTatle = 0;

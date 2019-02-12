@@ -42,7 +42,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                     break;
                 }
             }
-            ErrResponse msg = new ErrResponse(Config.ERR_PAIR_DESTORY);
+            ErrResponse msg = new ErrResponse(Config.ERR_TABLE_DESTORY);
             saveReconnectState(false);
             send(msg);
             exitHall();
