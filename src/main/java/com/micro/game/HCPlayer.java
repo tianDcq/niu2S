@@ -150,7 +150,10 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
     }
-
+    /**
+     * 发送游戏纪录详情
+     * @param game  数据库里面的游戏信息
+     */
     private void sendGameRecord(BenChiGameHistory game) {
         if (game != null) {
             Response recordMsg = new Response(2023, 1);
@@ -207,7 +210,10 @@ class HCPlayer extends Player implements HCRoleInterface {
         recordMsg.msg = msg;
         send(recordMsg);
     }
-
+    /**
+     * 检查玩家是否有下注
+     * @return
+     */
     private boolean checkChip() {
         for (int i = 0; i < 8; ++i) {
             if (chipList[i].betAmount > 0) {

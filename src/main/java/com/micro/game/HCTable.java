@@ -19,8 +19,8 @@ final class HCTable extends Table {
     private @Getter int gameStae;
     private @Getter int gameIndex = 0;
     private float revenue = 0;
-    private ChipStruct[] chipList;
-    private long[] playerChipList = { 0, 0, 0, 0, 0, 0, 0, 0 };
+    private ChipStruct[] chipList;               //桌子下注信息
+    private long[] playerChipList = { 0, 0, 0, 0, 0, 0, 0, 0 };       //每个台上玩家下注量不包含机器人
     private int[] weightsList = { 3, 24, 4, 24, 4, 24, 12, 24 };
     public List<Integer> history;
     private int maxBanker;
@@ -39,7 +39,7 @@ final class HCTable extends Table {
     private int waitTime;
     private int chipTime;
     private boolean allowBank = false;
-    private HashSet<Role> chipPlayer;
+    private HashSet<Role> chipPlayer;       //下过注的玩家
 
     @Override
     protected void onInit() {
@@ -80,7 +80,9 @@ final class HCTable extends Table {
         chipPlayer = new HashSet<>();
         history = new ArrayList<>();
     }
-
+    /**
+     * 玩家进入房间
+     */
     @Override
     protected void onEnter(Role role) {
         SuccessResponse ownMsg = new SuccessResponse(2001, "45544454");
@@ -94,13 +96,17 @@ final class HCTable extends Table {
         mm.msg = msg;
         broadcast(ownMsg, mm, role.uniqueId);
     };
-
+    /**
+     * 玩家重连进入房间
+     */
     @Override
     protected void onReEnter(Role role) {
         SuccessResponse ownMsg = new SuccessResponse(2001, "45544454");
         role.send(ownMsg);
     };
-
+    /**
+     * 玩家退出桌子
+     */
     @Override
     protected void onExit(Role role) {
         Map<String, Object> msg = new HashMap<>();
@@ -115,7 +121,12 @@ final class HCTable extends Table {
         mm.msg = new HashMap<>(msg);
         broadcast(ownMsg, mm, role.uniqueId);
     };
-
+    /**
+     * 玩家下注
+     * @param role
+     * @param map   //客户端发过来的下注消息
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public boolean playerChip(Role role, Map<String, Object> map) {
         if (gameStae != 1) {
@@ -187,6 +198,10 @@ final class HCTable extends Table {
         }
     }
 
+    /**
+     * 玩家上庄
+     * @param role
+     */
     public void playerUpBanker(Role role) {
         if (allowBank) {
             if (role.money < bankMoney) {
@@ -212,7 +227,9 @@ final class HCTable extends Table {
             }
         }
     };
-
+    /**
+     * 玩家下庄
+     */
     public void playerDownBanker(Role role) {
         if (banker == role) {
             if (gameStae != 2) {
@@ -240,7 +257,10 @@ final class HCTable extends Table {
             broadcast(ownMsg, otherMsg, role.uniqueId);
         }
     };
-
+    /**
+     * 玩家亲求桌子
+     * @param role
+     */
     public void requstTableScene(Role role) {
         Response response = new Response(2018, 1);
         Map<String, Object> msg = new HashMap<>();
@@ -308,7 +328,10 @@ final class HCTable extends Table {
         response.msg = msg;
         role.send(response);
     };
-
+    /**
+     * 获取所有下注金额
+     * @return
+     */
     public long getCountMoney() {
         long money = 0;
         for (int i = 0; i < chipList.length; ++i) {
@@ -316,7 +339,11 @@ final class HCTable extends Table {
         }
         return money;
     }
-
+    /**
+     * 检查玩家是不是庄家
+     * @param role
+     * @return
+     */
     public boolean checkBanker(Role role) {
         return banker == role;
     };
@@ -339,7 +366,9 @@ final class HCTable extends Table {
             }
         }, 1, this);
     };
-
+    /**
+     * 游戏主循环
+     */
     private void mainLoop() {
         if (time < 0) {
             System.out.println(time);
@@ -349,7 +378,9 @@ final class HCTable extends Table {
             toNextState();
         }
     };
-
+    /**
+     * 切换游戏状态
+     */
     private void toNextState() {
         switch (gameStae) {
         case 2:
@@ -382,7 +413,9 @@ final class HCTable extends Table {
         response.msg = msg;
         room.getHall().broadcast(response);
     };
-
+    /**
+     * 发送游戏状态改变给桌子上的人
+     */
     private void sendChanegGameState() {
         Response response = new Response(2012, 1);
         Map<String, Object> currentHost = new HashMap<>();
@@ -408,7 +441,9 @@ final class HCTable extends Table {
         response.msg = msg;
         broadcast(response);
     };
-
+    /**
+     * 开奖
+     */
     private void lottory() {
         List<Integer> list = new ArrayList<Integer>();
         list.add(0);
@@ -442,7 +477,11 @@ final class HCTable extends Table {
             }
         }
     };
-
+    /**
+     * 通过权重计算开的奖
+     * @param list  可以开的号码
+     * @return
+     */
     private int getOpenNumber(List<Integer> list) {
         int weights = 0;
         for (int i = 0; i < list.size(); ++i) {
@@ -459,7 +498,11 @@ final class HCTable extends Table {
         }
         return i;
     }
-
+    /**
+     * 发送开奖结果
+     * @param p     开的点数
+     * @param stock   库存变化
+     */
     public void sendLottoryMessage(int p, long stock) {
         history.add(p);
         if (history.size() > 10) {
@@ -555,7 +598,9 @@ final class HCTable extends Table {
         result(stock, sysTax, gameHistory);
 
     };
-
+    /**
+     * 进入等待状态
+     */
     private void runWaitPeriod() {
         changeBanker();
         for (int i = 0; i < 8; ++i) {
@@ -571,7 +616,9 @@ final class HCTable extends Table {
         time = waitTime;
         gameStae = 2;
     };
-
+    /**
+     * 计算庄家
+     */
     private void changeBanker() {
         if (bankerIndex == relMaxBank) {
             if (maxBanker < relMaxBank) {
@@ -584,12 +631,16 @@ final class HCTable extends Table {
             }
         }
     }
-
+    /**
+     * 进入开奖状态
+     */
     private void runOpenPeriod() {
         time = openTime;
         gameStae = 0;
     };
-
+    /**
+     * 进入下注状态
+     */
     private void runChipPeriod() {
         if (banker == null) {
             if (bankerList.size() > 0) {
