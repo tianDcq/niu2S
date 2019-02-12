@@ -22,6 +22,7 @@ class HCRobot extends Robot implements HCRoleInterface {
     private int bankerTime;
     public boolean allowBanker;
     public int bankerMoney;
+    private final int[] chipL = { 100, 1000, 5000, 10000, 50000, 100000 };
 
     @Override
     public void endGame() {
@@ -39,8 +40,15 @@ class HCRobot extends Robot implements HCRoleInterface {
                 // 下注
                 GameMain game = GameMain.getInstance();
                 if (((HCTable) table).getBanker() != this) {
-                    if (money > minChip) {
-                        long chip = RandomUtil.randomInt(minChip, (int) Math.min(money, maxChip));
+                    if (money > chipL[minChip]) {
+                        int mm = chipL.length - 1;
+                        for (; mm > minChip; --mm) {
+                            if (money < chipL[mm]) {
+                                break;
+                            }
+                        }
+                        long chip = chipL[RandomUtil.randomInt(minChip, (int) Math.min(mm, maxChip))];
+
                         int time = (int) (Math.random() * (chipTime - 3)) + 3;
 
                         int p = (int) (Math.random() * 8);
@@ -73,8 +81,18 @@ class HCRobot extends Robot implements HCRoleInterface {
     @Override
     protected void onEnterTable() {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
-        maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100;
+        int max = Integer.valueOf((String) roomConfig.get("bottomRed1"));
+        int min = Integer.valueOf((String) roomConfig.get("bottomRed2"));
+        for (int i = 0; i < chipL.length; ++i) {
+            if (chipL[i] >= min) {
+                minChip = i;
+            }
+            if (chipL[i] > max) {
+                // 要是谁把这个配的比1还小就砍死他
+                maxChip = i - 1;
+                break;
+            }
+        }
         chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
         bankerTime = (int) chipTime + Integer.valueOf((String) roomConfig.get("betTime"));
         boolean contor = false;

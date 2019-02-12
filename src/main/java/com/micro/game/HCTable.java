@@ -135,19 +135,16 @@ final class HCTable extends Table {
         if (gameStae != 1) {
             ErrResponse msg = new ErrResponse("不在下注阶段");
             role.send(msg);
-            System.out.println("不在下注阶段  ");
             return false;
         }
         if (banker == role) {
             ErrResponse msg = new ErrResponse("庄家不能下注");
             role.send(msg);
-            System.out.println("庄家不能下注  ");
             return false;
         }
         if ((int) map.get("gameIndex") != gameIndex) {
             ErrResponse msg = new ErrResponse("局数不对");
             role.send(msg);
-            System.out.println("局数不对  ");
             return false;
         } else {
             Object obj = map.get("betInfo");
@@ -159,14 +156,12 @@ final class HCTable extends Table {
             }
             if (nMoney > role.money) {
                 ErrResponse msg = new ErrResponse("钱不够下注");
-                System.out.println("钱不够下注  ");
                 role.send(msg);
                 return false;
             }
             long tempChip = ((HCRoleInterface) role).getChip() + nMoney;
             if (tempChip < minChip || tempChip > maxChip) {
                 ErrResponse msg = new ErrResponse("下注不在允许范围");
-                System.out.println("下注不在允许范围  ");
                 role.send(msg);
                 return false;
             }
