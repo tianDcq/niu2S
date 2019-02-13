@@ -194,16 +194,27 @@ final class HCTable extends Table {
                 long pos = info.get("betTarget");
                 long chipT = info.get("betAmount");
                 if (pos >= 0 && pos < 8) {
+
+                    // 在用户的坑里加钱
                     ((HCRoleInterface) role).getChipList()[(int) pos].betAmount += chipT;
+
+                    // 从用户的余额里扣钱
                     role.money -= chipT;
+
+                    // 这个桌子的坑 一共多少钱,包括机器人的
                     chipList[(int) pos].betAmount += chipT;
                 }
 
                 if (role instanceof Player) {
+
+                    // 这个桌子的坑 一共多少钱,不包括机器人
                     playerChipList[i] += chipT;
                 }
             }
+
+            //下注过的玩家
             chipPlayer.add(role);
+
             Response ownMsg = new Response(2002, 1);
             ownMsg.msg = new HashMap<String, Object>();
             ownMsg.msg.put("betInfo", map.get("betInfo"));
