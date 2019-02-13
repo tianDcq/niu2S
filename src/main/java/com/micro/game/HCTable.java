@@ -48,7 +48,7 @@ final class HCTable extends Table {
 
     @Override
     protected void onInit() {
-        System.out.println("开房间 ");
+
         Map<String, Object> roomConfig = room.getRoomConfig();
         openTime = Integer.valueOf((String) roomConfig.get("betTime"));
         waitTime = Integer.valueOf((String) roomConfig.get("freeTime"));
@@ -635,12 +635,10 @@ final class HCTable extends Table {
      * 进入等待状态
      */
     private void runWaitPeriod() {
-        changeBanker();
         for (int i = 0; i < 8; ++i) {
             playerChipList[i] = 0;
             chipList[i].betAmount = 0;
         }
-
         for (Role role : chipPlayer) {
             ((HCRoleInterface) role).endGame();
         }
@@ -648,12 +646,27 @@ final class HCTable extends Table {
         chipPlayer.clear();
         time = waitTime;
         gameStae = 2;
+        changeBanker();
     };
 
     /**
      * 计算庄家
      */
     private void changeBanker() {
+        if(banker.money<bankMoney){
+            banker = null;
+            bankerIndex = 0;
+        }
+        List<Role> mmp=new ArrayList<>();
+        for(Role role:bankerList){
+            if(role.money<bankMoney){
+                mmp.add(role);
+            }
+        }
+        for(Role role:mmp){
+            bankerList.remove(role);
+            playerDownBanker(role);
+        }
         if (bankerIndex == relMaxBank) {
             if (maxBanker < relMaxBank) {
                 if (banker.money >= extBankerMoney) {
