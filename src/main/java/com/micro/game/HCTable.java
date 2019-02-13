@@ -535,6 +535,7 @@ final class HCTable extends Table {
             ChipStruct[] playerChip = ((HCRoleInterface) player).getChipList();
             long playerWin = 0;
             long getMon = 0;
+
             for (int i = 0; i < playerChip.length; ++i) {
                 if (i == p) {
                     playerWin += playerChip[i].betAmount * bei;
@@ -550,7 +551,7 @@ final class HCTable extends Table {
                 sysTax += playerWin * revenue / 100;
                 playerWin -= playerWin * revenue / 100;
             }
-            player.money += getMon;
+            player.money += playerWin+((HCRoleInterface)player).getChip();
             playerInfo.put("playerCoins", player.money);
             playerInfo.put("selfSettlement", getMon);
             playerInfo.put("uniqueId", player.uniqueId);
