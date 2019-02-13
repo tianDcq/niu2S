@@ -74,7 +74,7 @@ final class HCTable extends Table {
         relMaxBank = maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"))*100;
         extBanker = Integer.valueOf((String) roomConfig.get("addedTime"))*100;
-        extBankerMoney = Integer.valueOf((String) roomConfig.get("addedCond"));
+        extBankerMoney = new Double(Double.valueOf((String) roomConfig.get("addedCond"))).longValue();
 
         minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
         maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100;
