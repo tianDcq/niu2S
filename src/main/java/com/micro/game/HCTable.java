@@ -71,7 +71,12 @@ final class HCTable extends Table {
         } else {
             revenue = 0;
         }
-        relMaxBank = maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
+        if(roomConfig.get("bankerTime")!=null){
+            relMaxBank = maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
+        }else{
+            relMaxBank = maxBanker = 10;
+        }
+        
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"))*100;
         extBanker = Integer.valueOf((String) roomConfig.get("addedTime"))*100;
         extBankerMoney = new Double(Double.valueOf((String) roomConfig.get("addedCond"))).longValue();
