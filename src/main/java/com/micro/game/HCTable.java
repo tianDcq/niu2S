@@ -48,6 +48,7 @@ final class HCTable extends Table {
 
     @Override
     protected void onInit() {
+        System.out.println("开房间 ");
         Map<String, Object> roomConfig = room.getRoomConfig();
         openTime = Integer.valueOf((String) roomConfig.get("betTime"));
         waitTime = Integer.valueOf((String) roomConfig.get("freeTime"));
@@ -571,23 +572,14 @@ final class HCTable extends Table {
             Map<String, Object> playerInfo = new HashMap<>();
             playerInfo.put("playerName", player.nickName);
             ChipStruct[] playerChip = ((HCRoleInterface) player).getChipList();
-            long playerWin = 0;
-            long getMon = 0;
-
-            for (int i = 0; i < playerChip.length; ++i) {
-                if (i == p) {
-                    playerWin += playerChip[i].betAmount * bei;
-                    getMon += playerChip[i].betAmount * bei;
-                } else {
-                    playerWin -= playerChip[i].betAmount;
-                }
-            }
+            long getMon = playerChip[p].betAmount * bei;
+            long playerWin = getMon-((HCRoleInterface)player).getChip();
             opens.put(player.uniqueId, getMon);
             betParts.put(player.uniqueId, playerChip);
             bankerWin -= playerWin;
             if (playerWin > 0) {
-                sysTax += playerWin * revenue / 100;
-                playerWin -= playerWin * revenue / 100;
+                sysTax += playerWin * revenue;
+                playerWin -= playerWin * revenue;
             }
             player.money += playerWin + ((HCRoleInterface) player).getChip();
             playerInfo.put("playerCoins", player.money);
