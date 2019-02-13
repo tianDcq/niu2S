@@ -72,8 +72,8 @@ final class HCTable extends Table {
             revenue = 0;
         }
         relMaxBank = maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
-        bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
-        extBanker = Integer.valueOf((String) roomConfig.get("addedTime"));
+        bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond"))*100;
+        extBanker = Integer.valueOf((String) roomConfig.get("addedTime"))*100;
         extBankerMoney = Integer.valueOf((String) roomConfig.get("addedCond"));
 
         minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
@@ -560,14 +560,12 @@ final class HCTable extends Table {
             }
             player.money += playerWin+((HCRoleInterface)player).getChip();
             playerInfo.put("playerCoins", player.money);
-            playerInfo.put("selfSettlement", getMon);
+            playerInfo.put("selfSettlement", playerWin);
             playerInfo.put("uniqueId", player.uniqueId);
             otherPlayers.add(playerInfo);
             // playerTatle += playerWin;
             wins.put(player.uniqueId, playerWin);
             if (player instanceof Player) {
-                // Map<String, Object> palyerHistory = new HashMap<>();
-                // palyerHistory.put(player.uniqueId, gameUUID);
                 player.savePlayerHistory(gameUUID);
             }
         }
