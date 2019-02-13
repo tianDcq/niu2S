@@ -30,17 +30,19 @@ final class HCTable extends Table {
     private int extBanker;
     private long extBankerMoney;
     private int bankerIndex = 0;
-    private long bankMoney;
+    public long bankMoney;
 
-    private int minChip;
-    private int maxChip;
+    public int minChip;
+    public int maxChip;
     private @Getter Role banker;
     private @Getter List<Role> bankerList;
     private Schedule schedule;
-    private int openTime;
-    private int waitTime;
-    private int chipTime;
-    private boolean allowBank = false;
+    public int openTime;
+    public int waitTime;
+    public int chipTime;
+    public int bankerSize;
+    public boolean sys;
+    public boolean allowBank = false;
     private HashSet<Role> chipPlayer;       //下过注的玩家
     private int nOpen;
 
@@ -50,6 +52,10 @@ final class HCTable extends Table {
         openTime = Integer.valueOf((String) roomConfig.get("betTime"));
         waitTime = Integer.valueOf((String) roomConfig.get("freeTime"));
         chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
+        bankerSize=0;
+        if(roomConfig.get("goldCount1")!=""){
+            bankerSize=(int) Integer.valueOf((String) roomConfig.get("goldCount1"));
+        }
         roomName = (String) roomConfig.get("roomName");
         if (openTime < 15) {
             openTime = 15;
@@ -75,6 +81,7 @@ final class HCTable extends Table {
         if (roomConfig.get("shangzhuangSwitch") != null) {
             allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
         }
+        sys = (int) roomConfig.get("sysGold") == 1;
         chipList = new ChipStruct[8];
         for (int i = 0; i < 8; ++i) {
             chipList[i] = new ChipStruct(i);
