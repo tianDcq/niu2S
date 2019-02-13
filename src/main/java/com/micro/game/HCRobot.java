@@ -5,14 +5,13 @@ import frame.GameMain;
 import frame.Robot;
 import frame.socket.BaseResponse;
 import frame.socket.Response;
+import frame.util.RandomUtil;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.hutool.core.util.RandomUtil;
 
 class HCRobot extends Robot implements HCRoleInterface {
     public @Getter ChipStruct[] chipList = new ChipStruct[8];
@@ -38,18 +37,18 @@ class HCRobot extends Robot implements HCRoleInterface {
         if (msgType.equals("2012")) {
             int state = (int) ((Response) res).msg.get("betable");
             if (state == 1) {
-                HCTable hcTable=(HCTable)table;
+                HCTable hcTable = (HCTable) table;
                 int max = hcTable.maxChip;
                 int min = hcTable.minChip;
-                int chipTime=hcTable.chipTime;
-                int bankerTime=chipTime*2;
-                max=100000;
-                int maxChip=chipL.length-1;
-                int minChip=0;
-                int bankerSize=hcTable.bankerSize;
-                long bankerMoney=hcTable.bankMoney;
+                int chipTime = hcTable.chipTime;
+                int bankerTime = chipTime * 2;
+                max = 100000;
+                int maxChip = chipL.length - 1;
+                int minChip = 0;
+                int bankerSize = hcTable.bankerSize;
+                long bankerMoney = hcTable.bankMoney;
                 boolean allowBanker = hcTable.allowBank && hcTable.sys;
-                
+
                 for (int i = 0; i < chipL.length; ++i) {
                     if (chipL[i] >= min) {
                         minChip = i;
@@ -57,7 +56,7 @@ class HCRobot extends Robot implements HCRoleInterface {
                     }
                 }
 
-                for (int i = chipL.length-1; i > 0; --i) {
+                for (int i = chipL.length - 1; i > 0; --i) {
                     if (chipL[i] <= max) {
                         // 要是谁把这个配的比1还小就砍死他
                         maxChip = i;
@@ -75,7 +74,7 @@ class HCRobot extends Robot implements HCRoleInterface {
                                 break;
                             }
                         }
-                        long chip = chipL[RandomUtil.randomInt(minChip, Math.min(mm, maxChip)+1)];
+                        long chip = chipL[RandomUtil.ramdom(minChip, Math.min(mm, maxChip))];
 
                         int time = (int) (Math.random() * (chipTime - 3)) + 3;
 
@@ -87,12 +86,12 @@ class HCRobot extends Robot implements HCRoleInterface {
                             }
                         }, this);
                     }
-                    if (allowBanker&&money>bankerMoney) {
-                        if(((HCTable) table).getBankerList().size()<bankerSize){
+                    if (allowBanker && money > bankerMoney) {
+                        if (((HCTable) table).getBankerList().size() < bankerSize) {
                             if (!((HCTable) table).getBankerList().contains(this)) {
                                 int time = (int) (Math.random() * bankerTime);
                                 game.getTaskMgr().createTimer(time, new Callback() {
-    
+
                                     @Override
                                     public void func() {
                                         upBanker();
@@ -116,21 +115,22 @@ class HCRobot extends Robot implements HCRoleInterface {
         // max=100000;
         // maxChip=chipL.length-1;
         // for (int i = 0; i < chipL.length; ++i) {
-        //     if (chipL[i] >= min) {
-        //         minChip = i;
-        //     }
-        //     if (chipL[i] > max) {
-        //         // 要是谁把这个配的比1还小就砍死他
-        //         maxChip = i - 1;
-        //         break;
-        //     }
+        // if (chipL[i] >= min) {
+        // minChip = i;
+        // }
+        // if (chipL[i] > max) {
+        // // 要是谁把这个配的比1还小就砍死他
+        // maxChip = i - 1;
+        // break;
+        // }
         // }
         // chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
-        // bankerTime = (int) chipTime + Integer.valueOf((String) roomConfig.get("betTime"));
-   
-        // boolean contor = false;  
+        // bankerTime = (int) chipTime + Integer.valueOf((String)
+        // roomConfig.get("betTime"));
+
+        // boolean contor = false;
         // if (roomConfig.get("shangzhuangSwitch") != null) {
-        //     contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
+        // contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
         // }
 
         // boolean sys = (int) roomConfig.get("sysGold") == 1;
