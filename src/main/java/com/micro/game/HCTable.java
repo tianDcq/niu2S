@@ -653,10 +653,6 @@ final class HCTable extends Table {
      * 计算庄家
      */
     private void changeBanker() {
-        if(banker.money<bankMoney){
-            banker = null;
-            bankerIndex = 0;
-        }
         List<Role> mmp=new ArrayList<>();
         for(Role role:bankerList){
             if(role.money<bankMoney){
@@ -673,6 +669,10 @@ final class HCTable extends Table {
                     relMaxBank += extBanker;
                 }
             }
+            banker = null;
+            bankerIndex = 0;
+        }
+        if(banker!=null&& banker.money<bankMoney){
             banker = null;
             bankerIndex = 0;
         }
