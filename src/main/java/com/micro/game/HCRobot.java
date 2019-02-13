@@ -16,12 +16,13 @@ import cn.hutool.core.util.RandomUtil;
 
 class HCRobot extends Robot implements HCRoleInterface {
     public @Getter ChipStruct[] chipList = new ChipStruct[8];
-    private int minChip;
-    private int maxChip;
-    private int chipTime;
-    private int bankerTime;
-    public boolean allowBanker;
-    public int bankerMoney;
+    // private int minChip;
+    // private int maxChip;
+    // private int chipTime;
+    // private int bankerTime;
+    // public boolean allowBanker;
+    // public long bankerMoney;
+    // public int bankerSize;
     private final int[] chipL = { 100, 1000, 5000, 10000, 50000, 100000 };
 
     @Override
@@ -37,6 +38,33 @@ class HCRobot extends Robot implements HCRoleInterface {
         if (msgType.equals("2012")) {
             int state = (int) ((Response) res).msg.get("betable");
             if (state == 1) {
+                HCTable hcTable=(HCTable)table;
+                int max = hcTable.maxChip;
+                int min = hcTable.minChip;
+                int chipTime=hcTable.chipTime;
+                int bankerTime=chipTime*2;
+                max=100000;
+                int maxChip=chipL.length-1;
+                int minChip=0;
+                int bankerSize=hcTable.bankerSize;
+                long bankerMoney=hcTable.bankMoney;
+                boolean allowBanker = hcTable.allowBank && hcTable.sys;
+                
+                for (int i = 0; i < chipL.length; ++i) {
+                    if (chipL[i] >= min) {
+                        minChip = i;
+                        break;
+                    }
+                }
+
+                for (int i = chipL.length-1; i > 0; --i) {
+                    if (chipL[i] <= max) {
+                        // 要是谁把这个配的比1还小就砍死他
+                        maxChip = i;
+                        break;
+                    }
+                }
+
                 // 下注
                 GameMain game = GameMain.getInstance();
                 if (((HCTable) table).getBanker() != this) {
@@ -47,7 +75,7 @@ class HCRobot extends Robot implements HCRoleInterface {
                                 break;
                             }
                         }
-                        long chip = chipL[RandomUtil.randomInt(minChip, (int) Math.min(mm, maxChip))];
+                        long chip = chipL[RandomUtil.randomInt(minChip, Math.min(mm, maxChip)+1)];
 
                         int time = (int) (Math.random() * (chipTime - 3)) + 3;
 
@@ -59,16 +87,18 @@ class HCRobot extends Robot implements HCRoleInterface {
                             }
                         }, this);
                     }
-                    if (allowBanker) {
-                        if (!((HCTable) table).getBankerList().contains(this)) {
-                            int time = (int) (Math.random() * bankerTime);
-                            game.getTaskMgr().createTimer(time, new Callback() {
-
-                                @Override
-                                public void func() {
-                                    upBanker();
-                                }
-                            }, this);
+                    if (allowBanker&&money>bankerMoney) {
+                        if(((HCTable) table).getBankerList().size()<bankerSize){
+                            if (!((HCTable) table).getBankerList().contains(this)) {
+                                int time = (int) (Math.random() * bankerTime);
+                                game.getTaskMgr().createTimer(time, new Callback() {
+    
+                                    @Override
+                                    public void func() {
+                                        upBanker();
+                                    }
+                                }, this);
+                            }
                         }
                     }
 
@@ -80,32 +110,33 @@ class HCRobot extends Robot implements HCRoleInterface {
 
     @Override
     protected void onEnterTable() {
-        Map<String, Object> roomConfig = room.getRoomConfig();
-        int max = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
-        int min = Integer.valueOf((String) roomConfig.get("bottomRed2"))*100;
-        max=100000;
-        maxChip=chipL.length-1;
-        for (int i = 0; i < chipL.length; ++i) {
-            if (chipL[i] >= min) {
-                minChip = i;
-            }
-            if (chipL[i] > max) {
-                // 要是谁把这个配的比1还小就砍死他
-                maxChip = i - 1;
-                break;
-            }
-        }
-        chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
-        bankerTime = (int) chipTime + Integer.valueOf((String) roomConfig.get("betTime"));
-        boolean contor = false;
-        if (roomConfig.get("shangzhuangSwitch") != null) {
-            contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
-        }
+        // Map<String, Object> roomConfig = room.getRoomConfig();
+        // int max = Integer.valueOf((String) roomConfig.get("bottomRed1"))*100;
+        // int min = Integer.valueOf((String) roomConfig.get("bottomRed2"))*100;
+        // max=100000;
+        // maxChip=chipL.length-1;
+        // for (int i = 0; i < chipL.length; ++i) {
+        //     if (chipL[i] >= min) {
+        //         minChip = i;
+        //     }
+        //     if (chipL[i] > max) {
+        //         // 要是谁把这个配的比1还小就砍死他
+        //         maxChip = i - 1;
+        //         break;
+        //     }
+        // }
+        // chipTime = Integer.valueOf((String) roomConfig.get("betTime"));
+        // bankerTime = (int) chipTime + Integer.valueOf((String) roomConfig.get("betTime"));
+   
+        // boolean contor = false;  
+        // if (roomConfig.get("shangzhuangSwitch") != null) {
+        //     contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
+        // }
 
-        boolean sys = (int) roomConfig.get("sysGold") == 1;
-        allowBanker = contor && sys;
-        bankerMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
-        money = (int) (Math.random() * 50000) + minChip;
+        // boolean sys = (int) roomConfig.get("sysGold") == 1;
+        // allowBanker = contor && sys;
+        // bankerMoney = Integer.valueOf((String) roomConfig.get("bankerCond"));
+        // money = (int) (Math.random() * 50000) + minChip;
     }
 
     @Override
