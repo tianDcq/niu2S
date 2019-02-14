@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import frame.*;
-import frame.http.GlobeResponse;
 import frame.socket.ErrResponse;
 import frame.socket.Response;
 
@@ -614,8 +613,8 @@ final class HCTable extends Table {
             if (bankerWin > 0) {
                 sysTax += bankerWin * revenue / 100;
                 bankerWin -= bankerWin * revenue / 100;
-                banker.money += bankerWin;
             }
+            banker.money += bankerWin;
             wins.put(banker.uniqueId, bankerWin);
             Map<String, Object> bankerInfo = new HashMap<>();
             bankerInfo.put("playerCoins", banker.money);

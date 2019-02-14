@@ -140,7 +140,6 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2023":
             getGameHistory((String) map.get("requestId"), BenChiGameHistory.class, new Callback() {
-
                 @Override
                 public void func() {
                     sendGameRecord((BenChiGameHistory) this.getData());
@@ -149,9 +148,11 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
     }
+
     /**
      * 发送游戏纪录详情
-     * @param game  数据库里面的游戏信息
+     * 
+     * @param game 数据库里面的游戏信息
      */
     private void sendGameRecord(BenChiGameHistory game) {
         if (game != null) {
@@ -186,6 +187,9 @@ class HCPlayer extends Player implements HCRoleInterface {
             }
             msg.put("rewardZone", rewardZone);
             send(recordMsg);
+        }else{
+            ErrResponse msg = new ErrResponse("该局纪录丢失");
+            send(msg);
         }
     }
 
@@ -209,8 +213,10 @@ class HCPlayer extends Player implements HCRoleInterface {
         recordMsg.msg = msg;
         send(recordMsg);
     }
+
     /**
      * 检查玩家是否有下注
+     * 
      * @return
      */
     private boolean checkChip() {
