@@ -42,7 +42,6 @@ class HCRobot extends Robot implements HCRoleInterface {
                 int min = hcTable.minChip;
                 int chipTime = hcTable.chipTime;
                 int bankerTime = chipTime * 2;
-                max = 100000;
                 int maxChip = chipL.length - 1;
                 int minChip = 0;
                 int bankerSize = hcTable.bankerSize;
@@ -70,7 +69,7 @@ class HCRobot extends Robot implements HCRoleInterface {
                     if (money > chipL[minChip]) {
                         int mm = chipL.length - 1;
                         for (; mm > minChip; --mm) {
-                            if (money < chipL[mm]) {
+                            if (money > chipL[mm]) {
                                 break;
                             }
                         }

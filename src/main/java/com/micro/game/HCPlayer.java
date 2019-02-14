@@ -94,7 +94,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                 return;
             }
             if (((HCTable) table).checkBanker(this)) {
-                ErrResponse msg = new ErrResponse("已经下注不能退出");
+                ErrResponse msg = new ErrResponse("庄家不能直接退出");
                 send(msg);
                 return;
             }
@@ -163,8 +163,10 @@ class HCPlayer extends Player implements HCRoleInterface {
             sum.put("roomName", game.roomName);
             List<Object> chipL = (List) (game.playerbetParts.get(uniqueId));
             long chips = 0;
-            for (Object cp : chipL) {
-                chips += ((ChipStruct) cp).betAmount;
+            if(chipL!=null){
+                for (Object cp : chipL) {
+                    chips += ((ChipStruct) cp).betAmount;
+                }
             }
             sum.put("playerBet", chips);
             sum.put("selfResult", game.wins.get(uniqueId));
@@ -245,7 +247,7 @@ class HCPlayer extends Player implements HCRoleInterface {
 
     @Override
     protected void onDisconnect() {
-        if (!checkChip()) {
+        if (!checkChip()&&!((HCTable)table).checkBanker(this)) {
             exitRoom();
         }
     }

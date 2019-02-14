@@ -47,7 +47,6 @@ final class HCTable extends Table {
 
     @Override
     protected void onInit() {
-
         Map<String, Object> roomConfig = room.getRoomConfig();
         openTime = Integer.valueOf((String) roomConfig.get("betTime"));
         waitTime = Integer.valueOf((String) roomConfig.get("freeTime"));
@@ -72,19 +71,19 @@ final class HCTable extends Table {
             revenue = 0;
         }
         if (roomConfig.get("bankerTime") != null) {
-            relMaxBank = maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
+            maxBanker = Integer.valueOf((String) roomConfig.get("bankerTime"));
         } else {
             relMaxBank = maxBanker = 10;
         }
 
         bankMoney = Integer.valueOf((String) roomConfig.get("bankerCond")) * 100;
-        extBanker = 0;
+        extBanker = maxBanker;
         if (roomConfig.get("addedTime") != null) {
-            extBanker = Integer.valueOf((String) roomConfig.get("addedTime")) * 100;
+            extBanker = Integer.valueOf((String) roomConfig.get("addedTime")) + maxBanker;
         }
-        extBankerMoney=1999999999;
+        extBankerMoney = 1999999999;
         if (roomConfig.get("addedCond") != null) {
-            extBankerMoney = new Double(Double.valueOf((String) roomConfig.get("addedCond"))).longValue();
+            extBankerMoney = new Double(Double.valueOf((String) roomConfig.get("addedCond"))).longValue() * 100;
         }
 
         minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
@@ -133,6 +132,12 @@ final class HCTable extends Table {
      */
     @Override
     protected void onExit(Role role) {
+        if (banker == role) {
+            banker = null;
+            bankerIndex = 0;
+            relMaxBank=maxBanker;
+        }
+        bankerList.remove(role);
         Map<String, Object> msg = new HashMap<>();
         Response ownMsg = new Response(2010, 1);
         msg.put("playerName", role.nickName);
@@ -211,7 +216,7 @@ final class HCTable extends Table {
                 }
             }
 
-            //下注过的玩家
+            // 下注过的玩家
             chipPlayer.add(role);
 
             Response ownMsg = new Response(2002, 1);
@@ -237,8 +242,11 @@ final class HCTable extends Table {
      */
     public void playerUpBanker(Role role) {
         if (allowBank) {
+            if(role==banker){
+                return;
+            }
             if (role.money < bankMoney) {
-                ErrResponse res = new ErrResponse("钱不够不能上庄");
+                ErrResponse res = new ErrResponse("金币大于" + bankMoney + "才能上庄");
                 role.send(res);
             } else if (bankerList.contains(role)) {
                 ErrResponse res = new ErrResponse("你已经在列表里面了");
@@ -271,6 +279,8 @@ final class HCTable extends Table {
                 role.send(msg);
             } else {
                 banker = null;
+                bankerIndex = 0;
+                relMaxBank=maxBanker;
                 SuccessResponse ownMsg = new SuccessResponse(2011, "离开庄家");
                 Response otherMsg = new Response(2016, 1);
                 otherMsg.msg = new HashMap<String, Object>();
@@ -371,11 +381,11 @@ final class HCTable extends Table {
      * @return
      */
     public long getCountMoney() {
-        long money = 0;
+        long chipMoney = 0;
         for (int i = 0; i < chipList.length; ++i) {
-            money += chipList[i].betAmount;
+            chipMoney += chipList[i].betAmount;
         }
-        return money;
+        return chipMoney;
     }
 
     /**
@@ -581,7 +591,6 @@ final class HCTable extends Table {
         Map<String, Object> betParts = new HashMap<>();
         HashMap<String, Long> opens = new HashMap<>();
 
-
         for (Role player : chipPlayer) {
             Map<String, Object> playerInfo = new HashMap<>();
             playerInfo.put("playerName", player.nickName);
@@ -589,8 +598,8 @@ final class HCTable extends Table {
             // 赢得钱
             long getMon = playerChip[p].betAmount * bei;
 
-            //纯利润
-            long playerWin = getMon-((HCRoleInterface)player).getChip();
+            // 纯利润
+            long playerWin = getMon - ((HCRoleInterface) player).getChip();
             opens.put(player.uniqueId, getMon);
             betParts.put(player.uniqueId, playerChip);
             bankerWin -= playerWin;
@@ -623,6 +632,8 @@ final class HCTable extends Table {
             otherPlayers.add(bankerInfo);
             if (banker instanceof Player) {
                 banker.savePlayerHistory(gameUUID);
+                opens.put(banker.uniqueId, Long.valueOf(0));
+                betParts.put(banker.uniqueId, ((HCRoleInterface) banker).getChipList());
             }
         }
 
@@ -670,28 +681,28 @@ final class HCTable extends Table {
      * 计算庄家
      */
     private void changeBanker() {
-        List<Role> mmp=new ArrayList<>();
-        for(Role role:bankerList){
-            if(role.money<bankMoney){
+        List<Role> mmp = new ArrayList<>();
+        for (Role role : bankerList) {
+            if (role.money < bankMoney) {
                 mmp.add(role);
             }
         }
-        for(Role role:mmp){
+        for (Role role : mmp) {
             bankerList.remove(role);
             playerDownBanker(role);
         }
         if (bankerIndex == relMaxBank) {
-            if (maxBanker < relMaxBank) {
+            if (maxBanker < extBanker) {
                 if (banker.money >= extBankerMoney) {
-                    relMaxBank += extBanker;
+                    relMaxBank = extBanker;
                 }
             }
             banker = null;
             bankerIndex = 0;
+            relMaxBank=maxBanker;
         }
-        if(banker!=null&& banker.money<bankMoney){
-            banker = null;
-            bankerIndex = 0;
+        if (banker != null && banker.money < bankMoney) {
+            playerDownBanker(banker);
         }
     }
 
