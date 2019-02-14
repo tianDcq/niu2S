@@ -516,6 +516,8 @@ final class HCTable extends Table {
         for (int i = 0; i < 8; ++i) {
             int b = getOpenNumber(list);
             int p = list.remove(b);
+
+            // 判断是不是庄家
             if (banker instanceof Player) {
                 long win = 0;
                 for (int j = 0; j < playerChipList.length; ++j) {
@@ -579,11 +581,16 @@ final class HCTable extends Table {
         Map<String, Long> wins = new HashMap<>();
         Map<String, Object> betParts = new HashMap<>();
         HashMap<String, Long> opens = new HashMap<>();
+
+
         for (Role player : chipPlayer) {
             Map<String, Object> playerInfo = new HashMap<>();
             playerInfo.put("playerName", player.nickName);
             ChipStruct[] playerChip = ((HCRoleInterface) player).getChipList();
+            // 赢得钱
             long getMon = playerChip[p].betAmount * bei;
+
+            //纯利润
             long playerWin = getMon-((HCRoleInterface)player).getChip();
             opens.put(player.uniqueId, getMon);
             betParts.put(player.uniqueId, playerChip);
