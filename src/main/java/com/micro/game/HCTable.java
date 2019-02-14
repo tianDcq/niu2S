@@ -194,16 +194,27 @@ final class HCTable extends Table {
                 long pos = info.get("betTarget");
                 long chipT = info.get("betAmount");
                 if (pos >= 0 && pos < 8) {
+
+                    // 在用户的坑里加钱
                     ((HCRoleInterface) role).getChipList()[(int) pos].betAmount += chipT;
+
+                    // 从用户的余额里扣钱
                     role.money -= chipT;
+
+                    // 这个桌子的坑 一共多少钱,包括机器人的
                     chipList[(int) pos].betAmount += chipT;
                 }
 
                 if (role instanceof Player) {
+
+                    // 这个桌子的坑 一共多少钱,不包括机器人
                     playerChipList[i] += chipT;
                 }
             }
+
+            //下注过的玩家
             chipPlayer.add(role);
+
             Response ownMsg = new Response(2002, 1);
             ownMsg.msg = new HashMap<String, Object>();
             ownMsg.msg.put("betInfo", map.get("betInfo"));
@@ -505,6 +516,8 @@ final class HCTable extends Table {
         for (int i = 0; i < 8; ++i) {
             int b = getOpenNumber(list);
             int p = list.remove(b);
+
+            // 判断是不是庄家
             if (banker instanceof Player) {
                 long win = 0;
                 for (int j = 0; j < playerChipList.length; ++j) {
@@ -568,11 +581,16 @@ final class HCTable extends Table {
         Map<String, Long> wins = new HashMap<>();
         Map<String, Object> betParts = new HashMap<>();
         HashMap<String, Long> opens = new HashMap<>();
+
+
         for (Role player : chipPlayer) {
             Map<String, Object> playerInfo = new HashMap<>();
             playerInfo.put("playerName", player.nickName);
             ChipStruct[] playerChip = ((HCRoleInterface) player).getChipList();
+            // 赢得钱
             long getMon = playerChip[p].betAmount * bei;
+
+            //纯利润
             long playerWin = getMon-((HCRoleInterface)player).getChip();
             opens.put(player.uniqueId, getMon);
             betParts.put(player.uniqueId, playerChip);
