@@ -65,8 +65,8 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("roomId", room.getRoomConfig().get("gameRoomId"));
                 roomC.put("roomName", roomConfig.get("roomName"));
                 boolean bb = false;
-                if (roomConfig.get("shangzhuangSwitch") != null) {
-                    bb = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
+                if (roomConfig.get("sysBanker") != null) {
+                    bb = (Integer) roomConfig.get("sysBanker") == 1;
                 }
                 roomC.put("hostAble", bb);
                 roomC.put("minBet", Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100);
@@ -94,7 +94,7 @@ class HCPlayer extends Player implements HCRoleInterface {
                 return;
             }
             if (((HCTable) table).checkBanker(this)) {
-                ErrResponse msg = new ErrResponse("已经下注不能退出");
+                ErrResponse msg = new ErrResponse("庄家不能直接退出");
                 send(msg);
                 return;
             }
@@ -140,7 +140,6 @@ class HCPlayer extends Player implements HCRoleInterface {
         }
         case "2023":
             getGameHistory((String) map.get("requestId"), BenChiGameHistory.class, new Callback() {
-
                 @Override
                 public void func() {
                     sendGameRecord((BenChiGameHistory) this.getData());
@@ -149,9 +148,11 @@ class HCPlayer extends Player implements HCRoleInterface {
             break;
         }
     }
+
     /**
      * 发送游戏纪录详情
-     * @param game  数据库里面的游戏信息
+     * 
+     * @param game 数据库里面的游戏信息
      */
     private void sendGameRecord(BenChiGameHistory game) {
         if (game != null) {
@@ -162,8 +163,10 @@ class HCPlayer extends Player implements HCRoleInterface {
             sum.put("roomName", game.roomName);
             List<Object> chipL = (List) (game.playerbetParts.get(uniqueId));
             long chips = 0;
-            for (Object cp : chipL) {
-                chips += ((ChipStruct) cp).betAmount;
+            if(chipL!=null){
+                for (Object cp : chipL) {
+                    chips += ((ChipStruct) cp).betAmount;
+                }
             }
             sum.put("playerBet", chips);
             sum.put("selfResult", game.wins.get(uniqueId));
@@ -186,6 +189,9 @@ class HCPlayer extends Player implements HCRoleInterface {
             }
             msg.put("rewardZone", rewardZone);
             send(recordMsg);
+        }else{
+            ErrResponse msg = new ErrResponse("该局纪录丢失");
+            send(msg);
         }
     }
 
@@ -209,8 +215,10 @@ class HCPlayer extends Player implements HCRoleInterface {
         recordMsg.msg = msg;
         send(recordMsg);
     }
+
     /**
      * 检查玩家是否有下注
+     * 
      * @return
      */
     private boolean checkChip() {
@@ -239,7 +247,7 @@ class HCPlayer extends Player implements HCRoleInterface {
 
     @Override
     protected void onDisconnect() {
-        if (!checkChip()) {
+        if (!checkChip()&&!((HCTable)table).checkBanker(this)) {
             exitRoom();
         }
     }
