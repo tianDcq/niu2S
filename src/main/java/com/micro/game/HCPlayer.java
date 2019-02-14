@@ -65,8 +65,8 @@ class HCPlayer extends Player implements HCRoleInterface {
                 roomC.put("roomId", room.getRoomConfig().get("gameRoomId"));
                 roomC.put("roomName", roomConfig.get("roomName"));
                 boolean bb = false;
-                if (roomConfig.get("shangzhuangSwitch") != null) {
-                    bb = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
+                if (roomConfig.get("sysBanker") != null) {
+                    bb = (Integer) roomConfig.get("sysBanker") == 1;
                 }
                 roomC.put("hostAble", bb);
                 roomC.put("minBet", Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100);

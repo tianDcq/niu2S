@@ -129,8 +129,8 @@ class HCRobot extends Robot implements HCRoleInterface {
         // roomConfig.get("betTime"));
 
         // boolean contor = false;
-        // if (roomConfig.get("shangzhuangSwitch") != null) {
-        // contor = (int) roomConfig.get("shangzhuangSwitch") == 1;
+        // if (roomConfig.get("sysBanker") != null) {
+        // contor = (int) roomConfig.get("sysBanker") == 1;
         // }
 
         // boolean sys = (int) roomConfig.get("sysGold") == 1;

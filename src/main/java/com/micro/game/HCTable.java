@@ -90,8 +90,8 @@ final class HCTable extends Table {
 
         minChip = Integer.valueOf((String) roomConfig.get("bottomRed1")) * 100;
         maxChip = Integer.valueOf((String) roomConfig.get("bottomRed2")) * 100;
-        if (roomConfig.get("shangzhuangSwitch") != null) {
-            allowBank = (Integer) roomConfig.get("shangzhuangSwitch") == 1;
+        if (roomConfig.get("sysBanker") != null) {
+            allowBank = (Integer) roomConfig.get("sysBanker") == 1;
         }
         sys = (int) roomConfig.get("sysGold") == 1;
         chipList = new ChipStruct[8];
