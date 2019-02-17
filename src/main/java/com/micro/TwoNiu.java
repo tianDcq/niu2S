@@ -3,7 +3,7 @@ package com.micro;
 
 import frame.socket.NettyChannelInit;
 import frame.util.*;
-import com.micro.game.HCGameMain;
+import com.micro.game.TNGameMain;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ import java.util.Set;
 @EnableDiscoveryClient
 @ComponentScan({"frame.*","com.*"})
 @SpringBootApplication
-public class BenzApp {
+public class TwoNiu {
 
 	// 监听端口
 	@Value("${tcp.port}")
@@ -112,7 +111,7 @@ public class BenzApp {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ConfigurableApplicationContext context = SpringApplication.run(BenzApp.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(TwoNiu.class, args);
 		TCPServer tcpServer = context.getBean(TCPServer.class);
 
 		ThreadPoolExecutorUtils.getInstance().execute(() -> {
@@ -124,7 +123,7 @@ public class BenzApp {
 			}
 		});
 		// 游戏主循环
-		(new HCGameMain()).run();
+		(new TNGameMain()).run();
 	}
 
 }

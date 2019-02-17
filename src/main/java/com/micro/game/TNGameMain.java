@@ -3,14 +3,13 @@ package com.micro.game;
 
 import frame.GameMain;
 
-public class HCGameMain extends GameMain {
-    public HCGameMain() {
+public class TNGameMain extends GameMain {
+    public TNGameMain() {
         super();
     }
 
     @Override
     protected void onStart() {
-        gameMgr = new HCGameMgr();
-
+        gameMgr = new TNGameMgr();
     }
 }
