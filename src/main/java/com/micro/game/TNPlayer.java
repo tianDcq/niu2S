@@ -194,6 +194,15 @@ class TNPlayer extends Player implements TNRoleInterface {
         send(mm);
 	}
 
+    protected void onExitRoom() {
+        Response res = new Response(8017, 1);
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("uniqueId", uniqueId);
+        res.msg = msg;
+        send(res);
+    }
+
+
     @Override
     public void endGame() {
     }

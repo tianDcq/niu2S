@@ -73,6 +73,9 @@ final class TNTable extends Table {
             mm.msg = msg;
             broadcast(mm);
             BankPeriod();
+            if (schedule != null) {
+                schedule.stop();
+            }
             schedule = GameMain.getInstance().getTaskMgr().createSchedule(new Callback() {
                 @Override
                 public void func() {
@@ -156,7 +159,7 @@ final class TNTable extends Table {
                 msg.put("chipInAmount", ant[num]);
                 msg.put("uniqueId", role.uniqueId);
                 ownRes.msg = oRes.msg = msg;
-                chip=num;
+                chip = num;
                 broadcast(ownRes, oRes, role.uniqueId);
                 disCard();
             }
@@ -200,7 +203,6 @@ final class TNTable extends Table {
             broadcast(ownRes, oRes, role.uniqueId);
             ((TNRoleInterface) role).setPlayerState(6);
             if (openN == playerList.length) {
-                schedule.stop();
                 for (Role pp : playerList) {
                     ((TNRoleInterface) pp).setPlayerState(0);
                     pp.savePlayerHistory(gameUUID);
@@ -404,7 +406,7 @@ final class TNTable extends Table {
     }
 
     public void clearGame() {
-
+        schedule.stop();
     }
 
     public void getUpdateTable(Role role) {
@@ -451,6 +453,7 @@ final class TNTable extends Table {
      */
     private void mainLoop() {
         time--;
+        System.out.println(time);
         if (time <= 0) {
             toNextState();
         }
@@ -488,17 +491,14 @@ final class TNTable extends Table {
 
     @Override
     protected void onExit(Role role) {
-        Response res = new Response(8017, 1);
-        Map<String, Object> msg = new HashMap<>();
-        msg.put("uniqueId", role.uniqueId);
-        res.msg=msg;
-        broadcast(res);
+       
     };
 
     @Override
     protected void onDestroy() {
         if (schedule != null) {
             schedule.stop();
+            schedule = null;
         }
     };
 
