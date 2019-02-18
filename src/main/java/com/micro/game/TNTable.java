@@ -2,7 +2,6 @@ package com.micro.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +17,8 @@ final class TNTable extends Table {
     private int roomId;
     private Schedule schedule;
     private int time;
-    private int bankTime;
-    private int chipTime;
+    public int bankTime;
+    public int chipTime;
     private int minMoney;
     private float tax;
     private int[] ant;
@@ -28,6 +27,7 @@ final class TNTable extends Table {
     private Role currRole;
     private Role banker;
     private int openN = 0;
+    private int chip = 0;
 
     @Override
     protected void onInit() {
@@ -156,6 +156,7 @@ final class TNTable extends Table {
                 msg.put("chipInAmount", ant[num]);
                 msg.put("uniqueId", role.uniqueId);
                 ownRes.msg = oRes.msg = msg;
+                chip=num;
                 broadcast(ownRes, oRes, role.uniqueId);
                 disCard();
             }
@@ -187,6 +188,30 @@ final class TNTable extends Table {
         }
     }
 
+    public void playerOpen(Role role) {
+        if (gameStae == 3) {
+            Response ownRes = new Response(8012, 1);
+            Response oRes = new Response(8013, 1);
+            Map<String, Object> msg = new HashMap<>();
+            msg.put("uniqueId", role.uniqueId);
+            ownRes.msg = msg;
+            oRes.msg = msg;
+            openN++;
+            broadcast(ownRes, oRes, role.uniqueId);
+            ((TNRoleInterface) role).setPlayerState(6);
+            if (openN == playerList.length) {
+                schedule.stop();
+                for (Role pp : playerList) {
+                    ((TNRoleInterface) pp).setPlayerState(0);
+                    pp.savePlayerHistory(gameUUID);
+                }
+                clearGame();
+                end();
+            }
+
+        }
+    }
+
     private void disCard() {
         List<List<Integer>> cardsList = new ArrayList<>();
         for (int k = 0; k < playerList.length; ++k) {
@@ -200,7 +225,7 @@ final class TNTable extends Table {
         gameStae = 3;
         // 计算
         countResoult(cardsList);
-        time=chipTime;
+        time = chipTime;
     }
 
     private void countResoult(List<List<Integer>> cardList) {
@@ -214,11 +239,10 @@ final class TNTable extends Table {
                 if (pukeUtil.getValue(v) > 10) {
                     cardDate.add(10);
                 } else {
-                    cardDate.add(v);
+                    cardDate.add(pukeUtil.getValue(v));
                 }
             }
-
-            int cow = NiuUtil.getNiu(cardDate).get(0);
+            int cow = NiuUtil.getNiu(cardDate).cow;
             if (cow == 10) {
                 cow = 12;
                 for (int j = 0; j < cards.size(); ++j) {
@@ -312,7 +336,7 @@ final class TNTable extends Table {
                 chip = ant[((TNRoleInterface) player).getChipNum()];
                 playerWin = chip * bankNum * cardNum;
                 if (banker instanceof Robot) {
-                    if (room.getHall().stock - playerWin < 0) {
+                    if (room.getHall().getStock() - playerWin < 0) {
                         List<List<Integer>> nCards = new ArrayList<>();
                         nCards.add(cardList.get(1));
                         nCards.add(cardList.get(0));
@@ -321,7 +345,7 @@ final class TNTable extends Table {
                     }
                     stackWin -= playerWin;
                 } else if (player instanceof Robot) {
-                    if (room.getHall().stock + playerWin < 0) {
+                    if (room.getHall().getStock() + playerWin < 0) {
                         List<List<Integer>> nCards = new ArrayList<>();
                         nCards.add(cardList.get(1));
                         nCards.add(cardList.get(0));
@@ -379,27 +403,47 @@ final class TNTable extends Table {
         banker = playerList[0];
     }
 
-    public void playerOpen(Role role) {
-        if (gameStae == 3) {
-            Response ownRes = new Response(8012, 1);
-            Response oRes = new Response(8013, 1);
-            Map<String, Object> msg = new HashMap<>();
-            msg.put("uniqueId", role.uniqueId);
-            ownRes.msg = msg;
-            oRes.msg = msg;
-            openN++;
-            broadcast(ownRes, oRes, role.uniqueId);
-            ((TNRoleInterface) role).setPlayerState(6);
-            if (openN == playerList.length) {
-                schedule.stop();
-                for (Role pp : playerList) {
-                    ((TNRoleInterface) pp).setPlayerState(0);
-                    pp.savePlayerHistory(gameUUID);
-                }
-                end();
-            }
+    public void clearGame() {
 
+    }
+
+    public void getUpdateTable(Role role) {
+        Response response = new Response(8019, 1);
+        Map<String, Object> msg = new HashMap<>();
+        response.msg = msg;
+        msg.put("antBets", ant);
+        msg.put("callType", ((TNRoleInterface) banker).getBankNum());
+        if (banker != null) {
+            msg.put("dealerSeatNum", banker.uniqueId);
         }
+        msg.put("fieldNum", roomId);
+        msg.put("myCoin", role.money);
+        msg.put("gameCode", gameUUID);
+        Map<String, Object> stageTimerConfig = new HashMap<>();
+        stageTimerConfig.put("callDealer", bankTime);
+        stageTimerConfig.put("chipIn", chipTime);
+        stageTimerConfig.put("dealPoker", chipTime);
+        stageTimerConfig.put("ready", chipTime);
+        msg.put("stageTimerConfig", stageTimerConfig);
+        msg.put("stage ", gameStae);
+        msg.put("seatNum", ((TNRoleInterface) role).getSit());
+        msg.put("restSeconds", time);
+        List<Object> seatsInfo = new ArrayList<>();
+        for (Role player : playerList) {
+            Map<String, Object> seat = new HashMap<>();
+            seat.put("seatNum", ((TNRoleInterface) player).getSit());
+            seat.put("portrait", player.portrait);
+            seat.put("uniqueId", player.uniqueId);
+            seat.put("nickName", player.nickName);
+            seat.put("coins", player.money);
+            seat.put("callType", ((TNRoleInterface) player).getBankNum());
+            seatsInfo.add(seat);
+        }
+        msg.put("seatsInfo", seatsInfo);
+        msg.put("currPlayer", currRole.uniqueId);
+        msg.put("dealerSeatNum", banker.uniqueId);
+        msg.put("antBetAmount ", ant[chip]);
+        msg.put("antBets", ant);
     }
 
     /**
@@ -444,11 +488,18 @@ final class TNTable extends Table {
 
     @Override
     protected void onExit(Role role) {
+        Response res = new Response(8017, 1);
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("uniqueId", role.uniqueId);
+        res.msg=msg;
+        broadcast(res);
     };
 
     @Override
     protected void onDestroy() {
-        schedule.stop();
+        if (schedule != null) {
+            schedule.stop();
+        }
     };
 
     @Override

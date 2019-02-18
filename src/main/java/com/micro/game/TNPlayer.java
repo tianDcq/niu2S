@@ -31,7 +31,6 @@ class TNPlayer extends Player implements TNRoleInterface {
     @Override
     public void onMsg(Request req) {
         Map<String, Object> map = req.msg;
-        // String msgType = (String) map.get("msgType");
         
         switch (req.type) {
         case 8001: {
@@ -95,11 +94,11 @@ class TNPlayer extends Player implements TNRoleInterface {
                 msg.put("stageTimerConfig",stageTimerConfig);
                 mm.msg=msg;
                 send(mm);
+            }else{
+                ((TNTable)table).getUpdateTable(this);
             }
             break;
         }
-
-
         case 8020: {
             if(playerState!=0){
                 return;
@@ -133,30 +132,16 @@ class TNPlayer extends Player implements TNRoleInterface {
         case 8012:{
             if(playerState==5){
                 ((TNTable)table).playerOpen(this);
-                break;
             }
-        }
-
-        case 2022: {
-            int curr = (int) map.get("requestPage");
-            getPlayerHistory(curr, 6, TNGameHistory.class, new Callback() {
-
-                @Override
-                public void func() {
-                    Map<String, Object> mm = (Map<String, Object>) this.getData();
-                    sendPlayerRecord(curr, (int) mm.get("count"), (List<TNGameHistory>) mm.get("games"));
-                }
-            });
             break;
         }
-        case 2023:
-            getGameHistory((String) map.get("requestId"), TNGameHistory.class, new Callback() {
-                @Override
-                public void func() {
-                    sendGameRecord((TNGameHistory) this.getData());
-                }
-            });
+
+        case 8017:{
+            if(playerState==6||playerState==0){
+                exitRoom();
+            }
             break;
+        }
         }
     }
 
@@ -211,12 +196,16 @@ class TNPlayer extends Player implements TNRoleInterface {
 
     @Override
     public void endGame() {
- 
     }
 
     @Override
     protected void onDisconnect() {
-    
+        if(playerState==0||playerState==6){
+            exitRoom();
+        }else if(playerState==5){
+            ((TNTable)table).playerOpen(this);
+            exitRoom();
+        }
     }
 
     @Override
