@@ -446,6 +446,7 @@ final class TNTable extends Table {
         msg.put("dealerSeatNum", banker.uniqueId);
         msg.put("antBetAmount ", ant[chip]);
         msg.put("antBets", ant);
+        role.send(response);
     }
 
     /**

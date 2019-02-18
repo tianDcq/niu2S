@@ -192,8 +192,8 @@ class TNPlayer extends Player implements TNRoleInterface {
         msg.put("tableNum","");
         mm.msg=msg;
         send(mm);
-	}
-
+    }
+    @Override
     protected void onExitRoom() {
         Response res = new Response(8017, 1);
         Map<String, Object> msg = new HashMap<>();
