@@ -43,7 +43,7 @@ class TNPlayer extends Player implements TNRoleInterface {
             for(Room room:rooms.values()){
                 Map<String, Object> roomConfig = room.getRoomConfig();
                 Map<String, Object> roomC = new HashMap<>();
-                roomC.put("roomC", roomConfig.get("roomName"));
+                roomC.put("fieldName", roomConfig.get("roomName"));
                 roomC.put("roomId", roomConfig.get("gameRoomId"));
                 roomC.put("onlineNum", room.getRoles().size());
                 // roomC.put("allowToIn", roomConfig.get("minMoney"));

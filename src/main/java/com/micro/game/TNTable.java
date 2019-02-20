@@ -60,6 +60,7 @@ final class TNTable extends Table {
             for (Role role : roles.values()) {
                 Map<String, Object> playerInfo = new HashMap<>();
                 ((TNRoleInterface) role).setSit(i);
+                ((TNRoleInterface) role).setPlayerState(1);
                 playerList[i] = role;
                 playerInfo.put("seatNum", i);
                 playerInfo.put("nickName", role.nickName);

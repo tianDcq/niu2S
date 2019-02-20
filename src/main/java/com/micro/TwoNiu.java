@@ -31,8 +31,8 @@ public class TwoNiu {
         System.out.println(args.length ==0);
 
         if(args.length ==0){
-            Config.ACCOUNT_HOST = "172.20.101.93";
-            Config.GAME_HOST = "172.20.101.93";
+            Config.ACCOUNT_HOST= "172.20.100.156";
+            Config.GAME_HOST = "172.20.100.233";
             Config.MONGO_HOST = "172.20.101.68";
         }
         else if (args[0].equals("test")) {
