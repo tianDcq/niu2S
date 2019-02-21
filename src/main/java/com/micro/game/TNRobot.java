@@ -14,6 +14,7 @@ import lombok.Setter;
 
 class TNRobot extends Robot implements TNRoleInterface {
     public @Getter @Setter int bankNum;
+    public @Getter @Setter long win;
     public @Getter @Setter int sit;
     public @Getter @Setter int chipNum;
     public @Getter @Setter List<Integer> cards;

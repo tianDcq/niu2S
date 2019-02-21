@@ -7,6 +7,8 @@ interface TNRoleInterface {
     int getPlayerState();
     void setBankNum(int sit);
     int getBankNum();
+    void setWin(long sit);
+    long getWin();
     void setCards(List<Integer> cards);
     List<Integer> getCards();
     void setChipNum(int sit);

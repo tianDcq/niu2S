@@ -1,10 +1,15 @@
 
 package com.micro;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.micro.game.TNGameMain;
 import frame.config.Config;
 import frame.socket.NettyServer;
+import frame.util.NiuUtil;
 import frame.util.ThreadPoolExecutorUtils;
+import frame.util.pukeUtil;
 
 /**
  * @author sam
@@ -16,6 +21,18 @@ import frame.util.ThreadPoolExecutorUtils;
 public class TwoNiu {
 
 	public static void main(String[] args){
+        int[] cards={162, 34, 195, 178, 209};
+        List<Integer> cardDate=new ArrayList<>();
+        for (int v : cards) {
+            if (pukeUtil.getValue(v) > 10) {
+                cardDate.add(10);
+            } else {
+                cardDate.add(pukeUtil.getValue(v));
+            }
+        }
+        NiuUtil.getNiu(cardDate);
+
+
 
 		ThreadPoolExecutorUtils.getInstance().execute(() -> {
             try {
@@ -51,6 +68,7 @@ public class TwoNiu {
         Config.ACCOUNT_PORT = "8080";
         Config.GAME_PORT = "9501";
         Config.MONGO_PORT = 27017;
+
 		// 游戏主循环
 		(new TNGameMain()).run();
 	}

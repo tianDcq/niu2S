@@ -18,6 +18,7 @@ import java.util.Map;
 @Slf4j
 class TNPlayer extends Player implements TNRoleInterface {
     public @Getter @Setter int sit;
+    public @Getter @Setter long win;
     public @Getter @Setter int bankNum;
     public @Getter @Setter int chipNum;
     public @Getter @Setter List<Integer> cards;
@@ -163,24 +164,6 @@ class TNPlayer extends Player implements TNRoleInterface {
     }
 
     private void sendPlayerRecord(int curr, int count, List<TNGameHistory> games) {
-        Response recordMsg = new Response(2022, 1);
-        Map<String, Object> msg = new HashMap<>();
-        msg.put("currentPage", curr);
-        msg.put("totalPage", count);
-        List<Map<String, Object>> gameRecord = new ArrayList<>();
-        if (games != null) {
-            for (TNGameHistory game : games) {
-                Map<String, Object> gameinfo = new HashMap<>();
-                gameinfo.put("id", game.gameId);
-                gameinfo.put("roomName", game.roomName);
-                gameinfo.put("endTime", game.endTime);
-                gameinfo.put("result", game.wins.get(uniqueId));
-                gameRecord.add(gameinfo);
-            }
-        }
-        msg.put("gameRecord", gameRecord);
-        recordMsg.msg = msg;
-        send(recordMsg);
     }
 
     @Override
