@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.micro.game.TNGameMain;
+
+import frame.log;
 import frame.config.Config;
 import frame.socket.NettyServer;
 import frame.util.NiuUtil;
@@ -21,19 +23,7 @@ import frame.util.pukeUtil;
 public class TwoNiu {
 
 	public static void main(String[] args){
-        int[] cards={162, 34, 195, 178, 209};
-        List<Integer> cardDate=new ArrayList<>();
-        for (int v : cards) {
-            if (pukeUtil.getValue(v) > 10) {
-                cardDate.add(10);
-            } else {
-                cardDate.add(pukeUtil.getValue(v));
-            }
-        }
-        NiuUtil.getNiu(cardDate);
-
-
-
+        log.info("新阿凯克里斯蒂发");
 		ThreadPoolExecutorUtils.getInstance().execute(() -> {
             try {
                 new NettyServer().start(6006);
