@@ -184,7 +184,14 @@ class TNPlayer extends Player implements TNRoleInterface {
         res.msg = msg;
         send(res);
     }
-
+    @Override
+    protected void onEnterTable() {
+        sit = 0;
+        win = 0;
+        chipNum = -1;
+        cards = new ArrayList<>();
+        playerState = 0;
+    }
 
     @Override
     public void endGame() {

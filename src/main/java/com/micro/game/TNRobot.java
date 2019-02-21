@@ -1,5 +1,6 @@
 package com.micro.game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +63,16 @@ class TNRobot extends Robot implements TNRoleInterface {
             }
         }
     }
+
+    @Override
+    protected void onEnterTable() {
+        sit = 0;
+        win = 0;
+        chipNum = -1;
+        cards = new ArrayList<>();
+        playerState = 1;
+    }
+
 
     public void banker() {
         if(table!=null){
