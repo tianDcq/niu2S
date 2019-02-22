@@ -276,7 +276,11 @@ final class TNTable extends Table {
         int maxCow = 0;
         for (int i = 0; i < cardList.size(); ++i) {
             List<Integer> cards = cardList.get(i);
-            int cow = getCow(cards);
+            int cow = NiuUtil.getNiu(cards).cow;
+            if (cow == 10) {
+                cow = NiuUtil.getNiuType(cards.stream().mapToInt(Integer::valueOf).toArray());
+            }
+
             int maxCard = pukeUtil.getMxa(cards.stream().mapToInt(Integer::valueOf).toArray());
             int cardType = cow << 8 | maxCard;
             if (cardType > maxCow) {
