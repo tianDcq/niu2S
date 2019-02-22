@@ -376,6 +376,11 @@ final class TNTable extends Table {
 
     public void choseBanker() {
         banker = playerList[0];
+        for(int i=1;i<playerList.length;++i){
+            if(((TNRoleInterface)playerList[i]).getBankNum()>((TNRoleInterface)banker).getBankNum()){
+                banker=playerList[i];
+            }
+        }        
     }
 
     public void clearGame() {
