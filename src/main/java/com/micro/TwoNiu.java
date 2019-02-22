@@ -1,17 +1,11 @@
 
 package com.micro;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.micro.game.TNGameMain;
 
-import frame.log;
 import frame.config.Config;
 import frame.socket.NettyServer;
-import frame.util.NiuUtil;
 import frame.util.ThreadPoolExecutorUtils;
-import frame.util.pukeUtil;
 
 /**
  * @author sam
@@ -23,7 +17,6 @@ import frame.util.pukeUtil;
 public class TwoNiu {
 
 	public static void main(String[] args){
-        log.info("新阿凯克里斯蒂发");
 		ThreadPoolExecutorUtils.getInstance().execute(() -> {
             try {
                 new NettyServer().start(6006);
