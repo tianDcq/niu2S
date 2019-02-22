@@ -11,7 +11,7 @@
     <!--</parent>-->
 
     <groupId>com.leying.game</groupId>
-    <artifactId>benz-bmw-game-new</artifactId>
+    <artifactId>tow-cattle-game-new</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
