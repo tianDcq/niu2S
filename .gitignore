@@ -8,6 +8,5 @@
 .vscode/
 .idea/
 target/
-src/main/java/frame/
 /benz-bmw-game-new.iml
 /src/main/java/name.json
