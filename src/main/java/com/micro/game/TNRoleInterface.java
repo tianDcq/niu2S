@@ -16,4 +16,6 @@ interface TNRoleInterface {
     void setSit(int sit);
     int getSit();
     void endGame();
+    void setCow(int sit);
+    int getCow();
 }

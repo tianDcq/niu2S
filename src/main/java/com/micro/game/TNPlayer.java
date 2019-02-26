@@ -15,24 +15,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.micro.game.TowNiuMessage.*;
+
 @Slf4j
 class TNPlayer extends Player implements TNRoleInterface {
     public @Getter @Setter int sit;
     public @Getter @Setter long win;
     public @Getter @Setter int bankNum;
     public @Getter @Setter int chipNum;
+    public @Getter @Setter int cow;
     public @Getter @Setter List<Integer> cards;
-    public @Getter @Setter int playerState;    //1叫  2 叫完 3选分 4等待选分 5开牌 6等待 0未匹配
+    public @Getter @Setter int playerState; // 1叫 2 叫完 3选分 4等待选分 5开牌 6等待 0未匹配
 
     @Override
     protected void onInit() {
-        playerState=0;
+        playerState = 0;
     }
 
     @Override
     public void onMsg(Request req) {
         Map<String, Object> map = req.msg;
-        
+
         switch (req.type) {
         case 8001: {
             Response mm = new Response(8001, 1);
@@ -41,7 +44,7 @@ class TNPlayer extends Player implements TNRoleInterface {
             HashMap<String, Room> rooms = hall.getRoomMgr().getRooms();
             Object[] roomData = new Object[rooms.size()];
             int i = 0;
-            for(Room room:rooms.values()){
+            for (Room room : rooms.values()) {
                 Map<String, Object> roomConfig = room.getRoomConfig();
                 Map<String, Object> roomC = new HashMap<>();
                 roomC.put("fieldName", roomConfig.get("roomName"));
@@ -50,7 +53,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                 // roomC.put("allowToIn", roomConfig.get("minMoney"));
                 roomC.put("allowToIn", 10000);
                 roomC.put("fieldNum", roomConfig.get("gameRoomId"));
-                roomData[i]=roomC;
+                roomData[i] = roomC;
                 ++i;
             }
             msg.put("rooms", roomData);
@@ -77,14 +80,14 @@ class TNPlayer extends Player implements TNRoleInterface {
             break;
         }
         case 8019: {
-            if(table==null){
+            if (table == null) {
                 Response mm = new Response(8019, 1);
                 Map<String, Object> msg = new HashMap<>();
                 Map<String, Object> roomConfig = room.getRoomConfig();
-                msg.put("myCoin",money);
-                msg.put("callType",0);
-                msg.put("isOpen",false);
-                msg.put("isReady",false);
+                msg.put("myCoin", money);
+                msg.put("callType", 0);
+                msg.put("isOpen", false);
+                msg.put("isReady", false);
                 msg.put("seatNum", uniqueId);
                 msg.put("seatsInfo", new int[0]);
                 Map<String, Object> stageTimerConfig = new HashMap<>();
@@ -92,53 +95,146 @@ class TNPlayer extends Player implements TNRoleInterface {
                 stageTimerConfig.put("chipIn", roomConfig.get("betTime"));
                 stageTimerConfig.put("dealPoker", roomConfig.get("betTime"));
                 stageTimerConfig.put("ready", roomConfig.get("betTime"));
-                msg.put("stageTimerConfig",stageTimerConfig);
-                mm.msg=msg;
+                msg.put("stageTimerConfig", stageTimerConfig);
+                mm.msg = msg;
                 send(mm);
-            }else{
-                ((TNTable)table).getUpdateTable(this);
+            } else {
+                ((TNTable) table).getUpdateTable(this);
             }
             break;
         }
         case 8020: {
-            if(playerState!=0){
+            if (playerState != 0) {
                 return;
             }
             Response mm = new Response(8020, 1);
             Map<String, Object> msg = new HashMap<>();
             Map<String, Object> roomConfig = room.getRoomConfig();
-            msg.put("waitTime",roomConfig.get("startTime"));
-            mm.msg=msg;
+            msg.put("waitTime", roomConfig.get("startTime"));
+            mm.msg = msg;
             send(mm);
             pair();
             break;
         }
 
         case 8008: {
-            if(playerState==1){
-                ((TNTable)table).playerBanker(this, Integer.parseInt((String)map.get("callType")));
-            }else{
+            if (playerState == 1) {
+                ((TNTable) table).playerBanker(this, Integer.parseInt((String) map.get("callType")));
+            } else {
                 ErrResponse msg = new ErrResponse("不在叫庄阶段");
                 send(msg);
             }
             break;
         }
 
-        case 8010:{
-            if(playerState==3){
-                ((TNTable)table).playerChip(this,(int)map.get("chipInAmount"));
+        case 8010: {
+            if (playerState == 3) {
+                ((TNTable) table).playerChip(this, (int) map.get("chipInAmount"));
             }
             break;
         }
-        case 8012:{
-            if(playerState==5){
-                ((TNTable)table).playerOpen(this);
+        case 8012: {
+            if (playerState == 5) {
+                ((TNTable) table).playerOpen(this);
             }
             break;
         }
 
-        case 8017:{
-            if(playerState==6||playerState==0){
+        case 8017: {
+            if (playerState == 6 || playerState == 0) {
+                exitRoom();
+            }
+            break;
+        }
+        }
+    }
+
+    public void receiveMessage(int id, Object msg) {
+        switch (id) {
+        case 8001: {
+            ResRooms.Builder resBulid = ResRooms.newBuilder();
+            resBulid.setMoney(money);
+            HashMap<String, Room> rooms = hall.getRoomMgr().getRooms();
+            for (Room room : rooms.values()) {
+                Map<String, Object> roomConfig = room.getRoomConfig();
+                ResRooms.roomConfig.Builder configBuild = ResRooms.roomConfig.newBuilder();
+                configBuild.setRoomName((String) roomConfig.get("roomName"));
+                configBuild.setRoomId((int) (roomConfig.get("gameRoomId")));
+                configBuild.setPlayers(room.getRoles().size());
+                configBuild.setBanker(false);
+                configBuild.setMinMoney((int) roomConfig.get("minMoney"));
+                resBulid.addRooms(configBuild);
+            }
+            // send(resBulid.build());
+            break;
+        }
+
+        case 8004: {
+            Integer roomId = ((ReqEnter) msg).getRoomId();
+            if (roomId == 0) {
+                if (this.enterRoom() == Config.ERR_SUCCESS) {
+                    break;
+                }
+            } else {
+                if (this.enterRoom(roomId.toString()) == Config.ERR_SUCCESS) {
+                    break;
+                }
+            }
+            ErrResponse res = new ErrResponse(Config.ERR_TABLE_DESTORY);
+            saveReconnectState(false);
+            send(res);
+            exitHall();
+            break;
+        }
+        case 8019: {
+            if (table == null) {
+                Map<String, Object> roomConfig = room.getRoomConfig();
+                ResTableInfo.Builder res = ResTableInfo.newBuilder();
+                res.setGameState(0);
+                ResTableInfo.timeConfig.Builder timec = ResTableInfo.timeConfig.newBuilder();
+                timec.setPairTime((int) roomConfig.get("callTime"));
+                timec.setBankerTime((int) roomConfig.get("betTime"));
+                timec.setChipTime((int) roomConfig.get("betTime"));
+                timec.setShowTime((int) roomConfig.get("betTime"));
+                res.setTimeCf(timec);
+                // send(res);
+            } else {
+                ((TNTable) table).getUpdateTable(this);
+            }
+            break;
+        }
+        case 8020: {
+            if (playerState != 0) {
+                return;
+            }
+            pair();
+            break;
+        }
+
+        case 8008: {
+            if (playerState == 1) {
+                ((TNTable) table).playerBanker(this, ((ReqBanker) msg).getBankerNum());
+            } else {
+                ErrResponse res = new ErrResponse("不在叫庄阶段");
+                send(res);
+            }
+            break;
+        }
+
+        case 8010: {
+            if (playerState == 3) {
+                ((TNTable) table).playerChip(this, ((ReqBet) msg).getBet());
+            }
+            break;
+        }
+        case 8012: {
+            if (playerState == 5) {
+                ((TNTable) table).playerOpen(this);
+            }
+            break;
+        }
+        case 8017: {
+            if (playerState == 6 || playerState == 0) {
                 exitRoom();
             }
             break;
@@ -171,11 +267,12 @@ class TNPlayer extends Player implements TNRoleInterface {
         Response mm = new Response(8004, 1);
         Map<String, Object> msg = new HashMap<>();
         Map<String, Object> roomConfig = room.getRoomConfig();
-        msg.put("fieldNum",roomConfig.get("gameRoomId"));
-        msg.put("tableNum","");
-        mm.msg=msg;
+        msg.put("fieldNum", roomConfig.get("gameRoomId"));
+        msg.put("tableNum", "");
+        mm.msg = msg;
         send(mm);
     }
+
     @Override
     protected void onExitRoom() {
         Response res = new Response(8017, 1);
@@ -184,6 +281,7 @@ class TNPlayer extends Player implements TNRoleInterface {
         res.msg = msg;
         send(res);
     }
+
     @Override
     protected void onEnterTable() {
         sit = 0;
@@ -199,10 +297,10 @@ class TNPlayer extends Player implements TNRoleInterface {
 
     @Override
     protected void onDisconnect() {
-        if(playerState==0||playerState==6){
+        if (playerState == 0 || playerState == 6) {
             exitRoom();
-        }else if(playerState==5){
-            ((TNTable)table).playerOpen(this);
+        } else if (playerState == 5) {
+            ((TNTable) table).playerOpen(this);
             exitRoom();
         }
     }

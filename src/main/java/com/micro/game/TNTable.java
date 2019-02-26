@@ -1,9 +1,11 @@
 package com.micro.game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import frame.*;
 import frame.socket.Response;
@@ -11,11 +13,11 @@ import frame.util.NiuUtil;
 import frame.util.RandomUtil;
 import frame.util.pukeUtil;
 import lombok.Getter;
+import com.micro.game.TowNiuMessage.*;
 
 final class TNTable extends Table {
     private @Getter int gameStae; // 1叫庄 2 下注 3 开拍
-    private final int[] bankPre={1,2,3,4};
-    private int roomId;
+    private final int[] bankPre = { 1, 2, 3, 4 };
     private Schedule schedule;
     private int time;
     public int bankTime;
@@ -29,11 +31,11 @@ final class TNTable extends Table {
     private Role banker;
     private int openN = 0;
     private int chip = 0;
+    private int bankNum=0;
 
     @Override
     protected void onInit() {
         Map<String, Object> roomConfig = room.getRoomConfig();
-        roomId = (int) roomConfig.get("gameRoomId");
         bankTime = (int) roomConfig.get("callTime");
         chipTime = (int) roomConfig.get("betTime");
         if (roomConfig.get("taxRatio") != null) {
@@ -43,9 +45,9 @@ final class TNTable extends Table {
         }
         minMoney = Integer.valueOf((String) roomConfig.get("minMoney")).intValue();
         int[] temp = { 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 0xa0, 0xb0, 0xc0, 0xd0, 0x11, 0x21, 0x31,
-            0x11, 0x51, 0x61, 0x71, 0x81, 0x91, 0xa1, 0xb1, 0xc1, 0xd1, 0x12, 0x22, 0x32, 0x42, 0x52, 0x62, 0x72,
-            0x82, 0x92, 0xa2, 0xb2, 0xc2, 0xd2, 0x13, 0x23, 0x33, 0x43, 0x53, 0x63, 0x73, 0x83, 0x93, 0xa3, 0xb3,
-            0xc3, 0xd3 };
+                0x11, 0x51, 0x61, 0x71, 0x81, 0x91, 0xa1, 0xb1, 0xc1, 0xd1, 0x12, 0x22, 0x32, 0x42, 0x52, 0x62, 0x72,
+                0x82, 0x92, 0xa2, 0xb2, 0xc2, 0xd2, 0x13, 0x23, 0x33, 0x43, 0x53, 0x63, 0x73, 0x83, 0x93, 0xa3, 0xb3,
+                0xc3, 0xd3 };
         puke = new pukeUtil(temp);
     }
 
@@ -53,27 +55,24 @@ final class TNTable extends Table {
     public void onStart() {
         if (begin()) {
             puke.shuffle();
-            Response mm = new Response(8022, 1);
-            Map<String, Object> msg = new HashMap<>();
-            playerList = new Role[2];
-            Object[] playerInfoList = new Object[2];
+
+            ResStart.Builder res = ResStart.newBuilder();
             int i = 0;
             for (Role role : roles.values()) {
-                Map<String, Object> playerInfo = new HashMap<>();
                 ((TNRoleInterface) role).setSit(i);
                 ((TNRoleInterface) role).setPlayerState(1);
                 playerList[i] = role;
-                playerInfo.put("seatNum", i);
-                playerInfo.put("nickName", role.nickName);
-                playerInfo.put("portrait", role.portrait);
-                playerInfo.put("coins", role.money);
-                playerInfo.put("uniqueId", role.uniqueId);
-                playerInfoList[i] = playerInfo;
-                ++i;
+                playerInfo.Builder player = playerInfo.newBuilder();
+                player.setName(role.nickName);
+                player.setHead(Integer.parseInt(role.portrait));
+                player.setCoin(role.money);
+                player.setPosId(i);
+                player.setPlayerState(1);
+                res.addPlayers(player);
+                i++;
             }
-            msg.put("playerInfo", playerInfoList);
-            mm.msg = msg;
-            broadcast(mm);
+            res.setCurrPos(0);
+            // broadcast(res.build());
             BankPeriod();
             if (schedule != null) {
                 schedule.stop();
@@ -95,35 +94,12 @@ final class TNTable extends Table {
 
     private void BankPeriod() {
         gameStae = 1;
-        Response mm1 = new Response(8015, 1);
-        Map<String, Object> msg1 = new HashMap<>();
-        Role r = playerList[0];
-        currRole = r;
-        ((TNRoleInterface) r).setPlayerState(1);
-        ((TNRoleInterface) playerList[1]).setPlayerState(6);
-        msg1.put("callDealerSeatNum", r.uniqueId);
-        msg1.put("fieldNum", roomId);
-        msg1.put("gameCode", gameUUID);
-        msg1.put("tableNum", id);
-        msg1.put("stage", gameStae);
-        mm1.msg = msg1;
-        broadcast(mm1);
         time = bankTime;
     }
 
     private void ChipPeriod() {
         gameStae = 2;
-        Response oRes = new Response(8015, 1);
-        Map<String, Object> msg = new HashMap<>();
-        msg.put("fieldNum", roomId);
-        msg.put("gameCode", gameUUID);
-        msg.put("stage", gameStae);
-        msg.put("tableNum", id);
-        msg.put("dealerSeatNum", banker.uniqueId);
         setAntBet();
-        msg.put("antBets", ant);
-        oRes.msg = msg;
-        broadcast(oRes);
         int currSit = ((TNRoleInterface) banker).getSit() + 1;
         if (currSit > playerList.length) {
             currSit = 0;
@@ -131,6 +107,15 @@ final class TNTable extends Table {
         currRole = playerList[currSit];
         ((TNRoleInterface) currRole).setPlayerState(3);
         ((TNRoleInterface) banker).setPlayerState(4);
+        ResBetProd.Builder res = ResBetProd.newBuilder();
+        res.setBanker(((TNRoleInterface) banker).getSit());
+        res.setCurrPos(currSit);
+
+        ResBetProd.Builder res1 = ResBetProd.newBuilder();
+        res1.setBanker(((TNRoleInterface) banker).getSit());
+        res1.setCurrPos(currSit);
+        res1.addAllBets(Arrays.stream(ant).boxed().collect(Collectors.toList()));
+        // broadcast(res1.build(), res.build(), currRole.uniqueId);
         time = chipTime;
     }
 
@@ -155,14 +140,10 @@ final class TNTable extends Table {
         if (currRole == role) {
             if (num < ant.length) {
                 ((TNRoleInterface) currRole).setChipNum(num);
-                Response ownRes = new Response(8010, 1);
-                Response oRes = new Response(8011, 1);
-                Map<String, Object> msg = new HashMap<>();
-                msg.put("chipInAmount", ant[num]);
-                msg.put("uniqueId", role.uniqueId);
-                ownRes.msg = oRes.msg = msg;
+                ResBet.Builder res = ResBet.newBuilder();
+                res.setPosId(((TNRoleInterface) currRole).getSit());
+                res.setBet(num);
                 chip = num;
-                broadcast(ownRes, oRes, role.uniqueId);
                 disCard();
             }
         }
@@ -171,21 +152,19 @@ final class TNTable extends Table {
     public void playerBanker(Role role, int num) {
         if (role == currRole) {
             ((TNRoleInterface) role).setPlayerState(2);
-            Response oRes = new Response(8008, 1);
-            Response otRes = new Response(8009, 1);
-            Map<String, Object> msg = new HashMap<>();
-            msg.put("uniqueId", role.uniqueId);
-            msg.put("callType", num);
-            oRes.msg = msg;
-            otRes.msg = msg;
-            broadcast(oRes, otRes, role.uniqueId);
             ((TNRoleInterface) role).setBankNum(num);
             int sit = ((TNRoleInterface) role).getSit() + 1;
             if (sit < playerList.length) {
                 TNRoleInterface next = (TNRoleInterface) playerList[sit];
+                ResBnaker.Builder res = ResBnaker.newBuilder();
                 next.setPlayerState(1);
                 currRole = (Role) next;
                 time = bankTime;
+                res.setBankNum(num);
+                res.setPosId(sit - 1);
+                res.setCurrPos(sit);
+                // broadcast(res.build);
+
             } else {
                 choseBanker();
                 ChipPeriod();
@@ -199,10 +178,10 @@ final class TNTable extends Table {
             Response oRes = new Response(8013, 1);
             Map<String, Object> msg = new HashMap<>();
             msg.put("uniqueId", role.uniqueId);
-            ownRes.msg = msg;
-            oRes.msg = msg;
+            ResShowCard.Builder res = ResShowCard.newBuilder();
+            res.setPosId(((TNRoleInterface) role).getSit());
+            // broadcast(res);
             openN++;
-            broadcast(ownRes, oRes, role.uniqueId);
             ((TNRoleInterface) role).setPlayerState(6);
             if (openN == playerList.length) {
                 for (Role pp : playerList) {
@@ -290,71 +269,64 @@ final class TNTable extends Table {
             cows.add(cardType);
         }
         int bei = getbei(maxCow >> 8);
-        int bankP=bankPre[((TNRoleInterface) banker).getBankNum()];
-        long win=ant[chip]*bei*bankP;
+        int bankP = bankPre[((TNRoleInterface) banker).getBankNum()];
+        long win = ant[chip] * bei * bankP;
         int start = 0;
-        while (!countStack(cows, winSit, win, start++));
+        while (!countStack(cows, winSit, win, start++))
+            ;
         gameStae = 3;
         time = chipTime;
-        Response response = new Response(8015, 1);
-        Map<String, Object> msg = new HashMap<>();
-        TNGameHistory history = new TNGameHistory();
-        history.bankNum=bankP;
-        history.downNum=ant[chip];
-        history.bankSit=((TNRoleInterface)banker).getSit();
-        Object[] playerHList = new Object[playerList.length];
-        history.player=playerHList;
 
-        response.msg = msg;
-        msg.put("fieldNum", roomId);
-        msg.put("gameCode", gameUUID);
-        msg.put("tableNum", id);
-        msg.put("stage", gameStae);
+        ResDisCards.Builder res = ResDisCards.newBuilder();
+
+        TNGameHistory history = new TNGameHistory();
+        history.bankNum = bankP;
+        history.downNum = ant[chip];
+        history.bankSit = ((TNRoleInterface) banker).getSit();
+        Object[] playerHList = new Object[playerList.length];
+        history.player = playerHList;
         Object[] pokers = new Object[playerList.length];
         int size = playerList.length;
-        long taxN=0;
-        long stackWin=0;
-        for(int i=0;i<size;++i){
-            int csit=(start+i)%size;
+        long taxN = 0;
+        long stackWin = 0;
+        for (int i = 0; i < size; ++i) {
+            int csit = (start + i) % size;
             TNRoleInterface player = (TNRoleInterface) playerList[csit];
-            // player.setCards(cardList.get(i));
-            Map<String, Object> playerInfo = new HashMap<>();
+            player.setCards(cardList.get(i));
+            player.setCow(cows.get(i));
+
             Map<String, Object> playerhis = new HashMap<>();
-            if(i==winSit){
-                 player.setWin(win);
-                 playerInfo.put("coins", win*(1-tax));
-                 playerInfo.put("winner", 1);
-                 if(playerList[csit] instanceof Player){
-                    taxN+=win*tax;
-                 }else{
-                    stackWin+=win*(1-tax);
-                 }
-            }else{
-                player.setWin(0-win);
-                playerInfo.put("coins", 0 - win);
-                playerInfo.put("winner", 0);
-                if(playerList[csit] instanceof Player){
-                    stackWin-=win;
+            if (i == winSit) {
+                long ww = (long) (win * (1 - tax));
+                player.setWin(ww);
+                if (playerList[csit] instanceof Player) {
+                    taxN += win * tax;
+                } else {
+                    stackWin += ww;
+                }
+            } else {
+                player.setWin(0 - win);
+                if (playerList[csit] instanceof Player) {
+                    stackWin -= win;
                 }
             }
-            //历史纪录
+            // 历史纪录
             playerhis.put("pokers", cardList.get(i));
             playerhis.put("pattern", cows.get(i));
             playerhis.put("chip", player.getChipNum());
             playerhis.put("bank", bankP);
             playerhis.put("sit", player.getSit());
-            playerHList[i]=playerhis;
-
-            //发送的
-            playerInfo.put("pokers", cardList.get(i));
-            playerInfo.put("pattern", (cows.get(i)>>8)&0xf);
-            playerInfo.put("seatNum", playerList[csit].uniqueId);
-            pokers[i]=playerInfo;
+            playerHList[i] = playerhis;
         }
-        
+
+        for (int i = 0; i < playerList.length; ++i) {
+            TNRoleInterface pp = (TNRoleInterface) playerList[i];
+            res.addCards(ArrayInt.newBuilder().addAllList(pp.getCards()));
+            res.addCows(pp.getCow());
+            res.addWins(pp.getWin());
+        }
+        // broadcast(res.build());
         result(stackWin, taxN, history);
-        msg.put("pokers", pokers);
-        broadcast(response);
     }
 
     public int getbei(int cardType) {
@@ -376,55 +348,55 @@ final class TNTable extends Table {
 
     public void choseBanker() {
         banker = playerList[0];
-        for(int i=1;i<playerList.length;++i){
-            if(((TNRoleInterface)playerList[i]).getBankNum()>((TNRoleInterface)banker).getBankNum()){
-                banker=playerList[i];
+        
+        for (int i = 1; i < playerList.length; ++i) {
+            if (((TNRoleInterface) playerList[i]).getBankNum() > ((TNRoleInterface) banker).getBankNum()) {
+                banker = playerList[i];
             }
-        }        
+        }
+        bankNum=((TNRoleInterface) banker).getBankNum();
     }
 
     public void clearGame() {
+        playerList=null;
+        currRole=null;
+        banker=null;
+        openN=0;
+        chip=0;
+        bankNum=0;
         schedule.stop();
     }
 
     public void getUpdateTable(Role role) {
-        Response response = new Response(8019, 1);
-        Map<String, Object> msg = new HashMap<>();
-        response.msg = msg;
-        msg.put("antBets", ant);
-        msg.put("callType", bankPre[((TNRoleInterface) banker).getBankNum()]);
-        if (banker != null) {
-            msg.put("dealerSeatNum", banker.uniqueId);
+        ResTableInfo.Builder res = ResTableInfo.newBuilder();
+        res.setGameState(0);
+        ResTableInfo.timeConfig.Builder timec = ResTableInfo.timeConfig.newBuilder();
+        timec.setPairTime(bankTime);
+        timec.setBankerTime(bankTime);
+        timec.setChipTime(chipTime);
+        timec.setShowTime(chipTime);
+        res.setTimeCf(timec);
+        res.setGameState(gameStae);
+        res.setCurrPos(((TNRoleInterface)currRole).getSit());
+        res.setBet(chip);
+        if(banker!=null){
+            res.setBankNum(bankNum);
+            res.setBankerPos(((TNRoleInterface)banker).getSit());
         }
-        msg.put("fieldNum", roomId);
-        msg.put("myCoin", role.money);
-        msg.put("gameCode", gameUUID);
-        Map<String, Object> stageTimerConfig = new HashMap<>();
-        stageTimerConfig.put("callDealer", bankTime);
-        stageTimerConfig.put("chipIn", chipTime);
-        stageTimerConfig.put("dealPoker", chipTime);
-        stageTimerConfig.put("ready", chipTime);
-        msg.put("stageTimerConfig", stageTimerConfig);
-        msg.put("stage ", gameStae);
-        msg.put("seatNum", ((TNRoleInterface) role).getSit());
-        msg.put("restSeconds", time);
-        List<Object> seatsInfo = new ArrayList<>();
-        for (Role player : playerList) {
-            Map<String, Object> seat = new HashMap<>();
-            seat.put("seatNum", ((TNRoleInterface) player).getSit());
-            seat.put("portrait", player.portrait);
-            seat.put("uniqueId", player.uniqueId);
-            seat.put("nickName", player.nickName);
-            seat.put("coins", player.money);
-            seat.put("callType", bankPre[((TNRoleInterface) player).getBankNum()]);
-            seatsInfo.add(seat);
+        for(int i=0;i<playerList.length;++i){
+            playerInfo.Builder player=playerInfo.newBuilder();
+            TNRoleInterface pp=(TNRoleInterface)playerList[i];
+            player.setBankerNum(pp.getBankNum());
+            player.setName(playerList[i].nickName);
+            player.setHead(Integer.parseInt(playerList[i].portrait));
+            player.setCoin(playerList[i].money);
+            player.setPosId(pp.getSit());
+            player.setBet(pp.getChipNum());
+            player.addAllCards(pp.getCards());
+            player.setPlayerState(pp.getPlayerState());
+            res.addPalyers(player);
         }
-        msg.put("seatsInfo", seatsInfo);
-        msg.put("currPlayer", currRole.uniqueId);
-        msg.put("dealerSeatNum", banker.uniqueId);
-        msg.put("antBetAmount ", ant[chip]);
-        msg.put("antBets", ant);
-        role.send(response);
+        // role.send(res.build());
     }
 
     /**
@@ -469,7 +441,7 @@ final class TNTable extends Table {
 
     @Override
     protected void onExit(Role role) {
-       
+
     };
 
     @Override
