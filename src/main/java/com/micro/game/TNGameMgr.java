@@ -1,5 +1,6 @@
 package com.micro.game;
 
+import frame.game.*;
 import frame.*;
 
 class TNGameMgr extends GameMgr {

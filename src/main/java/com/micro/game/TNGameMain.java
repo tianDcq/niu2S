@@ -1,7 +1,7 @@
 package com.micro.game;
 
 
-import frame.GameMain;
+import frame.game.*;
 
 public class TNGameMain extends GameMain {
     public TNGameMain() {

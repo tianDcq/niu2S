@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import frame.game.*;
 import frame.*;
 import frame.socket.Response;
+import frame.storageLogic.LotteryModel;
 import frame.util.NiuUtil;
 import frame.util.RandomUtil;
 import frame.util.pukeUtil;
@@ -52,6 +54,12 @@ final class TNTable extends Table {
     }
 
     @Override
+    public ArrayList<LotteryModel> getAllLotteryModel() {
+        ArrayList<LotteryModel> modelList = new ArrayList<LotteryModel>();
+        return modelList;
+    }
+
+    @Override
     public void onStart() {
         if (begin()) {
             puke.shuffle();
@@ -77,7 +85,7 @@ final class TNTable extends Table {
             if (schedule != null) {
                 schedule.stop();
             }
-            schedule = GameMain.getInstance().getTaskMgr().createSchedule(new Callback() {
+            schedule = UtilsMgr.getTaskMgr().createSchedule(new Callback() {
                 @Override
                 public void func() {
                     try {
@@ -107,15 +115,11 @@ final class TNTable extends Table {
         currRole = playerList[currSit];
         ((TNRoleInterface) currRole).setPlayerState(3);
         ((TNRoleInterface) banker).setPlayerState(4);
-        ResBetProd.Builder res = ResBetProd.newBuilder();
-        res.setBanker(((TNRoleInterface) banker).getSit());
-        res.setCurrPos(currSit);
-
         ResBetProd.Builder res1 = ResBetProd.newBuilder();
         res1.setBanker(((TNRoleInterface) banker).getSit());
         res1.setCurrPos(currSit);
-        res1.addAllBets(Arrays.stream(ant).boxed().collect(Collectors.toList()));
-        // broadcast(res1.build(), res.build(), currRole.uniqueId);
+        res1.addAllAllBets(Arrays.stream(ant).boxed().collect(Collectors.toList()));
+        broadcast(new Response(TwoNiuConfig.ResBetProd, res1.build().toByteArray()));
         time = chipTime;
     }
 
@@ -174,23 +178,23 @@ final class TNTable extends Table {
 
     public void playerOpen(Role role) {
         if (gameStae == 3) {
-            Response ownRes = new Response(8012, 1);
-            Response oRes = new Response(8013, 1);
-            Map<String, Object> msg = new HashMap<>();
-            msg.put("uniqueId", role.uniqueId);
-            ResShowCard.Builder res = ResShowCard.newBuilder();
-            res.setPosId(((TNRoleInterface) role).getSit());
-            // broadcast(res);
-            openN++;
-            ((TNRoleInterface) role).setPlayerState(6);
-            if (openN == playerList.length) {
-                for (Role pp : playerList) {
-                    ((TNRoleInterface) pp).setPlayerState(0);
-                    pp.savePlayerHistory(gameUUID);
-                }
-                clearGame();
-                end();
-            }
+            // Response ownRes = new Response(8012, 1);
+            // Response oRes = new Response(8013, 1);
+            // Map<String, Object> msg = new HashMap<>();
+            // msg.put("uniqueId", role.uniqueId);
+            // ResShowCard.Builder res = ResShowCard.newBuilder();
+            // res.setPosId(((TNRoleInterface) role).getSit());
+            // // broadcast(res);
+            // openN++;
+            // ((TNRoleInterface) role).setPlayerState(6);
+            // if (openN == playerList.length) {
+            //     for (Role pp : playerList) {
+            //         ((TNRoleInterface) pp).setPlayerState(0);
+            //         pp.savePlayerHistory(gameUUID);
+            //     }
+            //     clearGame();
+            //     end();
+            // }
 
         }
     }
@@ -326,7 +330,7 @@ final class TNTable extends Table {
             res.addWins(pp.getWin());
         }
         // broadcast(res.build());
-        result(stackWin, taxN, history);
+        result( taxN, history);
     }
 
     public int getbei(int cardType) {

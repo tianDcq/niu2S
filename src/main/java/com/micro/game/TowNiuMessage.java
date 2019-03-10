@@ -1012,1132 +1012,6 @@ public final class TowNiuMessage {
 
   }
 
-  public interface playerInfoOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:playerInfo)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string name = 1;</code>
-     */
-    java.lang.String getName();
-    /**
-     * <code>string name = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getNameBytes();
-
-    /**
-     * <code>int32 head = 2;</code>
-     */
-    int getHead();
-
-    /**
-     * <code>int64 coin = 3;</code>
-     */
-    long getCoin();
-
-    /**
-     * <code>int32 posId = 4;</code>
-     */
-    int getPosId();
-
-    /**
-     * <pre>
-     *接下来都是可能有的字段
-     * </pre>
-     *
-     * <code>int32 bankerNum = 5;</code>
-     */
-    int getBankerNum();
-
-    /**
-     * <code>int32 bet = 6;</code>
-     */
-    int getBet();
-
-    /**
-     * <code>repeated int32 cards = 7;</code>
-     */
-    java.util.List<java.lang.Integer> getCardsList();
-    /**
-     * <code>repeated int32 cards = 7;</code>
-     */
-    int getCardsCount();
-    /**
-     * <code>repeated int32 cards = 7;</code>
-     */
-    int getCards(int index);
-
-    /**
-     * <code>int32 playerState = 8;</code>
-     */
-    int getPlayerState();
-  }
-  /**
-   * Protobuf type {@code playerInfo}
-   */
-  public  static final class playerInfo extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:playerInfo)
-      playerInfoOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use playerInfo.newBuilder() to construct.
-    private playerInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private playerInfo() {
-      name_ = "";
-      head_ = 0;
-      coin_ = 0L;
-      posId_ = 0;
-      bankerNum_ = 0;
-      bet_ = 0;
-      cards_ = java.util.Collections.emptyList();
-      playerState_ = 0;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private playerInfo(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              name_ = s;
-              break;
-            }
-            case 16: {
-
-              head_ = input.readInt32();
-              break;
-            }
-            case 24: {
-
-              coin_ = input.readInt64();
-              break;
-            }
-            case 32: {
-
-              posId_ = input.readInt32();
-              break;
-            }
-            case 40: {
-
-              bankerNum_ = input.readInt32();
-              break;
-            }
-            case 48: {
-
-              bet_ = input.readInt32();
-              break;
-            }
-            case 56: {
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-                cards_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000040;
-              }
-              cards_.add(input.readInt32());
-              break;
-            }
-            case 58: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040) && input.getBytesUntilLimit() > 0) {
-                cards_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000040;
-              }
-              while (input.getBytesUntilLimit() > 0) {
-                cards_.add(input.readInt32());
-              }
-              input.popLimit(limit);
-              break;
-            }
-            case 64: {
-
-              playerState_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-          cards_ = java.util.Collections.unmodifiableList(cards_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return TowNiuMessage.internal_static_playerInfo_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return TowNiuMessage.internal_static_playerInfo_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              TowNiuMessage.playerInfo.class, TowNiuMessage.playerInfo.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int NAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object name_;
-    /**
-     * <code>string name = 1;</code>
-     */
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        name_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string name = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        name_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int HEAD_FIELD_NUMBER = 2;
-    private int head_;
-    /**
-     * <code>int32 head = 2;</code>
-     */
-    public int getHead() {
-      return head_;
-    }
-
-    public static final int COIN_FIELD_NUMBER = 3;
-    private long coin_;
-    /**
-     * <code>int64 coin = 3;</code>
-     */
-    public long getCoin() {
-      return coin_;
-    }
-
-    public static final int POSID_FIELD_NUMBER = 4;
-    private int posId_;
-    /**
-     * <code>int32 posId = 4;</code>
-     */
-    public int getPosId() {
-      return posId_;
-    }
-
-    public static final int BANKERNUM_FIELD_NUMBER = 5;
-    private int bankerNum_;
-    /**
-     * <pre>
-     *接下来都是可能有的字段
-     * </pre>
-     *
-     * <code>int32 bankerNum = 5;</code>
-     */
-    public int getBankerNum() {
-      return bankerNum_;
-    }
-
-    public static final int BET_FIELD_NUMBER = 6;
-    private int bet_;
-    /**
-     * <code>int32 bet = 6;</code>
-     */
-    public int getBet() {
-      return bet_;
-    }
-
-    public static final int CARDS_FIELD_NUMBER = 7;
-    private java.util.List<java.lang.Integer> cards_;
-    /**
-     * <code>repeated int32 cards = 7;</code>
-     */
-    public java.util.List<java.lang.Integer>
-        getCardsList() {
-      return cards_;
-    }
-    /**
-     * <code>repeated int32 cards = 7;</code>
-     */
-    public int getCardsCount() {
-      return cards_.size();
-    }
-    /**
-     * <code>repeated int32 cards = 7;</code>
-     */
-    public int getCards(int index) {
-      return cards_.get(index);
-    }
-    private int cardsMemoizedSerializedSize = -1;
-
-    public static final int PLAYERSTATE_FIELD_NUMBER = 8;
-    private int playerState_;
-    /**
-     * <code>int32 playerState = 8;</code>
-     */
-    public int getPlayerState() {
-      return playerState_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
-      }
-      if (head_ != 0) {
-        output.writeInt32(2, head_);
-      }
-      if (coin_ != 0L) {
-        output.writeInt64(3, coin_);
-      }
-      if (posId_ != 0) {
-        output.writeInt32(4, posId_);
-      }
-      if (bankerNum_ != 0) {
-        output.writeInt32(5, bankerNum_);
-      }
-      if (bet_ != 0) {
-        output.writeInt32(6, bet_);
-      }
-      if (getCardsList().size() > 0) {
-        output.writeUInt32NoTag(58);
-        output.writeUInt32NoTag(cardsMemoizedSerializedSize);
-      }
-      for (int i = 0; i < cards_.size(); i++) {
-        output.writeInt32NoTag(cards_.get(i));
-      }
-      if (playerState_ != 0) {
-        output.writeInt32(8, playerState_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
-      }
-      if (head_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, head_);
-      }
-      if (coin_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, coin_);
-      }
-      if (posId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, posId_);
-      }
-      if (bankerNum_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, bankerNum_);
-      }
-      if (bet_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, bet_);
-      }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < cards_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(cards_.get(i));
-        }
-        size += dataSize;
-        if (!getCardsList().isEmpty()) {
-          size += 1;
-          size += com.google.protobuf.CodedOutputStream
-              .computeInt32SizeNoTag(dataSize);
-        }
-        cardsMemoizedSerializedSize = dataSize;
-      }
-      if (playerState_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(8, playerState_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof TowNiuMessage.playerInfo)) {
-        return super.equals(obj);
-      }
-      TowNiuMessage.playerInfo other = (TowNiuMessage.playerInfo) obj;
-
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (getHead()
-          == other.getHead());
-      result = result && (getCoin()
-          == other.getCoin());
-      result = result && (getPosId()
-          == other.getPosId());
-      result = result && (getBankerNum()
-          == other.getBankerNum());
-      result = result && (getBet()
-          == other.getBet());
-      result = result && getCardsList()
-          .equals(other.getCardsList());
-      result = result && (getPlayerState()
-          == other.getPlayerState());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + NAME_FIELD_NUMBER;
-      hash = (53 * hash) + getName().hashCode();
-      hash = (37 * hash) + HEAD_FIELD_NUMBER;
-      hash = (53 * hash) + getHead();
-      hash = (37 * hash) + COIN_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getCoin());
-      hash = (37 * hash) + POSID_FIELD_NUMBER;
-      hash = (53 * hash) + getPosId();
-      hash = (37 * hash) + BANKERNUM_FIELD_NUMBER;
-      hash = (53 * hash) + getBankerNum();
-      hash = (37 * hash) + BET_FIELD_NUMBER;
-      hash = (53 * hash) + getBet();
-      if (getCardsCount() > 0) {
-        hash = (37 * hash) + CARDS_FIELD_NUMBER;
-        hash = (53 * hash) + getCardsList().hashCode();
-      }
-      hash = (37 * hash) + PLAYERSTATE_FIELD_NUMBER;
-      hash = (53 * hash) + getPlayerState();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static TowNiuMessage.playerInfo parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static TowNiuMessage.playerInfo parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static TowNiuMessage.playerInfo parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static TowNiuMessage.playerInfo parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static TowNiuMessage.playerInfo parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static TowNiuMessage.playerInfo parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static TowNiuMessage.playerInfo parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static TowNiuMessage.playerInfo parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static TowNiuMessage.playerInfo parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static TowNiuMessage.playerInfo parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static TowNiuMessage.playerInfo parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static TowNiuMessage.playerInfo parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(TowNiuMessage.playerInfo prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code playerInfo}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:playerInfo)
-        TowNiuMessage.playerInfoOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return TowNiuMessage.internal_static_playerInfo_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return TowNiuMessage.internal_static_playerInfo_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                TowNiuMessage.playerInfo.class, TowNiuMessage.playerInfo.Builder.class);
-      }
-
-      // Construct using TowNiuMessage.playerInfo.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        name_ = "";
-
-        head_ = 0;
-
-        coin_ = 0L;
-
-        posId_ = 0;
-
-        bankerNum_ = 0;
-
-        bet_ = 0;
-
-        cards_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000040);
-        playerState_ = 0;
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return TowNiuMessage.internal_static_playerInfo_descriptor;
-      }
-
-      @java.lang.Override
-      public TowNiuMessage.playerInfo getDefaultInstanceForType() {
-        return TowNiuMessage.playerInfo.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public TowNiuMessage.playerInfo build() {
-        TowNiuMessage.playerInfo result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public TowNiuMessage.playerInfo buildPartial() {
-        TowNiuMessage.playerInfo result = new TowNiuMessage.playerInfo(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        result.name_ = name_;
-        result.head_ = head_;
-        result.coin_ = coin_;
-        result.posId_ = posId_;
-        result.bankerNum_ = bankerNum_;
-        result.bet_ = bet_;
-        if (((bitField0_ & 0x00000040) == 0x00000040)) {
-          cards_ = java.util.Collections.unmodifiableList(cards_);
-          bitField0_ = (bitField0_ & ~0x00000040);
-        }
-        result.cards_ = cards_;
-        result.playerState_ = playerState_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TowNiuMessage.playerInfo) {
-          return mergeFrom((TowNiuMessage.playerInfo)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(TowNiuMessage.playerInfo other) {
-        if (other == TowNiuMessage.playerInfo.getDefaultInstance()) return this;
-        if (!other.getName().isEmpty()) {
-          name_ = other.name_;
-          onChanged();
-        }
-        if (other.getHead() != 0) {
-          setHead(other.getHead());
-        }
-        if (other.getCoin() != 0L) {
-          setCoin(other.getCoin());
-        }
-        if (other.getPosId() != 0) {
-          setPosId(other.getPosId());
-        }
-        if (other.getBankerNum() != 0) {
-          setBankerNum(other.getBankerNum());
-        }
-        if (other.getBet() != 0) {
-          setBet(other.getBet());
-        }
-        if (!other.cards_.isEmpty()) {
-          if (cards_.isEmpty()) {
-            cards_ = other.cards_;
-            bitField0_ = (bitField0_ & ~0x00000040);
-          } else {
-            ensureCardsIsMutable();
-            cards_.addAll(other.cards_);
-          }
-          onChanged();
-        }
-        if (other.getPlayerState() != 0) {
-          setPlayerState(other.getPlayerState());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        TowNiuMessage.playerInfo parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TowNiuMessage.playerInfo) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private java.lang.Object name_ = "";
-      /**
-       * <code>string name = 1;</code>
-       */
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          name_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string name = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          name_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string name = 1;</code>
-       */
-      public Builder setName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        name_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string name = 1;</code>
-       */
-      public Builder clearName() {
-        
-        name_ = getDefaultInstance().getName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string name = 1;</code>
-       */
-      public Builder setNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        name_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int head_ ;
-      /**
-       * <code>int32 head = 2;</code>
-       */
-      public int getHead() {
-        return head_;
-      }
-      /**
-       * <code>int32 head = 2;</code>
-       */
-      public Builder setHead(int value) {
-        
-        head_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 head = 2;</code>
-       */
-      public Builder clearHead() {
-        
-        head_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private long coin_ ;
-      /**
-       * <code>int64 coin = 3;</code>
-       */
-      public long getCoin() {
-        return coin_;
-      }
-      /**
-       * <code>int64 coin = 3;</code>
-       */
-      public Builder setCoin(long value) {
-        
-        coin_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int64 coin = 3;</code>
-       */
-      public Builder clearCoin() {
-        
-        coin_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private int posId_ ;
-      /**
-       * <code>int32 posId = 4;</code>
-       */
-      public int getPosId() {
-        return posId_;
-      }
-      /**
-       * <code>int32 posId = 4;</code>
-       */
-      public Builder setPosId(int value) {
-        
-        posId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 posId = 4;</code>
-       */
-      public Builder clearPosId() {
-        
-        posId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int bankerNum_ ;
-      /**
-       * <pre>
-       *接下来都是可能有的字段
-       * </pre>
-       *
-       * <code>int32 bankerNum = 5;</code>
-       */
-      public int getBankerNum() {
-        return bankerNum_;
-      }
-      /**
-       * <pre>
-       *接下来都是可能有的字段
-       * </pre>
-       *
-       * <code>int32 bankerNum = 5;</code>
-       */
-      public Builder setBankerNum(int value) {
-        
-        bankerNum_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *接下来都是可能有的字段
-       * </pre>
-       *
-       * <code>int32 bankerNum = 5;</code>
-       */
-      public Builder clearBankerNum() {
-        
-        bankerNum_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int bet_ ;
-      /**
-       * <code>int32 bet = 6;</code>
-       */
-      public int getBet() {
-        return bet_;
-      }
-      /**
-       * <code>int32 bet = 6;</code>
-       */
-      public Builder setBet(int value) {
-        
-        bet_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 bet = 6;</code>
-       */
-      public Builder clearBet() {
-        
-        bet_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<java.lang.Integer> cards_ = java.util.Collections.emptyList();
-      private void ensureCardsIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
-          cards_ = new java.util.ArrayList<java.lang.Integer>(cards_);
-          bitField0_ |= 0x00000040;
-         }
-      }
-      /**
-       * <code>repeated int32 cards = 7;</code>
-       */
-      public java.util.List<java.lang.Integer>
-          getCardsList() {
-        return java.util.Collections.unmodifiableList(cards_);
-      }
-      /**
-       * <code>repeated int32 cards = 7;</code>
-       */
-      public int getCardsCount() {
-        return cards_.size();
-      }
-      /**
-       * <code>repeated int32 cards = 7;</code>
-       */
-      public int getCards(int index) {
-        return cards_.get(index);
-      }
-      /**
-       * <code>repeated int32 cards = 7;</code>
-       */
-      public Builder setCards(
-          int index, int value) {
-        ensureCardsIsMutable();
-        cards_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated int32 cards = 7;</code>
-       */
-      public Builder addCards(int value) {
-        ensureCardsIsMutable();
-        cards_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated int32 cards = 7;</code>
-       */
-      public Builder addAllCards(
-          java.lang.Iterable<? extends java.lang.Integer> values) {
-        ensureCardsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, cards_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated int32 cards = 7;</code>
-       */
-      public Builder clearCards() {
-        cards_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000040);
-        onChanged();
-        return this;
-      }
-
-      private int playerState_ ;
-      /**
-       * <code>int32 playerState = 8;</code>
-       */
-      public int getPlayerState() {
-        return playerState_;
-      }
-      /**
-       * <code>int32 playerState = 8;</code>
-       */
-      public Builder setPlayerState(int value) {
-        
-        playerState_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 playerState = 8;</code>
-       */
-      public Builder clearPlayerState() {
-        
-        playerState_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:playerInfo)
-    }
-
-    // @@protoc_insertion_point(class_scope:playerInfo)
-    private static final TowNiuMessage.playerInfo DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new TowNiuMessage.playerInfo();
-    }
-
-    public static TowNiuMessage.playerInfo getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<playerInfo>
-        PARSER = new com.google.protobuf.AbstractParser<playerInfo>() {
-      @java.lang.Override
-      public playerInfo parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new playerInfo(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<playerInfo> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<playerInfo> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public TowNiuMessage.playerInfo getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface ResRoomsOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ResRooms)
       com.google.protobuf.MessageOrBuilder {
@@ -3790,6 +2664,2085 @@ public final class TowNiuMessage {
 
   }
 
+  public interface ReqEnterOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ReqEnter)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 roomId = 1;</code>
+     */
+    int getRoomId();
+  }
+  /**
+   * Protobuf type {@code ReqEnter}
+   */
+  public  static final class ReqEnter extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:ReqEnter)
+      ReqEnterOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ReqEnter.newBuilder() to construct.
+    private ReqEnter(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ReqEnter() {
+      roomId_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ReqEnter(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              roomId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TowNiuMessage.internal_static_ReqEnter_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TowNiuMessage.internal_static_ReqEnter_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              TowNiuMessage.ReqEnter.class, TowNiuMessage.ReqEnter.Builder.class);
+    }
+
+    public static final int ROOMID_FIELD_NUMBER = 1;
+    private int roomId_;
+    /**
+     * <code>int32 roomId = 1;</code>
+     */
+    public int getRoomId() {
+      return roomId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (roomId_ != 0) {
+        output.writeInt32(1, roomId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (roomId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, roomId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof TowNiuMessage.ReqEnter)) {
+        return super.equals(obj);
+      }
+      TowNiuMessage.ReqEnter other = (TowNiuMessage.ReqEnter) obj;
+
+      boolean result = true;
+      result = result && (getRoomId()
+          == other.getRoomId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ROOMID_FIELD_NUMBER;
+      hash = (53 * hash) + getRoomId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static TowNiuMessage.ReqEnter parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.ReqEnter parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.ReqEnter parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.ReqEnter parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.ReqEnter parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.ReqEnter parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.ReqEnter parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.ReqEnter parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static TowNiuMessage.ReqEnter parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.ReqEnter parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static TowNiuMessage.ReqEnter parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.ReqEnter parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(TowNiuMessage.ReqEnter prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ReqEnter}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ReqEnter)
+        TowNiuMessage.ReqEnterOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TowNiuMessage.internal_static_ReqEnter_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TowNiuMessage.internal_static_ReqEnter_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                TowNiuMessage.ReqEnter.class, TowNiuMessage.ReqEnter.Builder.class);
+      }
+
+      // Construct using TowNiuMessage.ReqEnter.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        roomId_ = 0;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TowNiuMessage.internal_static_ReqEnter_descriptor;
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.ReqEnter getDefaultInstanceForType() {
+        return TowNiuMessage.ReqEnter.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.ReqEnter build() {
+        TowNiuMessage.ReqEnter result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.ReqEnter buildPartial() {
+        TowNiuMessage.ReqEnter result = new TowNiuMessage.ReqEnter(this);
+        result.roomId_ = roomId_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof TowNiuMessage.ReqEnter) {
+          return mergeFrom((TowNiuMessage.ReqEnter)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(TowNiuMessage.ReqEnter other) {
+        if (other == TowNiuMessage.ReqEnter.getDefaultInstance()) return this;
+        if (other.getRoomId() != 0) {
+          setRoomId(other.getRoomId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        TowNiuMessage.ReqEnter parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (TowNiuMessage.ReqEnter) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int roomId_ ;
+      /**
+       * <code>int32 roomId = 1;</code>
+       */
+      public int getRoomId() {
+        return roomId_;
+      }
+      /**
+       * <code>int32 roomId = 1;</code>
+       */
+      public Builder setRoomId(int value) {
+        
+        roomId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 roomId = 1;</code>
+       */
+      public Builder clearRoomId() {
+        
+        roomId_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:ReqEnter)
+    }
+
+    // @@protoc_insertion_point(class_scope:ReqEnter)
+    private static final TowNiuMessage.ReqEnter DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new TowNiuMessage.ReqEnter();
+    }
+
+    public static TowNiuMessage.ReqEnter getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ReqEnter>
+        PARSER = new com.google.protobuf.AbstractParser<ReqEnter>() {
+      @java.lang.Override
+      public ReqEnter parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ReqEnter(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ReqEnter> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ReqEnter> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public TowNiuMessage.ReqEnter getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ResEnterOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ResEnter)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool enter = 1;</code>
+     */
+    boolean getEnter();
+  }
+  /**
+   * Protobuf type {@code ResEnter}
+   */
+  public  static final class ResEnter extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:ResEnter)
+      ResEnterOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ResEnter.newBuilder() to construct.
+    private ResEnter(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ResEnter() {
+      enter_ = false;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ResEnter(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              enter_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TowNiuMessage.internal_static_ResEnter_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TowNiuMessage.internal_static_ResEnter_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              TowNiuMessage.ResEnter.class, TowNiuMessage.ResEnter.Builder.class);
+    }
+
+    public static final int ENTER_FIELD_NUMBER = 1;
+    private boolean enter_;
+    /**
+     * <code>bool enter = 1;</code>
+     */
+    public boolean getEnter() {
+      return enter_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (enter_ != false) {
+        output.writeBool(1, enter_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (enter_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, enter_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof TowNiuMessage.ResEnter)) {
+        return super.equals(obj);
+      }
+      TowNiuMessage.ResEnter other = (TowNiuMessage.ResEnter) obj;
+
+      boolean result = true;
+      result = result && (getEnter()
+          == other.getEnter());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ENTER_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getEnter());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static TowNiuMessage.ResEnter parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.ResEnter parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.ResEnter parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.ResEnter parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.ResEnter parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.ResEnter parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.ResEnter parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.ResEnter parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static TowNiuMessage.ResEnter parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.ResEnter parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static TowNiuMessage.ResEnter parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.ResEnter parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(TowNiuMessage.ResEnter prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ResEnter}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ResEnter)
+        TowNiuMessage.ResEnterOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TowNiuMessage.internal_static_ResEnter_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TowNiuMessage.internal_static_ResEnter_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                TowNiuMessage.ResEnter.class, TowNiuMessage.ResEnter.Builder.class);
+      }
+
+      // Construct using TowNiuMessage.ResEnter.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        enter_ = false;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TowNiuMessage.internal_static_ResEnter_descriptor;
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.ResEnter getDefaultInstanceForType() {
+        return TowNiuMessage.ResEnter.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.ResEnter build() {
+        TowNiuMessage.ResEnter result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.ResEnter buildPartial() {
+        TowNiuMessage.ResEnter result = new TowNiuMessage.ResEnter(this);
+        result.enter_ = enter_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof TowNiuMessage.ResEnter) {
+          return mergeFrom((TowNiuMessage.ResEnter)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(TowNiuMessage.ResEnter other) {
+        if (other == TowNiuMessage.ResEnter.getDefaultInstance()) return this;
+        if (other.getEnter() != false) {
+          setEnter(other.getEnter());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        TowNiuMessage.ResEnter parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (TowNiuMessage.ResEnter) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private boolean enter_ ;
+      /**
+       * <code>bool enter = 1;</code>
+       */
+      public boolean getEnter() {
+        return enter_;
+      }
+      /**
+       * <code>bool enter = 1;</code>
+       */
+      public Builder setEnter(boolean value) {
+        
+        enter_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool enter = 1;</code>
+       */
+      public Builder clearEnter() {
+        
+        enter_ = false;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:ResEnter)
+    }
+
+    // @@protoc_insertion_point(class_scope:ResEnter)
+    private static final TowNiuMessage.ResEnter DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new TowNiuMessage.ResEnter();
+    }
+
+    public static TowNiuMessage.ResEnter getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ResEnter>
+        PARSER = new com.google.protobuf.AbstractParser<ResEnter>() {
+      @java.lang.Override
+      public ResEnter parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ResEnter(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ResEnter> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResEnter> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public TowNiuMessage.ResEnter getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface playerInfoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:playerInfo)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string name = 1;</code>
+     */
+    java.lang.String getName();
+    /**
+     * <code>string name = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    /**
+     * <code>int32 head = 2;</code>
+     */
+    int getHead();
+
+    /**
+     * <code>int64 coin = 3;</code>
+     */
+    long getCoin();
+
+    /**
+     * <code>int32 posId = 4;</code>
+     */
+    int getPosId();
+
+    /**
+     * <pre>
+     *接下来都是可能有的字段
+     * </pre>
+     *
+     * <code>int32 bankerNum = 5;</code>
+     */
+    int getBankerNum();
+
+    /**
+     * <code>int32 bet = 6;</code>
+     */
+    int getBet();
+
+    /**
+     * <code>repeated int32 cards = 7;</code>
+     */
+    java.util.List<java.lang.Integer> getCardsList();
+    /**
+     * <code>repeated int32 cards = 7;</code>
+     */
+    int getCardsCount();
+    /**
+     * <code>repeated int32 cards = 7;</code>
+     */
+    int getCards(int index);
+
+    /**
+     * <code>int32 playerState = 8;</code>
+     */
+    int getPlayerState();
+  }
+  /**
+   * Protobuf type {@code playerInfo}
+   */
+  public  static final class playerInfo extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:playerInfo)
+      playerInfoOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use playerInfo.newBuilder() to construct.
+    private playerInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private playerInfo() {
+      name_ = "";
+      head_ = 0;
+      coin_ = 0L;
+      posId_ = 0;
+      bankerNum_ = 0;
+      bet_ = 0;
+      cards_ = java.util.Collections.emptyList();
+      playerState_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private playerInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              name_ = s;
+              break;
+            }
+            case 16: {
+
+              head_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              coin_ = input.readInt64();
+              break;
+            }
+            case 32: {
+
+              posId_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              bankerNum_ = input.readInt32();
+              break;
+            }
+            case 48: {
+
+              bet_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                cards_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              cards_.add(input.readInt32());
+              break;
+            }
+            case 58: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040) && input.getBytesUntilLimit() > 0) {
+                cards_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                cards_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 64: {
+
+              playerState_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          cards_ = java.util.Collections.unmodifiableList(cards_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TowNiuMessage.internal_static_playerInfo_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TowNiuMessage.internal_static_playerInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              TowNiuMessage.playerInfo.class, TowNiuMessage.playerInfo.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int NAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object name_;
+    /**
+     * <code>string name = 1;</code>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string name = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int HEAD_FIELD_NUMBER = 2;
+    private int head_;
+    /**
+     * <code>int32 head = 2;</code>
+     */
+    public int getHead() {
+      return head_;
+    }
+
+    public static final int COIN_FIELD_NUMBER = 3;
+    private long coin_;
+    /**
+     * <code>int64 coin = 3;</code>
+     */
+    public long getCoin() {
+      return coin_;
+    }
+
+    public static final int POSID_FIELD_NUMBER = 4;
+    private int posId_;
+    /**
+     * <code>int32 posId = 4;</code>
+     */
+    public int getPosId() {
+      return posId_;
+    }
+
+    public static final int BANKERNUM_FIELD_NUMBER = 5;
+    private int bankerNum_;
+    /**
+     * <pre>
+     *接下来都是可能有的字段
+     * </pre>
+     *
+     * <code>int32 bankerNum = 5;</code>
+     */
+    public int getBankerNum() {
+      return bankerNum_;
+    }
+
+    public static final int BET_FIELD_NUMBER = 6;
+    private int bet_;
+    /**
+     * <code>int32 bet = 6;</code>
+     */
+    public int getBet() {
+      return bet_;
+    }
+
+    public static final int CARDS_FIELD_NUMBER = 7;
+    private java.util.List<java.lang.Integer> cards_;
+    /**
+     * <code>repeated int32 cards = 7;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getCardsList() {
+      return cards_;
+    }
+    /**
+     * <code>repeated int32 cards = 7;</code>
+     */
+    public int getCardsCount() {
+      return cards_.size();
+    }
+    /**
+     * <code>repeated int32 cards = 7;</code>
+     */
+    public int getCards(int index) {
+      return cards_.get(index);
+    }
+    private int cardsMemoizedSerializedSize = -1;
+
+    public static final int PLAYERSTATE_FIELD_NUMBER = 8;
+    private int playerState_;
+    /**
+     * <code>int32 playerState = 8;</code>
+     */
+    public int getPlayerState() {
+      return playerState_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (!getNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
+      }
+      if (head_ != 0) {
+        output.writeInt32(2, head_);
+      }
+      if (coin_ != 0L) {
+        output.writeInt64(3, coin_);
+      }
+      if (posId_ != 0) {
+        output.writeInt32(4, posId_);
+      }
+      if (bankerNum_ != 0) {
+        output.writeInt32(5, bankerNum_);
+      }
+      if (bet_ != 0) {
+        output.writeInt32(6, bet_);
+      }
+      if (getCardsList().size() > 0) {
+        output.writeUInt32NoTag(58);
+        output.writeUInt32NoTag(cardsMemoizedSerializedSize);
+      }
+      for (int i = 0; i < cards_.size(); i++) {
+        output.writeInt32NoTag(cards_.get(i));
+      }
+      if (playerState_ != 0) {
+        output.writeInt32(8, playerState_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
+      }
+      if (head_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, head_);
+      }
+      if (coin_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, coin_);
+      }
+      if (posId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, posId_);
+      }
+      if (bankerNum_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, bankerNum_);
+      }
+      if (bet_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, bet_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < cards_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(cards_.get(i));
+        }
+        size += dataSize;
+        if (!getCardsList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        cardsMemoizedSerializedSize = dataSize;
+      }
+      if (playerState_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, playerState_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof TowNiuMessage.playerInfo)) {
+        return super.equals(obj);
+      }
+      TowNiuMessage.playerInfo other = (TowNiuMessage.playerInfo) obj;
+
+      boolean result = true;
+      result = result && getName()
+          .equals(other.getName());
+      result = result && (getHead()
+          == other.getHead());
+      result = result && (getCoin()
+          == other.getCoin());
+      result = result && (getPosId()
+          == other.getPosId());
+      result = result && (getBankerNum()
+          == other.getBankerNum());
+      result = result && (getBet()
+          == other.getBet());
+      result = result && getCardsList()
+          .equals(other.getCardsList());
+      result = result && (getPlayerState()
+          == other.getPlayerState());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      hash = (37 * hash) + HEAD_FIELD_NUMBER;
+      hash = (53 * hash) + getHead();
+      hash = (37 * hash) + COIN_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCoin());
+      hash = (37 * hash) + POSID_FIELD_NUMBER;
+      hash = (53 * hash) + getPosId();
+      hash = (37 * hash) + BANKERNUM_FIELD_NUMBER;
+      hash = (53 * hash) + getBankerNum();
+      hash = (37 * hash) + BET_FIELD_NUMBER;
+      hash = (53 * hash) + getBet();
+      if (getCardsCount() > 0) {
+        hash = (37 * hash) + CARDS_FIELD_NUMBER;
+        hash = (53 * hash) + getCardsList().hashCode();
+      }
+      hash = (37 * hash) + PLAYERSTATE_FIELD_NUMBER;
+      hash = (53 * hash) + getPlayerState();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static TowNiuMessage.playerInfo parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.playerInfo parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.playerInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.playerInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.playerInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.playerInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.playerInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.playerInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static TowNiuMessage.playerInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.playerInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static TowNiuMessage.playerInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.playerInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(TowNiuMessage.playerInfo prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code playerInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:playerInfo)
+        TowNiuMessage.playerInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TowNiuMessage.internal_static_playerInfo_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TowNiuMessage.internal_static_playerInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                TowNiuMessage.playerInfo.class, TowNiuMessage.playerInfo.Builder.class);
+      }
+
+      // Construct using TowNiuMessage.playerInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        name_ = "";
+
+        head_ = 0;
+
+        coin_ = 0L;
+
+        posId_ = 0;
+
+        bankerNum_ = 0;
+
+        bet_ = 0;
+
+        cards_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000040);
+        playerState_ = 0;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TowNiuMessage.internal_static_playerInfo_descriptor;
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.playerInfo getDefaultInstanceForType() {
+        return TowNiuMessage.playerInfo.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.playerInfo build() {
+        TowNiuMessage.playerInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.playerInfo buildPartial() {
+        TowNiuMessage.playerInfo result = new TowNiuMessage.playerInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.name_ = name_;
+        result.head_ = head_;
+        result.coin_ = coin_;
+        result.posId_ = posId_;
+        result.bankerNum_ = bankerNum_;
+        result.bet_ = bet_;
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          cards_ = java.util.Collections.unmodifiableList(cards_);
+          bitField0_ = (bitField0_ & ~0x00000040);
+        }
+        result.cards_ = cards_;
+        result.playerState_ = playerState_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof TowNiuMessage.playerInfo) {
+          return mergeFrom((TowNiuMessage.playerInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(TowNiuMessage.playerInfo other) {
+        if (other == TowNiuMessage.playerInfo.getDefaultInstance()) return this;
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.getHead() != 0) {
+          setHead(other.getHead());
+        }
+        if (other.getCoin() != 0L) {
+          setCoin(other.getCoin());
+        }
+        if (other.getPosId() != 0) {
+          setPosId(other.getPosId());
+        }
+        if (other.getBankerNum() != 0) {
+          setBankerNum(other.getBankerNum());
+        }
+        if (other.getBet() != 0) {
+          setBet(other.getBet());
+        }
+        if (!other.cards_.isEmpty()) {
+          if (cards_.isEmpty()) {
+            cards_ = other.cards_;
+            bitField0_ = (bitField0_ & ~0x00000040);
+          } else {
+            ensureCardsIsMutable();
+            cards_.addAll(other.cards_);
+          }
+          onChanged();
+        }
+        if (other.getPlayerState() != 0) {
+          setPlayerState(other.getPlayerState());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        TowNiuMessage.playerInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (TowNiuMessage.playerInfo) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object name_ = "";
+      /**
+       * <code>string name = 1;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public Builder clearName() {
+        
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int head_ ;
+      /**
+       * <code>int32 head = 2;</code>
+       */
+      public int getHead() {
+        return head_;
+      }
+      /**
+       * <code>int32 head = 2;</code>
+       */
+      public Builder setHead(int value) {
+        
+        head_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 head = 2;</code>
+       */
+      public Builder clearHead() {
+        
+        head_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long coin_ ;
+      /**
+       * <code>int64 coin = 3;</code>
+       */
+      public long getCoin() {
+        return coin_;
+      }
+      /**
+       * <code>int64 coin = 3;</code>
+       */
+      public Builder setCoin(long value) {
+        
+        coin_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 coin = 3;</code>
+       */
+      public Builder clearCoin() {
+        
+        coin_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int posId_ ;
+      /**
+       * <code>int32 posId = 4;</code>
+       */
+      public int getPosId() {
+        return posId_;
+      }
+      /**
+       * <code>int32 posId = 4;</code>
+       */
+      public Builder setPosId(int value) {
+        
+        posId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 posId = 4;</code>
+       */
+      public Builder clearPosId() {
+        
+        posId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int bankerNum_ ;
+      /**
+       * <pre>
+       *接下来都是可能有的字段
+       * </pre>
+       *
+       * <code>int32 bankerNum = 5;</code>
+       */
+      public int getBankerNum() {
+        return bankerNum_;
+      }
+      /**
+       * <pre>
+       *接下来都是可能有的字段
+       * </pre>
+       *
+       * <code>int32 bankerNum = 5;</code>
+       */
+      public Builder setBankerNum(int value) {
+        
+        bankerNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *接下来都是可能有的字段
+       * </pre>
+       *
+       * <code>int32 bankerNum = 5;</code>
+       */
+      public Builder clearBankerNum() {
+        
+        bankerNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int bet_ ;
+      /**
+       * <code>int32 bet = 6;</code>
+       */
+      public int getBet() {
+        return bet_;
+      }
+      /**
+       * <code>int32 bet = 6;</code>
+       */
+      public Builder setBet(int value) {
+        
+        bet_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 bet = 6;</code>
+       */
+      public Builder clearBet() {
+        
+        bet_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<java.lang.Integer> cards_ = java.util.Collections.emptyList();
+      private void ensureCardsIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          cards_ = new java.util.ArrayList<java.lang.Integer>(cards_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+      /**
+       * <code>repeated int32 cards = 7;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getCardsList() {
+        return java.util.Collections.unmodifiableList(cards_);
+      }
+      /**
+       * <code>repeated int32 cards = 7;</code>
+       */
+      public int getCardsCount() {
+        return cards_.size();
+      }
+      /**
+       * <code>repeated int32 cards = 7;</code>
+       */
+      public int getCards(int index) {
+        return cards_.get(index);
+      }
+      /**
+       * <code>repeated int32 cards = 7;</code>
+       */
+      public Builder setCards(
+          int index, int value) {
+        ensureCardsIsMutable();
+        cards_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 cards = 7;</code>
+       */
+      public Builder addCards(int value) {
+        ensureCardsIsMutable();
+        cards_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 cards = 7;</code>
+       */
+      public Builder addAllCards(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureCardsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, cards_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 cards = 7;</code>
+       */
+      public Builder clearCards() {
+        cards_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000040);
+        onChanged();
+        return this;
+      }
+
+      private int playerState_ ;
+      /**
+       * <code>int32 playerState = 8;</code>
+       */
+      public int getPlayerState() {
+        return playerState_;
+      }
+      /**
+       * <code>int32 playerState = 8;</code>
+       */
+      public Builder setPlayerState(int value) {
+        
+        playerState_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 playerState = 8;</code>
+       */
+      public Builder clearPlayerState() {
+        
+        playerState_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:playerInfo)
+    }
+
+    // @@protoc_insertion_point(class_scope:playerInfo)
+    private static final TowNiuMessage.playerInfo DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new TowNiuMessage.playerInfo();
+    }
+
+    public static TowNiuMessage.playerInfo getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<playerInfo>
+        PARSER = new com.google.protobuf.AbstractParser<playerInfo>() {
+      @java.lang.Override
+      public playerInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new playerInfo(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<playerInfo> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<playerInfo> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public TowNiuMessage.playerInfo getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ReqTableInfoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ReqTableInfo)
       com.google.protobuf.MessageOrBuilder {
@@ -4267,6 +5220,11 @@ public final class TowNiuMessage {
      * <code>int32 bankerPos = 7;</code>
      */
     int getBankerPos();
+
+    /**
+     * <code>int32 ownPos = 8;</code>
+     */
+    int getOwnPos();
   }
   /**
    * Protobuf type {@code ResTableInfo}
@@ -4287,6 +5245,7 @@ public final class TowNiuMessage {
       bet_ = 0;
       palyers_ = java.util.Collections.emptyList();
       bankerPos_ = 0;
+      ownPos_ = 0;
     }
 
     @java.lang.Override
@@ -4358,6 +5317,11 @@ public final class TowNiuMessage {
             case 56: {
 
               bankerPos_ = input.readInt32();
+              break;
+            }
+            case 64: {
+
+              ownPos_ = input.readInt32();
               break;
             }
             default: {
@@ -5162,6 +6126,15 @@ public final class TowNiuMessage {
       return bankerPos_;
     }
 
+    public static final int OWNPOS_FIELD_NUMBER = 8;
+    private int ownPos_;
+    /**
+     * <code>int32 ownPos = 8;</code>
+     */
+    public int getOwnPos() {
+      return ownPos_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -5196,6 +6169,9 @@ public final class TowNiuMessage {
       }
       if (bankerPos_ != 0) {
         output.writeInt32(7, bankerPos_);
+      }
+      if (ownPos_ != 0) {
+        output.writeInt32(8, ownPos_);
       }
       unknownFields.writeTo(output);
     }
@@ -5234,6 +6210,10 @@ public final class TowNiuMessage {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, bankerPos_);
       }
+      if (ownPos_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, ownPos_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -5267,6 +6247,8 @@ public final class TowNiuMessage {
       }
       result = result && (getBankerPos()
           == other.getBankerPos());
+      result = result && (getOwnPos()
+          == other.getOwnPos());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -5296,6 +6278,8 @@ public final class TowNiuMessage {
       }
       hash = (37 * hash) + BANKERPOS_FIELD_NUMBER;
       hash = (53 * hash) + getBankerPos();
+      hash = (37 * hash) + OWNPOS_FIELD_NUMBER;
+      hash = (53 * hash) + getOwnPos();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5452,6 +6436,8 @@ public final class TowNiuMessage {
         }
         bankerPos_ = 0;
 
+        ownPos_ = 0;
+
         return this;
       }
 
@@ -5499,6 +6485,7 @@ public final class TowNiuMessage {
           result.timeCf_ = timeCfBuilder_.build();
         }
         result.bankerPos_ = bankerPos_;
+        result.ownPos_ = ownPos_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5591,6 +6578,9 @@ public final class TowNiuMessage {
         }
         if (other.getBankerPos() != 0) {
           setBankerPos(other.getBankerPos());
+        }
+        if (other.getOwnPos() != 0) {
+          setOwnPos(other.getOwnPos());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -6108,6 +7098,32 @@ public final class TowNiuMessage {
         onChanged();
         return this;
       }
+
+      private int ownPos_ ;
+      /**
+       * <code>int32 ownPos = 8;</code>
+       */
+      public int getOwnPos() {
+        return ownPos_;
+      }
+      /**
+       * <code>int32 ownPos = 8;</code>
+       */
+      public Builder setOwnPos(int value) {
+        
+        ownPos_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 ownPos = 8;</code>
+       */
+      public Builder clearOwnPos() {
+        
+        ownPos_ = 0;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -6156,1089 +7172,6 @@ public final class TowNiuMessage {
 
     @java.lang.Override
     public TowNiuMessage.ResTableInfo getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface ReqEnterOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ReqEnter)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 roomId = 1;</code>
-     */
-    int getRoomId();
-  }
-  /**
-   * Protobuf type {@code ReqEnter}
-   */
-  public  static final class ReqEnter extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:ReqEnter)
-      ReqEnterOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use ReqEnter.newBuilder() to construct.
-    private ReqEnter(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private ReqEnter() {
-      roomId_ = 0;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ReqEnter(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-
-              roomId_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return TowNiuMessage.internal_static_ReqEnter_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return TowNiuMessage.internal_static_ReqEnter_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              TowNiuMessage.ReqEnter.class, TowNiuMessage.ReqEnter.Builder.class);
-    }
-
-    public static final int ROOMID_FIELD_NUMBER = 1;
-    private int roomId_;
-    /**
-     * <code>int32 roomId = 1;</code>
-     */
-    public int getRoomId() {
-      return roomId_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (roomId_ != 0) {
-        output.writeInt32(1, roomId_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (roomId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, roomId_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof TowNiuMessage.ReqEnter)) {
-        return super.equals(obj);
-      }
-      TowNiuMessage.ReqEnter other = (TowNiuMessage.ReqEnter) obj;
-
-      boolean result = true;
-      result = result && (getRoomId()
-          == other.getRoomId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ROOMID_FIELD_NUMBER;
-      hash = (53 * hash) + getRoomId();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static TowNiuMessage.ReqEnter parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static TowNiuMessage.ReqEnter parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static TowNiuMessage.ReqEnter parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static TowNiuMessage.ReqEnter parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static TowNiuMessage.ReqEnter parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static TowNiuMessage.ReqEnter parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static TowNiuMessage.ReqEnter parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static TowNiuMessage.ReqEnter parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static TowNiuMessage.ReqEnter parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static TowNiuMessage.ReqEnter parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static TowNiuMessage.ReqEnter parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static TowNiuMessage.ReqEnter parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(TowNiuMessage.ReqEnter prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code ReqEnter}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:ReqEnter)
-        TowNiuMessage.ReqEnterOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return TowNiuMessage.internal_static_ReqEnter_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return TowNiuMessage.internal_static_ReqEnter_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                TowNiuMessage.ReqEnter.class, TowNiuMessage.ReqEnter.Builder.class);
-      }
-
-      // Construct using TowNiuMessage.ReqEnter.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        roomId_ = 0;
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return TowNiuMessage.internal_static_ReqEnter_descriptor;
-      }
-
-      @java.lang.Override
-      public TowNiuMessage.ReqEnter getDefaultInstanceForType() {
-        return TowNiuMessage.ReqEnter.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public TowNiuMessage.ReqEnter build() {
-        TowNiuMessage.ReqEnter result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public TowNiuMessage.ReqEnter buildPartial() {
-        TowNiuMessage.ReqEnter result = new TowNiuMessage.ReqEnter(this);
-        result.roomId_ = roomId_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TowNiuMessage.ReqEnter) {
-          return mergeFrom((TowNiuMessage.ReqEnter)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(TowNiuMessage.ReqEnter other) {
-        if (other == TowNiuMessage.ReqEnter.getDefaultInstance()) return this;
-        if (other.getRoomId() != 0) {
-          setRoomId(other.getRoomId());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        TowNiuMessage.ReqEnter parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TowNiuMessage.ReqEnter) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private int roomId_ ;
-      /**
-       * <code>int32 roomId = 1;</code>
-       */
-      public int getRoomId() {
-        return roomId_;
-      }
-      /**
-       * <code>int32 roomId = 1;</code>
-       */
-      public Builder setRoomId(int value) {
-        
-        roomId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 roomId = 1;</code>
-       */
-      public Builder clearRoomId() {
-        
-        roomId_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:ReqEnter)
-    }
-
-    // @@protoc_insertion_point(class_scope:ReqEnter)
-    private static final TowNiuMessage.ReqEnter DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new TowNiuMessage.ReqEnter();
-    }
-
-    public static TowNiuMessage.ReqEnter getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<ReqEnter>
-        PARSER = new com.google.protobuf.AbstractParser<ReqEnter>() {
-      @java.lang.Override
-      public ReqEnter parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ReqEnter(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<ReqEnter> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ReqEnter> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public TowNiuMessage.ReqEnter getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface ResPlayerEnterOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ResPlayerEnter)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>.playerInfo player = 1;</code>
-     */
-    boolean hasPlayer();
-    /**
-     * <code>.playerInfo player = 1;</code>
-     */
-    TowNiuMessage.playerInfo getPlayer();
-    /**
-     * <code>.playerInfo player = 1;</code>
-     */
-    TowNiuMessage.playerInfoOrBuilder getPlayerOrBuilder();
-  }
-  /**
-   * Protobuf type {@code ResPlayerEnter}
-   */
-  public  static final class ResPlayerEnter extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:ResPlayerEnter)
-      ResPlayerEnterOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use ResPlayerEnter.newBuilder() to construct.
-    private ResPlayerEnter(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private ResPlayerEnter() {
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ResPlayerEnter(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              TowNiuMessage.playerInfo.Builder subBuilder = null;
-              if (player_ != null) {
-                subBuilder = player_.toBuilder();
-              }
-              player_ = input.readMessage(TowNiuMessage.playerInfo.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(player_);
-                player_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return TowNiuMessage.internal_static_ResPlayerEnter_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return TowNiuMessage.internal_static_ResPlayerEnter_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              TowNiuMessage.ResPlayerEnter.class, TowNiuMessage.ResPlayerEnter.Builder.class);
-    }
-
-    public static final int PLAYER_FIELD_NUMBER = 1;
-    private TowNiuMessage.playerInfo player_;
-    /**
-     * <code>.playerInfo player = 1;</code>
-     */
-    public boolean hasPlayer() {
-      return player_ != null;
-    }
-    /**
-     * <code>.playerInfo player = 1;</code>
-     */
-    public TowNiuMessage.playerInfo getPlayer() {
-      return player_ == null ? TowNiuMessage.playerInfo.getDefaultInstance() : player_;
-    }
-    /**
-     * <code>.playerInfo player = 1;</code>
-     */
-    public TowNiuMessage.playerInfoOrBuilder getPlayerOrBuilder() {
-      return getPlayer();
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (player_ != null) {
-        output.writeMessage(1, getPlayer());
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (player_ != null) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getPlayer());
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof TowNiuMessage.ResPlayerEnter)) {
-        return super.equals(obj);
-      }
-      TowNiuMessage.ResPlayerEnter other = (TowNiuMessage.ResPlayerEnter) obj;
-
-      boolean result = true;
-      result = result && (hasPlayer() == other.hasPlayer());
-      if (hasPlayer()) {
-        result = result && getPlayer()
-            .equals(other.getPlayer());
-      }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasPlayer()) {
-        hash = (37 * hash) + PLAYER_FIELD_NUMBER;
-        hash = (53 * hash) + getPlayer().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static TowNiuMessage.ResPlayerEnter parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static TowNiuMessage.ResPlayerEnter parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(TowNiuMessage.ResPlayerEnter prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code ResPlayerEnter}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:ResPlayerEnter)
-        TowNiuMessage.ResPlayerEnterOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return TowNiuMessage.internal_static_ResPlayerEnter_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return TowNiuMessage.internal_static_ResPlayerEnter_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                TowNiuMessage.ResPlayerEnter.class, TowNiuMessage.ResPlayerEnter.Builder.class);
-      }
-
-      // Construct using TowNiuMessage.ResPlayerEnter.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        if (playerBuilder_ == null) {
-          player_ = null;
-        } else {
-          player_ = null;
-          playerBuilder_ = null;
-        }
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return TowNiuMessage.internal_static_ResPlayerEnter_descriptor;
-      }
-
-      @java.lang.Override
-      public TowNiuMessage.ResPlayerEnter getDefaultInstanceForType() {
-        return TowNiuMessage.ResPlayerEnter.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public TowNiuMessage.ResPlayerEnter build() {
-        TowNiuMessage.ResPlayerEnter result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public TowNiuMessage.ResPlayerEnter buildPartial() {
-        TowNiuMessage.ResPlayerEnter result = new TowNiuMessage.ResPlayerEnter(this);
-        if (playerBuilder_ == null) {
-          result.player_ = player_;
-        } else {
-          result.player_ = playerBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TowNiuMessage.ResPlayerEnter) {
-          return mergeFrom((TowNiuMessage.ResPlayerEnter)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(TowNiuMessage.ResPlayerEnter other) {
-        if (other == TowNiuMessage.ResPlayerEnter.getDefaultInstance()) return this;
-        if (other.hasPlayer()) {
-          mergePlayer(other.getPlayer());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        TowNiuMessage.ResPlayerEnter parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TowNiuMessage.ResPlayerEnter) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private TowNiuMessage.playerInfo player_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          TowNiuMessage.playerInfo, TowNiuMessage.playerInfo.Builder, TowNiuMessage.playerInfoOrBuilder> playerBuilder_;
-      /**
-       * <code>.playerInfo player = 1;</code>
-       */
-      public boolean hasPlayer() {
-        return playerBuilder_ != null || player_ != null;
-      }
-      /**
-       * <code>.playerInfo player = 1;</code>
-       */
-      public TowNiuMessage.playerInfo getPlayer() {
-        if (playerBuilder_ == null) {
-          return player_ == null ? TowNiuMessage.playerInfo.getDefaultInstance() : player_;
-        } else {
-          return playerBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>.playerInfo player = 1;</code>
-       */
-      public Builder setPlayer(TowNiuMessage.playerInfo value) {
-        if (playerBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          player_ = value;
-          onChanged();
-        } else {
-          playerBuilder_.setMessage(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.playerInfo player = 1;</code>
-       */
-      public Builder setPlayer(
-          TowNiuMessage.playerInfo.Builder builderForValue) {
-        if (playerBuilder_ == null) {
-          player_ = builderForValue.build();
-          onChanged();
-        } else {
-          playerBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.playerInfo player = 1;</code>
-       */
-      public Builder mergePlayer(TowNiuMessage.playerInfo value) {
-        if (playerBuilder_ == null) {
-          if (player_ != null) {
-            player_ =
-              TowNiuMessage.playerInfo.newBuilder(player_).mergeFrom(value).buildPartial();
-          } else {
-            player_ = value;
-          }
-          onChanged();
-        } else {
-          playerBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.playerInfo player = 1;</code>
-       */
-      public Builder clearPlayer() {
-        if (playerBuilder_ == null) {
-          player_ = null;
-          onChanged();
-        } else {
-          player_ = null;
-          playerBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.playerInfo player = 1;</code>
-       */
-      public TowNiuMessage.playerInfo.Builder getPlayerBuilder() {
-        
-        onChanged();
-        return getPlayerFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.playerInfo player = 1;</code>
-       */
-      public TowNiuMessage.playerInfoOrBuilder getPlayerOrBuilder() {
-        if (playerBuilder_ != null) {
-          return playerBuilder_.getMessageOrBuilder();
-        } else {
-          return player_ == null ?
-              TowNiuMessage.playerInfo.getDefaultInstance() : player_;
-        }
-      }
-      /**
-       * <code>.playerInfo player = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          TowNiuMessage.playerInfo, TowNiuMessage.playerInfo.Builder, TowNiuMessage.playerInfoOrBuilder> 
-          getPlayerFieldBuilder() {
-        if (playerBuilder_ == null) {
-          playerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              TowNiuMessage.playerInfo, TowNiuMessage.playerInfo.Builder, TowNiuMessage.playerInfoOrBuilder>(
-                  getPlayer(),
-                  getParentForChildren(),
-                  isClean());
-          player_ = null;
-        }
-        return playerBuilder_;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:ResPlayerEnter)
-    }
-
-    // @@protoc_insertion_point(class_scope:ResPlayerEnter)
-    private static final TowNiuMessage.ResPlayerEnter DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new TowNiuMessage.ResPlayerEnter();
-    }
-
-    public static TowNiuMessage.ResPlayerEnter getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<ResPlayerEnter>
-        PARSER = new com.google.protobuf.AbstractParser<ResPlayerEnter>() {
-      @java.lang.Override
-      public ResPlayerEnter parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ResPlayerEnter(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<ResPlayerEnter> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ResPlayerEnter> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public TowNiuMessage.ResPlayerEnter getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -9617,29 +9550,17 @@ public final class TowNiuMessage {
     int getCurrPos();
 
     /**
-     * <pre>
-     *如果是自己的话下注的倍数
-     * </pre>
-     *
-     * <code>repeated int32 bets = 3 [packed = true];</code>
+     * <code>repeated int32 allBets = 3;</code>
      */
-    java.util.List<java.lang.Integer> getBetsList();
+    java.util.List<java.lang.Integer> getAllBetsList();
     /**
-     * <pre>
-     *如果是自己的话下注的倍数
-     * </pre>
-     *
-     * <code>repeated int32 bets = 3 [packed = true];</code>
+     * <code>repeated int32 allBets = 3;</code>
      */
-    int getBetsCount();
+    int getAllBetsCount();
     /**
-     * <pre>
-     *如果是自己的话下注的倍数
-     * </pre>
-     *
-     * <code>repeated int32 bets = 3 [packed = true];</code>
+     * <code>repeated int32 allBets = 3;</code>
      */
-    int getBets(int index);
+    int getAllBets(int index);
   }
   /**
    * Protobuf type {@code ResBetProd}
@@ -9656,7 +9577,7 @@ public final class TowNiuMessage {
     private ResBetProd() {
       banker_ = 0;
       currPos_ = 0;
-      bets_ = java.util.Collections.emptyList();
+      allBets_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -9695,21 +9616,21 @@ public final class TowNiuMessage {
             }
             case 24: {
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                bets_ = new java.util.ArrayList<java.lang.Integer>();
+                allBets_ = new java.util.ArrayList<java.lang.Integer>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              bets_.add(input.readInt32());
+              allBets_.add(input.readInt32());
               break;
             }
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                bets_ = new java.util.ArrayList<java.lang.Integer>();
+                allBets_ = new java.util.ArrayList<java.lang.Integer>();
                 mutable_bitField0_ |= 0x00000004;
               }
               while (input.getBytesUntilLimit() > 0) {
-                bets_.add(input.readInt32());
+                allBets_.add(input.readInt32());
               }
               input.popLimit(limit);
               break;
@@ -9730,7 +9651,7 @@ public final class TowNiuMessage {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          bets_ = java.util.Collections.unmodifiableList(bets_);
+          allBets_ = java.util.Collections.unmodifiableList(allBets_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -9768,40 +9689,28 @@ public final class TowNiuMessage {
       return currPos_;
     }
 
-    public static final int BETS_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Integer> bets_;
+    public static final int ALLBETS_FIELD_NUMBER = 3;
+    private java.util.List<java.lang.Integer> allBets_;
     /**
-     * <pre>
-     *如果是自己的话下注的倍数
-     * </pre>
-     *
-     * <code>repeated int32 bets = 3 [packed = true];</code>
+     * <code>repeated int32 allBets = 3;</code>
      */
     public java.util.List<java.lang.Integer>
-        getBetsList() {
-      return bets_;
+        getAllBetsList() {
+      return allBets_;
     }
     /**
-     * <pre>
-     *如果是自己的话下注的倍数
-     * </pre>
-     *
-     * <code>repeated int32 bets = 3 [packed = true];</code>
+     * <code>repeated int32 allBets = 3;</code>
      */
-    public int getBetsCount() {
-      return bets_.size();
+    public int getAllBetsCount() {
+      return allBets_.size();
     }
     /**
-     * <pre>
-     *如果是自己的话下注的倍数
-     * </pre>
-     *
-     * <code>repeated int32 bets = 3 [packed = true];</code>
+     * <code>repeated int32 allBets = 3;</code>
      */
-    public int getBets(int index) {
-      return bets_.get(index);
+    public int getAllBets(int index) {
+      return allBets_.get(index);
     }
-    private int betsMemoizedSerializedSize = -1;
+    private int allBetsMemoizedSerializedSize = -1;
 
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
@@ -9824,12 +9733,12 @@ public final class TowNiuMessage {
       if (currPos_ != 0) {
         output.writeInt32(2, currPos_);
       }
-      if (getBetsList().size() > 0) {
+      if (getAllBetsList().size() > 0) {
         output.writeUInt32NoTag(26);
-        output.writeUInt32NoTag(betsMemoizedSerializedSize);
+        output.writeUInt32NoTag(allBetsMemoizedSerializedSize);
       }
-      for (int i = 0; i < bets_.size(); i++) {
-        output.writeInt32NoTag(bets_.get(i));
+      for (int i = 0; i < allBets_.size(); i++) {
+        output.writeInt32NoTag(allBets_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -9850,17 +9759,17 @@ public final class TowNiuMessage {
       }
       {
         int dataSize = 0;
-        for (int i = 0; i < bets_.size(); i++) {
+        for (int i = 0; i < allBets_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(bets_.get(i));
+            .computeInt32SizeNoTag(allBets_.get(i));
         }
         size += dataSize;
-        if (!getBetsList().isEmpty()) {
+        if (!getAllBetsList().isEmpty()) {
           size += 1;
           size += com.google.protobuf.CodedOutputStream
               .computeInt32SizeNoTag(dataSize);
         }
-        betsMemoizedSerializedSize = dataSize;
+        allBetsMemoizedSerializedSize = dataSize;
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9882,8 +9791,8 @@ public final class TowNiuMessage {
           == other.getBanker());
       result = result && (getCurrPos()
           == other.getCurrPos());
-      result = result && getBetsList()
-          .equals(other.getBetsList());
+      result = result && getAllBetsList()
+          .equals(other.getAllBetsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -9899,9 +9808,9 @@ public final class TowNiuMessage {
       hash = (53 * hash) + getBanker();
       hash = (37 * hash) + CURRPOS_FIELD_NUMBER;
       hash = (53 * hash) + getCurrPos();
-      if (getBetsCount() > 0) {
-        hash = (37 * hash) + BETS_FIELD_NUMBER;
-        hash = (53 * hash) + getBetsList().hashCode();
+      if (getAllBetsCount() > 0) {
+        hash = (37 * hash) + ALLBETS_FIELD_NUMBER;
+        hash = (53 * hash) + getAllBetsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -10040,7 +9949,7 @@ public final class TowNiuMessage {
 
         currPos_ = 0;
 
-        bets_ = java.util.Collections.emptyList();
+        allBets_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -10073,10 +9982,10 @@ public final class TowNiuMessage {
         result.banker_ = banker_;
         result.currPos_ = currPos_;
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          bets_ = java.util.Collections.unmodifiableList(bets_);
+          allBets_ = java.util.Collections.unmodifiableList(allBets_);
           bitField0_ = (bitField0_ & ~0x00000004);
         }
-        result.bets_ = bets_;
+        result.allBets_ = allBets_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10132,13 +10041,13 @@ public final class TowNiuMessage {
         if (other.getCurrPos() != 0) {
           setCurrPos(other.getCurrPos());
         }
-        if (!other.bets_.isEmpty()) {
-          if (bets_.isEmpty()) {
-            bets_ = other.bets_;
+        if (!other.allBets_.isEmpty()) {
+          if (allBets_.isEmpty()) {
+            allBets_ = other.allBets_;
             bitField0_ = (bitField0_ & ~0x00000004);
           } else {
-            ensureBetsIsMutable();
-            bets_.addAll(other.bets_);
+            ensureAllBetsIsMutable();
+            allBets_.addAll(other.allBets_);
           }
           onChanged();
         }
@@ -10224,95 +10133,67 @@ public final class TowNiuMessage {
         return this;
       }
 
-      private java.util.List<java.lang.Integer> bets_ = java.util.Collections.emptyList();
-      private void ensureBetsIsMutable() {
+      private java.util.List<java.lang.Integer> allBets_ = java.util.Collections.emptyList();
+      private void ensureAllBetsIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          bets_ = new java.util.ArrayList<java.lang.Integer>(bets_);
+          allBets_ = new java.util.ArrayList<java.lang.Integer>(allBets_);
           bitField0_ |= 0x00000004;
          }
       }
       /**
-       * <pre>
-       *如果是自己的话下注的倍数
-       * </pre>
-       *
-       * <code>repeated int32 bets = 3 [packed = true];</code>
+       * <code>repeated int32 allBets = 3;</code>
        */
       public java.util.List<java.lang.Integer>
-          getBetsList() {
-        return java.util.Collections.unmodifiableList(bets_);
+          getAllBetsList() {
+        return java.util.Collections.unmodifiableList(allBets_);
       }
       /**
-       * <pre>
-       *如果是自己的话下注的倍数
-       * </pre>
-       *
-       * <code>repeated int32 bets = 3 [packed = true];</code>
+       * <code>repeated int32 allBets = 3;</code>
        */
-      public int getBetsCount() {
-        return bets_.size();
+      public int getAllBetsCount() {
+        return allBets_.size();
       }
       /**
-       * <pre>
-       *如果是自己的话下注的倍数
-       * </pre>
-       *
-       * <code>repeated int32 bets = 3 [packed = true];</code>
+       * <code>repeated int32 allBets = 3;</code>
        */
-      public int getBets(int index) {
-        return bets_.get(index);
+      public int getAllBets(int index) {
+        return allBets_.get(index);
       }
       /**
-       * <pre>
-       *如果是自己的话下注的倍数
-       * </pre>
-       *
-       * <code>repeated int32 bets = 3 [packed = true];</code>
+       * <code>repeated int32 allBets = 3;</code>
        */
-      public Builder setBets(
+      public Builder setAllBets(
           int index, int value) {
-        ensureBetsIsMutable();
-        bets_.set(index, value);
+        ensureAllBetsIsMutable();
+        allBets_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <pre>
-       *如果是自己的话下注的倍数
-       * </pre>
-       *
-       * <code>repeated int32 bets = 3 [packed = true];</code>
+       * <code>repeated int32 allBets = 3;</code>
        */
-      public Builder addBets(int value) {
-        ensureBetsIsMutable();
-        bets_.add(value);
+      public Builder addAllBets(int value) {
+        ensureAllBetsIsMutable();
+        allBets_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <pre>
-       *如果是自己的话下注的倍数
-       * </pre>
-       *
-       * <code>repeated int32 bets = 3 [packed = true];</code>
+       * <code>repeated int32 allBets = 3;</code>
        */
-      public Builder addAllBets(
+      public Builder addAllAllBets(
           java.lang.Iterable<? extends java.lang.Integer> values) {
-        ensureBetsIsMutable();
+        ensureAllBetsIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, bets_);
+            values, allBets_);
         onChanged();
         return this;
       }
       /**
-       * <pre>
-       *如果是自己的话下注的倍数
-       * </pre>
-       *
-       * <code>repeated int32 bets = 3 [packed = true];</code>
+       * <code>repeated int32 allBets = 3;</code>
        */
-      public Builder clearBets() {
-        bets_ = java.util.Collections.emptyList();
+      public Builder clearAllBets() {
+        allBets_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
@@ -16065,23 +15946,23 @@ public final class TowNiuMessage {
 
   }
 
-  public interface exitRoomOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:exitRoom)
+  public interface ReqExitRoomOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ReqExitRoom)
       com.google.protobuf.MessageOrBuilder {
   }
   /**
-   * Protobuf type {@code exitRoom}
+   * Protobuf type {@code ReqExitRoom}
    */
-  public  static final class exitRoom extends
+  public  static final class ReqExitRoom extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:exitRoom)
-      exitRoomOrBuilder {
+      // @@protoc_insertion_point(message_implements:ReqExitRoom)
+      ReqExitRoomOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use exitRoom.newBuilder() to construct.
-    private exitRoom(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ReqExitRoom.newBuilder() to construct.
+    private ReqExitRoom(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private exitRoom() {
+    private ReqExitRoom() {
     }
 
     @java.lang.Override
@@ -16089,7 +15970,7 @@ public final class TowNiuMessage {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private exitRoom(
+    private ReqExitRoom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -16128,15 +16009,15 @@ public final class TowNiuMessage {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return TowNiuMessage.internal_static_exitRoom_descriptor;
+      return TowNiuMessage.internal_static_ReqExitRoom_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return TowNiuMessage.internal_static_exitRoom_fieldAccessorTable
+      return TowNiuMessage.internal_static_ReqExitRoom_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              TowNiuMessage.exitRoom.class, TowNiuMessage.exitRoom.Builder.class);
+              TowNiuMessage.ReqExitRoom.class, TowNiuMessage.ReqExitRoom.Builder.class);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -16172,10 +16053,10 @@ public final class TowNiuMessage {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof TowNiuMessage.exitRoom)) {
+      if (!(obj instanceof TowNiuMessage.ReqExitRoom)) {
         return super.equals(obj);
       }
-      TowNiuMessage.exitRoom other = (TowNiuMessage.exitRoom) obj;
+      TowNiuMessage.ReqExitRoom other = (TowNiuMessage.ReqExitRoom) obj;
 
       boolean result = true;
       result = result && unknownFields.equals(other.unknownFields);
@@ -16194,69 +16075,69 @@ public final class TowNiuMessage {
       return hash;
     }
 
-    public static TowNiuMessage.exitRoom parseFrom(
+    public static TowNiuMessage.ReqExitRoom parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static TowNiuMessage.exitRoom parseFrom(
+    public static TowNiuMessage.ReqExitRoom parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static TowNiuMessage.exitRoom parseFrom(
+    public static TowNiuMessage.ReqExitRoom parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static TowNiuMessage.exitRoom parseFrom(
+    public static TowNiuMessage.ReqExitRoom parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static TowNiuMessage.exitRoom parseFrom(byte[] data)
+    public static TowNiuMessage.ReqExitRoom parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static TowNiuMessage.exitRoom parseFrom(
+    public static TowNiuMessage.ReqExitRoom parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static TowNiuMessage.exitRoom parseFrom(java.io.InputStream input)
+    public static TowNiuMessage.ReqExitRoom parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static TowNiuMessage.exitRoom parseFrom(
+    public static TowNiuMessage.ReqExitRoom parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static TowNiuMessage.exitRoom parseDelimitedFrom(java.io.InputStream input)
+    public static TowNiuMessage.ReqExitRoom parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static TowNiuMessage.exitRoom parseDelimitedFrom(
+    public static TowNiuMessage.ReqExitRoom parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static TowNiuMessage.exitRoom parseFrom(
+    public static TowNiuMessage.ReqExitRoom parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static TowNiuMessage.exitRoom parseFrom(
+    public static TowNiuMessage.ReqExitRoom parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -16269,7 +16150,7 @@ public final class TowNiuMessage {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(TowNiuMessage.exitRoom prototype) {
+    public static Builder newBuilder(TowNiuMessage.ReqExitRoom prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -16285,26 +16166,26 @@ public final class TowNiuMessage {
       return builder;
     }
     /**
-     * Protobuf type {@code exitRoom}
+     * Protobuf type {@code ReqExitRoom}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:exitRoom)
-        TowNiuMessage.exitRoomOrBuilder {
+        // @@protoc_insertion_point(builder_implements:ReqExitRoom)
+        TowNiuMessage.ReqExitRoomOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return TowNiuMessage.internal_static_exitRoom_descriptor;
+        return TowNiuMessage.internal_static_ReqExitRoom_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return TowNiuMessage.internal_static_exitRoom_fieldAccessorTable
+        return TowNiuMessage.internal_static_ReqExitRoom_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                TowNiuMessage.exitRoom.class, TowNiuMessage.exitRoom.Builder.class);
+                TowNiuMessage.ReqExitRoom.class, TowNiuMessage.ReqExitRoom.Builder.class);
       }
 
-      // Construct using TowNiuMessage.exitRoom.newBuilder()
+      // Construct using TowNiuMessage.ReqExitRoom.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -16328,17 +16209,17 @@ public final class TowNiuMessage {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return TowNiuMessage.internal_static_exitRoom_descriptor;
+        return TowNiuMessage.internal_static_ReqExitRoom_descriptor;
       }
 
       @java.lang.Override
-      public TowNiuMessage.exitRoom getDefaultInstanceForType() {
-        return TowNiuMessage.exitRoom.getDefaultInstance();
+      public TowNiuMessage.ReqExitRoom getDefaultInstanceForType() {
+        return TowNiuMessage.ReqExitRoom.getDefaultInstance();
       }
 
       @java.lang.Override
-      public TowNiuMessage.exitRoom build() {
-        TowNiuMessage.exitRoom result = buildPartial();
+      public TowNiuMessage.ReqExitRoom build() {
+        TowNiuMessage.ReqExitRoom result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -16346,8 +16227,8 @@ public final class TowNiuMessage {
       }
 
       @java.lang.Override
-      public TowNiuMessage.exitRoom buildPartial() {
-        TowNiuMessage.exitRoom result = new TowNiuMessage.exitRoom(this);
+      public TowNiuMessage.ReqExitRoom buildPartial() {
+        TowNiuMessage.ReqExitRoom result = new TowNiuMessage.ReqExitRoom(this);
         onBuilt();
         return result;
       }
@@ -16386,16 +16267,16 @@ public final class TowNiuMessage {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof TowNiuMessage.exitRoom) {
-          return mergeFrom((TowNiuMessage.exitRoom)other);
+        if (other instanceof TowNiuMessage.ReqExitRoom) {
+          return mergeFrom((TowNiuMessage.ReqExitRoom)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(TowNiuMessage.exitRoom other) {
-        if (other == TowNiuMessage.exitRoom.getDefaultInstance()) return this;
+      public Builder mergeFrom(TowNiuMessage.ReqExitRoom other) {
+        if (other == TowNiuMessage.ReqExitRoom.getDefaultInstance()) return this;
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -16411,11 +16292,11 @@ public final class TowNiuMessage {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        TowNiuMessage.exitRoom parsedMessage = null;
+        TowNiuMessage.ReqExitRoom parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (TowNiuMessage.exitRoom) e.getUnfinishedMessage();
+          parsedMessage = (TowNiuMessage.ReqExitRoom) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -16437,41 +16318,517 @@ public final class TowNiuMessage {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:exitRoom)
+      // @@protoc_insertion_point(builder_scope:ReqExitRoom)
     }
 
-    // @@protoc_insertion_point(class_scope:exitRoom)
-    private static final TowNiuMessage.exitRoom DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:ReqExitRoom)
+    private static final TowNiuMessage.ReqExitRoom DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new TowNiuMessage.exitRoom();
+      DEFAULT_INSTANCE = new TowNiuMessage.ReqExitRoom();
     }
 
-    public static TowNiuMessage.exitRoom getDefaultInstance() {
+    public static TowNiuMessage.ReqExitRoom getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<exitRoom>
-        PARSER = new com.google.protobuf.AbstractParser<exitRoom>() {
+    private static final com.google.protobuf.Parser<ReqExitRoom>
+        PARSER = new com.google.protobuf.AbstractParser<ReqExitRoom>() {
       @java.lang.Override
-      public exitRoom parsePartialFrom(
+      public ReqExitRoom parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new exitRoom(input, extensionRegistry);
+        return new ReqExitRoom(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<exitRoom> parser() {
+    public static com.google.protobuf.Parser<ReqExitRoom> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<exitRoom> getParserForType() {
+    public com.google.protobuf.Parser<ReqExitRoom> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public TowNiuMessage.exitRoom getDefaultInstanceForType() {
+    public TowNiuMessage.ReqExitRoom getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ResExitRoomOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ResExitRoom)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 posId = 1;</code>
+     */
+    int getPosId();
+  }
+  /**
+   * Protobuf type {@code ResExitRoom}
+   */
+  public  static final class ResExitRoom extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:ResExitRoom)
+      ResExitRoomOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ResExitRoom.newBuilder() to construct.
+    private ResExitRoom(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ResExitRoom() {
+      posId_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ResExitRoom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              posId_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return TowNiuMessage.internal_static_ResExitRoom_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return TowNiuMessage.internal_static_ResExitRoom_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              TowNiuMessage.ResExitRoom.class, TowNiuMessage.ResExitRoom.Builder.class);
+    }
+
+    public static final int POSID_FIELD_NUMBER = 1;
+    private int posId_;
+    /**
+     * <code>int32 posId = 1;</code>
+     */
+    public int getPosId() {
+      return posId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (posId_ != 0) {
+        output.writeInt32(1, posId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (posId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, posId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof TowNiuMessage.ResExitRoom)) {
+        return super.equals(obj);
+      }
+      TowNiuMessage.ResExitRoom other = (TowNiuMessage.ResExitRoom) obj;
+
+      boolean result = true;
+      result = result && (getPosId()
+          == other.getPosId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + POSID_FIELD_NUMBER;
+      hash = (53 * hash) + getPosId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static TowNiuMessage.ResExitRoom parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.ResExitRoom parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.ResExitRoom parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.ResExitRoom parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.ResExitRoom parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static TowNiuMessage.ResExitRoom parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static TowNiuMessage.ResExitRoom parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.ResExitRoom parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static TowNiuMessage.ResExitRoom parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.ResExitRoom parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static TowNiuMessage.ResExitRoom parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static TowNiuMessage.ResExitRoom parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(TowNiuMessage.ResExitRoom prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ResExitRoom}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ResExitRoom)
+        TowNiuMessage.ResExitRoomOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return TowNiuMessage.internal_static_ResExitRoom_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return TowNiuMessage.internal_static_ResExitRoom_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                TowNiuMessage.ResExitRoom.class, TowNiuMessage.ResExitRoom.Builder.class);
+      }
+
+      // Construct using TowNiuMessage.ResExitRoom.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        posId_ = 0;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return TowNiuMessage.internal_static_ResExitRoom_descriptor;
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.ResExitRoom getDefaultInstanceForType() {
+        return TowNiuMessage.ResExitRoom.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.ResExitRoom build() {
+        TowNiuMessage.ResExitRoom result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public TowNiuMessage.ResExitRoom buildPartial() {
+        TowNiuMessage.ResExitRoom result = new TowNiuMessage.ResExitRoom(this);
+        result.posId_ = posId_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof TowNiuMessage.ResExitRoom) {
+          return mergeFrom((TowNiuMessage.ResExitRoom)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(TowNiuMessage.ResExitRoom other) {
+        if (other == TowNiuMessage.ResExitRoom.getDefaultInstance()) return this;
+        if (other.getPosId() != 0) {
+          setPosId(other.getPosId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        TowNiuMessage.ResExitRoom parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (TowNiuMessage.ResExitRoom) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int posId_ ;
+      /**
+       * <code>int32 posId = 1;</code>
+       */
+      public int getPosId() {
+        return posId_;
+      }
+      /**
+       * <code>int32 posId = 1;</code>
+       */
+      public Builder setPosId(int value) {
+        
+        posId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 posId = 1;</code>
+       */
+      public Builder clearPosId() {
+        
+        posId_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:ResExitRoom)
+    }
+
+    // @@protoc_insertion_point(class_scope:ResExitRoom)
+    private static final TowNiuMessage.ResExitRoom DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new TowNiuMessage.ResExitRoom();
+    }
+
+    public static TowNiuMessage.ResExitRoom getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ResExitRoom>
+        PARSER = new com.google.protobuf.AbstractParser<ResExitRoom>() {
+      @java.lang.Override
+      public ResExitRoom parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ResExitRoom(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ResExitRoom> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResExitRoom> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public TowNiuMessage.ResExitRoom getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -16488,11 +16845,6 @@ public final class TowNiuMessage {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_ReqRooms_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_playerInfo_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_playerInfo_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ResRooms_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -16502,6 +16854,21 @@ public final class TowNiuMessage {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_ResRooms_roomConfig_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ReqEnter_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ReqEnter_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ResEnter_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ResEnter_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_playerInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_playerInfo_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ReqTableInfo_descriptor;
   private static final 
@@ -16517,16 +16884,6 @@ public final class TowNiuMessage {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_ResTableInfo_timeConfig_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ReqEnter_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_ReqEnter_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ResPlayerEnter_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_ResPlayerEnter_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ReqPair_descriptor;
   private static final 
@@ -16593,10 +16950,15 @@ public final class TowNiuMessage {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_ResHistors_games_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_exitRoom_descriptor;
+    internal_static_ReqExitRoom_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_exitRoom_fieldAccessorTable;
+      internal_static_ReqExitRoom_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ResExitRoom_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_ResExitRoom_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -16607,41 +16969,41 @@ public final class TowNiuMessage {
   static {
     java.lang.String[] descriptorData = {
       "\n\023TowNiuMessage.proto\"\034\n\010ArrayInt\022\020\n\004lis" +
-      "t\030\001 \003(\005B\002\020\001\"\n\n\010ReqRooms\"\211\001\n\nplayerInfo\022\014" +
-      "\n\004name\030\001 \001(\t\022\014\n\004head\030\002 \001(\005\022\014\n\004coin\030\003 \001(\003" +
-      "\022\r\n\005posId\030\004 \001(\005\022\021\n\tbankerNum\030\005 \001(\005\022\013\n\003be" +
-      "t\030\006 \001(\005\022\r\n\005cards\030\007 \003(\005\022\023\n\013playerState\030\010 " +
-      "\001(\005\"\241\001\n\010ResRooms\022\r\n\005money\030\001 \001(\003\022#\n\005rooms" +
-      "\030\002 \003(\0132\024.ResRooms.roomConfig\032a\n\nroomConf" +
-      "ig\022\020\n\010roomName\030\001 \001(\t\022\016\n\006roomId\030\002 \001(\005\022\017\n\007" +
-      "players\030\003 \001(\005\022\016\n\006banker\030\004 \001(\010\022\020\n\010minMone" +
-      "y\030\005 \001(\005\"\016\n\014ReqTableInfo\"\203\002\n\014ResTableInfo" +
-      "\022\021\n\tgameState\030\001 \001(\005\022\017\n\007currPos\030\002 \001(\005\022\017\n\007" +
-      "bankNum\030\003 \001(\005\022\013\n\003bet\030\004 \001(\005\022\034\n\007palyers\030\005 " +
-      "\003(\0132\013.playerInfo\022(\n\006timeCf\030\006 \001(\0132\030.ResTa" +
-      "bleInfo.timeConfig\022\021\n\tbankerPos\030\007 \001(\005\032V\n" +
-      "\ntimeConfig\022\020\n\010pairTime\030\001 \001(\005\022\022\n\nbankerT" +
-      "ime\030\002 \001(\005\022\020\n\010chipTime\030\003 \001(\005\022\020\n\010showTime\030" +
-      "\004 \001(\005\"\032\n\010ReqEnter\022\016\n\006roomId\030\001 \001(\005\"-\n\016Res" +
-      "PlayerEnter\022\033\n\006player\030\001 \001(\0132\013.playerInfo" +
-      "\"\t\n\007ReqPair\"9\n\010ResStart\022\034\n\007players\030\001 \003(\013" +
-      "2\013.playerInfo\022\017\n\007currPos\030\002 \001(\005\"\036\n\tReqBan" +
-      "ker\022\021\n\tbankerNum\030\001 \001(\005\"<\n\tResBnaker\022\r\n\005p" +
-      "osId\030\001 \001(\005\022\017\n\007bankNum\030\002 \001(\005\022\017\n\007currPos\030\003" +
-      " \001(\005\"?\n\nResBetProd\022\016\n\006banker\030\001 \001(\005\022\017\n\007cu" +
-      "rrPos\030\002 \001(\005\022\020\n\004bets\030\003 \003(\005B\002\020\001\"\025\n\006ReqBet\022" +
-      "\013\n\003bet\030\001 \001(\005\"$\n\006ResBet\022\r\n\005posId\030\001 \001(\005\022\013\n" +
-      "\003bet\030\002 \001(\005\"C\n\013ResDisCards\022\030\n\005cards\030\001 \003(\013" +
-      "2\t.ArrayInt\022\014\n\004cows\030\002 \003(\005\022\014\n\004wins\030\003 \003(\022\"" +
-      "\r\n\013ReqShowCard\"\034\n\013ResShowCard\022\r\n\005posId\030\001" +
-      " \001(\005\"2\n\013ReqHistorys\022\021\n\tpageIndex\030\001 \001(\005\022\020" +
-      "\n\010pageSize\030\002 \001(\005\"\320\001\n\nResHistors\022\021\n\tpageI" +
-      "ndex\030\001 \001(\005\022\017\n\007pageMax\030\002 \001(\005\032\235\001\n\005games\022\020\n" +
-      "\010roomName\030\001 \001(\t\022\013\n\003win\030\002 \001(\022\022\021\n\tstartTim" +
-      "e\030\003 \001(\006\022\017\n\007endTime\030\004 \001(\006\022\017\n\007bankNum\030\005 \001(" +
-      "\005\022\013\n\003bet\030\006 \001(\003\022\013\n\003tax\030\007 \001(\003\022\014\n\004cows\030\010 \003(" +
-      "\005\022\030\n\005cards\030\t \003(\0132\t.ArrayInt\"\n\n\010exitRoomb" +
-      "\006proto3"
+      "t\030\001 \003(\005B\002\020\001\"\n\n\010ReqRooms\"\241\001\n\010ResRooms\022\r\n\005" +
+      "money\030\001 \001(\003\022#\n\005rooms\030\002 \003(\0132\024.ResRooms.ro" +
+      "omConfig\032a\n\nroomConfig\022\020\n\010roomName\030\001 \001(\t" +
+      "\022\016\n\006roomId\030\002 \001(\005\022\017\n\007players\030\003 \001(\005\022\016\n\006ban" +
+      "ker\030\004 \001(\010\022\020\n\010minMoney\030\005 \001(\005\"\032\n\010ReqEnter\022" +
+      "\016\n\006roomId\030\001 \001(\005\"\031\n\010ResEnter\022\r\n\005enter\030\001 \001" +
+      "(\010\"\211\001\n\nplayerInfo\022\014\n\004name\030\001 \001(\t\022\014\n\004head\030" +
+      "\002 \001(\005\022\014\n\004coin\030\003 \001(\003\022\r\n\005posId\030\004 \001(\005\022\021\n\tba" +
+      "nkerNum\030\005 \001(\005\022\013\n\003bet\030\006 \001(\005\022\r\n\005cards\030\007 \003(" +
+      "\005\022\023\n\013playerState\030\010 \001(\005\"\016\n\014ReqTableInfo\"\223" +
+      "\002\n\014ResTableInfo\022\021\n\tgameState\030\001 \001(\005\022\017\n\007cu" +
+      "rrPos\030\002 \001(\005\022\017\n\007bankNum\030\003 \001(\005\022\013\n\003bet\030\004 \001(" +
+      "\005\022\034\n\007palyers\030\005 \003(\0132\013.playerInfo\022(\n\006timeC" +
+      "f\030\006 \001(\0132\030.ResTableInfo.timeConfig\022\021\n\tban" +
+      "kerPos\030\007 \001(\005\022\016\n\006ownPos\030\010 \001(\005\032V\n\ntimeConf" +
+      "ig\022\020\n\010pairTime\030\001 \001(\005\022\022\n\nbankerTime\030\002 \001(\005" +
+      "\022\020\n\010chipTime\030\003 \001(\005\022\020\n\010showTime\030\004 \001(\005\"\t\n\007" +
+      "ReqPair\"9\n\010ResStart\022\034\n\007players\030\001 \003(\0132\013.p" +
+      "layerInfo\022\017\n\007currPos\030\002 \001(\005\"\036\n\tReqBanker\022" +
+      "\021\n\tbankerNum\030\001 \001(\005\"<\n\tResBnaker\022\r\n\005posId" +
+      "\030\001 \001(\005\022\017\n\007bankNum\030\002 \001(\005\022\017\n\007currPos\030\003 \001(\005" +
+      "\">\n\nResBetProd\022\016\n\006banker\030\001 \001(\005\022\017\n\007currPo" +
+      "s\030\002 \001(\005\022\017\n\007allBets\030\003 \003(\005\"\025\n\006ReqBet\022\013\n\003be" +
+      "t\030\001 \001(\005\"$\n\006ResBet\022\r\n\005posId\030\001 \001(\005\022\013\n\003bet\030" +
+      "\002 \001(\005\"C\n\013ResDisCards\022\030\n\005cards\030\001 \003(\0132\t.Ar" +
+      "rayInt\022\014\n\004cows\030\002 \003(\005\022\014\n\004wins\030\003 \003(\022\"\r\n\013Re" +
+      "qShowCard\"\034\n\013ResShowCard\022\r\n\005posId\030\001 \001(\005\"" +
+      "2\n\013ReqHistorys\022\021\n\tpageIndex\030\001 \001(\005\022\020\n\010pag" +
+      "eSize\030\002 \001(\005\"\320\001\n\nResHistors\022\021\n\tpageIndex\030" +
+      "\001 \001(\005\022\017\n\007pageMax\030\002 \001(\005\032\235\001\n\005games\022\020\n\010room" +
+      "Name\030\001 \001(\t\022\013\n\003win\030\002 \001(\022\022\021\n\tstartTime\030\003 \001" +
+      "(\006\022\017\n\007endTime\030\004 \001(\006\022\017\n\007bankNum\030\005 \001(\005\022\013\n\003" +
+      "bet\030\006 \001(\003\022\013\n\003tax\030\007 \001(\003\022\014\n\004cows\030\010 \003(\005\022\030\n\005" +
+      "cards\030\t \003(\0132\t.ArrayInt\"\r\n\013ReqExitRoom\"\034\n" +
+      "\013ResExitRoom\022\r\n\005posId\030\001 \001(\005b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -16667,14 +17029,8 @@ public final class TowNiuMessage {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ReqRooms_descriptor,
         new java.lang.String[] { });
-    internal_static_playerInfo_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_playerInfo_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_playerInfo_descriptor,
-        new java.lang.String[] { "Name", "Head", "Coin", "PosId", "BankerNum", "Bet", "Cards", "PlayerState", });
     internal_static_ResRooms_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_ResRooms_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResRooms_descriptor,
@@ -16685,36 +17041,42 @@ public final class TowNiuMessage {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResRooms_roomConfig_descriptor,
         new java.lang.String[] { "RoomName", "RoomId", "Players", "Banker", "MinMoney", });
-    internal_static_ReqTableInfo_descriptor =
+    internal_static_ReqEnter_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_ReqEnter_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ReqEnter_descriptor,
+        new java.lang.String[] { "RoomId", });
+    internal_static_ResEnter_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_ResEnter_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ResEnter_descriptor,
+        new java.lang.String[] { "Enter", });
+    internal_static_playerInfo_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_playerInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_playerInfo_descriptor,
+        new java.lang.String[] { "Name", "Head", "Coin", "PosId", "BankerNum", "Bet", "Cards", "PlayerState", });
+    internal_static_ReqTableInfo_descriptor =
+      getDescriptor().getMessageTypes().get(6);
     internal_static_ReqTableInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ReqTableInfo_descriptor,
         new java.lang.String[] { });
     internal_static_ResTableInfo_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_ResTableInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResTableInfo_descriptor,
-        new java.lang.String[] { "GameState", "CurrPos", "BankNum", "Bet", "Palyers", "TimeCf", "BankerPos", });
+        new java.lang.String[] { "GameState", "CurrPos", "BankNum", "Bet", "Palyers", "TimeCf", "BankerPos", "OwnPos", });
     internal_static_ResTableInfo_timeConfig_descriptor =
       internal_static_ResTableInfo_descriptor.getNestedTypes().get(0);
     internal_static_ResTableInfo_timeConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResTableInfo_timeConfig_descriptor,
         new java.lang.String[] { "PairTime", "BankerTime", "ChipTime", "ShowTime", });
-    internal_static_ReqEnter_descriptor =
-      getDescriptor().getMessageTypes().get(6);
-    internal_static_ReqEnter_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_ReqEnter_descriptor,
-        new java.lang.String[] { "RoomId", });
-    internal_static_ResPlayerEnter_descriptor =
-      getDescriptor().getMessageTypes().get(7);
-    internal_static_ResPlayerEnter_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_ResPlayerEnter_descriptor,
-        new java.lang.String[] { "Player", });
     internal_static_ReqPair_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_ReqPair_fieldAccessorTable = new
@@ -16744,7 +17106,7 @@ public final class TowNiuMessage {
     internal_static_ResBetProd_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResBetProd_descriptor,
-        new java.lang.String[] { "Banker", "CurrPos", "Bets", });
+        new java.lang.String[] { "Banker", "CurrPos", "AllBets", });
     internal_static_ReqBet_descriptor =
       getDescriptor().getMessageTypes().get(13);
     internal_static_ReqBet_fieldAccessorTable = new
@@ -16793,12 +17155,18 @@ public final class TowNiuMessage {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResHistors_games_descriptor,
         new java.lang.String[] { "RoomName", "Win", "StartTime", "EndTime", "BankNum", "Bet", "Tax", "Cows", "Cards", });
-    internal_static_exitRoom_descriptor =
+    internal_static_ReqExitRoom_descriptor =
       getDescriptor().getMessageTypes().get(20);
-    internal_static_exitRoom_fieldAccessorTable = new
+    internal_static_ReqExitRoom_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_exitRoom_descriptor,
+        internal_static_ReqExitRoom_descriptor,
         new java.lang.String[] { });
+    internal_static_ResExitRoom_descriptor =
+      getDescriptor().getMessageTypes().get(21);
+    internal_static_ResExitRoom_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_ResExitRoom_descriptor,
+        new java.lang.String[] { "PosId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

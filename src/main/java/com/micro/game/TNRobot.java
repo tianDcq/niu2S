@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.micro.game.TowNiuMessage.*;
+
 import frame.Callback;
-import frame.GameMain;
-import frame.Robot;
+import frame.UtilsMgr;
+import frame.log;
+import frame.game.*;
 import frame.socket.BaseResponse;
 import frame.socket.Response;
 import frame.util.RandomUtil;
@@ -29,40 +32,52 @@ class TNRobot extends Robot implements TNRoleInterface {
 
     @Override
     public void send(BaseResponse res) {
-        if (res.msgType.equals("8015")) {
-            if (res.status.equals("1")) {
-                Map<String, Object> msg = ((Response) res).msg;
-                int stage = (int) msg.get("stage");
-                if (stage == 1) {
-                    int time = RandomUtil.ramdom(((TNTable) table).bankTime - 3) + 2;
-                    GameMain.getInstance().getTaskMgr().createTimer(time, new Callback() {
 
-                        @Override
-                        public void func() {
-                            banker();
-                        }
-                    });
-                } else if (stage == 2) {
+        try {
+            if (res.msgType == TwoNiuConfig.ResStart) {
+                if (ResStart.parseFrom(res.protoMsg).getCurrPos() == sit) {
+                    readyBanker();
+                }
+            } else if (res.msgType == TwoNiuConfig.ResBnaker) {
+                if (ResBnaker.parseFrom(res.protoMsg).getCurrPos() == sit) {
+                    readyBanker();
+                }
+            } else if (res.msgType == TwoNiuConfig.ResBetProd) {
+                if (ResBetProd.parseFrom(res.protoMsg).getCurrPos() == sit) {
                     int time = RandomUtil.ramdom(((TNTable) table).chipTime - 3) + 2;
-                    GameMain.getInstance().getTaskMgr().createTimer(time, new Callback() {
+                    UtilsMgr.getTaskMgr().createTimer(time, new Callback() {
 
                         @Override
                         public void func() {
                             chip();
                         }
                     });
-                } else if (stage == 3) {
-                    int time = RandomUtil.ramdom(3) + 2;
-                    GameMain.getInstance().getTaskMgr().createTimer(time, new Callback() {
-
-                        @Override
-                        public void func() {
-                            open();
-                        }
-                    });
                 }
+            } else if (res.msgType == TwoNiuConfig.ResDisCards) {
+                int time = RandomUtil.ramdom(5) + 5;
+                UtilsMgr.getTaskMgr().createTimer(time, new Callback() {
+
+                    @Override
+                    public void func() {
+                        open();
+                    }
+                });
             }
+
+        } catch (Exception e) {
+            log.error("什么机器人   ", e);
         }
+    }
+
+    private void readyBanker() {
+        int time = RandomUtil.ramdom(((TNTable) table).bankTime - 3) + 2;
+        UtilsMgr.getTaskMgr().createTimer(time, new Callback() {
+
+            @Override
+            public void func() {
+                banker();
+            }
+        });
     }
 
     @Override
@@ -74,21 +89,20 @@ class TNRobot extends Robot implements TNRoleInterface {
         playerState = 1;
     }
 
-
     public void banker() {
-        if(table!=null){
+        if (table != null) {
             ((TNTable) table).playerBanker(this, 0);
         }
     }
 
     public void chip() {
-        if(table!=null){
+        if (table != null) {
             ((TNTable) table).playerChip(this, 0);
         }
     }
 
     public void open() {
-        if(table!=null){
+        if (table != null) {
             ((TNTable) table).playerOpen(this);
         }
     }
