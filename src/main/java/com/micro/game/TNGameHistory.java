@@ -1,7 +1,5 @@
 package com.micro.game;
 
-import java.util.List;
-import java.util.Map;
 
 import frame.history.GameHistory;
 

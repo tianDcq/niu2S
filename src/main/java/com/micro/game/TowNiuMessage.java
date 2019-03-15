@@ -1168,6 +1168,16 @@ public final class TowNiuMessage {
        * <code>int32 minMoney = 5;</code>
        */
       int getMinMoney();
+
+      /**
+       * <code>int32 baseMoney = 6;</code>
+       */
+      int getBaseMoney();
+
+      /**
+       * <code>int32 roomType = 7;</code>
+       */
+      int getRoomType();
     }
     /**
      * Protobuf type {@code ResRooms.roomConfig}
@@ -1187,6 +1197,8 @@ public final class TowNiuMessage {
         players_ = 0;
         banker_ = false;
         minMoney_ = 0;
+        baseMoney_ = 0;
+        roomType_ = 0;
       }
 
       @java.lang.Override
@@ -1237,6 +1249,16 @@ public final class TowNiuMessage {
               case 40: {
 
                 minMoney_ = input.readInt32();
+                break;
+              }
+              case 48: {
+
+                baseMoney_ = input.readInt32();
+                break;
+              }
+              case 56: {
+
+                roomType_ = input.readInt32();
                 break;
               }
               default: {
@@ -1341,6 +1363,24 @@ public final class TowNiuMessage {
         return minMoney_;
       }
 
+      public static final int BASEMONEY_FIELD_NUMBER = 6;
+      private int baseMoney_;
+      /**
+       * <code>int32 baseMoney = 6;</code>
+       */
+      public int getBaseMoney() {
+        return baseMoney_;
+      }
+
+      public static final int ROOMTYPE_FIELD_NUMBER = 7;
+      private int roomType_;
+      /**
+       * <code>int32 roomType = 7;</code>
+       */
+      public int getRoomType() {
+        return roomType_;
+      }
+
       private byte memoizedIsInitialized = -1;
       @java.lang.Override
       public final boolean isInitialized() {
@@ -1370,6 +1410,12 @@ public final class TowNiuMessage {
         if (minMoney_ != 0) {
           output.writeInt32(5, minMoney_);
         }
+        if (baseMoney_ != 0) {
+          output.writeInt32(6, baseMoney_);
+        }
+        if (roomType_ != 0) {
+          output.writeInt32(7, roomType_);
+        }
         unknownFields.writeTo(output);
       }
 
@@ -1398,6 +1444,14 @@ public final class TowNiuMessage {
           size += com.google.protobuf.CodedOutputStream
             .computeInt32Size(5, minMoney_);
         }
+        if (baseMoney_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(6, baseMoney_);
+        }
+        if (roomType_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(7, roomType_);
+        }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
@@ -1424,6 +1478,10 @@ public final class TowNiuMessage {
             == other.getBanker());
         result = result && (getMinMoney()
             == other.getMinMoney());
+        result = result && (getBaseMoney()
+            == other.getBaseMoney());
+        result = result && (getRoomType()
+            == other.getRoomType());
         result = result && unknownFields.equals(other.unknownFields);
         return result;
       }
@@ -1446,6 +1504,10 @@ public final class TowNiuMessage {
             getBanker());
         hash = (37 * hash) + MINMONEY_FIELD_NUMBER;
         hash = (53 * hash) + getMinMoney();
+        hash = (37 * hash) + BASEMONEY_FIELD_NUMBER;
+        hash = (53 * hash) + getBaseMoney();
+        hash = (37 * hash) + ROOMTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getRoomType();
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -1589,6 +1651,10 @@ public final class TowNiuMessage {
 
           minMoney_ = 0;
 
+          baseMoney_ = 0;
+
+          roomType_ = 0;
+
           return this;
         }
 
@@ -1620,6 +1686,8 @@ public final class TowNiuMessage {
           result.players_ = players_;
           result.banker_ = banker_;
           result.minMoney_ = minMoney_;
+          result.baseMoney_ = baseMoney_;
+          result.roomType_ = roomType_;
           onBuilt();
           return result;
         }
@@ -1683,6 +1751,12 @@ public final class TowNiuMessage {
           }
           if (other.getMinMoney() != 0) {
             setMinMoney(other.getMinMoney());
+          }
+          if (other.getBaseMoney() != 0) {
+            setBaseMoney(other.getBaseMoney());
+          }
+          if (other.getRoomType() != 0) {
+            setRoomType(other.getRoomType());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -1882,6 +1956,58 @@ public final class TowNiuMessage {
         public Builder clearMinMoney() {
           
           minMoney_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int baseMoney_ ;
+        /**
+         * <code>int32 baseMoney = 6;</code>
+         */
+        public int getBaseMoney() {
+          return baseMoney_;
+        }
+        /**
+         * <code>int32 baseMoney = 6;</code>
+         */
+        public Builder setBaseMoney(int value) {
+          
+          baseMoney_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>int32 baseMoney = 6;</code>
+         */
+        public Builder clearBaseMoney() {
+          
+          baseMoney_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int roomType_ ;
+        /**
+         * <code>int32 roomType = 7;</code>
+         */
+        public int getRoomType() {
+          return roomType_;
+        }
+        /**
+         * <code>int32 roomType = 7;</code>
+         */
+        public Builder setRoomType(int value) {
+          
+          roomType_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>int32 roomType = 7;</code>
+         */
+        public Builder clearRoomType() {
+          
+          roomType_ = 0;
           onChanged();
           return this;
         }
@@ -5225,6 +5351,19 @@ public final class TowNiuMessage {
      * <code>int32 ownPos = 8;</code>
      */
     int getOwnPos();
+
+    /**
+     * <code>repeated int32 bets = 9;</code>
+     */
+    java.util.List<java.lang.Integer> getBetsList();
+    /**
+     * <code>repeated int32 bets = 9;</code>
+     */
+    int getBetsCount();
+    /**
+     * <code>repeated int32 bets = 9;</code>
+     */
+    int getBets(int index);
   }
   /**
    * Protobuf type {@code ResTableInfo}
@@ -5246,6 +5385,7 @@ public final class TowNiuMessage {
       palyers_ = java.util.Collections.emptyList();
       bankerPos_ = 0;
       ownPos_ = 0;
+      bets_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -5324,6 +5464,27 @@ public final class TowNiuMessage {
               ownPos_ = input.readInt32();
               break;
             }
+            case 72: {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                bets_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000100;
+              }
+              bets_.add(input.readInt32());
+              break;
+            }
+            case 74: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100) && input.getBytesUntilLimit() > 0) {
+                bets_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000100;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                bets_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -5341,6 +5502,9 @@ public final class TowNiuMessage {
       } finally {
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           palyers_ = java.util.Collections.unmodifiableList(palyers_);
+        }
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+          bets_ = java.util.Collections.unmodifiableList(bets_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -5382,6 +5546,11 @@ public final class TowNiuMessage {
        * <code>int32 showTime = 4;</code>
        */
       int getShowTime();
+
+      /**
+       * <code>int32 time = 5;</code>
+       */
+      int getTime();
     }
     /**
      * Protobuf type {@code ResTableInfo.timeConfig}
@@ -5400,6 +5569,7 @@ public final class TowNiuMessage {
         bankerTime_ = 0;
         chipTime_ = 0;
         showTime_ = 0;
+        time_ = 0;
       }
 
       @java.lang.Override
@@ -5444,6 +5614,11 @@ public final class TowNiuMessage {
               case 32: {
 
                 showTime_ = input.readInt32();
+                break;
+              }
+              case 40: {
+
+                time_ = input.readInt32();
                 break;
               }
               default: {
@@ -5514,6 +5689,15 @@ public final class TowNiuMessage {
         return showTime_;
       }
 
+      public static final int TIME_FIELD_NUMBER = 5;
+      private int time_;
+      /**
+       * <code>int32 time = 5;</code>
+       */
+      public int getTime() {
+        return time_;
+      }
+
       private byte memoizedIsInitialized = -1;
       @java.lang.Override
       public final boolean isInitialized() {
@@ -5540,6 +5724,9 @@ public final class TowNiuMessage {
         if (showTime_ != 0) {
           output.writeInt32(4, showTime_);
         }
+        if (time_ != 0) {
+          output.writeInt32(5, time_);
+        }
         unknownFields.writeTo(output);
       }
 
@@ -5565,6 +5752,10 @@ public final class TowNiuMessage {
           size += com.google.protobuf.CodedOutputStream
             .computeInt32Size(4, showTime_);
         }
+        if (time_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(5, time_);
+        }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
@@ -5589,6 +5780,8 @@ public final class TowNiuMessage {
             == other.getChipTime());
         result = result && (getShowTime()
             == other.getShowTime());
+        result = result && (getTime()
+            == other.getTime());
         result = result && unknownFields.equals(other.unknownFields);
         return result;
       }
@@ -5608,6 +5801,8 @@ public final class TowNiuMessage {
         hash = (53 * hash) + getChipTime();
         hash = (37 * hash) + SHOWTIME_FIELD_NUMBER;
         hash = (53 * hash) + getShowTime();
+        hash = (37 * hash) + TIME_FIELD_NUMBER;
+        hash = (53 * hash) + getTime();
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -5749,6 +5944,8 @@ public final class TowNiuMessage {
 
           showTime_ = 0;
 
+          time_ = 0;
+
           return this;
         }
 
@@ -5779,6 +5976,7 @@ public final class TowNiuMessage {
           result.bankerTime_ = bankerTime_;
           result.chipTime_ = chipTime_;
           result.showTime_ = showTime_;
+          result.time_ = time_;
           onBuilt();
           return result;
         }
@@ -5838,6 +6036,9 @@ public final class TowNiuMessage {
           }
           if (other.getShowTime() != 0) {
             setShowTime(other.getShowTime());
+          }
+          if (other.getTime() != 0) {
+            setTime(other.getTime());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -5968,6 +6169,32 @@ public final class TowNiuMessage {
         public Builder clearShowTime() {
           
           showTime_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int time_ ;
+        /**
+         * <code>int32 time = 5;</code>
+         */
+        public int getTime() {
+          return time_;
+        }
+        /**
+         * <code>int32 time = 5;</code>
+         */
+        public Builder setTime(int value) {
+          
+          time_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>int32 time = 5;</code>
+         */
+        public Builder clearTime() {
+          
+          time_ = 0;
           onChanged();
           return this;
         }
@@ -6135,6 +6362,29 @@ public final class TowNiuMessage {
       return ownPos_;
     }
 
+    public static final int BETS_FIELD_NUMBER = 9;
+    private java.util.List<java.lang.Integer> bets_;
+    /**
+     * <code>repeated int32 bets = 9;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getBetsList() {
+      return bets_;
+    }
+    /**
+     * <code>repeated int32 bets = 9;</code>
+     */
+    public int getBetsCount() {
+      return bets_.size();
+    }
+    /**
+     * <code>repeated int32 bets = 9;</code>
+     */
+    public int getBets(int index) {
+      return bets_.get(index);
+    }
+    private int betsMemoizedSerializedSize = -1;
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -6149,6 +6399,7 @@ public final class TowNiuMessage {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      getSerializedSize();
       if (gameState_ != 0) {
         output.writeInt32(1, gameState_);
       }
@@ -6172,6 +6423,13 @@ public final class TowNiuMessage {
       }
       if (ownPos_ != 0) {
         output.writeInt32(8, ownPos_);
+      }
+      if (getBetsList().size() > 0) {
+        output.writeUInt32NoTag(74);
+        output.writeUInt32NoTag(betsMemoizedSerializedSize);
+      }
+      for (int i = 0; i < bets_.size(); i++) {
+        output.writeInt32NoTag(bets_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -6214,6 +6472,20 @@ public final class TowNiuMessage {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, ownPos_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < bets_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(bets_.get(i));
+        }
+        size += dataSize;
+        if (!getBetsList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        betsMemoizedSerializedSize = dataSize;
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -6249,6 +6521,8 @@ public final class TowNiuMessage {
           == other.getBankerPos());
       result = result && (getOwnPos()
           == other.getOwnPos());
+      result = result && getBetsList()
+          .equals(other.getBetsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -6280,6 +6554,10 @@ public final class TowNiuMessage {
       hash = (53 * hash) + getBankerPos();
       hash = (37 * hash) + OWNPOS_FIELD_NUMBER;
       hash = (53 * hash) + getOwnPos();
+      if (getBetsCount() > 0) {
+        hash = (37 * hash) + BETS_FIELD_NUMBER;
+        hash = (53 * hash) + getBetsList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6438,6 +6716,8 @@ public final class TowNiuMessage {
 
         ownPos_ = 0;
 
+        bets_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -6486,6 +6766,11 @@ public final class TowNiuMessage {
         }
         result.bankerPos_ = bankerPos_;
         result.ownPos_ = ownPos_;
+        if (((bitField0_ & 0x00000100) == 0x00000100)) {
+          bets_ = java.util.Collections.unmodifiableList(bets_);
+          bitField0_ = (bitField0_ & ~0x00000100);
+        }
+        result.bets_ = bets_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6581,6 +6866,16 @@ public final class TowNiuMessage {
         }
         if (other.getOwnPos() != 0) {
           setOwnPos(other.getOwnPos());
+        }
+        if (!other.bets_.isEmpty()) {
+          if (bets_.isEmpty()) {
+            bets_ = other.bets_;
+            bitField0_ = (bitField0_ & ~0x00000100);
+          } else {
+            ensureBetsIsMutable();
+            bets_.addAll(other.bets_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7124,6 +7419,72 @@ public final class TowNiuMessage {
         onChanged();
         return this;
       }
+
+      private java.util.List<java.lang.Integer> bets_ = java.util.Collections.emptyList();
+      private void ensureBetsIsMutable() {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+          bets_ = new java.util.ArrayList<java.lang.Integer>(bets_);
+          bitField0_ |= 0x00000100;
+         }
+      }
+      /**
+       * <code>repeated int32 bets = 9;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getBetsList() {
+        return java.util.Collections.unmodifiableList(bets_);
+      }
+      /**
+       * <code>repeated int32 bets = 9;</code>
+       */
+      public int getBetsCount() {
+        return bets_.size();
+      }
+      /**
+       * <code>repeated int32 bets = 9;</code>
+       */
+      public int getBets(int index) {
+        return bets_.get(index);
+      }
+      /**
+       * <code>repeated int32 bets = 9;</code>
+       */
+      public Builder setBets(
+          int index, int value) {
+        ensureBetsIsMutable();
+        bets_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 bets = 9;</code>
+       */
+      public Builder addBets(int value) {
+        ensureBetsIsMutable();
+        bets_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 bets = 9;</code>
+       */
+      public Builder addAllBets(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureBetsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, bets_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 bets = 9;</code>
+       */
+      public Builder clearBets() {
+        bets_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000100);
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7625,6 +7986,11 @@ public final class TowNiuMessage {
      * <code>int32 currPos = 2;</code>
      */
     int getCurrPos();
+
+    /**
+     * <code>int32 ownPos = 3;</code>
+     */
+    int getOwnPos();
   }
   /**
    * Protobuf type {@code ResStart}
@@ -7641,6 +8007,7 @@ public final class TowNiuMessage {
     private ResStart() {
       players_ = java.util.Collections.emptyList();
       currPos_ = 0;
+      ownPos_ = 0;
     }
 
     @java.lang.Override
@@ -7679,6 +8046,11 @@ public final class TowNiuMessage {
             case 16: {
 
               currPos_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              ownPos_ = input.readInt32();
               break;
             }
             default: {
@@ -7765,6 +8137,15 @@ public final class TowNiuMessage {
       return currPos_;
     }
 
+    public static final int OWNPOS_FIELD_NUMBER = 3;
+    private int ownPos_;
+    /**
+     * <code>int32 ownPos = 3;</code>
+     */
+    public int getOwnPos() {
+      return ownPos_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -7785,6 +8166,9 @@ public final class TowNiuMessage {
       if (currPos_ != 0) {
         output.writeInt32(2, currPos_);
       }
+      if (ownPos_ != 0) {
+        output.writeInt32(3, ownPos_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -7801,6 +8185,10 @@ public final class TowNiuMessage {
       if (currPos_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, currPos_);
+      }
+      if (ownPos_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, ownPos_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7822,6 +8210,8 @@ public final class TowNiuMessage {
           .equals(other.getPlayersList());
       result = result && (getCurrPos()
           == other.getCurrPos());
+      result = result && (getOwnPos()
+          == other.getOwnPos());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -7839,6 +8229,8 @@ public final class TowNiuMessage {
       }
       hash = (37 * hash) + CURRPOS_FIELD_NUMBER;
       hash = (53 * hash) + getCurrPos();
+      hash = (37 * hash) + OWNPOS_FIELD_NUMBER;
+      hash = (53 * hash) + getOwnPos();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7981,6 +8373,8 @@ public final class TowNiuMessage {
         }
         currPos_ = 0;
 
+        ownPos_ = 0;
+
         return this;
       }
 
@@ -8019,6 +8413,7 @@ public final class TowNiuMessage {
           result.players_ = playersBuilder_.build();
         }
         result.currPos_ = currPos_;
+        result.ownPos_ = ownPos_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -8096,6 +8491,9 @@ public final class TowNiuMessage {
         }
         if (other.getCurrPos() != 0) {
           setCurrPos(other.getCurrPos());
+        }
+        if (other.getOwnPos() != 0) {
+          setOwnPos(other.getOwnPos());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -8401,6 +8799,32 @@ public final class TowNiuMessage {
       public Builder clearCurrPos() {
         
         currPos_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int ownPos_ ;
+      /**
+       * <code>int32 ownPos = 3;</code>
+       */
+      public int getOwnPos() {
+        return ownPos_;
+      }
+      /**
+       * <code>int32 ownPos = 3;</code>
+       */
+      public Builder setOwnPos(int value) {
+        
+        ownPos_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 ownPos = 3;</code>
+       */
+      public Builder clearOwnPos() {
+        
+        ownPos_ = 0;
         onChanged();
         return this;
       }
@@ -16969,41 +17393,43 @@ public final class TowNiuMessage {
   static {
     java.lang.String[] descriptorData = {
       "\n\023TowNiuMessage.proto\"\034\n\010ArrayInt\022\020\n\004lis" +
-      "t\030\001 \003(\005B\002\020\001\"\n\n\010ReqRooms\"\241\001\n\010ResRooms\022\r\n\005" +
+      "t\030\001 \003(\005B\002\020\001\"\n\n\010ReqRooms\"\307\001\n\010ResRooms\022\r\n\005" +
       "money\030\001 \001(\003\022#\n\005rooms\030\002 \003(\0132\024.ResRooms.ro" +
-      "omConfig\032a\n\nroomConfig\022\020\n\010roomName\030\001 \001(\t" +
-      "\022\016\n\006roomId\030\002 \001(\005\022\017\n\007players\030\003 \001(\005\022\016\n\006ban" +
-      "ker\030\004 \001(\010\022\020\n\010minMoney\030\005 \001(\005\"\032\n\010ReqEnter\022" +
-      "\016\n\006roomId\030\001 \001(\005\"\031\n\010ResEnter\022\r\n\005enter\030\001 \001" +
-      "(\010\"\211\001\n\nplayerInfo\022\014\n\004name\030\001 \001(\t\022\014\n\004head\030" +
-      "\002 \001(\005\022\014\n\004coin\030\003 \001(\003\022\r\n\005posId\030\004 \001(\005\022\021\n\tba" +
-      "nkerNum\030\005 \001(\005\022\013\n\003bet\030\006 \001(\005\022\r\n\005cards\030\007 \003(" +
-      "\005\022\023\n\013playerState\030\010 \001(\005\"\016\n\014ReqTableInfo\"\223" +
-      "\002\n\014ResTableInfo\022\021\n\tgameState\030\001 \001(\005\022\017\n\007cu" +
-      "rrPos\030\002 \001(\005\022\017\n\007bankNum\030\003 \001(\005\022\013\n\003bet\030\004 \001(" +
-      "\005\022\034\n\007palyers\030\005 \003(\0132\013.playerInfo\022(\n\006timeC" +
-      "f\030\006 \001(\0132\030.ResTableInfo.timeConfig\022\021\n\tban" +
-      "kerPos\030\007 \001(\005\022\016\n\006ownPos\030\010 \001(\005\032V\n\ntimeConf" +
-      "ig\022\020\n\010pairTime\030\001 \001(\005\022\022\n\nbankerTime\030\002 \001(\005" +
-      "\022\020\n\010chipTime\030\003 \001(\005\022\020\n\010showTime\030\004 \001(\005\"\t\n\007" +
-      "ReqPair\"9\n\010ResStart\022\034\n\007players\030\001 \003(\0132\013.p" +
-      "layerInfo\022\017\n\007currPos\030\002 \001(\005\"\036\n\tReqBanker\022" +
-      "\021\n\tbankerNum\030\001 \001(\005\"<\n\tResBnaker\022\r\n\005posId" +
-      "\030\001 \001(\005\022\017\n\007bankNum\030\002 \001(\005\022\017\n\007currPos\030\003 \001(\005" +
-      "\">\n\nResBetProd\022\016\n\006banker\030\001 \001(\005\022\017\n\007currPo" +
-      "s\030\002 \001(\005\022\017\n\007allBets\030\003 \003(\005\"\025\n\006ReqBet\022\013\n\003be" +
-      "t\030\001 \001(\005\"$\n\006ResBet\022\r\n\005posId\030\001 \001(\005\022\013\n\003bet\030" +
-      "\002 \001(\005\"C\n\013ResDisCards\022\030\n\005cards\030\001 \003(\0132\t.Ar" +
-      "rayInt\022\014\n\004cows\030\002 \003(\005\022\014\n\004wins\030\003 \003(\022\"\r\n\013Re" +
-      "qShowCard\"\034\n\013ResShowCard\022\r\n\005posId\030\001 \001(\005\"" +
-      "2\n\013ReqHistorys\022\021\n\tpageIndex\030\001 \001(\005\022\020\n\010pag" +
-      "eSize\030\002 \001(\005\"\320\001\n\nResHistors\022\021\n\tpageIndex\030" +
-      "\001 \001(\005\022\017\n\007pageMax\030\002 \001(\005\032\235\001\n\005games\022\020\n\010room" +
-      "Name\030\001 \001(\t\022\013\n\003win\030\002 \001(\022\022\021\n\tstartTime\030\003 \001" +
-      "(\006\022\017\n\007endTime\030\004 \001(\006\022\017\n\007bankNum\030\005 \001(\005\022\013\n\003" +
-      "bet\030\006 \001(\003\022\013\n\003tax\030\007 \001(\003\022\014\n\004cows\030\010 \003(\005\022\030\n\005" +
-      "cards\030\t \003(\0132\t.ArrayInt\"\r\n\013ReqExitRoom\"\034\n" +
-      "\013ResExitRoom\022\r\n\005posId\030\001 \001(\005b\006proto3"
+      "omConfig\032\206\001\n\nroomConfig\022\020\n\010roomName\030\001 \001(" +
+      "\t\022\016\n\006roomId\030\002 \001(\005\022\017\n\007players\030\003 \001(\005\022\016\n\006ba" +
+      "nker\030\004 \001(\010\022\020\n\010minMoney\030\005 \001(\005\022\021\n\tbaseMone" +
+      "y\030\006 \001(\005\022\020\n\010roomType\030\007 \001(\005\"\032\n\010ReqEnter\022\016\n" +
+      "\006roomId\030\001 \001(\005\"\031\n\010ResEnter\022\r\n\005enter\030\001 \001(\010" +
+      "\"\211\001\n\nplayerInfo\022\014\n\004name\030\001 \001(\t\022\014\n\004head\030\002 " +
+      "\001(\005\022\014\n\004coin\030\003 \001(\003\022\r\n\005posId\030\004 \001(\005\022\021\n\tbank" +
+      "erNum\030\005 \001(\005\022\013\n\003bet\030\006 \001(\005\022\r\n\005cards\030\007 \003(\005\022" +
+      "\023\n\013playerState\030\010 \001(\005\"\016\n\014ReqTableInfo\"\257\002\n" +
+      "\014ResTableInfo\022\021\n\tgameState\030\001 \001(\005\022\017\n\007curr" +
+      "Pos\030\002 \001(\005\022\017\n\007bankNum\030\003 \001(\005\022\013\n\003bet\030\004 \001(\005\022" +
+      "\034\n\007palyers\030\005 \003(\0132\013.playerInfo\022(\n\006timeCf\030" +
+      "\006 \001(\0132\030.ResTableInfo.timeConfig\022\021\n\tbanke" +
+      "rPos\030\007 \001(\005\022\016\n\006ownPos\030\010 \001(\005\022\014\n\004bets\030\t \003(\005" +
+      "\032d\n\ntimeConfig\022\020\n\010pairTime\030\001 \001(\005\022\022\n\nbank" +
+      "erTime\030\002 \001(\005\022\020\n\010chipTime\030\003 \001(\005\022\020\n\010showTi" +
+      "me\030\004 \001(\005\022\014\n\004time\030\005 \001(\005\"\t\n\007ReqPair\"I\n\010Res" +
+      "Start\022\034\n\007players\030\001 \003(\0132\013.playerInfo\022\017\n\007c" +
+      "urrPos\030\002 \001(\005\022\016\n\006ownPos\030\003 \001(\005\"\036\n\tReqBanke" +
+      "r\022\021\n\tbankerNum\030\001 \001(\005\"<\n\tResBnaker\022\r\n\005pos" +
+      "Id\030\001 \001(\005\022\017\n\007bankNum\030\002 \001(\005\022\017\n\007currPos\030\003 \001" +
+      "(\005\">\n\nResBetProd\022\016\n\006banker\030\001 \001(\005\022\017\n\007curr" +
+      "Pos\030\002 \001(\005\022\017\n\007allBets\030\003 \003(\005\"\025\n\006ReqBet\022\013\n\003" +
+      "bet\030\001 \001(\005\"$\n\006ResBet\022\r\n\005posId\030\001 \001(\005\022\013\n\003be" +
+      "t\030\002 \001(\005\"C\n\013ResDisCards\022\030\n\005cards\030\001 \003(\0132\t." +
+      "ArrayInt\022\014\n\004cows\030\002 \003(\005\022\014\n\004wins\030\003 \003(\022\"\r\n\013" +
+      "ReqShowCard\"\034\n\013ResShowCard\022\r\n\005posId\030\001 \001(" +
+      "\005\"2\n\013ReqHistorys\022\021\n\tpageIndex\030\001 \001(\005\022\020\n\010p" +
+      "ageSize\030\002 \001(\005\"\320\001\n\nResHistors\022\021\n\tpageInde" +
+      "x\030\001 \001(\005\022\017\n\007pageMax\030\002 \001(\005\032\235\001\n\005games\022\020\n\010ro" +
+      "omName\030\001 \001(\t\022\013\n\003win\030\002 \001(\022\022\021\n\tstartTime\030\003" +
+      " \001(\006\022\017\n\007endTime\030\004 \001(\006\022\017\n\007bankNum\030\005 \001(\005\022\013" +
+      "\n\003bet\030\006 \001(\003\022\013\n\003tax\030\007 \001(\003\022\014\n\004cows\030\010 \003(\005\022\030" +
+      "\n\005cards\030\t \003(\0132\t.ArrayInt\"\r\n\013ReqExitRoom\"" +
+      "\034\n\013ResExitRoom\022\r\n\005posId\030\001 \001(\005b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -17040,7 +17466,7 @@ public final class TowNiuMessage {
     internal_static_ResRooms_roomConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResRooms_roomConfig_descriptor,
-        new java.lang.String[] { "RoomName", "RoomId", "Players", "Banker", "MinMoney", });
+        new java.lang.String[] { "RoomName", "RoomId", "Players", "Banker", "MinMoney", "BaseMoney", "RoomType", });
     internal_static_ReqEnter_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_ReqEnter_fieldAccessorTable = new
@@ -17070,13 +17496,13 @@ public final class TowNiuMessage {
     internal_static_ResTableInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResTableInfo_descriptor,
-        new java.lang.String[] { "GameState", "CurrPos", "BankNum", "Bet", "Palyers", "TimeCf", "BankerPos", "OwnPos", });
+        new java.lang.String[] { "GameState", "CurrPos", "BankNum", "Bet", "Palyers", "TimeCf", "BankerPos", "OwnPos", "Bets", });
     internal_static_ResTableInfo_timeConfig_descriptor =
       internal_static_ResTableInfo_descriptor.getNestedTypes().get(0);
     internal_static_ResTableInfo_timeConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResTableInfo_timeConfig_descriptor,
-        new java.lang.String[] { "PairTime", "BankerTime", "ChipTime", "ShowTime", });
+        new java.lang.String[] { "PairTime", "BankerTime", "ChipTime", "ShowTime", "Time", });
     internal_static_ReqPair_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_ReqPair_fieldAccessorTable = new
@@ -17088,7 +17514,7 @@ public final class TowNiuMessage {
     internal_static_ResStart_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResStart_descriptor,
-        new java.lang.String[] { "Players", "CurrPos", });
+        new java.lang.String[] { "Players", "CurrPos", "OwnPos", });
     internal_static_ReqBanker_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_ReqBanker_fieldAccessorTable = new

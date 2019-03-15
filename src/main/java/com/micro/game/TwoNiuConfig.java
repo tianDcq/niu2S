@@ -1,22 +1,22 @@
 package com.micro.game;
 
 public final class TwoNiuConfig {
-    public static final int ReqRooms = 5001;
-    public static final int ResRooms = 5002;
-    public static final int ReqEnter = 5003;
-    public static final int ResEnter = 5004;
-    public static final int ReqTableInfo = 5007;
-    public static final int ResTableInfo = 5008;
-    public static final int ReqBanker = 5009;
-    public static final int ResBnaker = 5010;
-    public static final int ReqBet = 5011;
-    public static final int ResBet = 5012;
-    public static final int ResStart = 5014;
-    public static final int ResBetProd = 5016;
-    public static final int ResDisCards = 5018;
-    public static final int ReqShowCard = 5019;
-    public static final int ResShowCard = 5020;
-    public static final int ReqExitRoom = 5021;
-    public static final int ResExitRoom = 5022;
-    public static final int ReqPair = 5023;
+    public static final int ReqRooms = 7001;
+    public static final int ResRooms = 7002;
+    public static final int ReqEnter = 7003;
+    public static final int ResEnter = 7004;
+    public static final int ReqTableInfo = 7007;
+    public static final int ResTableInfo = 7008;
+    public static final int ReqBanker = 7009;
+    public static final int ResBnaker = 7010;
+    public static final int ReqBet = 7011;
+    public static final int ResBet = 7012;
+    public static final int ResStart = 7014;
+    public static final int ResBetProd = 7016;
+    public static final int ResDisCards = 7018;
+    public static final int ReqShowCard = 7019;
+    public static final int ResShowCard = 7020;
+    public static final int ReqExitRoom = 7021;
+    public static final int ResExitRoom = 7022;
+    public static final int ReqPair = 7023;
 }

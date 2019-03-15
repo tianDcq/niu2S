@@ -1,6 +1,5 @@
 package com.micro.game;
 
-import frame.Callback;
 import frame.Config;
 import frame.socket.ErrResponse;
 import frame.socket.Request;
@@ -46,6 +45,8 @@ class TNPlayer extends Player implements TNRoleInterface {
                 configBuild.setPlayers(room.getRoles().size());
                 configBuild.setBanker(false);
                 configBuild.setMinMoney((int) roomConfig.get("minMoney"));
+                configBuild.setBaseMoney(555*1000);
+                configBuild.setRoomType(1);
                 resBulid.addRooms(configBuild);
             }
             send(new Response(TwoNiuConfig.ResRooms, resBulid.build().toByteArray()));
@@ -58,10 +59,8 @@ class TNPlayer extends Player implements TNRoleInterface {
                 if (this.enterRoom(roomId) == Config.ERR_SUCCESS) {
                     break;
                 }
-                ErrResponse res = new ErrResponse(Config.ERR_TABLE_DESTORY);
                 saveReconnectState(false);
-                send(res);
-                exitHall();
+                send(new Response(TwoNiuConfig.ResEnter,ResEnter.newBuilder().setEnter(false).build().toByteArray()));
             } catch (Exception e) {
                 // TODO: handle exception
             }
@@ -102,7 +101,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                     send(res);
                 }
             } catch (Exception e) {
-                //TODO: handle exception
+                log.info("叫装 ",e);
             }
             break;
         }
@@ -154,7 +153,7 @@ class TNPlayer extends Player implements TNRoleInterface {
 
     @Override
     protected void onEnterRoom() {
-
+        send(new Response(TwoNiuConfig.ResEnter,ResEnter.newBuilder().setEnter(true).build().toByteArray()));
     }
 
     @Override
@@ -177,7 +176,20 @@ class TNPlayer extends Player implements TNRoleInterface {
 
     @Override
     public void onConnected() {
-
+        ResRooms.Builder resBulid = ResRooms.newBuilder();
+        resBulid.setMoney(money);
+        HashMap<Integer, Room> rooms = hall.getRoomMgr().getRooms();
+        for (Room room : rooms.values()) {
+            Map<String, Object> roomConfig = room.getRoomConfig();
+            ResRooms.roomConfig.Builder configBuild = ResRooms.roomConfig.newBuilder();
+            configBuild.setRoomName((String) roomConfig.get("roomName"));
+            configBuild.setRoomId((int) (roomConfig.get("gameRoomId")));
+            configBuild.setPlayers(room.getRoles().size());
+            configBuild.setBanker(false);
+            configBuild.setMinMoney(1000);
+            resBulid.addRooms(configBuild);
+        }
+        send(new Response(TwoNiuConfig.ResRooms, resBulid.build().toByteArray()));
     }
 
     @Override
@@ -194,5 +206,9 @@ class TNPlayer extends Player implements TNRoleInterface {
     @Override
     protected void onExitTable() {
 
+    }
+    @Override
+    public boolean isDisconnectKickOut() {
+       return true;
     }
 }

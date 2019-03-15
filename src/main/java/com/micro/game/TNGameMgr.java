@@ -6,7 +6,7 @@ import frame.*;
 class TNGameMgr extends GameMgr {
     TNGameMgr() {
         robotPairType = new Config.RobotPairType(Config.RobotPairType.Type.Fix, 2, 2);
-        gameId = 7;
+        setGameId(7);
     }
 
     @Override
