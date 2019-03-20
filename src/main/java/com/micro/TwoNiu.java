@@ -53,7 +53,7 @@ public class TwoNiu {
         Config.MONGO_PORT = 27017;
 
 		// 游戏主循环
-		(new TNGameMain()).run();
+		(new TNGameMain()).run(args);
 	}
 
 }

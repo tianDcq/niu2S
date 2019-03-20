@@ -176,6 +176,7 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.properties</include>
+                    <include>**/*.csv</include>
                     <include>**/*.xml</include>
                 </includes>
             </resource>
