@@ -187,6 +187,8 @@ class TNPlayer extends Player implements TNRoleInterface {
             configBuild.setPlayers(room.getRoles().size());
             configBuild.setBanker(false);
             configBuild.setMinMoney(1000);
+            configBuild.setBaseMoney(555*1000);
+            configBuild.setRoomType(1);
             resBulid.addRooms(configBuild);
         }
         send(new Response(TwoNiuConfig.ResRooms, resBulid.build().toByteArray()));
