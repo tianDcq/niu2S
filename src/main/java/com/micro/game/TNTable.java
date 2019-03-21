@@ -437,7 +437,7 @@ final class TNTable extends Table {
 
     @Override
     protected void onExit(Role role) {
-        broadcast(new Response(TwoNiuConfig.ResExitRoom, ResExitRoom.newBuilder().setPosId((((TNRoleInterface)role).getSit())).build().toByteArray()));
+       
     };
 
     @Override

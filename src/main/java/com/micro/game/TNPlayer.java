@@ -1,6 +1,7 @@
 package com.micro.game;
 
 import frame.Config;
+import frame.UtilsMgr;
 import frame.socket.ErrResponse;
 import frame.socket.Request;
 import frame.socket.Response;
@@ -16,7 +17,7 @@ import frame.game.*;
 import com.micro.game.TowNiuMessage.*;
 
 @Slf4j
-class TNPlayer extends Player implements TNRoleInterface {
+class TNPlayer extends Player implements TNRoleInterface {  
     public @Getter @Setter int sit;
     public @Getter @Setter long win;
     public @Getter @Setter int bankNum;
@@ -52,7 +53,6 @@ class TNPlayer extends Player implements TNRoleInterface {
             send(new Response(TwoNiuConfig.ResRooms, resBulid.build().toByteArray()));
             break;
         }
-
         case TwoNiuConfig.ReqEnter: {
             try {
                 int roomId = ReqEnter.parseFrom(req.protoMsg).getRoomId();
@@ -126,9 +126,12 @@ class TNPlayer extends Player implements TNRoleInterface {
         case TwoNiuConfig.ReqExitRoom: {
             if (playerState == 6 || playerState == 0) {
                 exitRoom();
+            }else{
+                send(new ErrResponse(TwoNiuConfig.ReqExitRoom, 1, "打完了再退要死啊"));
             }
             break;
         }
+        
         }
     }
     /**
@@ -158,7 +161,7 @@ class TNPlayer extends Player implements TNRoleInterface {
 
     @Override
     protected void onExitRoom() {
-  
+        send(new Response(TwoNiuConfig.ResExitRoom,ResExitRoom.newBuilder().build().toByteArray()));
     }
 
     @Override
