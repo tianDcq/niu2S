@@ -139,21 +139,6 @@ class TNPlayer extends Player implements TNRoleInterface {
      * 
      * @param game 数据库里面的游戏信息
      */
-    private void sendGameRecord(TNGameHistory game) {
-        if (game != null) {
-            // Response recordMsg = new Response(2023, 1);
-            // Map<String, Object> msg = new HashMap<>();
-            // recordMsg.msg = msg;
-            // send(recordMsg);
-        } else {
-            ErrResponse msg = new ErrResponse("该局纪录丢失");
-            send(msg);
-        }
-    }
-
-    private void sendPlayerRecord(int curr, int count, List<TNGameHistory> games) {
-    }
-
     @Override
     protected void onEnterRoom() {
         send(new Response(TwoNiuConfig.ResEnter,ResEnter.newBuilder().setEnter(true).build().toByteArray()));

@@ -15,6 +15,8 @@ import frame.util.NiuUtil;
 import frame.util.RandomUtil;
 import frame.util.pukeUtil;
 import lombok.Getter;
+
+import com.alibaba.fastjson.JSON;
 import com.micro.game.TowNiuMessage.*;
 
 final class TNTable extends Table {
@@ -257,12 +259,14 @@ final class TNTable extends Table {
         List<Integer> cows = (List<Integer>) resoult.get("cows");
         int winSit = (int) resoult.get("winSit");
         long win = (long) resoult.get("win");
-        TNGameHistory history = new TNGameHistory();
-        history.bankNum = bankP;
-        history.downNum = ant[chip];
-        history.bankSit = ((TNRoleInterface) banker).getSit();
+
+        Map<String,Object> history=new HashMap<>();
+        Map<Integer,Long> wins=new HashMap<>();
+        history.put("bankNum", bankP);
+        history.put("downNum",ant[chip]);
+        history.put("bankSit", ((TNRoleInterface) banker).getSit());
+
         Object[] playerHList = new Object[playerList.length];
-        history.player = playerHList;
         int size = playerList.length;
         long taxN = 0;
         for (int i = 0; i < size; ++i) {
@@ -270,25 +274,27 @@ final class TNTable extends Table {
             TNRoleInterface player = (TNRoleInterface) playerList[csit];
             player.setCards(cardList.get(i));
             player.setCow(cows.get(i));
-
             Map<String, Object> playerhis = new HashMap<>();
             if (i == winSit) {
                 long ww = (long) (win * (1 - tax));
                 player.setWin(ww);
+                wins.put(playerList[i].userId, win);
                 if (playerList[csit] instanceof Player) {
                     taxN += win * tax;
                 }
             } else {
                 player.setWin(0 - win);
+                wins.put(playerList[i].userId, 0 - win);
             }
             // 历史纪录
             playerhis.put("pokers", cardList.get(i));
             playerhis.put("pattern", cows.get(i));
             playerhis.put("chip", player.getChipNum());
-            playerhis.put("bank", bankP);
+            playerhis.put("bank", player.getBankNum());
             playerhis.put("sit", player.getSit());
             playerHList[i] = playerhis;
         }
+        result(taxN, wins,JSON.toJSONString(history));
         ResDisCards.Builder res = ResDisCards.newBuilder();
         for (int i = 0; i < playerList.length; ++i) {
             TNRoleInterface pp = (TNRoleInterface) playerList[i];
@@ -297,7 +303,7 @@ final class TNTable extends Table {
             res.addWins(pp.getWin());
         }
         broadcast(new Response(TwoNiuConfig.ResDisCards, res.build().toByteArray()));
-        result(taxN, history);
+     
 
     }
 
@@ -349,7 +355,6 @@ final class TNTable extends Table {
     }
 
     public void clearGame() {
-        log.info("ji二叔 ");
         playerList = null;
         currRole = null;
         banker = null;
