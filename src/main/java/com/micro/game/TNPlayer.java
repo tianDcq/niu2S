@@ -1,10 +1,11 @@
 package com.micro.game;
 
 import frame.Config;
-import frame.UtilsMgr;
 import frame.socket.ErrResponse;
 import frame.socket.Request;
 import frame.socket.Response;
+import frame.socket.common.proto.LobbySiteRoom.BetRoomCfg;
+import frame.socket.common.proto.LobbySiteRoom.PkRoomCfg;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ import frame.game.*;
 import com.micro.game.TowNiuMessage.*;
 
 @Slf4j
-class TNPlayer extends Player implements TNRoleInterface {  
+class TNPlayer extends Player implements TNRoleInterface {
     public @Getter @Setter int sit;
     public @Getter @Setter long win;
     public @Getter @Setter int bankNum;
@@ -39,14 +40,14 @@ class TNPlayer extends Player implements TNRoleInterface {
             resBulid.setMoney(money);
             HashMap<Integer, Room> rooms = hall.getRoomMgr().getRooms();
             for (Room room : rooms.values()) {
-                Map<String, Object> roomConfig = room.getRoomConfig();
+                BetRoomCfg roomConfig = room.getBetRoomCfg();
                 ResRooms.roomConfig.Builder configBuild = ResRooms.roomConfig.newBuilder();
-                configBuild.setRoomName((String) roomConfig.get("roomName"));
-                configBuild.setRoomId((int) (roomConfig.get("gameRoomId")));
+                configBuild.setRoomName(roomConfig.getRoomName());
+                configBuild.setRoomId(roomConfig.getId());
                 configBuild.setPlayers(room.getRoles().size());
                 configBuild.setBanker(false);
-                configBuild.setMinMoney((int) roomConfig.get("minMoney"));
-                configBuild.setBaseMoney(555*1000);
+                configBuild.setMinMoney((int) roomConfig.getMinMoney());
+                configBuild.setBaseMoney((int) roomConfig.getRoomField());
                 configBuild.setRoomType(1);
                 resBulid.addRooms(configBuild);
             }
@@ -60,7 +61,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                     break;
                 }
                 saveReconnectState(false);
-                send(new Response(TwoNiuConfig.ResEnter,ResEnter.newBuilder().setEnter(false).build().toByteArray()));
+                send(new Response(TwoNiuConfig.ResEnter, ResEnter.newBuilder().setEnter(false).build().toByteArray()));
             } catch (Exception e) {
                 // TODO: handle exception
             }
@@ -69,14 +70,14 @@ class TNPlayer extends Player implements TNRoleInterface {
         }
         case TwoNiuConfig.ReqTableInfo: {
             if (table == null) {
-                Map<String, Object> roomConfig = room.getRoomConfig();
+                PkRoomCfg cfg = room.getPkRoomCfg();
                 ResTableInfo.Builder res = ResTableInfo.newBuilder();
                 res.setGameState(0);
                 ResTableInfo.timeConfig.Builder timec = ResTableInfo.timeConfig.newBuilder();
-                timec.setPairTime((int) roomConfig.get("callTime"));
-                timec.setBankerTime((int) roomConfig.get("betTime"));
-                timec.setChipTime((int) roomConfig.get("betTime"));
-                timec.setShowTime((int) roomConfig.get("betTime"));
+                timec.setPairTime(cfg.getStartTime());
+                timec.setBankerTime(cfg.getCallTime());
+                timec.setChipTime(cfg.getBetTime());
+                timec.setShowTime(15);
                 res.setTimeCf(timec);
                 send(new Response(TwoNiuConfig.ResTableInfo, res.build().toByteArray()));
             } else {
@@ -101,7 +102,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                     send(res);
                 }
             } catch (Exception e) {
-                log.info("叫装 ",e);
+                log.info("叫装 ", e);
             }
             break;
         }
@@ -112,9 +113,9 @@ class TNPlayer extends Player implements TNRoleInterface {
                     ((TNTable) table).playerChip(this, ReqBet.parseFrom(req.protoMsg).getBet());
                 }
             } catch (Exception e) {
-                //TODO: handle exception
+                // TODO: handle exception
             }
-           
+
             break;
         }
         case TwoNiuConfig.ReqShowCard: {
@@ -126,14 +127,15 @@ class TNPlayer extends Player implements TNRoleInterface {
         case TwoNiuConfig.ReqExitRoom: {
             if (playerState == 6 || playerState == 0) {
                 exitRoom();
-            }else{
+            } else {
                 send(new ErrResponse(TwoNiuConfig.ReqExitRoom, 1, "打完了再退要死啊"));
             }
             break;
         }
-        
+
         }
     }
+
     /**
      * 发送游戏纪录详情
      * 
@@ -141,12 +143,12 @@ class TNPlayer extends Player implements TNRoleInterface {
      */
     @Override
     protected void onEnterRoom() {
-        send(new Response(TwoNiuConfig.ResEnter,ResEnter.newBuilder().setEnter(true).build().toByteArray()));
+        send(new Response(TwoNiuConfig.ResEnter, ResEnter.newBuilder().setEnter(true).build().toByteArray()));
     }
 
     @Override
     protected void onExitRoom() {
-        send(new Response(TwoNiuConfig.ResExitRoom,ResExitRoom.newBuilder().build().toByteArray()));
+        send(new Response(TwoNiuConfig.ResExitRoom, ResExitRoom.newBuilder().build().toByteArray()));
     }
 
     @Override
@@ -168,14 +170,14 @@ class TNPlayer extends Player implements TNRoleInterface {
         resBulid.setMoney(money);
         HashMap<Integer, Room> rooms = hall.getRoomMgr().getRooms();
         for (Room room : rooms.values()) {
-            Map<String, Object> roomConfig = room.getRoomConfig();
+            BetRoomCfg roomConfig = room.getBetRoomCfg();
             ResRooms.roomConfig.Builder configBuild = ResRooms.roomConfig.newBuilder();
-            configBuild.setRoomName((String) roomConfig.get("roomName"));
-            configBuild.setRoomId((int) (roomConfig.get("gameRoomId")));
+            configBuild.setRoomName(roomConfig.getRoomName());
+            configBuild.setRoomId(roomConfig.getId());
             configBuild.setPlayers(room.getRoles().size());
             configBuild.setBanker(false);
             configBuild.setMinMoney(1000);
-            configBuild.setBaseMoney(555*1000);
+            configBuild.setBaseMoney(555 * 1000);
             configBuild.setRoomType(1);
             resBulid.addRooms(configBuild);
         }
@@ -197,8 +199,9 @@ class TNPlayer extends Player implements TNRoleInterface {
     protected void onExitTable() {
 
     }
+
     @Override
     public boolean isDisconnectKickOut() {
-       return true;
+        return true;
     }
 }
