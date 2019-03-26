@@ -3758,9 +3758,14 @@ public final class TowNiuMessage {
         getNameBytes();
 
     /**
-     * <code>int32 head = 2;</code>
+     * <code>string head = 2;</code>
      */
-    int getHead();
+    java.lang.String getHead();
+    /**
+     * <code>string head = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getHeadBytes();
 
     /**
      * <code>int64 coin = 3;</code>
@@ -3818,7 +3823,7 @@ public final class TowNiuMessage {
     }
     private playerInfo() {
       name_ = "";
-      head_ = 0;
+      head_ = "";
       coin_ = 0L;
       posId_ = 0;
       bankerNum_ = 0;
@@ -3857,9 +3862,10 @@ public final class TowNiuMessage {
               name_ = s;
               break;
             }
-            case 16: {
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              head_ = input.readInt32();
+              head_ = s;
               break;
             }
             case 24: {
@@ -3979,12 +3985,37 @@ public final class TowNiuMessage {
     }
 
     public static final int HEAD_FIELD_NUMBER = 2;
-    private int head_;
+    private volatile java.lang.Object head_;
     /**
-     * <code>int32 head = 2;</code>
+     * <code>string head = 2;</code>
      */
-    public int getHead() {
-      return head_;
+    public java.lang.String getHead() {
+      java.lang.Object ref = head_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        head_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string head = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHeadBytes() {
+      java.lang.Object ref = head_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        head_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int COIN_FIELD_NUMBER = 3;
@@ -4077,8 +4108,8 @@ public final class TowNiuMessage {
       if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
       }
-      if (head_ != 0) {
-        output.writeInt32(2, head_);
+      if (!getHeadBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, head_);
       }
       if (coin_ != 0L) {
         output.writeInt64(3, coin_);
@@ -4114,9 +4145,8 @@ public final class TowNiuMessage {
       if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
       }
-      if (head_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, head_);
+      if (!getHeadBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, head_);
       }
       if (coin_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
@@ -4170,8 +4200,8 @@ public final class TowNiuMessage {
       boolean result = true;
       result = result && getName()
           .equals(other.getName());
-      result = result && (getHead()
-          == other.getHead());
+      result = result && getHead()
+          .equals(other.getHead());
       result = result && (getCoin()
           == other.getCoin());
       result = result && (getPosId()
@@ -4198,7 +4228,7 @@ public final class TowNiuMessage {
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
       hash = (37 * hash) + HEAD_FIELD_NUMBER;
-      hash = (53 * hash) + getHead();
+      hash = (53 * hash) + getHead().hashCode();
       hash = (37 * hash) + COIN_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getCoin());
@@ -4349,7 +4379,7 @@ public final class TowNiuMessage {
         super.clear();
         name_ = "";
 
-        head_ = 0;
+        head_ = "";
 
         coin_ = 0L;
 
@@ -4456,8 +4486,9 @@ public final class TowNiuMessage {
           name_ = other.name_;
           onChanged();
         }
-        if (other.getHead() != 0) {
-          setHead(other.getHead());
+        if (!other.getHead().isEmpty()) {
+          head_ = other.head_;
+          onChanged();
         }
         if (other.getCoin() != 0L) {
           setCoin(other.getCoin());
@@ -4583,28 +4614,71 @@ public final class TowNiuMessage {
         return this;
       }
 
-      private int head_ ;
+      private java.lang.Object head_ = "";
       /**
-       * <code>int32 head = 2;</code>
+       * <code>string head = 2;</code>
        */
-      public int getHead() {
-        return head_;
+      public java.lang.String getHead() {
+        java.lang.Object ref = head_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          head_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>int32 head = 2;</code>
+       * <code>string head = 2;</code>
        */
-      public Builder setHead(int value) {
-        
+      public com.google.protobuf.ByteString
+          getHeadBytes() {
+        java.lang.Object ref = head_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          head_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string head = 2;</code>
+       */
+      public Builder setHead(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         head_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 head = 2;</code>
+       * <code>string head = 2;</code>
        */
       public Builder clearHead() {
         
-        head_ = 0;
+        head_ = getDefaultInstance().getHead();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string head = 2;</code>
+       */
+      public Builder setHeadBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        head_ = value;
         onChanged();
         return this;
       }
@@ -17401,7 +17475,7 @@ public final class TowNiuMessage {
       "y\030\006 \001(\005\022\020\n\010roomType\030\007 \001(\005\"\032\n\010ReqEnter\022\016\n" +
       "\006roomId\030\001 \001(\005\"\031\n\010ResEnter\022\r\n\005enter\030\001 \001(\010" +
       "\"\211\001\n\nplayerInfo\022\014\n\004name\030\001 \001(\t\022\014\n\004head\030\002 " +
-      "\001(\005\022\014\n\004coin\030\003 \001(\003\022\r\n\005posId\030\004 \001(\005\022\021\n\tbank" +
+      "\001(\t\022\014\n\004coin\030\003 \001(\003\022\r\n\005posId\030\004 \001(\005\022\021\n\tbank" +
       "erNum\030\005 \001(\005\022\013\n\003bet\030\006 \001(\005\022\r\n\005cards\030\007 \003(\005\022" +
       "\023\n\013playerState\030\010 \001(\005\"\016\n\014ReqTableInfo\"\257\002\n" +
       "\014ResTableInfo\022\021\n\tgameState\030\001 \001(\005\022\017\n\007curr" +
