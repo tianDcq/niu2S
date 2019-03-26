@@ -40,7 +40,7 @@ class TNPlayer extends Player implements TNRoleInterface {
             resBulid.setMoney(money);
             HashMap<Integer, Room> rooms = hall.getRoomMgr().getRooms();
             for (Room room : rooms.values()) {
-                BetRoomCfg roomConfig = room.getBetRoomCfg();
+                PkRoomCfg roomConfig = room.getPkRoomCfg();
                 ResRooms.roomConfig.Builder configBuild = ResRooms.roomConfig.newBuilder();
                 configBuild.setRoomName(roomConfig.getRoomName());
                 configBuild.setRoomId(roomConfig.getId());
@@ -170,7 +170,7 @@ class TNPlayer extends Player implements TNRoleInterface {
         resBulid.setMoney(money);
         HashMap<Integer, Room> rooms = hall.getRoomMgr().getRooms();
         for (Room room : rooms.values()) {
-            BetRoomCfg roomConfig = room.getBetRoomCfg();
+            PkRoomCfg roomConfig = room.getPkRoomCfg();
             ResRooms.roomConfig.Builder configBuild = ResRooms.roomConfig.newBuilder();
             configBuild.setRoomName(roomConfig.getRoomName());
             configBuild.setRoomId(roomConfig.getId());
