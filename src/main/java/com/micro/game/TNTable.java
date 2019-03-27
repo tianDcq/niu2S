@@ -22,12 +22,13 @@ import com.micro.game.TowNiuMessage.*;
 
 final class TNTable extends Table {
     private @Getter int gameStae; // 1叫庄 2 下注 3 开拍
-    private final int[] bankPre = { 1, 2, 3, 4 };
+    private final int[] bankPre = { 1, 1, 2, 3 };
     private Schedule schedule;
     private int time;
     public int bankTime;
     public int chipTime;
     private int minMoney;
+    private int btm;
     private float tax;
     private int[] ant;
     private pukeUtil puke;
@@ -45,6 +46,7 @@ final class TNTable extends Table {
         chipTime = cfg.getBetTime();
         tax = cfg.getTaxRatio();
         minMoney = (int) (cfg.getMinMoney());
+        btm = (int) cfg.getRoomField();
         int[] temp = { 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 0xa0, 0xb0, 0xc0, 0xd0, 0x11, 0x21, 0x31,
                 0x11, 0x51, 0x61, 0x71, 0x81, 0x91, 0xa1, 0xb1, 0xc1, 0xd1, 0x12, 0x22, 0x32, 0x42, 0x52, 0x62, 0x72,
                 0x82, 0x92, 0xa2, 0xb2, 0xc2, 0xd2, 0x13, 0x23, 0x33, 0x43, 0x53, 0x63, 0x73, 0x83, 0x93, 0xa3, 0xb3,
@@ -175,15 +177,15 @@ final class TNTable extends Table {
     public void setAntBet() {
         ant = new int[4];
         long min = playerList[0].money < playerList[1].money ? playerList[0].money : playerList[1].money;
-        int x = minMoney / 15;
+        int x = btm / 15;
         int y;
-        if (minMoney / min > 2) {
+        if (btm / min > 2) {
             y = 2 * x;
         } else {
             y = new Long(min / 15).intValue();
         }
         int m = RandomUtil.ramdom(x, y);
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 3; i >=0; --i) {
             ant[i] = m;
             m = m / 2;
         }
@@ -212,7 +214,12 @@ final class TNTable extends Table {
             ResBnaker.Builder res = ResBnaker.newBuilder();
             res.setBankNum(num);
             res.setPosId(sit - 1);
-            if (sit < playerList.length) {
+            if (num == 4) {
+                res.setCurrPos(-1);
+                broadcast(new Response(TwoNiuConfig.ResBnaker, res.build().toByteArray()));
+                choseBanker();
+                ChipPeriod();
+            } else if (sit < playerList.length) {
                 TNRoleInterface next = (TNRoleInterface) playerList[sit];
                 next.setPlayerState(1);
                 currRole = (Role) next;
@@ -355,6 +362,11 @@ final class TNTable extends Table {
     }
 
     public void clearGame() {
+        for (Role role : playerList) {
+            if (role.money < minMoney) {
+                role.exitRoom();
+            }
+        }
         playerList = null;
         currRole = null;
         banker = null;
