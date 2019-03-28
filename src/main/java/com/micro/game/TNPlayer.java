@@ -45,10 +45,9 @@ class TNPlayer extends Player implements TNRoleInterface {
                 configBuild.setRoomName(roomConfig.getRoomName());
                 configBuild.setRoomId(roomConfig.getId());
                 configBuild.setPlayers(room.getRoles().size());
-                configBuild.setBanker(false);
                 configBuild.setMinMoney((int) roomConfig.getMinMoney());
                 configBuild.setBaseMoney((int) roomConfig.getRoomField());
-                configBuild.setRoomType(1);
+                configBuild.setRoomType(roomConfig.getRoomType());
                 resBulid.addRooms(configBuild);
             }
             send(new Response(TwoNiuConfig.ResRooms, resBulid.build().toByteArray()));
@@ -81,7 +80,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                 timec.setPairTime(cfg.getStartTime());
                 timec.setBankerTime(cfg.getCallTime());
                 timec.setChipTime(cfg.getBetTime());
-                timec.setShowTime(15);
+                timec.setShowTime(cfg.getBetTime());
                 res.setTimeCf(timec);
                 send(new Response(TwoNiuConfig.ResTableInfo, res.build().toByteArray()));
             } else {
@@ -179,10 +178,9 @@ class TNPlayer extends Player implements TNRoleInterface {
             configBuild.setRoomName(roomConfig.getRoomName());
             configBuild.setRoomId(roomConfig.getId());
             configBuild.setPlayers(room.getRoles().size());
-            configBuild.setBanker(false);
-            configBuild.setMinMoney(1000);
-            configBuild.setBaseMoney(555 * 1000);
-            configBuild.setRoomType(1);
+            configBuild.setMinMoney((int) roomConfig.getMinMoney());
+            configBuild.setBaseMoney((int) roomConfig.getRoomField());
+            configBuild.setRoomType(roomConfig.getRoomType());
             resBulid.addRooms(configBuild);
         }
         send(new Response(TwoNiuConfig.ResRooms, resBulid.build().toByteArray()));

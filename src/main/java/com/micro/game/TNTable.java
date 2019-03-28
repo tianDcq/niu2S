@@ -177,12 +177,12 @@ final class TNTable extends Table {
     public void setAntBet() {
         ant = new int[4];
         long min = playerList[0].money < playerList[1].money ? playerList[0].money : playerList[1].money;
-        int x = btm / 15;
+        int x = minMoney / 15;
         int y;
-        if (btm / min > 2) {
+        if (min / minMoney > 2) {
             y = 2 * x;
         } else {
-            y = new Long(min / 15).intValue();
+            y =(int)min/15;
         }
         int m = RandomUtil.ramdom(x, y);
         for (int i = 3; i >=0; --i) {
@@ -379,9 +379,10 @@ final class TNTable extends Table {
 
     public void getUpdateTable(Role role) {
         ResTableInfo.Builder res = ResTableInfo.newBuilder();
-        res.setGameState(0);
+        PkRoomCfg cfg = getPkRoomCfg();
+        res.setGameState(gameStae);
         ResTableInfo.timeConfig.Builder timec = ResTableInfo.timeConfig.newBuilder();
-        timec.setPairTime(bankTime);
+        timec.setPairTime(cfg.getStartTime());
         timec.setBankerTime(bankTime);
         timec.setChipTime(chipTime);
         timec.setShowTime(chipTime);
