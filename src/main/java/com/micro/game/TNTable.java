@@ -214,7 +214,7 @@ final class TNTable extends Table {
             ResBnaker.Builder res = ResBnaker.newBuilder();
             res.setBankNum(num);
             res.setPosId(sit - 1);
-            if (num == 4) {
+            if (num == 3) {
                 res.setCurrPos(-1);
                 broadcast(new Response(TwoNiuConfig.ResBnaker, res.build().toByteArray()));
                 choseBanker();
