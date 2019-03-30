@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import frame.game.*;
+import frame.game.proto.Game.PlayerMoney;
 import frame.*;
 import frame.socket.Response;
 import frame.socket.common.proto.LobbySiteRoom.PkRoomCfg;
@@ -182,10 +183,10 @@ final class TNTable extends Table {
         if (min / minMoney > 2) {
             y = 2 * x;
         } else {
-            y =(int)min/15;
+            y = (int) min / 15;
         }
         int m = RandomUtil.ramdom(x, y);
-        for (int i = 3; i >=0; --i) {
+        for (int i = 3; i >= 0; --i) {
             ant[i] = m;
             m = m / 2;
         }
@@ -265,15 +266,19 @@ final class TNTable extends Table {
         long win = (long) resoult.get("win");
 
         Map<String, Object> history = new HashMap<>();
-        Map<Integer, Long> wins = new HashMap<>();
+        // Map<Integer, Long> wins = new HashMap<>();
+
+        List<PlayerMoney> playerMoneys = new ArrayList<>();
         history.put("bankNum", bankP);
         history.put("downNum", ant[chip]);
-        history.put("bankSit", ((TNRoleInterface) banker).getSit());
+        history.put("bankId", banker.userId);
+        Map<Integer, Object> players = new HashMap<>();
+        history.put("players", playerList);
 
-        Object[] playerHList = new Object[playerList.length];
         int size = playerList.length;
         long taxN = 0;
         for (int i = 0; i < size; ++i) {
+
             int csit = (start + i) % size;
             TNRoleInterface player = (TNRoleInterface) playerList[csit];
             player.setCards(cardList.get(i));
@@ -282,27 +287,42 @@ final class TNTable extends Table {
             if (i == winSit) {
                 long ww = (long) (win * (1 - tax));
                 player.setWin(ww);
+                playerList[csit].money+=ww;
                 playerhis.put("win", win);
                 if (playerList[csit] instanceof Player) {
+                    PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
+                    rMoney.setAward(win);
+                    rMoney.setUserid(playerList[csit].userId);
+                    rMoney.setBet(ww);
+                    rMoney.setDeltaMoney(ww);
+                    rMoney.setValidBet(ww);
+                    rMoney.setTax((long) (win * tax));
                     taxN += win * tax;
-                    wins.put(playerList[i].userId, win);
                 }
             } else {
                 player.setWin(0 - win);
+                playerList[csit].money-=win;
                 if (playerList[csit] instanceof Player) {
-                    wins.put(playerList[i].userId, 0 - win);
+                    PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
+                    rMoney.setUserid(playerList[csit].userId);
+                    rMoney.setBet(win);
+                    rMoney.setDeltaMoney(win);
+                    rMoney.setValidBet(win);
                 }
                 playerhis.put("win", 0 - win);
             }
             // 历史纪录
             playerhis.put("pokers", cardList.get(i));
             playerhis.put("cow", cows.get(i));
+            playerhis.put("name", playerList[csit].nickName);
             playerhis.put("bet", player.getChipNum());
             playerhis.put("bank", player.getBankNum());
+            playerhis.put("money",playerList[csit].money);
             playerhis.put("sit", player.getSit());
-            playerHList[i] = playerhis;
+            playerhis.put("account", ((Player)playerList[csit]).account);
+            players.put(playerList[csit].userId, playerhis);
         }
-        result(taxN, wins, JSON.toJSONString(history));
+        result(taxN, playerMoneys, JSON.toJSONString(history));
         ResDisCards.Builder res = ResDisCards.newBuilder();
         for (int i = 0; i < playerList.length; ++i) {
             TNRoleInterface pp = (TNRoleInterface) playerList[i];
