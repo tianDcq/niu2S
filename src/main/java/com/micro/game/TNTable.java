@@ -246,7 +246,6 @@ final class TNTable extends Table {
             if (openN == playerList.length) {
                 for (Role pp : playerList) {
                     ((TNRoleInterface) pp).setPlayerState(0);
-                    pp.savePlayerHistory(gameUUID);
                 }
                 clearGame();
                 end();
