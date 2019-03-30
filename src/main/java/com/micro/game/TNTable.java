@@ -29,7 +29,6 @@ final class TNTable extends Table {
     public int bankTime;
     public int chipTime;
     private int minMoney;
-    private int btm;
     private float tax;
     private int[] ant;
     private pukeUtil puke;
@@ -47,7 +46,6 @@ final class TNTable extends Table {
         chipTime = cfg.getBetTime();
         tax = cfg.getTaxRatio();
         minMoney = (int) (cfg.getMinMoney());
-        btm = (int) cfg.getRoomField();
         int[] temp = { 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 0xa0, 0xb0, 0xc0, 0xd0, 0x11, 0x21, 0x31,
                 0x41, 0x51, 0x61, 0x71, 0x81, 0x91, 0xa1, 0xb1, 0xc1, 0xd1, 0x12, 0x22, 0x32, 0x42, 0x52, 0x62, 0x72,
                 0x82, 0x92, 0xa2, 0xb2, 0xc2, 0xd2, 0x13, 0x23, 0x33, 0x43, 0x53, 0x63, 0x73, 0x83, 0x93, 0xa3, 0xb3,
@@ -103,7 +101,6 @@ final class TNTable extends Table {
             lotteryModel.systemWin = countStack(cows, winSit, win, start);
             modelList.add(lotteryModel);
         }
-
         return modelList;
     }
 
@@ -272,7 +269,7 @@ final class TNTable extends Table {
         history.put("downNum", ant[chip]);
         history.put("bankId", banker.userId);
         Map<Integer, Object> players = new HashMap<>();
-        history.put("players", playerList);
+        history.put("players", players);
 
         int size = playerList.length;
         long taxN = 0;
@@ -318,7 +315,9 @@ final class TNTable extends Table {
             playerhis.put("bank", player.getBankNum());
             playerhis.put("money",playerList[csit].money);
             playerhis.put("sit", player.getSit());
-            playerhis.put("account", ((Player)playerList[csit]).account);
+            if(playerList[csit] instanceof Player){
+                playerhis.put("account", ((Player)playerList[csit]).account);
+            }
             players.put(playerList[csit].userId, playerhis);
         }
         result(taxN, playerMoneys, JSON.toJSONString(history));
@@ -385,6 +384,7 @@ final class TNTable extends Table {
             if (role.money < minMoney) {
                 role.exitRoom();
             }
+            ((TNRoleInterface)role).endGame();
         }
         playerList = null;
         currRole = null;

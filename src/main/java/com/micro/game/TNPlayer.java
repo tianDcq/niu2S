@@ -1,6 +1,9 @@
 package com.micro.game;
 
+import frame.Callback;
 import frame.Config;
+import frame.Timer;
+import frame.UtilsMgr;
 import frame.socket.ErrResponse;
 import frame.socket.Request;
 import frame.socket.Response;
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import frame.game.*;
 
 import com.micro.game.TowNiuMessage.*;
@@ -26,6 +30,7 @@ class TNPlayer extends Player implements TNRoleInterface {
     public @Getter @Setter int cow;
     public @Getter @Setter List<Integer> cards;
     public @Getter @Setter int playerState; // 1叫 2 叫完 3选分 4等待选分 5开牌 6等待 0未匹配
+    private Timer kickTimer;
 
     @Override
     protected void onInit() {
@@ -93,6 +98,10 @@ class TNPlayer extends Player implements TNRoleInterface {
                 return;
             }
             pair();
+            if(kickTimer!=null){
+                kickTimer.stop();
+                kickTimer=null;
+            }
             break;
         }
 
@@ -147,11 +156,29 @@ class TNPlayer extends Player implements TNRoleInterface {
     @Override
     protected void onEnterRoom() {
         send(new Response(TwoNiuConfig.ResEnter, ResEnter.newBuilder().setEnter(true).build().toByteArray()));
+        ReadyKick();
+    }
+    private void ReadyKick(){
+        if(kickTimer!=null){
+            kickTimer.stop();
+        }
+        kickTimer=UtilsMgr.getTaskMgr().createTimer(20, new Callback(){
+        
+            @Override
+            public void func() {
+                send(new ErrResponse("长时间不准备踢出房间"));
+                exitRoom();
+            }
+        });
     }
 
     @Override
     protected void onExitRoom() {
         send(new Response(TwoNiuConfig.ResExitRoom, ResExitRoom.newBuilder().build().toByteArray()));
+        if(kickTimer!=null){
+            kickTimer.stop();
+            kickTimer=null;
+        }
     }
 
     @Override
@@ -165,6 +192,7 @@ class TNPlayer extends Player implements TNRoleInterface {
 
     @Override
     public void endGame() {
+        ReadyKick();
     }
 
     @Override
@@ -201,6 +229,8 @@ class TNPlayer extends Player implements TNRoleInterface {
     protected void onExitTable() {
 
     }
+
+    
 
     @Override
     public boolean isDisconnectKickOut() {

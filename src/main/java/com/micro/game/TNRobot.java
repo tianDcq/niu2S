@@ -30,7 +30,6 @@ class TNRobot extends Robot implements TNRoleInterface {
 
     @Override
     public void send(BaseResponse res) {
-
         try {
             if (res.msgType == TwoNiuConfig.ResStart) {
                 if (ResStart.parseFrom(res.protoMsg).getCurrPos() == sit) {
@@ -89,7 +88,8 @@ class TNRobot extends Robot implements TNRoleInterface {
 
     public void banker() {
         if (table != null) {
-            ((TNTable) table).playerBanker(this, 0);
+
+            ((TNTable) table).playerBanker(this, RandomUtil.ramdom(3));
         }
     }
 
