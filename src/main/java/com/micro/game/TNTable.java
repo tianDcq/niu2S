@@ -274,7 +274,6 @@ final class TNTable extends Table {
         int size = playerList.length;
         long taxN = 0;
         for (int i = 0; i < size; ++i) {
-
             int csit = (start + i) % size;
             TNRoleInterface player = (TNRoleInterface) playerList[csit];
             player.setCards(cardList.get(i));
@@ -294,6 +293,7 @@ final class TNTable extends Table {
                     rMoney.setValidBet(ww);
                     rMoney.setTax((long) (win * tax));
                     taxN += win * tax;
+                    playerMoneys.add(rMoney.build());
                 }
             } else {
                 player.setWin(0 - win);
@@ -302,8 +302,9 @@ final class TNTable extends Table {
                     PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
                     rMoney.setUserid(playerList[csit].userId);
                     rMoney.setBet(win);
-                    rMoney.setDeltaMoney(win);
+                    rMoney.setDeltaMoney(-win);
                     rMoney.setValidBet(win);
+                    playerMoneys.add(rMoney.build());
                 }
                 playerhis.put("win", 0 - win);
             }
@@ -381,9 +382,9 @@ final class TNTable extends Table {
 
     public void clearGame() {
         for (Role role : playerList) {
-            if (role.money < minMoney) {
-                role.exitRoom();
-            }
+            // if (role.money < minMoney) {
+            //     role.exitRoom();
+            // }
             ((TNRoleInterface)role).endGame();
         }
         playerList = null;

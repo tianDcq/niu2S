@@ -94,13 +94,19 @@ class TNPlayer extends Player implements TNRoleInterface {
             break;
         }
         case TwoNiuConfig.ReqPair: {
-            if (playerState != 0) {
-                return;
-            }
-            pair();
-            if(kickTimer!=null){
-                kickTimer.stop();
-                kickTimer=null;
+            if (room != null) {
+                long min = room.getPkRoomCfg().getMinMoney();
+                if (playerState != 0) {
+                    return;
+                } else if (money < min) {
+                    send(new ErrResponse(TwoNiuConfig.ReqExitRoom, "金币不足" + min + "不能继续在此房间游戏"));
+                    return;
+                }
+                pair();
+                if (kickTimer != null) {
+                    kickTimer.stop();
+                    kickTimer = null;
+                }
             }
             break;
         }
@@ -158,12 +164,13 @@ class TNPlayer extends Player implements TNRoleInterface {
         send(new Response(TwoNiuConfig.ResEnter, ResEnter.newBuilder().setEnter(true).build().toByteArray()));
         ReadyKick();
     }
-    private void ReadyKick(){
-        if(kickTimer!=null){
+
+    private void ReadyKick() {
+        if (kickTimer != null) {
             kickTimer.stop();
         }
-        kickTimer=UtilsMgr.getTaskMgr().createTimer(20, new Callback(){
-        
+        kickTimer = UtilsMgr.getTaskMgr().createTimer(60, new Callback() {
+
             @Override
             public void func() {
                 send(new ErrResponse("长时间不准备踢出房间"));
@@ -175,9 +182,9 @@ class TNPlayer extends Player implements TNRoleInterface {
     @Override
     protected void onExitRoom() {
         send(new Response(TwoNiuConfig.ResExitRoom, ResExitRoom.newBuilder().build().toByteArray()));
-        if(kickTimer!=null){
+        if (kickTimer != null) {
             kickTimer.stop();
-            kickTimer=null;
+            kickTimer = null;
         }
     }
 
@@ -229,8 +236,6 @@ class TNPlayer extends Player implements TNRoleInterface {
     protected void onExitTable() {
 
     }
-
-    
 
     @Override
     public boolean isDisconnectKickOut() {
