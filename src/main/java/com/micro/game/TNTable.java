@@ -45,7 +45,11 @@ final class TNTable extends Table {
         bankTime = cfg.getCallTime();
         chipTime = cfg.getBetTime();
         tax = cfg.getTaxRatio();
-        minMoney = (int) (cfg.getMinMoney());
+        if (room.isFreeRoom()) {
+            minMoney = 5000000;
+        } else {
+            minMoney = (int) (cfg.getMinMoney());
+        }
         int[] temp = { 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 0xa0, 0xb0, 0xc0, 0xd0, 0x11, 0x21, 0x31,
                 0x41, 0x51, 0x61, 0x71, 0x81, 0x91, 0xa1, 0xb1, 0xc1, 0xd1, 0x12, 0x22, 0x32, 0x42, 0x52, 0x62, 0x72,
                 0x82, 0x92, 0xa2, 0xb2, 0xc2, 0xd2, 0x13, 0x23, 0x33, 0x43, 0x53, 0x63, 0x73, 0x83, 0x93, 0xa3, 0xb3,
@@ -282,7 +286,7 @@ final class TNTable extends Table {
             if (i == winSit) {
                 long ww = (long) (win * (1 - tax));
                 player.setWin(ww);
-                playerList[csit].money+=ww;
+                playerList[csit].money += ww;
                 playerhis.put("win", win);
                 if (playerList[csit] instanceof Player) {
                     PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
@@ -297,7 +301,7 @@ final class TNTable extends Table {
                 }
             } else {
                 player.setWin(0 - win);
-                playerList[csit].money-=win;
+                playerList[csit].money -= win;
                 if (playerList[csit] instanceof Player) {
                     PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
                     rMoney.setUserid(playerList[csit].userId);
@@ -314,10 +318,10 @@ final class TNTable extends Table {
             playerhis.put("name", playerList[csit].nickName);
             playerhis.put("bet", player.getChipNum());
             playerhis.put("bank", player.getBankNum());
-            playerhis.put("money",playerList[csit].money);
+            playerhis.put("money", playerList[csit].money);
             playerhis.put("sit", player.getSit());
-            if(playerList[csit] instanceof Player){
-                playerhis.put("account", ((Player)playerList[csit]).account);
+            if (playerList[csit] instanceof Player) {
+                playerhis.put("account", ((Player) playerList[csit]).account);
             }
             players.put(playerList[csit].userId, playerhis);
         }
@@ -383,9 +387,9 @@ final class TNTable extends Table {
     public void clearGame() {
         for (Role role : playerList) {
             // if (role.money < minMoney) {
-            //     role.exitRoom();
+            // role.exitRoom();
             // }
-            ((TNRoleInterface)role).endGame();
+            ((TNRoleInterface) role).endGame();
         }
         playerList = null;
         currRole = null;
