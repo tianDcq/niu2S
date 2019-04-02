@@ -86,6 +86,16 @@ class TNPlayer extends Player implements TNRoleInterface {
                 timec.setChipTime(cfg.getBetTime());
                 timec.setShowTime(cfg.getBetTime());
                 res.setTimeCf(timec);
+
+                playerInfo.Builder player = playerInfo.newBuilder();
+                player.setBankerNum(bankNum);
+                player.setName(nickName);
+                player.setHead(portrait);
+                player.setCoin(money);
+                player.setPosId(getSit());
+                player.setPlayerState(playerState);
+                res.addPalyers(player);
+
                 send(new Response(TwoNiuConfig.ResTableInfo, res.build().toByteArray()));
             } else {
                 ((TNTable) table).getUpdateTable(this);
