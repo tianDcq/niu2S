@@ -1,13 +1,13 @@
 package com.micro.game;
 
 import frame.game.*;
-import frame.game.RobotActions.BetsRobot.RobotBetsConfig;
-import frame.*;
+import frame.game.RobotActions.PkRobot.RobotPkConfig;
+import frame.game.RobotActions.RobotFrame.RobotBaseConfig.Type;
 
 class TNGameMgr extends GameMgr {
     TNGameMgr() {
         // robotPairType = new Config.RobotPairType(Config.RobotPairType.Type.Fix, 2, 2);
-        robotConfig = new RobotBetsConfig(RobotBetsConfig.Type.Fix, 2, 2);
+        robotConfig = new RobotPkConfig(Type.Fix, 2, 2);
         setGameId(7);
     }
 
