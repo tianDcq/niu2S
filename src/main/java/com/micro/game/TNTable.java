@@ -510,4 +510,9 @@ final class TNTable extends Table {
     protected void onTerminate() {
 
     };
+
+    @Override
+    public void onPairFail() {
+        
+    }
 }
