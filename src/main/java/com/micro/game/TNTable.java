@@ -58,7 +58,7 @@ final class TNTable extends Table {
     }
 
     @Override
-    public ArrayList<LotteryModel> getAllLotteryModel() {
+    public ArrayList<LotteryModel> getAllLotteryModel(Player player) {
         ArrayList<LotteryModel> modelList = new ArrayList<LotteryModel>();
         puke.shuffle();
         List<List<Integer>> cardsList = new ArrayList<>();
@@ -102,7 +102,14 @@ final class TNTable extends Table {
             lotteryResult.put("winSit", winSit);
             lotteryModel.lotteryResult = lotteryResult;
             lotteryModel.lotteryWeight = 1;
-            lotteryModel.systemWin = countStack(cows, winSit, win, start);
+            long[] www=new long[2];
+            lotteryModel.systemWin = countStack(cows, winSit, win, start,www);
+            if(player!=null){
+                lotteryModel.controlPlayerWin=www[((TNPlayer)player).getSit()];
+                if(lotteryModel.controlPlayerWin>0){
+                    lotteryModel.controlPlayerWin*=1-tax;
+                }
+            }
             modelList.add(lotteryModel);
         }
         return modelList;
@@ -266,14 +273,15 @@ final class TNTable extends Table {
         long win = (long) resoult.get("win");
 
         Map<String, Object> history = new HashMap<>();
-        // Map<Integer, Long> wins = new HashMap<>();
 
         List<PlayerMoney> playerMoneys = new ArrayList<>();
         history.put("bankNum", bankP);
         history.put("downNum", ant[chip]);
         history.put("bankId", banker.userId);
-        Map<Integer, Object> players = new HashMap<>();
+        Map<String, Object> players = new HashMap<>();
         history.put("players", players);
+        history.put("sysBank", banker.userId);
+
 
         int size = playerList.length;
         long taxN = 0;
@@ -323,7 +331,7 @@ final class TNTable extends Table {
             if (playerList[csit] instanceof Player) {
                 playerhis.put("account", ((Player) playerList[csit]).account);
             }
-            players.put(playerList[csit].userId, playerhis);
+            players.put(String.valueOf(playerList[csit].userId), playerhis);
         }
         result(taxN, playerMoneys, JSON.toJSONString(history));
         ResDisCards.Builder res = ResDisCards.newBuilder();
@@ -331,19 +339,20 @@ final class TNTable extends Table {
             TNRoleInterface pp = (TNRoleInterface) playerList[i];
             res.addCards(ArrayInt.newBuilder().addAllList(pp.getCards()));
             res.addCows(pp.getCow());
-            res.addWins(pp.getWin());
+            res.addWins(pp.getWin());         
         }
         broadcast(new Response(TwoNiuConfig.ResDisCards, res.build().toByteArray()));
 
     }
 
-    private long countStack(List<Integer> cows, int winPos, long win, int startSit) {
+    private long countStack(List<Integer> cows, int winPos, long win, int startSit,long[] www) {
         long sysWin = 0;
         int size = cows.size();
         int winSet = (startSit + winPos) % size;
         for (int i = 0; i < size; ++i) {
             int mSit = (startSit + i) % size;
             if (mSit != winSet) {
+                www[mSit]=win;
                 if (playerList[winSet] instanceof Player) {
                     if (playerList[mSit] instanceof Robot) {
                         sysWin -= win * (1 - tax);
@@ -351,6 +360,8 @@ final class TNTable extends Table {
                 } else if (playerList[mSit] instanceof Player) {
                     sysWin += win;
                 }
+            }else{
+                www[mSit]=-win;
             }
         }
         return sysWin;

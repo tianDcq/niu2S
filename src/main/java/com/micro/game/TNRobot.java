@@ -9,12 +9,13 @@ import frame.Callback;
 import frame.UtilsMgr;
 import frame.log;
 import frame.game.*;
+import frame.game.RobotActions.PkRobot.RobotPkLogic;
 import frame.socket.BaseResponse;
 import frame.util.RandomUtil;
 import lombok.Getter;
 import lombok.Setter;
 
-class TNRobot extends Robot implements TNRoleInterface {
+class TNRobot extends RobotPkLogic implements TNRoleInterface {
     public @Getter @Setter int bankNum;
     public @Getter @Setter long win;
     public @Getter @Setter int cow;
