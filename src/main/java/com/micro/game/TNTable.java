@@ -65,7 +65,7 @@ final class TNTable extends Table {
 
         if (gameLotteryControl != null) {
             List<List<Integer>> cardsList = new ArrayList<>();
-            List<ArrayPuke> cardsAll = gameLotteryControl.getN100().getCardsList();
+            List<ArrayPuke> cardsAll = gameLotteryControl.getN2().getCardsList();
             for (int i = 0; i < cardsAll.size(); ++i) {
                 cardsList.add(cardsAll.get(i).getListList());
             }
