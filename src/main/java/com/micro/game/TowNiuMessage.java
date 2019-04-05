@@ -3808,6 +3808,16 @@ public final class TowNiuMessage {
      * <code>int32 playerState = 8;</code>
      */
     int getPlayerState();
+
+    /**
+     * <code>int32 win = 9;</code>
+     */
+    int getWin();
+
+    /**
+     * <code>int32 cow = 10;</code>
+     */
+    int getCow();
   }
   /**
    * Protobuf type {@code playerInfo}
@@ -3830,6 +3840,8 @@ public final class TowNiuMessage {
       bet_ = 0;
       cards_ = java.util.Collections.emptyList();
       playerState_ = 0;
+      win_ = 0;
+      cow_ = 0;
     }
 
     @java.lang.Override
@@ -3912,6 +3924,16 @@ public final class TowNiuMessage {
             case 64: {
 
               playerState_ = input.readInt32();
+              break;
+            }
+            case 72: {
+
+              win_ = input.readInt32();
+              break;
+            }
+            case 80: {
+
+              cow_ = input.readInt32();
               break;
             }
             default: {
@@ -4090,6 +4112,24 @@ public final class TowNiuMessage {
       return playerState_;
     }
 
+    public static final int WIN_FIELD_NUMBER = 9;
+    private int win_;
+    /**
+     * <code>int32 win = 9;</code>
+     */
+    public int getWin() {
+      return win_;
+    }
+
+    public static final int COW_FIELD_NUMBER = 10;
+    private int cow_;
+    /**
+     * <code>int32 cow = 10;</code>
+     */
+    public int getCow() {
+      return cow_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4132,6 +4172,12 @@ public final class TowNiuMessage {
       }
       if (playerState_ != 0) {
         output.writeInt32(8, playerState_);
+      }
+      if (win_ != 0) {
+        output.writeInt32(9, win_);
+      }
+      if (cow_ != 0) {
+        output.writeInt32(10, cow_);
       }
       unknownFields.writeTo(output);
     }
@@ -4182,6 +4228,14 @@ public final class TowNiuMessage {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, playerState_);
       }
+      if (win_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, win_);
+      }
+      if (cow_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, cow_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4214,6 +4268,10 @@ public final class TowNiuMessage {
           .equals(other.getCardsList());
       result = result && (getPlayerState()
           == other.getPlayerState());
+      result = result && (getWin()
+          == other.getWin());
+      result = result && (getCow()
+          == other.getCow());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -4244,6 +4302,10 @@ public final class TowNiuMessage {
       }
       hash = (37 * hash) + PLAYERSTATE_FIELD_NUMBER;
       hash = (53 * hash) + getPlayerState();
+      hash = (37 * hash) + WIN_FIELD_NUMBER;
+      hash = (53 * hash) + getWin();
+      hash = (37 * hash) + COW_FIELD_NUMBER;
+      hash = (53 * hash) + getCow();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4393,6 +4455,10 @@ public final class TowNiuMessage {
         bitField0_ = (bitField0_ & ~0x00000040);
         playerState_ = 0;
 
+        win_ = 0;
+
+        cow_ = 0;
+
         return this;
       }
 
@@ -4433,6 +4499,8 @@ public final class TowNiuMessage {
         }
         result.cards_ = cards_;
         result.playerState_ = playerState_;
+        result.win_ = win_;
+        result.cow_ = cow_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4514,6 +4582,12 @@ public final class TowNiuMessage {
         }
         if (other.getPlayerState() != 0) {
           setPlayerState(other.getPlayerState());
+        }
+        if (other.getWin() != 0) {
+          setWin(other.getWin());
+        }
+        if (other.getCow() != 0) {
+          setCow(other.getCow());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4887,6 +4961,58 @@ public final class TowNiuMessage {
       public Builder clearPlayerState() {
         
         playerState_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int win_ ;
+      /**
+       * <code>int32 win = 9;</code>
+       */
+      public int getWin() {
+        return win_;
+      }
+      /**
+       * <code>int32 win = 9;</code>
+       */
+      public Builder setWin(int value) {
+        
+        win_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 win = 9;</code>
+       */
+      public Builder clearWin() {
+        
+        win_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int cow_ ;
+      /**
+       * <code>int32 cow = 10;</code>
+       */
+      public int getCow() {
+        return cow_;
+      }
+      /**
+       * <code>int32 cow = 10;</code>
+       */
+      public Builder setCow(int value) {
+        
+        cow_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 cow = 10;</code>
+       */
+      public Builder clearCow() {
+        
+        cow_ = 0;
         onChanged();
         return this;
       }
@@ -17600,37 +17726,38 @@ public final class TowNiuMessage {
       "nker\030\004 \001(\010\022\020\n\010minMoney\030\005 \001(\005\022\021\n\tbaseMone" +
       "y\030\006 \001(\005\022\020\n\010roomType\030\007 \001(\005\"\032\n\010ReqEnter\022\016\n" +
       "\006roomId\030\001 \001(\005\"\031\n\010ResEnter\022\r\n\005enter\030\001 \001(\010" +
-      "\"\211\001\n\nplayerInfo\022\014\n\004name\030\001 \001(\t\022\014\n\004head\030\002 " +
+      "\"\243\001\n\nplayerInfo\022\014\n\004name\030\001 \001(\t\022\014\n\004head\030\002 " +
       "\001(\t\022\014\n\004coin\030\003 \001(\003\022\r\n\005posId\030\004 \001(\005\022\021\n\tbank" +
       "erNum\030\005 \001(\005\022\013\n\003bet\030\006 \001(\005\022\r\n\005cards\030\007 \003(\005\022" +
-      "\023\n\013playerState\030\010 \001(\005\"\016\n\014ReqTableInfo\"\324\002\n" +
-      "\014ResTableInfo\022\021\n\tgameState\030\001 \001(\005\022\017\n\007curr" +
-      "Pos\030\002 \001(\005\022\017\n\007bankNum\030\003 \001(\005\022\013\n\003bet\030\004 \001(\005\022" +
-      "\034\n\007palyers\030\005 \003(\0132\013.playerInfo\022(\n\006timeCf\030" +
-      "\006 \001(\0132\030.ResTableInfo.timeConfig\022\021\n\tbanke" +
-      "rPos\030\007 \001(\005\022\016\n\006ownPos\030\010 \001(\005\022\021\n\tbaseMoney\030" +
-      "\t \001(\005\022\020\n\010roomType\030\n \001(\005\022\014\n\004bets\030\013 \003(\005\032d\n" +
-      "\ntimeConfig\022\020\n\010pairTime\030\001 \001(\005\022\022\n\nbankerT" +
-      "ime\030\002 \001(\005\022\020\n\010chipTime\030\003 \001(\005\022\020\n\010showTime\030" +
-      "\004 \001(\005\022\014\n\004time\030\005 \001(\005\"\t\n\007ReqPair\"I\n\010ResSta" +
-      "rt\022\034\n\007players\030\001 \003(\0132\013.playerInfo\022\017\n\007curr" +
-      "Pos\030\002 \001(\005\022\016\n\006ownPos\030\003 \001(\005\"\036\n\tReqBanker\022\021" +
-      "\n\tbankerNum\030\001 \001(\005\"<\n\tResBnaker\022\r\n\005posId\030" +
-      "\001 \001(\005\022\017\n\007bankNum\030\002 \001(\005\022\017\n\007currPos\030\003 \001(\005\"" +
-      ">\n\nResBetProd\022\016\n\006banker\030\001 \001(\005\022\017\n\007currPos" +
-      "\030\002 \001(\005\022\017\n\007allBets\030\003 \003(\005\"\025\n\006ReqBet\022\013\n\003bet" +
-      "\030\001 \001(\005\"$\n\006ResBet\022\r\n\005posId\030\001 \001(\005\022\013\n\003bet\030\002" +
-      " \001(\005\"C\n\013ResDisCards\022\030\n\005cards\030\001 \003(\0132\t.Arr" +
-      "ayInt\022\014\n\004cows\030\002 \003(\005\022\014\n\004wins\030\003 \003(\022\"\r\n\013Req" +
-      "ShowCard\"\034\n\013ResShowCard\022\r\n\005posId\030\001 \001(\005\"2" +
-      "\n\013ReqHistorys\022\021\n\tpageIndex\030\001 \001(\005\022\020\n\010page" +
-      "Size\030\002 \001(\005\"\320\001\n\nResHistors\022\021\n\tpageIndex\030\001" +
-      " \001(\005\022\017\n\007pageMax\030\002 \001(\005\032\235\001\n\005games\022\020\n\010roomN" +
-      "ame\030\001 \001(\t\022\013\n\003win\030\002 \001(\022\022\021\n\tstartTime\030\003 \001(" +
-      "\006\022\017\n\007endTime\030\004 \001(\006\022\017\n\007bankNum\030\005 \001(\005\022\013\n\003b" +
-      "et\030\006 \001(\003\022\013\n\003tax\030\007 \001(\003\022\014\n\004cows\030\010 \003(\005\022\030\n\005c" +
-      "ards\030\t \003(\0132\t.ArrayInt\"\r\n\013ReqExitRoom\"\034\n\013" +
-      "ResExitRoom\022\r\n\005posId\030\001 \001(\005b\006proto3"
+      "\023\n\013playerState\030\010 \001(\005\022\013\n\003win\030\t \001(\005\022\013\n\003cow" +
+      "\030\n \001(\005\"\016\n\014ReqTableInfo\"\324\002\n\014ResTableInfo\022" +
+      "\021\n\tgameState\030\001 \001(\005\022\017\n\007currPos\030\002 \001(\005\022\017\n\007b" +
+      "ankNum\030\003 \001(\005\022\013\n\003bet\030\004 \001(\005\022\034\n\007palyers\030\005 \003" +
+      "(\0132\013.playerInfo\022(\n\006timeCf\030\006 \001(\0132\030.ResTab" +
+      "leInfo.timeConfig\022\021\n\tbankerPos\030\007 \001(\005\022\016\n\006" +
+      "ownPos\030\010 \001(\005\022\021\n\tbaseMoney\030\t \001(\005\022\020\n\010roomT" +
+      "ype\030\n \001(\005\022\014\n\004bets\030\013 \003(\005\032d\n\ntimeConfig\022\020\n" +
+      "\010pairTime\030\001 \001(\005\022\022\n\nbankerTime\030\002 \001(\005\022\020\n\010c" +
+      "hipTime\030\003 \001(\005\022\020\n\010showTime\030\004 \001(\005\022\014\n\004time\030" +
+      "\005 \001(\005\"\t\n\007ReqPair\"I\n\010ResStart\022\034\n\007players\030" +
+      "\001 \003(\0132\013.playerInfo\022\017\n\007currPos\030\002 \001(\005\022\016\n\006o" +
+      "wnPos\030\003 \001(\005\"\036\n\tReqBanker\022\021\n\tbankerNum\030\001 " +
+      "\001(\005\"<\n\tResBnaker\022\r\n\005posId\030\001 \001(\005\022\017\n\007bankN" +
+      "um\030\002 \001(\005\022\017\n\007currPos\030\003 \001(\005\">\n\nResBetProd\022" +
+      "\016\n\006banker\030\001 \001(\005\022\017\n\007currPos\030\002 \001(\005\022\017\n\007allB" +
+      "ets\030\003 \003(\005\"\025\n\006ReqBet\022\013\n\003bet\030\001 \001(\005\"$\n\006ResB" +
+      "et\022\r\n\005posId\030\001 \001(\005\022\013\n\003bet\030\002 \001(\005\"C\n\013ResDis" +
+      "Cards\022\030\n\005cards\030\001 \003(\0132\t.ArrayInt\022\014\n\004cows\030" +
+      "\002 \003(\005\022\014\n\004wins\030\003 \003(\022\"\r\n\013ReqShowCard\"\034\n\013Re" +
+      "sShowCard\022\r\n\005posId\030\001 \001(\005\"2\n\013ReqHistorys\022" +
+      "\021\n\tpageIndex\030\001 \001(\005\022\020\n\010pageSize\030\002 \001(\005\"\320\001\n" +
+      "\nResHistors\022\021\n\tpageIndex\030\001 \001(\005\022\017\n\007pageMa" +
+      "x\030\002 \001(\005\032\235\001\n\005games\022\020\n\010roomName\030\001 \001(\t\022\013\n\003w" +
+      "in\030\002 \001(\022\022\021\n\tstartTime\030\003 \001(\006\022\017\n\007endTime\030\004" +
+      " \001(\006\022\017\n\007bankNum\030\005 \001(\005\022\013\n\003bet\030\006 \001(\003\022\013\n\003ta" +
+      "x\030\007 \001(\003\022\014\n\004cows\030\010 \003(\005\022\030\n\005cards\030\t \003(\0132\t.A" +
+      "rrayInt\"\r\n\013ReqExitRoom\"\034\n\013ResExitRoom\022\r\n" +
+      "\005posId\030\001 \001(\005b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -17685,7 +17812,7 @@ public final class TowNiuMessage {
     internal_static_playerInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_playerInfo_descriptor,
-        new java.lang.String[] { "Name", "Head", "Coin", "PosId", "BankerNum", "Bet", "Cards", "PlayerState", });
+        new java.lang.String[] { "Name", "Head", "Coin", "PosId", "BankerNum", "Bet", "Cards", "PlayerState", "Win", "Cow", });
     internal_static_ReqTableInfo_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_ReqTableInfo_fieldAccessorTable = new

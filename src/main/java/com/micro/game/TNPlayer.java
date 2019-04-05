@@ -67,7 +67,6 @@ class TNPlayer extends Player implements TNRoleInterface {
                 } else if (this.enterRoom(roomId) == Config.ERR_SUCCESS) {
                     break;
                 }
-                saveReconnectState(false);
                 send(new Response(TwoNiuConfig.ResEnter, ResEnter.newBuilder().setEnter(false).build().toByteArray()));
             } catch (Exception e) {
                 // TODO: handle exception
@@ -155,7 +154,7 @@ class TNPlayer extends Player implements TNRoleInterface {
             if (playerState == 6 || playerState == 0) {
                 exitRoom();
             } else {
-                send(new ErrResponse(TwoNiuConfig.ReqExitRoom, 1, "打完了再退要死啊"));
+                send(new ErrResponse(TwoNiuConfig.ReqExitRoom, 1, "您正在游戏中，暂时不能退出"));
             }
             break;
         }
@@ -201,13 +200,19 @@ class TNPlayer extends Player implements TNRoleInterface {
     protected void onEnterTable() {
         sit = 0;
         win = 0;
+        bankNum=-1;
         chipNum = -1;
-        cards = new ArrayList<>();
         playerState = 0;
+        cards = new ArrayList<>();
+        
     }
 
     @Override
     public void endGame() {
+        sit = 0;
+        win = 0;
+        bankNum=-1;
+        chipNum = -1;
         ReadyKick();
     }
 

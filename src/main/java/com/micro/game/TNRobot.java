@@ -25,7 +25,7 @@ class TNRobot extends RobotPkLogic implements TNRoleInterface {
 
     @Override
     public void endGame() {
-
+        bankNum=-1;
     }
 
     @Override
@@ -82,13 +82,13 @@ class TNRobot extends RobotPkLogic implements TNRoleInterface {
         sit = 0;
         win = 0;
         chipNum = -1;
+        bankNum = -1;
         cards = new ArrayList<>();
         playerState = 1;
     }
 
     public void banker() {
         if (table != null) {
-
             ((TNTable) table).playerBanker(this, RandomUtil.ramdom(3));
         }
     }
