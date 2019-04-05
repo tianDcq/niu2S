@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import frame.game.*;
 import frame.game.proto.Game.PlayerMoney;
+import frame.game.proto.GameControl.*;
 import frame.*;
 import frame.socket.Response;
 import frame.socket.common.proto.LobbySiteRoom.PkRoomCfg;
@@ -61,50 +62,45 @@ final class TNTable extends Table {
     @Override
     public ArrayList<LotteryModel> getAllLotteryModel(Player player) {
         ArrayList<LotteryModel> modelList = new ArrayList<LotteryModel>();
-        puke.shuffle();
-        List<List<Integer>> cardsList = new ArrayList<>();
-        for (int k = 0; k < playerList.length; ++k) {
-            ((TNRoleInterface) playerList[k]).setPlayerState(5);
-            List<Integer> cards = new ArrayList<>();
-            for (int j = 0; j < 5; ++j) {
-                cards.add(puke.getPuke());
-            }
-            cardsList.add(cards);
-        }
 
-        List<Integer> cows = new ArrayList<>();
-        int winSit = 0;
-        int maxCow = 0;
-        for (int i = 0; i < cardsList.size(); ++i) {
-            List<Integer> cards = cardsList.get(i);
-            int cow = NiuUtil.getNiu(cards).cow;
-            if (cow == 10) {
-                cow = NiuUtil.getNiuType(cards.stream().mapToInt(Integer::valueOf).toArray());
+        if (gameLotteryControl != null) {
+            List<List<Integer>> cardsList = new ArrayList<>();
+            List<ArrayPuke> cardsAll = gameLotteryControl.getN100().getCardsList();
+            for (int i = 0; i < cardsAll.size(); ++i) {
+                cardsList.add(cardsAll.get(i).getListList());
             }
+            List<Integer> cows = new ArrayList<>();
+            int winSit = 0;
+            int maxCow = 0;
+            for (int i = 0; i < cardsList.size(); ++i) {
+                List<Integer> cards = cardsList.get(i);
+                int cow = NiuUtil.getNiu(cards).cow;
+                if (cow == 10) {
+                    cow = NiuUtil.getNiuType(cards.stream().mapToInt(Integer::valueOf).toArray());
+                }
 
-            int maxCard = pukeUtil.getMxa(cards.stream().mapToInt(Integer::valueOf).toArray());
-            int cardType = cow << 8 | maxCard;
-            if (cardType > maxCow) {
-                maxCow = cardType;
-                winSit = i;
+                int maxCard = pukeUtil.getMxa(cards.stream().mapToInt(Integer::valueOf).toArray());
+                int cardType = cow << 8 | maxCard;
+                if (cardType > maxCow) {
+                    maxCow = cardType;
+                    winSit = i;
+                }
+                cows.add(cardType);
             }
-            cows.add(cardType);
-        }
-        int bei = getbei(maxCow >> 8);
-        int bankP = bankPre[((TNRoleInterface) banker).getBankNum()];
-        long win = ant[chip] * bei * bankP;
-        for (int start = 0; start < cardsList.size(); ++start) {
+            int bei = getbei(maxCow >> 8);
+            int bankP = bankPre[((TNRoleInterface) banker).getBankNum()];
+            long win = ant[chip] * bei * bankP;
             LotteryModel lotteryModel = new LotteryModel();
             Map<String, Object> lotteryResult = new HashMap<>();
             lotteryResult.put("cards", cardsList);
             lotteryResult.put("cows", cows);
-            lotteryResult.put("start", start);
+            lotteryResult.put("start", 0);
             lotteryResult.put("win", win);
             lotteryResult.put("winSit", winSit);
             lotteryModel.lotteryResult = lotteryResult;
             lotteryModel.lotteryWeight = 1;
             long[] www = new long[2];
-            lotteryModel.systemWin = countStack(cows, winSit, win, start, www);
+            lotteryModel.systemWin = countStack(cows, winSit, win, 0, www);
             if (player != null) {
                 lotteryModel.controlPlayerWin = www[((TNPlayer) player).getSit()];
                 if (lotteryModel.controlPlayerWin > 0) {
@@ -112,6 +108,60 @@ final class TNTable extends Table {
                 }
             }
             modelList.add(lotteryModel);
+
+        } else {
+            puke.shuffle();
+            List<List<Integer>> cardsList = new ArrayList<>();
+            for (int k = 0; k < playerList.length; ++k) {
+                ((TNRoleInterface) playerList[k]).setPlayerState(5);
+                List<Integer> cards = new ArrayList<>();
+                for (int j = 0; j < 5; ++j) {
+                    cards.add(puke.getPuke());
+                }
+                cardsList.add(cards);
+            }
+
+            List<Integer> cows = new ArrayList<>();
+            int winSit = 0;
+            int maxCow = 0;
+            for (int i = 0; i < cardsList.size(); ++i) {
+                List<Integer> cards = cardsList.get(i);
+                int cow = NiuUtil.getNiu(cards).cow;
+                if (cow == 10) {
+                    cow = NiuUtil.getNiuType(cards.stream().mapToInt(Integer::valueOf).toArray());
+                }
+
+                int maxCard = pukeUtil.getMxa(cards.stream().mapToInt(Integer::valueOf).toArray());
+                int cardType = cow << 8 | maxCard;
+                if (cardType > maxCow) {
+                    maxCow = cardType;
+                    winSit = i;
+                }
+                cows.add(cardType);
+            }
+            int bei = getbei(maxCow >> 8);
+            int bankP = bankPre[((TNRoleInterface) banker).getBankNum()];
+            long win = ant[chip] * bei * bankP;
+            for (int start = 0; start < cardsList.size(); ++start) {
+                LotteryModel lotteryModel = new LotteryModel();
+                Map<String, Object> lotteryResult = new HashMap<>();
+                lotteryResult.put("cards", cardsList);
+                lotteryResult.put("cows", cows);
+                lotteryResult.put("start", start);
+                lotteryResult.put("win", win);
+                lotteryResult.put("winSit", winSit);
+                lotteryModel.lotteryResult = lotteryResult;
+                lotteryModel.lotteryWeight = 1;
+                long[] www = new long[2];
+                lotteryModel.systemWin = countStack(cows, winSit, win, start, www);
+                if (player != null) {
+                    lotteryModel.controlPlayerWin = www[((TNPlayer) player).getSit()];
+                    if (lotteryModel.controlPlayerWin > 0) {
+                        lotteryModel.controlPlayerWin *= 1 - tax;
+                    }
+                }
+                modelList.add(lotteryModel);
+            }
         }
         return modelList;
     }
@@ -265,7 +315,7 @@ final class TNTable extends Table {
 
     private void disCard() {
         gameStae = 3;
-        time = chipTime+2;
+        time = chipTime + 2;
         Map<String, Object> resoult = (Map<String, Object>) (room.getStorageMgr().lottery(this).lotteryResult);
         int bankP = bankPre[((TNRoleInterface) banker).getBankNum()];
         int start = (int) resoult.get("start");
@@ -419,7 +469,7 @@ final class TNTable extends Table {
         timec.setBankerTime(bankTime);
         timec.setChipTime(chipTime);
         timec.setShowTime(chipTime);
-        log.info("发的时间OK  "+chipTime);
+        log.info("发的时间OK  " + chipTime);
         if (gameStae == 0) {
             timec.setTime(3115616);
         } else {
