@@ -66,6 +66,7 @@ final class TNTable extends Table {
         if (gameLotteryControl != null) {
             List<List<Integer>> cardsList = new ArrayList<>();
             List<ArrayPuke> cardsAll = gameLotteryControl.getN2().getCardsList();
+            int start=gameLotteryControl.getN2().getPos();
             for (int i = 0; i < cardsAll.size(); ++i) {
                 cardsList.add(cardsAll.get(i).getListList());
             }
@@ -94,13 +95,13 @@ final class TNTable extends Table {
             Map<String, Object> lotteryResult = new HashMap<>();
             lotteryResult.put("cards", cardsList);
             lotteryResult.put("cows", cows);
-            lotteryResult.put("start", 0);
+            lotteryResult.put("start", start);
             lotteryResult.put("win", win);
             lotteryResult.put("winSit", winSit);
             lotteryModel.lotteryResult = lotteryResult;
             lotteryModel.lotteryWeight = 1;
             long[] www = new long[2];
-            lotteryModel.systemWin = countStack(cows, winSit, win, 0, www);
+            lotteryModel.systemWin = countStack(cows, winSit, win, start, www);
             if (player != null) {
                 lotteryModel.controlPlayerWin = www[((TNPlayer) player).getSit()];
                 if (lotteryModel.controlPlayerWin > 0) {
