@@ -66,8 +66,8 @@ final class TNTable extends Table {
         if (gameLotteryControl != null) {
             List<List<Integer>> cardsList = new ArrayList<>();
             List<ArrayPuke> cardsAll = gameLotteryControl.getN2().getCardsList();
-            int start=gameLotteryControl.getN2().getPos();
-            for (int i = 0; i < cardsAll.size(); ++i) {
+            int start = gameLotteryControl.getN2().getPos();
+            for (int i = 0; i < playerList.length; ++i) {
                 cardsList.add(cardsAll.get(i).getListList());
             }
             List<Integer> cows = new ArrayList<>();
@@ -114,7 +114,6 @@ final class TNTable extends Table {
             puke.shuffle();
             List<List<Integer>> cardsList = new ArrayList<>();
             for (int k = 0; k < playerList.length; ++k) {
-                ((TNRoleInterface) playerList[k]).setPlayerState(5);
                 List<Integer> cards = new ArrayList<>();
                 for (int j = 0; j < 5; ++j) {
                     cards.add(puke.getPuke());
@@ -342,6 +341,7 @@ final class TNTable extends Table {
             TNRoleInterface player = (TNRoleInterface) playerList[csit];
             player.setCards(cardList.get(i));
             player.setCow(cows.get(i));
+            player.setPlayerState(5);
             Map<String, Object> playerhis = new HashMap<>();
             if (i == winSit) {
                 long ww = (long) (win * (1 - tax));
