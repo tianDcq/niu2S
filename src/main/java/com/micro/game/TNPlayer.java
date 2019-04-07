@@ -107,7 +107,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                 if (playerState != 0) {
                     return;
                 } else if (money < min) {
-                    send(new ErrResponse(TwoNiuConfig.ReqExitRoom, "金币不足" + min + "不能继续在此房间游戏"));
+                    send(new ErrResponse(TwoNiuConfig.ReqExitRoom, "金币不足" + min/1000 + "不能继续在此房间游戏"));
                     return;
                 }
                 pair();
@@ -118,7 +118,6 @@ class TNPlayer extends Player implements TNRoleInterface {
             }
             break;
         }
-
         case TwoNiuConfig.ReqBanker: {
             try {
                 if (playerState == 1) {
