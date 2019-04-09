@@ -250,7 +250,7 @@ final class TNTable extends Table {
         }
         int m = RandomUtil.ramdom(x, y);
         for (int i = 3; i >= 0; --i) {
-            ant[i] = m;
+            ant[i] = m/10*10;
             m = m / 2;
         }
     }

@@ -107,7 +107,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                 if (playerState != 0) {
                     return;
                 } else if (money < min) {
-                    send(new ErrResponse(TwoNiuConfig.ReqPair, "金币不足" + min / 1000 + "不能继续在此房间游戏"));
+                    send(new ErrResponse(TwoNiuConfig.ReqPair, "您的金币已低于" + min / 1000 + "，不能继续在此房间游戏，请更换房间或充值"));
                     return;
                 }
                 playerState=7;
