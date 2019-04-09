@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSON;
 import com.micro.game.TowNiuMessage.*;
 
 final class TNTable extends Table {
-    private @Getter int gameStae; // 1叫庄 2 下注 3 开拍
+    private @Getter int gameStae; // 1叫庄 2 下注 3 开拍 4开完
     private final int[] bankPre = { 1, 1, 2, 3 };
     private Schedule schedule;
     private int time;
@@ -354,7 +354,7 @@ final class TNTable extends Table {
                 playerhis.put("win", win);
                 if (playerList[csit] instanceof Player) {
                     PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
-                    rMoney.setAward(win>0?win:0);
+                    rMoney.setAward(win > 0 ? win : 0);
                     rMoney.setUserid(playerList[csit].userId);
                     rMoney.setBet(win);
                     rMoney.setDeltaMoney(ww);
@@ -461,7 +461,8 @@ final class TNTable extends Table {
         openN = 0;
         chip = 0;
         bankNum = 0;
-        gameStae = 0;
+        gameStae = 4;
+        time = 0;
         schedule.stop();
     }
 
@@ -474,7 +475,6 @@ final class TNTable extends Table {
         timec.setBankerTime(bankTime);
         timec.setChipTime(chipTime);
         timec.setShowTime(chipTime);
-        log.info("发的时间OK  " + chipTime);
         if (gameStae == 0) {
             timec.setTime(3115616);
         } else {

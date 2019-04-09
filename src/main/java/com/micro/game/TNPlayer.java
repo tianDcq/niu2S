@@ -28,7 +28,7 @@ class TNPlayer extends Player implements TNRoleInterface {
     public @Getter @Setter int chipNum;
     public @Getter @Setter int cow;
     public @Getter @Setter List<Integer> cards;
-    public @Getter @Setter int playerState; // 1叫 2 叫完 3选分 4等待选分 5开牌 6等待 0未匹配
+    public @Getter @Setter int playerState; // 1叫 2 叫完 3选分 4等待选分 5开牌 6等待 0未匹配 7匹配中
     private Timer kickTimer;
 
     @Override
@@ -107,9 +107,10 @@ class TNPlayer extends Player implements TNRoleInterface {
                 if (playerState != 0) {
                     return;
                 } else if (money < min) {
-                    send(new ErrResponse(TwoNiuConfig.ReqExitRoom, "金币不足" + min/1000 + "不能继续在此房间游戏"));
+                    send(new ErrResponse(TwoNiuConfig.ReqPair, "金币不足" + min / 1000 + "不能继续在此房间游戏"));
                     return;
                 }
+                playerState=7;
                 pair();
                 if (kickTimer != null) {
                     kickTimer.stop();
@@ -199,19 +200,20 @@ class TNPlayer extends Player implements TNRoleInterface {
     protected void onEnterTable() {
         sit = 0;
         win = 0;
-        bankNum=-1;
+        bankNum = -1;
         chipNum = -1;
         playerState = 0;
         cards = new ArrayList<>();
-        
+
     }
 
     @Override
     public void endGame() {
         sit = 0;
         win = 0;
-        bankNum=-1;
+        bankNum = -1;
         chipNum = -1;
+        playerState = 0;
         ReadyKick();
     }
 
