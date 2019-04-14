@@ -67,7 +67,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                 } else if (this.enterRoom(roomId) == Config.ERR_SUCCESS) {
                     break;
                 }
-                send(new Response(TwoNiuConfig.ResEnter, ResEnter.newBuilder().setEnter(false).build().toByteArray()));
+                send(new ErrResponse(TwoNiuConfig.ResEnter,"进入房间错误"));
             } catch (Exception e) {
                 // TODO: handle exception
             }

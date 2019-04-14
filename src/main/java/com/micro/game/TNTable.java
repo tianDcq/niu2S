@@ -384,6 +384,8 @@ final class TNTable extends Table {
             playerhis.put("bank", player.getBankNum());
             playerhis.put("money", playerList[csit].money);
             playerhis.put("sit", player.getSit());
+            playerhis.put("cardPre", getbei(cows.get(i)>>8));
+
             if (playerList[csit] instanceof Player) {
                 playerhis.put("account", ((Player) playerList[csit]).account);
             }
