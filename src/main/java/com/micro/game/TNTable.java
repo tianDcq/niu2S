@@ -108,9 +108,6 @@ final class TNTable extends Table {
             lotteryModel.systemWin = countStack(cows, winSit, win, start, www);
             if (player != null) {
                 lotteryModel.controlPlayerWin = www[((TNPlayer) player).getSit()];
-                if (lotteryModel.controlPlayerWin > 0) {
-                    lotteryModel.controlPlayerWin *= 1 - tax;
-                }
             }
             modelList.add(lotteryModel);
 
@@ -160,9 +157,6 @@ final class TNTable extends Table {
                 lotteryModel.systemWin = countStack(cows, winSit, win, start, www);
                 if (player != null) {
                     lotteryModel.controlPlayerWin = www[((TNPlayer) player).getSit()];
-                    if (lotteryModel.controlPlayerWin > 0) {
-                        lotteryModel.controlPlayerWin *= 1 - tax;
-                    }
                 }
                 modelList.add(lotteryModel);
             }
@@ -413,7 +407,7 @@ final class TNTable extends Table {
                 www[mSit] = win;
                 if (playerList[winSet] instanceof Player) {
                     if (playerList[mSit] instanceof Robot) {
-                        sysWin -= win * (1 - tax);
+                        sysWin -= win;
                     }
                 } else if (playerList[mSit] instanceof Player) {
                     sysWin += win;
