@@ -413,7 +413,7 @@ final class TNTable extends Table {
                 www[mSit] = win;
                 if (playerList[winSet] instanceof Player) {
                     if (playerList[mSit] instanceof Robot) {
-                        sysWin -= win * (1 - tax);
+                        sysWin -= win;
                     }
                 } else if (playerList[mSit] instanceof Player) {
                     sysWin += win;
