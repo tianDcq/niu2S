@@ -413,7 +413,7 @@ final class TNTable extends Table {
                     sysWin += win;
                 }
             } else {
-                www[mSit] = -win;
+                www[mSit] = win;
             }
         }
         return sysWin;
