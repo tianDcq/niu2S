@@ -64,7 +64,7 @@ final class TNTable extends Table {
     }
 
     @Override
-    public ArrayList<LotteryModel> getAllLotteryModel(Player player) {
+    public ArrayList<LotteryModel> getAllLotteryModel(ArrayList<Player> playerL) {
         ArrayList<LotteryModel> modelList = new ArrayList<LotteryModel>();
 
         if (gameLotteryControl != null) {
@@ -106,8 +106,8 @@ final class TNTable extends Table {
             lotteryModel.lotteryWeight = 1;
             long[] www = new long[2];
             lotteryModel.systemWin = countStack(cows, winSit, win, start, www);
-            if (player != null) {
-                lotteryModel.controlPlayerWin = www[((TNPlayer) player).getSit()];
+            for(Player pw:playerL){
+                lotteryModel.controlPlayerWins.put(pw, www[((TNPlayer) pw).getSit()]);
             }
             modelList.add(lotteryModel);
 
@@ -155,8 +155,8 @@ final class TNTable extends Table {
                 lotteryModel.lotteryWeight = 1;
                 long[] www = new long[2];
                 lotteryModel.systemWin = countStack(cows, winSit, win, start, www);
-                if (player != null) {
-                    lotteryModel.controlPlayerWin = www[((TNPlayer) player).getSit()];
+                for(Player pw:playerL){
+                    lotteryModel.controlPlayerWins.put(pw, www[((TNPlayer) pw).getSit()]);
                 }
                 modelList.add(lotteryModel);
             }
