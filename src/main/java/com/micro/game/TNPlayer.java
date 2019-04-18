@@ -151,7 +151,7 @@ class TNPlayer extends Player implements TNRoleInterface {
             break;
         }
         case TwoNiuConfig.ReqExitRoom: {
-            if (playerState == 6 || playerState == 0) {
+            if (playerState == 0) {
                 exitRoom();
             } else {
                 send(new ErrResponse(TwoNiuConfig.ReqExitRoom, 1, "您正在游戏中，暂时不能退出"));
