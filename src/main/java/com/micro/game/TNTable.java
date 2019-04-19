@@ -404,7 +404,7 @@ final class TNTable extends Table {
         for (int i = 0; i < size; ++i) {
             int mSit = (startSit + i) % size;
             if (mSit != winSet) {
-                www[mSit] = win;
+                www[mSit] = -win;
                 if (playerList[winSet] instanceof Player) {
                     if (playerList[mSit] instanceof Robot) {
                         sysWin -= win;
