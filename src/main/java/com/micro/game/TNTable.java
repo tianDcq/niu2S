@@ -544,10 +544,6 @@ final class TNTable extends Table {
     };
 
     @Override
-    protected void onReEnter(Role role) {
-    };
-
-    @Override
     protected void onExit(Role role) {
 
     };
