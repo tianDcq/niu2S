@@ -238,13 +238,11 @@ class TNPlayer extends Player implements TNRoleInterface {
 
     @Override
     public void onDisconnect() {
-        log.info("msg");
     }
 
     @Override
     public void onReconnect() {
-        log.info("msg");
-        this.enterRoom();
+        send(new Response(TwoNiuConfig.ResEnter, ResEnter.newBuilder().setEnter(true).build().toByteArray()));
     }
 
     @Override
