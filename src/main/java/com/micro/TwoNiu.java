@@ -17,14 +17,6 @@ import frame.util.ThreadPoolExecutorUtils;
 public class TwoNiu {
 
 	public static void main(String[] args){
-		ThreadPoolExecutorUtils.getInstance().execute(() -> {
-            try {
-                new NettyServer().start(6006);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
         //给mongo.http赋值
 
 
