@@ -60,11 +60,7 @@ class TNPlayer extends Player implements TNRoleInterface {
         case TwoNiuConfig.ReqEnter: {
             try {
                 int roomId = ReqEnter.parseFrom(req.protoMsg).getRoomId();
-                PkRoomCfg roomConfig = hall.getRoomMgr().getRooms().get(roomId).getPkRoomCfg();
-                if (money < roomConfig.getMinMoney()) {
-                    send(new ErrResponse(TwoNiuConfig.ReqEnter, "钱不够"));
-                    break;
-                } else if (this.enterRoom(roomId) == Config.ERR_SUCCESS) {
+                if (this.enterRoom(roomId) == Config.ERR_SUCCESS) {
                     break;
                 }
                 send(new ErrResponse(TwoNiuConfig.ResEnter,"进入房间错误"));
