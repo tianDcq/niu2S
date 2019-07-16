@@ -45,7 +45,8 @@
             <artifactId>jcommander</artifactId>
             <version>1.72</version>
         </dependency>
-        
+            <dependency><groupId>org.apache.commons</groupId><artifactId>commons-lang3</artifactId><version>3.8.1</version></dependency><dependency><groupId>redis.clients</groupId><artifactId>jedis</artifactId><version>3.0.0</version></dependency><dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId><version>2.9.6</version></dependency><dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-core</artifactId><version>2.9.6</version></dependency>
+
 
         <dependency>
            <groupId>org.slf4j</groupId>
@@ -156,7 +157,7 @@
             <version>3.13.1</version>
         </dependency>
 
-    </dependencies>
+    <dependency><groupId>org.apache.commons</groupId><artifactId>commons-lang3</artifactId><version>3.8.1</version></dependency><dependency><groupId>redis.clients</groupId><artifactId>jedis</artifactId><version>3.0.0</version></dependency><dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId><version>2.9.6</version></dependency><dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-core</artifactId><version>2.9.6</version></dependency></dependencies>
 
 
     <build>
@@ -202,7 +203,7 @@
                     <include>**/*.properties</include>
                     <include>**/*.csv</include>
                     <include>**/*.xml</include>
-                <include>version.dat</include><include>version.dat</include></includes>
+                <include>version.dat</include></includes>
             </resource>
         </resources>
     </build>
