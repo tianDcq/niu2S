@@ -71,6 +71,10 @@ class TNPlayer extends Player implements TNRoleInterface {
             break;
         }
         case TwoNiuConfig.ReqTableInfo: {
+            if(room == null){
+                send(new ErrResponse(TwoNiuConfig.ResTableInfo,"获取桌子信息错误"));
+                break;
+            }
             if (table == null) {
                 PkRoomCfg cfg = room.getPkRoomCfg();
                 ResTableInfo.Builder res = ResTableInfo.newBuilder();
@@ -106,7 +110,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                     send(new ErrResponse(TwoNiuConfig.ReqPair, "您的金币已低于" + min / 1000 + "，不能继续在此房间游戏，请更换房间或充值"));
                     return;
                 }
-                playerState=7;
+                playerState = 7;
                 pair();
                 if (kickTimer != null) {
                     kickTimer.stop();
@@ -117,31 +121,31 @@ class TNPlayer extends Player implements TNRoleInterface {
         }
         case TwoNiuConfig.ReqBanker: {
             try {
-                if (playerState == 1) {
+                if (playerState == 1 && table != null) {
                     ((TNTable) table).playerBanker(this, ReqBanker.parseFrom(req.protoMsg).getBankerNum());
                 } else {
                     ErrResponse res = new ErrResponse("不在叫庄阶段");
                     send(res);
                 }
             } catch (Exception e) {
-                log.info("叫装 ", e);
+                log.info("叫庄失败 ", e);
             }
             break;
         }
 
         case TwoNiuConfig.ReqBet: {
             try {
-                if (playerState == 3) {
+                if (playerState == 3 && table != null) {
                     ((TNTable) table).playerChip(this, ReqBet.parseFrom(req.protoMsg).getBet());
                 }
             } catch (Exception e) {
-                // TODO: handle exception
+                log.info("下注失败 ", e);
             }
 
             break;
         }
         case TwoNiuConfig.ReqShowCard: {
-            if (playerState == 5) {
+            if (playerState == 5 && table != null) {
                 ((TNTable) table).playerOpen(this);
             }
             break;
@@ -160,8 +164,6 @@ class TNPlayer extends Player implements TNRoleInterface {
 
     /**
      * 发送游戏纪录详情
-     * 
-     * @param game 数据库里面的游戏信息
      */
     @Override
     protected void onEnterRoom() {
