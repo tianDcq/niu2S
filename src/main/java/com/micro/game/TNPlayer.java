@@ -1,24 +1,23 @@
 package com.micro.game;
 
+import com.micro.game.TowNiuMessage.*;
 import frame.Callback;
 import frame.Config;
 import frame.Timer;
 import frame.UtilsMgr;
+import frame.game.Player;
+import frame.game.Room;
 import frame.socket.ErrResponse;
 import frame.socket.Request;
 import frame.socket.Response;
-import frame.socket.common.proto.LobbySiteRoom.BetRoomCfg;
 import frame.socket.common.proto.LobbySiteRoom.PkRoomCfg;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import frame.game.*;
-
-import com.micro.game.TowNiuMessage.*;
 
 @Slf4j
 class TNPlayer extends Player implements TNRoleInterface {
@@ -91,6 +90,7 @@ class TNPlayer extends Player implements TNRoleInterface {
                 player.setName(nickName);
                 player.setHead(portrait);
                 player.setCoin(money);
+                player.setUniqueId(uniqueId);
                 player.setPosId(getSit());
                 player.setPlayerState(playerState);
                 res.addPalyers(player);

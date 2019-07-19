@@ -179,6 +179,7 @@ final class TNTable extends Table {
                 player.setName(role.nickName);
                 player.setHead(role.portrait);
                 player.setCoin(role.money);
+                player.setUniqueId(role.uniqueId);
                 player.setPosId(i);
                 player.setPlayerState(1);
                 res.addPlayers(player);
@@ -501,6 +502,7 @@ final class TNTable extends Table {
             player.setPlayerState(pl.getPlayerState());
             player.setWin((int) pl.getWin());
             player.setCow(pl.getCow());
+            player.setUniqueId(mm.uniqueId);
             res.addPalyers(player);
         }
         role.send(new Response(TwoNiuConfig.ResTableInfo, res.build().toByteArray()));
