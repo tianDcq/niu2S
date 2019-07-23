@@ -172,6 +172,11 @@ final class TNTable extends Table {
     @Override
     public void onStart() {
         if (begin()) {
+            // 1. 每一局开始游戏时，先要确定到底有几个机器人执行以上的攻击判断。在0-机器人数量中随机。
+            // 3. 主动攻击的时间是不固定的，在公共CD -- 10 秒内进行随机。
+            // a. 游戏开始的时候如果桌子里面有机器人则机器人可主动攻击
+            log.info("游戏开始,机器人攻击逻辑开始");
+            this.robotAttactRoles();
             puke.shuffle();
             playerList = new Role[2];
             ResStart.Builder res = ResStart.newBuilder();
