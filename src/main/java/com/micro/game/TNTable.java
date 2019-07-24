@@ -75,6 +75,7 @@ final class TNTable extends Table {
             for (int i = 0; i < playerList.length; ++i) {
                 cardsList.add(cardsAll.get(i).getListList());
             }
+            
             List<Integer> cows = new ArrayList<>();
             int winSit = 0;
             int maxCow = 0;
@@ -353,12 +354,17 @@ final class TNTable extends Table {
             player.setPlayerState(5);
             Map<String, Object> playerhis = new HashMap<>();
             long oTax = 0;
-            long win = www[i];
+            long win = www[csit];
+            //log.info("{} win {},牌型{}",playerList[csit].nickName,win,cardList.get(i));
             if (win > taxDoor) {
-                oTax = (long) (www[csit] * tax);
+                oTax = (long) (win * tax);
                 // 对战游戏0.02开始抽水，不足0.01按0.01抽
                 if(oTax < taxMinMoney) {
                 	oTax = taxMinMoney;
+                }
+                // 向上取整
+                if(oTax % 10 > 0) {
+                	oTax = (oTax / 10 +1 )*10;
                 }
                 win = win-oTax;
             }
@@ -457,6 +463,13 @@ final class TNTable extends Table {
 			www[loseSet] = -1*playerList[loseSet].money;
 			www[winSet] = playerList[loseSet].money;
 		}
+        //log.info("{} win {}, {} win {} ",playerList[winSet].nickName,www[winSet],playerList[loseSet].nickName,www[loseSet]);
+        for (int i = 0; i < size; ++i) {
+            if (playerList[i] instanceof Player) {
+				sysWin -= www[i];
+			}
+        } 
+        
         return sysWin;
     }
 
