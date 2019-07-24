@@ -373,11 +373,11 @@ final class TNTable extends Table {
             playerhis.put("win", win);
             if (playerList[csit] instanceof Player) {
                 PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
-                rMoney.setAward(win > 0 ? win : 0);
+                rMoney.setAward(www[csit] > 0 ? www[csit] : 0);
                 rMoney.setUserid(playerList[csit].userId);
                 rMoney.setBet(win);
                 rMoney.setDeltaMoney(win);
-                rMoney.setValidBet(Math.abs(win));
+                rMoney.setValidBet(Math.abs(www[csit]));
                 rMoney.setTax(oTax);
                 taxN += oTax;// win * tax;
                 playerMoneys.add(rMoney.build());
