@@ -183,6 +183,7 @@ final class TNTable extends Table {
             ResStart.Builder res = ResStart.newBuilder();
             int i = 0;
             for (Role role : roles.values()) {
+            	role.money = role.money /10 * 10;
                 ((TNRoleInterface) role).setSit(i);
                 ((TNRoleInterface) role).setPlayerState(1);
                 playerList[i] = role;
