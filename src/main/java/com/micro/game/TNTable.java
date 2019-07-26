@@ -376,7 +376,7 @@ final class TNTable extends Table {
                 PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
                 rMoney.setAward(www[csit] > 0 ? www[csit] : 0);
                 rMoney.setUserid(playerList[csit].userId);
-                rMoney.setBet(win);
+                rMoney.setBet(Math.abs(win));
                 rMoney.setDeltaMoney(win);
                 rMoney.setValidBet(Math.abs(www[csit]));
                 rMoney.setTax(oTax);
