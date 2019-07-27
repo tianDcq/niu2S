@@ -358,7 +358,7 @@ final class TNTable extends Table {
             long oTax = 0;
             long win = www[csit];
             //log.info("{} win {},牌型{}",playerList[csit].nickName,win,cardList.get(i));
-            if (win > taxDoor) {
+            if (win >= taxDoor) {
                 oTax = (long) (win * tax);
                 // 对战游戏0.02开始抽水，不足0.01按0.01抽
                 if(oTax < taxMinMoney) {
