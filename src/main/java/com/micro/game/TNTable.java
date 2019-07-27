@@ -256,6 +256,7 @@ final class TNTable extends Table {
             y = (int) min / 15;
         }
         int m = RandomUtil.ramdom(x, y);
+        //log.info("x {},y {}  bet {}",x,y,m);
         for (int i = 3; i >= 0; --i) {
             ant[i] = m/10*10;
             m = m / 2;
