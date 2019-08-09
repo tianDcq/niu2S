@@ -39,7 +39,8 @@ final class TNTable extends Table {
     private int openN = 0;
     private int chip = 0;
     private int bankNum = 0;
-
+    private long taxDoor = 20; //最低开始金额  0.02
+    private long taxMinMoney = 10; // 最低抽水金额 0.01
     @Override
     protected void onInit() {
         int[] temp = { 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 0xa0, 0xb0, 0xc0, 0xd0, 0x11, 0x21, 0x31,
@@ -74,6 +75,7 @@ final class TNTable extends Table {
             for (int i = 0; i < playerList.length; ++i) {
                 cardsList.add(cardsAll.get(i).getListList());
             }
+            
             List<Integer> cows = new ArrayList<>();
             int winSit = 0;
             int maxCow = 0;
@@ -105,7 +107,9 @@ final class TNTable extends Table {
             lotteryModel.lotteryResult = lotteryResult;
             lotteryModel.lotteryWeight = 1;
             long[] www = new long[2];
+            www[0] = 0;www[1] = 0;
             lotteryModel.systemWin = countStack(cows, winSit, win, start, www);
+            lotteryResult.put("www",www);
             for(Player pw:playerL){
                 lotteryModel.controlPlayerWins.put(pw, www[((TNPlayer) pw).getSit()]);
             }
@@ -154,7 +158,9 @@ final class TNTable extends Table {
                 lotteryModel.lotteryResult = lotteryResult;
                 lotteryModel.lotteryWeight = 1;
                 long[] www = new long[2];
+                www[0] = 0;www[1] = 0;
                 lotteryModel.systemWin = countStack(cows, winSit, win, start, www);
+                lotteryResult.put("www",www);
                 for(Player pw:playerL){
                     lotteryModel.controlPlayerWins.put(pw, www[((TNPlayer) pw).getSit()]);
                 }
@@ -167,11 +173,17 @@ final class TNTable extends Table {
     @Override
     public void onStart() {
         if (begin()) {
+            // 1. 每一局开始游戏时，先要确定到底有几个机器人执行以上的攻击判断。在0-机器人数量中随机。
+            // 3. 主动攻击的时间是不固定的，在公共CD -- 10 秒内进行随机。
+            // a. 游戏开始的时候如果桌子里面有机器人则机器人可主动攻击
+            log.info("游戏开始,机器人攻击逻辑开始###########");
+            this.robotAttactRoles();
             puke.shuffle();
             playerList = new Role[2];
             ResStart.Builder res = ResStart.newBuilder();
             int i = 0;
             for (Role role : roles.values()) {
+            	role.money = role.money /10 * 10;
                 ((TNRoleInterface) role).setSit(i);
                 ((TNRoleInterface) role).setPlayerState(1);
                 playerList[i] = role;
@@ -179,6 +191,7 @@ final class TNTable extends Table {
                 player.setName(role.nickName);
                 player.setHead(role.portrait);
                 player.setCoin(role.money);
+                player.setUniqueId(role.uniqueId);
                 player.setPosId(i);
                 player.setPlayerState(1);
                 res.addPlayers(player);
@@ -243,6 +256,7 @@ final class TNTable extends Table {
             y = (int) min / 15;
         }
         int m = RandomUtil.ramdom(x, y);
+        //log.info("x {},y {}  bet {}",x,y,m);
         for (int i = 3; i >= 0; --i) {
             ant[i] = m/10*10;
             m = m / 2;
@@ -320,8 +334,8 @@ final class TNTable extends Table {
         List<List<Integer>> cardList = (List<List<Integer>>) resoult.get("cards");
         List<Integer> cows = (List<Integer>) resoult.get("cows");
         int winSit = (int) resoult.get("winSit");
-        long win = (long) resoult.get("win");
-
+        //long win = (long) resoult.get("win");
+        long[] www = (long[]) resoult.get("www");
         Map<String, Object> history = new HashMap<>();
 
         List<PlayerMoney> playerMoneys = new ArrayList<>();
@@ -341,35 +355,65 @@ final class TNTable extends Table {
             player.setCow(cows.get(i));
             player.setPlayerState(5);
             Map<String, Object> playerhis = new HashMap<>();
-            if (i == winSit) {
-                long ww = (long) (win * (1 - tax));
-                player.setWin(ww);
-                playerList[csit].money += ww;
-                playerhis.put("win", win);
-                if (playerList[csit] instanceof Player) {
-                    PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
-                    rMoney.setAward(win > 0 ? win : 0);
-                    rMoney.setUserid(playerList[csit].userId);
-                    rMoney.setBet(win);
-                    rMoney.setDeltaMoney(ww);
-                    rMoney.setValidBet(win);
-                    rMoney.setTax((long) (win * tax));
-                    taxN += win * tax;
-                    playerMoneys.add(rMoney.build());
+            long oTax = 0;
+            long win = www[csit];
+            //log.info("{} win {},牌型{}",playerList[csit].nickName,win,cardList.get(i));
+            if (win >= taxDoor) {
+                oTax = (long) (win * tax);
+                // 对战游戏0.02开始抽水，不足0.01按0.01抽
+                if(oTax < taxMinMoney) {
+                	oTax = taxMinMoney;
                 }
-            } else {
-                player.setWin(0 - win);
-                playerList[csit].money -= win;
-                if (playerList[csit] instanceof Player) {
-                    PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
-                    rMoney.setUserid(playerList[csit].userId);
-                    rMoney.setBet(win);
-                    rMoney.setDeltaMoney(-win);
-                    rMoney.setValidBet(win);
-                    playerMoneys.add(rMoney.build());
+                // 向上取整
+                if(oTax % 10 > 0) {
+                	oTax = (oTax / 10 +1 )*10;
                 }
-                playerhis.put("win", 0 - win);
+                win = win-oTax;
             }
+            player.setWin(win);
+            playerList[csit].money += win;
+            playerhis.put("win", win);
+            if (playerList[csit] instanceof Player) {
+                PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
+                rMoney.setAward(www[csit] > 0 ? www[csit] : 0);
+                rMoney.setUserid(playerList[csit].userId);
+                rMoney.setBet(Math.abs(win));
+                rMoney.setDeltaMoney(win);
+                rMoney.setValidBet(Math.abs(www[csit]));
+                rMoney.setTax(oTax);
+                taxN += oTax;// win * tax;
+                playerMoneys.add(rMoney.build());
+            }
+//            if (i == winSit) {
+//            	
+//                long ww = (long) (www[i] * (1 - tax));
+//                player.setWin(ww);
+//                playerList[csit].money += ww;
+//                playerhis.put("win", win);
+//                if (playerList[csit] instanceof Player) {
+//                    PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
+//                    rMoney.setAward(win > 0 ? win : 0);
+//                    rMoney.setUserid(playerList[csit].userId);
+//                    rMoney.setBet(win);
+//                    rMoney.setDeltaMoney(ww);
+//                    rMoney.setValidBet(win);
+//                    rMoney.setTax((long) (win * tax));
+//                    taxN += win * tax;
+//                    playerMoneys.add(rMoney.build());
+//                }
+//            } else {
+//                player.setWin(0 - win);
+//                playerList[csit].money -= win;
+//                if (playerList[csit] instanceof Player) {
+//                    PlayerMoney.Builder rMoney = PlayerMoney.newBuilder();
+//                    rMoney.setUserid(playerList[csit].userId);
+//                    rMoney.setBet(win);
+//                    rMoney.setDeltaMoney(-win);
+//                    rMoney.setValidBet(win);
+//                    playerMoneys.add(rMoney.build());
+//                }
+//                playerhis.put("win", 0 - win);
+//            }
             // 历史纪录
             playerhis.put("pokers", cardList.get(i));
             playerhis.put("cow", cows.get(i));
@@ -401,21 +445,33 @@ final class TNTable extends Table {
         long sysWin = 0;
         int size = cows.size();
         int winSet = (startSit + winPos) % size;
+        int loseSet = 0;
         for (int i = 0; i < size; ++i) {
             int mSit = (startSit + i) % size;
             if (mSit != winSet) {
                 www[mSit] = -win;
-                if (playerList[winSet] instanceof Player) {
-                    if (playerList[mSit] instanceof Robot) {
-                        sysWin -= win;
-                    }
-                } else if (playerList[mSit] instanceof Player) {
-                    sysWin += win;
-                }
+                loseSet = mSit;
             } else {
                 www[mSit] = win;
             }
+        } 
+        // 防止以小博大
+        // 计算能不能赢这么多
+        if(www[winSet] > playerList[winSet].money) {
+        	www[winSet] = playerList[winSet].money;
         }
+        // 计算够不够输
+        if (www[winSet] > playerList[loseSet].money) {
+			www[loseSet] = -1*playerList[loseSet].money;
+			www[winSet] = playerList[loseSet].money;
+		}
+        //log.info("{} win {}, {} win {} ",playerList[winSet].nickName,www[winSet],playerList[loseSet].nickName,www[loseSet]);
+        for (int i = 0; i < size; ++i) {
+            if (playerList[i] instanceof Player) {
+				sysWin -= www[i];
+			}
+        } 
+        
         return sysWin;
     }
 
@@ -501,6 +557,7 @@ final class TNTable extends Table {
             player.setPlayerState(pl.getPlayerState());
             player.setWin((int) pl.getWin());
             player.setCow(pl.getCow());
+            player.setUniqueId(mm.uniqueId);
             res.addPalyers(player);
         }
         role.send(new Response(TwoNiuConfig.ResTableInfo, res.build().toByteArray()));
