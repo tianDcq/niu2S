@@ -1,3 +1,3 @@
 [submodule "src/main/java/frame"]
 	path = src/main/java/frame
-	url = http://172.20.101.222/root/game-frame.git
+	url = http://git.ops.wgame200.com/backend/game-frame.git
