@@ -250,6 +250,15 @@ class TNPlayer extends Player implements TNRoleInterface {
 
     @Override
     public boolean isDisconnectKickOut() {
-        return true;
+    	if(this.table == null) {
+    		return true;
+    	}
+    	if (playerState == 0 || playerState == 6) {
+            return true;
+        } else if (playerState == 5) {
+            ((TNTable) table).playerOpen(this);
+            return true;
+        }
+    	return false;
     }
 }
